@@ -57,7 +57,9 @@ ROOT_URLCONF = 'tesismgd.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/tesismgd/templates'],
+        'DIRS': ['/home/franco/git/social/templates'],
+        #'DIRS': ['/home/leandro/git/social/templates'],
+        
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
