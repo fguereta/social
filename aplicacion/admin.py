@@ -1,3 +1,8 @@
 from django.contrib import admin
+from aplicacion.models import Persona
+from aplicacion.models import Farmacia
 
-# Register your models here.
+
+
+admin.site.register(Persona)
+admin.site.register(Farmacia)
