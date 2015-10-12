@@ -1,7 +1,0 @@
-Probando como subir un archivo bien piola
-<<<<<<< HEAD
-modificado por franco, aguante boca
-=======
-modificado por franco
-modifcado por leoo
->>>>>>> branch 'master' of https://github.com/fguereta/social.git

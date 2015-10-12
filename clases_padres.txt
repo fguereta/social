@@ -1,0 +1,19 @@
+
+http://listas.python.org.ar/pipermail/pyar/2012-November/020722.html
+
+
+
+> Tengo este modelo en Django:
+>
+>
+> class Padre(models.Model):
+>     nombre = models.TextField()
+>
+>  class Hijo(Padre):
+>     edad = models.IntegerField()
+>
+> class Hija(Padre):
+>     gustos = models.TextField()
+>
+>
+> 
