@@ -21,4 +21,10 @@ urlpatterns = [
     url(r'^aplicacion/',include('aplicacion.urls')),
     url(r'^registrarpersona/', 'aplicacion.views.registrarpersona', name='registrarpersona'),
     url(r'^registrarfarmacia/', 'aplicacion.views.registrarfarmacia', name='registrarfarmacia'),
+    url(r'^registrarmedico/', 'aplicacion.views.registrarmedico', name='registrarmedico'),
+    url(r'^registrarpaciente/', 'aplicacion.views.registrarpaciente', name='registrarpaciente'),
+    url(r'^registrarderivacion/', 'aplicacion.views.registrarderivacion', name='registrarderivacion'),
+    url(r'^registrarsolicitud/', 'aplicacion.views.registrarsolicitud', name='registrarsolicitud'),
+    url(r'^registrardetallesolicitud/', 'aplicacion.views.registrardetallesolicitud', name='registrardetallesolicitud'),
+    
 ]

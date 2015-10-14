@@ -9,4 +9,29 @@ class PersonaForm(forms.ModelForm):
 class FarmaciaForm(forms.ModelForm):    
     class Meta:
         model = Farmacia
+        exclude=()  
+          
+class MedicoForm(forms.ModelForm):    
+    class Meta:
+        model = Medico
+        exclude=()
+        
+class PacienteForm(forms.ModelForm):    
+    class Meta:
+        model = Paciente
+        exclude=()  
+          
+class DerivacionForm(forms.ModelForm):    
+    class Meta:
+        model = Derivacion
+        exclude=()
+        
+class SolicitudForm(forms.ModelForm):    
+    class Meta:
+        model = Solicitud
+        exclude=()    
+
+class DetalleSolicitudForm(forms.ModelForm):    
+    class Meta:
+        model = DetalleSolicitud
         exclude=()    
