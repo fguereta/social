@@ -19,6 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^aplicacion/',include('aplicacion.urls')),
-    url(r'^crear/', 'aplicacion.views.crear', name='crear'),
-    url(r'^farm_form/', 'aplicacion.views.farm_form', name='farm_form'),
+    url(r'^registrarpersona/', 'aplicacion.views.registrarpersona', name='registrarpersona'),
+    url(r'^registrarfarmacia/', 'aplicacion.views.registrarfarmacia', name='registrarfarmacia'),
 ]

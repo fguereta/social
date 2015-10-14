@@ -4,7 +4,7 @@ from aplicacion import views
 
 urlpatterns = [
     
-    url(r'^registrarpersona$', views.crear, name='crear'),
+    #url(r'^registrarpersona$', views.crear, name='crear'),
     
         
    

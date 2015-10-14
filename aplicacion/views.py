@@ -6,7 +6,7 @@ from aplicacion.form import FarmaciaForm
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 
-def crear(request):
+def registrarpersona(request):
     if request.POST:
         form = PersonaForm(request.POST)
         if form.is_valid():
@@ -23,7 +23,7 @@ def crear(request):
 
     return render_to_response('registrarpersona.html', args)
 
-def farm_form(request):
+def registrarfarmacia(request):
     if request.POST:
         form = FarmaciaForm(request.POST)
         if form.is_valid():
