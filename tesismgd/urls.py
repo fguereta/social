@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^aplicacion/',include('aplicacion.urls')),
     url(r'^registrarpersona/', 'aplicacion.views.registrarpersona', name='registrarpersona'),
+    url(r'^pregistrado/', 'aplicacion.views.pregistrado', name='pregistrado'),
     url(r'^registrarfarmacia/', 'aplicacion.views.registrarfarmacia', name='registrarfarmacia'),
     url(r'^registrarmedico/', 'aplicacion.views.registrarmedico', name='registrarmedico'),
     url(r'^registrarpaciente/', 'aplicacion.views.registrarpaciente', name='registrarpaciente'),
