@@ -3,20 +3,40 @@
 {% block title %}<h1 class="page-header">Registrar Farmacia</h1>{% endblock %} 
  
 {% block contenido %} 
-
-<form action="/registrarfarmacia/" method="post">
+<div class="container">
+<form  method="post" enctype="multipart/form-data">
 {% csrf_token %}
+	<div class="form-group">
+		<label for="razon_social" >Razon social:</label> 
+		<input class="form-control" id="razon_social" maxlength="25" name="razon_social" type="text" />
+	</div>
 
 
-<ul>
-{{form.as_ul}}
-</ul> 
+	<div class="form-group">
+		<label for="cuit">Cuit:</label> 
+		<input class="form-control" id="cuit" name="cuit" type="number" />
+	</div>
 
+	<div class="form-group">
+		<label for="direccion">Direccion:</label> 
+		<input class="form-control" id="direccion" maxlength="25" name="direccion" type="text" />
+	</div>
 
-<input type="submit" name="submit" value="Registrar Farmacia">
+	<div class="form-group">
+		<label for="telefono">Telefono:</label> 
+		<input class="form-control" id="telefono" name="telefono" type="number" />
+	</div>
 
+	<div class="form-group">
+		<label for="email">Email:</label>
+		<input class="form-control" id="email" maxlength="254" name="email" type="email" />
+	</div>
+<!--
+<button type="submit" class="btn btn-primary">Registrar Farmacia</button>
+-->
+<input class="form-control" type="submit" name="submit" value="Registrar Farmacia">
 
 </form>
- 
+ </div>
 
 {% endblock %} 
