@@ -1,4 +1,11 @@
-<form action="/registrarpaciente/" method="post">{% csrf_token %}
+{% extends "index.html" %} 
+ {% block htitle %}<title>Registrar Paciente</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Registrar Paciente</h1>{% endblock %} 
+ 
+{% block formulario %} 
+
+<form action="/registrarpaciente/" method="post">
+{% csrf_token %}
 
 
 <ul>
@@ -10,3 +17,6 @@
 
 
 </form>
+ 
+
+{% endblock %} 

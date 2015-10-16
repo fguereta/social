@@ -7,8 +7,17 @@ from django.core.context_processors import csrf
 
 
 
+def index(request):
+    return render_to_response("index.html")
+
 def pregistrado(request):
     return render_to_response('registrar/notificaciones/pregistrado.html')
+
+def fregistrado(request):
+    return render_to_response('registrar/notificaciones/fregistrado.html')
+
+def mregistrado(request):
+    return render_to_response('registrar/notificaciones/mregistrado.html')
 
 
 
@@ -35,7 +44,7 @@ def registrarfarmacia(request):
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/fregistrado')#si registra el paciente envia a /pregistrado
     else:
         form = FarmaciaForm()
 
@@ -44,7 +53,7 @@ def registrarfarmacia(request):
 
     args['form'] = form
 
-    return render_to_response('registrar/registrar_farmacia.html', args)
+    return render_to_response('registrar/registrarfarmacia.html', args)
 
 def registrarmedico(request):
     if request.POST:
@@ -52,7 +61,7 @@ def registrarmedico(request):
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/mregistrado')#si registra el paciente envia a /pregistrado
     else:
         form = MedicoForm()
 
