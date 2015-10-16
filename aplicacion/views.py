@@ -19,6 +19,14 @@ def fregistrado(request):
 def mregistrado(request):
     return render_to_response('registrar/notificaciones/mregistrado.html')
 
+def paciente(request):
+    return render_to_response('paciente.html')
+
+def medico(request):
+    return render_to_response('medico.html')
+
+def farmacia(request):
+    return render_to_response('farmacia.html')
 
 
 def registrarpersona(request):

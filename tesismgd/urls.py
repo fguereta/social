@@ -18,12 +18,15 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^aplicacion/',include('aplicacion.urls')),
+    #url(r'^aplicacion/',include('aplicacion.urls')),
     url(r'^index/', 'aplicacion.views.index', name='index'),
     url(r'^registrarpersona/', 'aplicacion.views.registrarpersona', name='registrarpersona'),
     url(r'^pregistrado/', 'aplicacion.views.pregistrado', name='pregistrado'),
     url(r'^fregistrado/', 'aplicacion.views.fregistrado', name='fregistrado'),
     url(r'^mregistrado/', 'aplicacion.views.mregistrado', name='mregistrado'),
+    url(r'^paciente/', 'aplicacion.views.paciente', name='paciente'),
+    url(r'^medico/', 'aplicacion.views.medico', name='medico'),
+    url(r'^farmacia/', 'aplicacion.views.farmacia', name='farmacia'),
     url(r'^registrarfarmacia/', 'aplicacion.views.registrarfarmacia', name='registrarfarmacia'),
     url(r'^registrarmedico/', 'aplicacion.views.registrarmedico', name='registrarmedico'),
     url(r'^registrarpaciente/', 'aplicacion.views.registrarpaciente', name='registrarpaciente'),
