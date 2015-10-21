@@ -1,6 +1,8 @@
 from django.shortcuts import render_to_response
 from aplicacion.models import *
 from aplicacion.form import *
+from django.db.models import Q
+
 
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
@@ -19,6 +21,9 @@ def fregistrado(request):
 def mregistrado(request):
     return render_to_response('registrar/notificaciones/mregistrado.html')
 
+def uregistrado(request):
+    return render_to_response('registrar/notificaciones/uregistrado.html')
+
 def paciente(request):
     return render_to_response('paciente.html')
 
@@ -27,6 +32,30 @@ def medico(request):
 
 def farmacia(request):
     return render_to_response('farmacia.html')
+
+def usuario(request):
+    return render_to_response('usuario.html')
+
+def registrarusuario(request):
+    return render_to_response('registrar/registrarusuario.html')
+
+def busquedapaciente(request):
+    query = request.GET.get('q', '')
+    if query:
+        qset = (
+                             
+                
+            Q(dni=query) 
+           
+        )
+        results = Paciente.objects.filter(qset).distinct()
+    else:
+        results = []
+    return render_to_response("busqueda.html", {
+        "Pacientes": results,
+        "query": query
+    })
+
 
 
 def registrarpersona(request):

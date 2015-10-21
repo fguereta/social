@@ -4,90 +4,123 @@
  
 {% block contenido%} 
 
-<form action="/registrarmedico/" method="post">
-{% csrf_token %}
-         
 <div class="container">
-<form  method="post" enctype="multipart/form-data">
+<form  method="post" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 
 
 	<div class="form-group">
-		<label for="nombre">Nombre:</label> 
-		<input class="form-control" id="nombre" maxlength="20" name="nombre" type="text" />
+	
+		<label for="nombre" class="control-label col-md-2">Nombre:</label>
+		<div class="col-md-8">
+			<input class="form-control" id="nombre" maxlength="20" name="nombre" type="text"/>
+		</div>
+		
 	</div>
+	
+	
 
 	<div class="form-group">
-		<label for="apellido">Apellido:</label>
+		<label for="apellido" class="control-label col-md-2">Apellido:</label>
+		<div class="col-md-8">
 		<input class="form-control" id="apellido" maxlength="20" name="apellido" type="text" />
+		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="dni">Dni:</label> 
+		<label for="dni" class="control-label col-md-2">Dni:</label>
+		<div class="col-md-8"> 
 		<input class="form-control" id="dni" maxlength="9" name="dni" type="text" />
+		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="cuil">Cuil:</label>
+		<label for="cuil" class="control-label col-md-2">Cuil:</label>
+		<div class="col-md-8">
 		<input class="form-control" id="cuil" maxlength="15" name="cuil" type="text" />
+		</div>
 	</div>
 
 	<div class="form-group"> 
-		<label for="nacimiento">Nacimiento:</label> 
-		<input class="form-control" id="nacimiento" name="nacimiento" type="text" />
+		<label for="nacimiento" class="control-label col-md-2">Fecha de Nacimiento:</label>
+		<div class="col-md-8"> 
+		<input class="form-control" id="nacimiento" name="nacimiento" type="date" />
+		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="correo">Correo:</label> 
+		<label for="correo" class="control-label col-md-2">Correo:</label> 
+		<div class="col-md-8">
 		<input class="form-control" id="correo" maxlength="254" name="correo" type="email" />
+		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="direccion">Direccion:</label> 
+		<label for="direccion" class="control-label col-md-2">Direccion:</label>
+		<div class="col-md-8"> 
 		<input class="form-control" id="iireccion" maxlength="50" name="direccion" type="text" />
+		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="observaciones">Observaciones:</label>
+		<label for="observaciones" class="control-label col-md-2">Observaciones:</label>
+		<div class="col-md-8">
 		<textarea class="form-control" cols="40" id="observaciones" name="observaciones" rows="10"></textarea>
+		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="telefono">Telefono:</label> 
-		<input class="form-control" id="telefono" name="telefono" type="number" />
+		<label for="telefono" class="control-label col-md-2">Telefono:</label>
+		<div class="col-md-8"> 
+			<input class="form-control" id="telefono" name="telefono" type="number" />
+		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="celular">Celular:</label> 
-		<input class="form-control" id="celular" name="celular" type="number" />
+		<label for="celular" class="control-label col-md-2">Celular:</label>
+		<div class="col-md-8"> 
+			<input class="form-control" id="celular" name="celular" type="number" />
+		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="sexo">Sexo:</label> 
+		<label for="sexo" class="control-label col-md-2">Sexo:</label>
+		<div class="col-md-8"> 
 		<select class="form-control" id="sexo" name="sexo">
 		<option value="" selected="selected">---------</option>
 		<option value="Masculino">Masculino</option>
 		<option value="Femenino">Femenino</option>
 		</select>
+		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="especialidad">Especialidad:</label> 
-		<input class="form-control" id="especialidad" maxlength="20" name="especialidad" type="text" />
+		<label for="especialidad" class="control-label col-md-2">Especialidad:</label>
+		<div class="col-md-8"> 
+			<input class="form-control" id="especialidad" maxlength="20" name="especialidad" type="text" />
+		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="matriculanacional">Matriculanacional:</label>
-		<input class="form-control" id="matriculanacional" maxlength="20" name="matriculanacional" type="text" />
+		<label for="matriculanacional" class="control-label col-md-2">Matricula nacional:</label>
+		<div class="col-md-8">
+			<input class="form-control" id="matriculanacional" maxlength="20" name="matriculanacional" type="text" />
+		</div>
 	</div>
 
 	<div class="form-group">
-		<label for="matriculaprovincial">Matriculaprovincial:</label> 
-		<input class="form-control" id="matriculaprovincial" maxlength="20" name="matriculaprovincial" type="text" />
+		<label for="matriculaprovincial" class="control-label col-md-2">Matricula provincial:</label> 
+		<div class="col-md-8">
+			<input class="form-control" id="matriculaprovincial" maxlength="20" name="matriculaprovincial" type="text" />
+		</div>
 	</div>
 
 
-<input class="form-control" type="submit" name="submit" value="Registrar Medico">
+<div class="form-group">
+	<div class="col-md-2 col-md-offset-2">
+	<input class="form-control" type="submit" name="submit" value="Registrar Medico">
+	</div>
+</div>
 
 
 </form>

@@ -1,0 +1,123 @@
+{% extends "index.html" %} 
+{% block htitle %}<title>Busqueda Paciente</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Busqueda Paciente</h1>{% endblock %} 
+
+{% block contenido%} 
+
+  <div class="container">
+  <form action="" method="GET">
+  
+ 	<div class="form-group">
+		
+		<label for="criterio" class="">Criterio de busqueda:</label>
+		
+		<div class=""> 
+		<select class="form-control" id="criterio" name="criterio">
+		<option value="" selected="selected">---------</option>
+		<option value="historiaclinica">N° Historia Clinica</option>
+		<option value="documento">N° Documento</option>
+		<option value="cuil">Cuil</option>
+		</select>
+		</div>
+		
+	</div>
+	
+	<div class="form-group"  >	
+    <label for="q">Buscar: </label>
+    <input class="form-control" type="number" name="q" value="{{ query|escape }}">
+    </div>
+    <div class="form-group">
+    <input class="form-control" type="submit" value="Buscar">
+    </div>
+  </form>
+  </div>
+ 
+  {% if query %}
+
+  
+  <div class="container">
+  
+    <h4>Resultado para "{{ query|escape }}":</h4>
+ 
+    {% if Pacientes %}
+      
+      {% for elemento in Pacientes %}
+
+<div class="table-responsive" >
+
+	<table class="table table-striped table-bordered table-hover table-condensed">
+		<tr class="info">
+			<th>Nombre</th>
+			<th>Apellido</th>
+			<th>DNI</th>
+			<th>CUIL</th>
+			<th>Dirección</th>
+			<th>Fecha de nacimiento</th>
+			<th>Correo</th>
+			<th>Telefono fijo</th>
+			<th>Celular</th>
+			<th>Obervaciones</th>
+			<th>Historia Clinica</th>
+			<th>Obra Social</th>
+			
+		</tr>
+		<tr>
+			<td>{{elemento.nombre}}</td>
+			<td>{{elemento.apellido}}</td>
+			<td>{{elemento.dni}}</td>
+			<td>{{elemento.cuil}}</td>
+			<td>{{elemento.direccion}}</td>
+			<td>{{elemento.nacimiento}}</td>
+			<td>{{elemento.correo}}</td>
+			<td>{{elemento.telefono}}</td>
+			<td>{{elemento.celular}}</td>
+			<td>{{elemento.observaciones}}</td>
+			<td>{{elemento.historiaclinica}}</td>
+			<td>{{elemento.osocial}}</td>
+		</tr>
+		</table>
+		
+		<table class="table table-striped table-bordered table-hover table-condensed">
+		<tr>
+		<th>Solicitud/es</th>
+		<th>Fecha</th>
+		</tr>
+		
+		<tr>
+		<td>1</td>
+		<td>13 Julio 2015</td>
+		</tr>
+		
+		</table>
+		
+		<table class="table table-striped table-bordered table-hover table-condensed">
+		<tr>
+		<th>Derivacion/es</th>
+		<th>Fecha</th>
+		</tr>
+		
+		<tr>
+		<td>1</a></td>
+		<td>13 Julio 2015</td>
+		<td><a href="" class="btn btn-info">Ver</a></td>
+		</tr>
+		</table>
+
+		
+	
+</div>
+</div>
+
+	{% endfor %}
+
+
+    {% else %}
+      <p>No existe ese paciente</p>
+    {% endif %}
+  {% endif %}
+  
+  </div>
+  <button class="btn btn-primary">Buscar Paciente</button>
+{%endblock%}
+
+
