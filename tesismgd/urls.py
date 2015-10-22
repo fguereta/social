@@ -37,5 +37,6 @@ urlpatterns = [
     url(r'^registrarderivacion/', 'aplicacion.views.registrarderivacion', name='registrarderivacion'),
     url(r'^registrarsolicitud/', 'aplicacion.views.registrarsolicitud', name='registrarsolicitud'),
     url(r'^registrardetallesolicitud/', 'aplicacion.views.registrardetallesolicitud', name='registrardetallesolicitud'),
+     url(r'^modificarusuario/', 'aplicacion.views.modificarusuario', name='modificarusuario'),
     
 ]

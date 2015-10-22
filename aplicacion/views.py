@@ -39,6 +39,9 @@ def usuario(request):
 def registrarusuario(request):
     return render_to_response('registrar/registrarusuario.html')
 
+def modificarusuario(request):
+    return render_to_response('registrar/modificar/modificarusuario.html')
+
 def busquedapaciente(request):
     query = request.GET.get('q', '')
     if query:
