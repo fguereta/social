@@ -42,8 +42,20 @@ def registrarusuario(request):
 def modificarusuario(request):
     return render_to_response('registrar/modificar/modificarusuario.html')
 
+def modificarpaciente(request):
+    return render_to_response('registrar/modificar/modificarpaciente.html')
+
+def modificarmedico(request):
+    return render_to_response('registrar/modificar/modificarmedico.html')
+
 def eliminarusuario(request):
     return render_to_response('registrar/eliminar/eliminarusuario.html')
+
+def eliminarpaciente(request):
+    return render_to_response('registrar/eliminar/eliminarpaciente.html')
+
+def eliminarmedico(request):
+    return render_to_response('registrar/eliminar/eliminarmedico.html')
 
 def busquedapaciente(request):
     query = request.GET.get('q', '')
@@ -62,6 +74,22 @@ def busquedapaciente(request):
         "query": query
     })
 
+def buscarfarmacia(request):
+    query = request.GET.get('q', '')
+    if query:
+        qset = (
+                             
+                
+            Q(razon_social=query) 
+           
+        )
+        results = Farmacia.objects.filter(qset).distinct()
+    else:
+        results = []
+    return render_to_response("buscar/buscarfarmacia.html", {
+        "Farmacias": results,
+        "query": query
+    })
 
 
 def registrarpersona(request):

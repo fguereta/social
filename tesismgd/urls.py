@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^usuario/', 'aplicacion.views.usuario', name='usuario'),
     url(r'^farmacia/', 'aplicacion.views.farmacia', name='farmacia'),
     url(r'^buscarpaciente/', 'aplicacion.views.busquedapaciente', name='busquedapaciente'),
+    url(r'^buscarfarmacia/', 'aplicacion.views.buscarfarmacia', name='buscarfarmacia'),
     url(r'^registrarusuario/', 'aplicacion.views.registrarusuario', name='registrarusuario'),
     url(r'^registrarfarmacia/', 'aplicacion.views.registrarfarmacia', name='registrarfarmacia'),
     url(r'^registrarmedico/', 'aplicacion.views.registrarmedico', name='registrarmedico'),
@@ -38,6 +39,11 @@ urlpatterns = [
     url(r'^registrarsolicitud/', 'aplicacion.views.registrarsolicitud', name='registrarsolicitud'),
     url(r'^registrardetallesolicitud/', 'aplicacion.views.registrardetallesolicitud', name='registrardetallesolicitud'),
      url(r'^modificarusuario/', 'aplicacion.views.modificarusuario', name='modificarusuario'),
+     url(r'^modificarpaciente/', 'aplicacion.views.modificarpaciente', name='modificarpaciente'),
+     url(r'^modificarmedico/', 'aplicacion.views.modificarmedico', name='modificarmedico'),
+     
      url(r'^eliminarusuario/', 'aplicacion.views.eliminarusuario', name='eliminarusuario'),
+      url(r'^eliminarpaciente/', 'aplicacion.views.eliminarpaciente', name='eliminarpaciente'),
+       url(r'^eliminarmedico/', 'aplicacion.views.eliminarmedico', name='eliminarmedico'),
     
 ]

@@ -1,15 +1,28 @@
 {% extends "index.html" %} 
- {% block htitle %}<title>Registrar Medico</title>{% endblock %} 
-{% block title %}<h1 class="page-header">Registrar Medico</h1>{% endblock %} 
+ {% block htitle %}<title>Modificar medico</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Modificar Medico</h1>{% endblock %} 
  
-{% block contenido%} 
-
+{% block contenido%}
 <div class="container">
-<form  method="post" enctype="multipart/form-data" class="form-horizontal">
-{% csrf_token %}
-
-
-	<div class="form-group">
+<form action="" method="GET" class="form-horizontal">
+   
+	<div class="form-group"  >	
+    
+    <label for="q" class="control-label col-md-2">Buscar: </label>
+ 	
+ 	<div class="col-md-8">
+    <input class="form-control" type="text" name="q">
+    </div>
+    
+    </div>
+    
+    <div class="form-group">
+		<div class="col-md-2 col-md-offset-2">
+    	<input class="form-control" type="submit" value="Buscar">
+    	</div>
+    </div>
+    
+ 	<div class="form-group">
 	
 		<label for="nombre" class="control-label col-md-2">Nombre:</label>
 		<div class="col-md-8">
@@ -121,11 +134,8 @@
 	<input class="form-control" type="submit" name="submit" value="Registrar Medico">
 	</div>
 </div>
-
-
-</form>
-</div>
+  </form>
+  
+  </div>
  
-
-{% endblock %} 
-
+{% endblock %}
