@@ -1,0 +1,101 @@
+{% extends "index.html" %} 
+ {% block htitle %}<title>Eliminar usuario</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Eliminar Usuario</h1>{% endblock %} 
+ 
+{% block contenido%}
+<div class="container">
+<form action="" method="GET" class="form-horizontal">
+   
+ 	
+	
+	<div class="form-group"  >	
+    
+    <label for="q" class="control-label col-md-2">Buscar: </label>
+ 	
+ 	<div class="col-md-8">
+    <input class="form-control" type="text" name="q">
+    </div>
+    
+    </div>
+    
+    <div class="form-group">
+		<div class="col-md-2 col-md-offset-2">
+    	<input class="form-control" type="submit" value="Buscar">
+    	</div>
+    </div>
+    
+ 	<div class="form-group">
+		<label for="nickname" class="control-label col-md-2">Usuario:</label>
+		<div class="col-md-8">
+		<input class="form-control" id="nickname"  maxlength="20"  type="text" name="nickname" >
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="contraseña" class="control-label col-md-2">Contraseña:</label>
+		<div class="col-md-8">
+		<input class="form-control" id="contraseña"  maxlength="10"  type="password" name="contraseña" >
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="contraseña2" class="control-label col-md-2">Ingrese nuevamente la Contraseña:</label>
+		<div class="col-md-8">
+		<input class="form-control" id="contraseña2"  maxlength="10"  type="password" name="contraseña2" >
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="categoria" class="control-label col-md-2">Categoria:</label>
+		
+		<div class="col-md-8">
+		<select class="form-control" id="categoria" name="categoria">
+		<option value="" selected="selected">---------</option>
+		<option value="Operador">Operador</option>
+		<option value="Supervisor">Supervisor</option>
+		<option value="Farmaceutico">Farmaceutico</option>
+		</select>
+		</div>
+		
+	</div>
+	
+	<div class="form-group">
+		<label for="nya" class="control-label col-md-2">Nombre y Apellido:</label>
+		<div class="col-md-8">
+		<input class="form-control" id="nya"  maxlength="10"  type="text" name="nya" >
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="direccion" class="control-label col-md-2">Direccion:</label>
+		<div class="col-md-8">
+		<input class="form-control" id="direccion"  maxlength="10"  type="text" name="direccion" >
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="correo" class="control-label col-md-2">Correo Electronico:</label>
+		<div class="col-md-8">
+		<input class="form-control" id="correo"  maxlength="10"  type="email" name="correo" >
+		</div>
+	</div>
+	
+	<div class="form-group" >
+		<label for="telefono" class="control-label col-md-2">Teléfono:</label>
+		<div class="col-md-8">
+		<input class="form-control" id="telefono"  maxlength="10"  type="text" name="telefono" >
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<div class="col-md-2 col-md-offset-2">
+	<input class="form-control" type="submit" name="submit" value="Eliminar Usuario">
+		</div>
+	</div>
+	
+  
+  </form>
+  
+  </div>
+ 
+{% endblock %}

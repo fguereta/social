@@ -42,6 +42,9 @@ def registrarusuario(request):
 def modificarusuario(request):
     return render_to_response('registrar/modificar/modificarusuario.html')
 
+def eliminarusuario(request):
+    return render_to_response('registrar/eliminar/eliminarusuario.html')
+
 def busquedapaciente(request):
     query = request.GET.get('q', '')
     if query:
