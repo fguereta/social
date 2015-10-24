@@ -41,6 +41,8 @@ INSTALLED_APPS = (
     'aplicacion',
 )
 
+#AUTH_USER_MODEL = 'aplicacion.CustomUser'
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

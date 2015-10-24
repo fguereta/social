@@ -1,5 +1,24 @@
 from django.db import models
 from django.db.models.fields import CharField
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+
+class Usuario(models.Model):
+    user= models.OneToOneField(User)
+    nombre=models.CharField(max_length=20)
+    direccion=models.CharField(max_length=50)
+    correo=models.EmailField()
+    telefono=models.IntegerField(blank=True, null=True)
+    cate =(
+          ('Supervisor', 'Supervisor'), 
+          ('Operador', 'Operador'), 
+          ('Farmaceutico', 'Farmaceutico'), 
+                     
+        ) 
+    
+    categoria=models.CharField(max_length=20, choices=cate)
+    
+
 
 class Persona(models.Model):
     nombre=models.CharField(max_length=20)

@@ -92,6 +92,8 @@ def buscarfarmacia(request):
     })
 
 
+
+
 def registrarpersona(request):
     if request.POST:
         form = PersonaForm(request.POST)
