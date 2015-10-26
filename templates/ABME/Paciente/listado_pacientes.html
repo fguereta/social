@@ -1,0 +1,28 @@
+ <table class="table table-striped">
+ <thead>
+       <tr>
+          <th>#</th>
+             <th>Historia clinica</th>
+             <th>Nombre</th>
+             <th>Dni</th>
+             <th>Obra social</th>
+      </tr>
+</thead>
+
+{% for elemento in lista %}
+
+<tr>
+
+<td>{{elemento.id}}</td>
+<td>{{elemento.historiaclinica}}</strong></td>
+<td>{{elemento.apellido}}</td>
+<td>{{elemento.dni}}</strong></td>
+<td>{{elemento.osocial}}</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+</table>

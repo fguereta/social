@@ -1,0 +1,11 @@
+{% extends 'index.html'%}
+
+{% block htitle %}<title>Paciente</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Paciente</h1>{% endblock %}{{ variable }}
+
+{% block contenido%}
+<a href="/aplicacion/registrarpaciente"><button class="btn btn-primary">Registrar Paciente</button></a>
+<a href="/aplicacion/buscarpaciente"><button class="btn btn-primary">Buscar Paciente</button></a>
+<a href="/aplicacion/modificarpaciente"><button class="btn btn-primary">Modificar Paciente</button></a>
+<a href="/aplicacion/eliminarpaciente"><button class="btn btn-primary">Eliminar Paciente</button></a>
+{% endblock %}
