@@ -1,0 +1,11 @@
+{% extends 'index.html'%}
+
+{% block htitle %}<title>Farmacia</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Farmacia</h1>{% endblock %}{{ variable }}
+
+{% block contenido%}
+<a href="/aplicacion/registrarfarmacia"><button class="btn btn-primary">Registrar Farmacia</button></a>
+<a href="/aplicacion/modificarfarmacia"><button class="btn btn-primary">Modificar Farmacia</button></a>
+<a href="/aplicacion/eliminarfarmacia"><button class="btn btn-primary">Eliminar Farmacia</button></a>
+<a href="/aplicacion/buscarfarmacia"><button class="btn btn-primary">Busqueda Farmacia</button></a>
+{% endblock %}

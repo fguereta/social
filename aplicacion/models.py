@@ -24,13 +24,13 @@ class Persona(models.Model):
     nombre=models.CharField(max_length=20)
     apellido=models.CharField(max_length=20)
     dni=models.CharField(max_length=9)
-    cuil=models.CharField(max_length=15)
+    cuil=models.CharField(max_length=15, null=True)
     nacimiento=models.DateField()
-    correo=models.EmailField()
-    direccion=models.CharField(max_length=50)
-    observaciones=models.TextField(blank=True)
-    telefono=models.IntegerField(blank=True, null=True)
-    celular=models.IntegerField()
+    correo=models.EmailField(null=True)
+    direccion=models.CharField(max_length=25, null=True)
+    observaciones=models.TextField(blank=True, null=True)
+    telefono=models.CharField(max_length=20, blank=True, null=True)
+    celular=models.CharField(max_length=20, blank=True, null=True)
            
     sex =( 
            ('Masculino', 'Masculino'), 

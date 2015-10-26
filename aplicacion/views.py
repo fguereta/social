@@ -12,50 +12,84 @@ from django.core.context_processors import csrf
 def index(request):
     return render_to_response("index.html")
 
-def pregistrado(request):
-    return render_to_response('registrar/notificaciones/pregistrado.html')
 
-def fregistrado(request):
-    return render_to_response('registrar/notificaciones/fregistrado.html')
-
-def mregistrado(request):
-    return render_to_response('registrar/notificaciones/mregistrado.html')
-
-def uregistrado(request):
-    return render_to_response('registrar/notificaciones/uregistrado.html')
-
-def paciente(request):
-    return render_to_response('paciente.html')
+#MEDICO
 
 def medico(request):
-    return render_to_response('medico.html')
+    medico=Medico.objects.all()
+    return render_to_response('ABME/Medico/medico.html', {'medico':medico})
 
-def farmacia(request):
-    return render_to_response('farmacia.html')
 
-def usuario(request):
-    return render_to_response('usuario.html')
+def registrarmedico(request):
+    if request.POST:
+        form = MedicoForm(request.POST)
+        if form.is_valid():
+            form.save()
 
-def registrarusuario(request):
-    return render_to_response('registrar/registrarusuario.html')
+            return HttpResponseRedirect('ABME/Notificaciones/mregistrado')#si registra el paciente envia a /pregistrado
+    else:
+        form = MedicoForm()
 
-def modificarusuario(request):
-    return render_to_response('registrar/modificar/modificarusuario.html')
+    args = {}
+    args.update(csrf(request))
 
-def modificarpaciente(request):
-    return render_to_response('registrar/modificar/modificarpaciente.html')
+    args['form'] = form
+
+    return render_to_response('ABME/Medico/registrarmedico.html', args)
 
 def modificarmedico(request):
-    return render_to_response('registrar/modificar/modificarmedico.html')
+    return render_to_response('ABME/Medico/modificarmedico.html')
 
-def eliminarusuario(request):
-    return render_to_response('registrar/eliminar/eliminarusuario.html')
 
-def eliminarpaciente(request):
-    return render_to_response('registrar/eliminar/eliminarpaciente.html')
+def listadomedico(resquest):
+    medico=Medico.objects.all()
+    return render_to_response("ABME/Medico/listadomedico.html", {'medico':medico})
 
 def eliminarmedico(request):
-    return render_to_response('registrar/eliminar/eliminarmedico.html')
+    return render_to_response('ABME/Medico/eliminarmedico.html')
+
+#NOTIFICACIONES
+
+def pregistrado(request):
+    return render_to_response('ABME/notificaciones/pregistrado.html')
+
+def fregistrado(request):
+    return render_to_response('ABME/notificaciones/fregistrado.html')
+
+def mregistrado(request):
+    return render_to_response('ABME/notificaciones/mregistrado.html')
+
+def uregistrado(request):
+    return render_to_response('ABME/notificaciones/uregistrado.html')
+
+#Pacientes
+
+def paciente(request):
+    return render_to_response('ABME/Paciente/paciente.html')
+
+
+def registrarpaciente(request):
+    if request.POST:
+        form = PacienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('ABME/Notificaciones/pregistrado') #si registra el paciente envia a /pregistrado
+    else:
+        form = PacienteForm()
+
+    args = {}
+    args.update(csrf(request))
+
+    args['form'] = form
+
+    return render_to_response('ABME/Paciente/registrarpaciente.html', args)
+
+def eliminarpaciente(request):
+    return render_to_response('ABME/Paciente/eliminarpaciente.html')
+
+def modificarpaciente(request):
+    return render_to_response('ABME/Paciente/modificarpaciente.html')
 
 def busquedapaciente(request):
     query = request.GET.get('q', '')
@@ -74,23 +108,133 @@ def busquedapaciente(request):
         "query": query
     })
 
+#USUARIO
+
+
+def usuario(request):
+    return render_to_response('ABME/Usuario/usuario.html')
+
+def registrarusuario(request):
+    return render_to_response('ABME/Usuario/registrarusuario.html')
+
+def modificarusuario(request):
+    return render_to_response('ABME/Usuario/modificarusuario.html')
+
+def eliminarusuario(request):
+    return render_to_response('ABME/Usuario/eliminarusuario.html')
+
+
+
+#FARMACIA
+
+
+def farmacia(request):
+    return render_to_response('ABME/Farmacia/farmacia.html')
+
+def registrarfarmacia(request):
+    if request.POST:
+        form = FarmaciaForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('ABME/Notificaciones/fregistrado')#si registra el paciente envia a /pregistrado
+    else:
+        form = FarmaciaForm()
+
+    args = {}
+    args.update(csrf(request))
+
+    args['form'] = form
+
+    return render_to_response('ABME/Farmacia/registrarfarmacia.html', args)
+
+def eliminarfarmacia(request):
+    return render_to_response('ABME/Farmacia/eliminarfarmacia.html')
+
+
+
+def modificarfarmacia(request):
+    return render_to_response('ABME/Farmacia/modificarfarmacia.html')
+
+def listadofarmacia(request):
+    return render_to_response('ABME/Farmacia/listadofarmacia.html')
+
+
+
+
+
+
 def buscarfarmacia(request):
     query = request.GET.get('q', '')
     if query:
         qset = (
-                             
-                
             Q(razon_social=query) 
            
         )
         results = Farmacia.objects.filter(qset).distinct()
     else:
         results = []
-    return render_to_response("buscar/buscarfarmacia.html", {
+    return render_to_response("ABME/Farmacia/buscarfarmacia.html", {
         "Farmacias": results,
         "query": query
     })
 
+
+
+
+#OPERACIONES
+
+
+def registrarderivacion(request):
+    if request.POST:
+        form = DerivacionForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('/')
+    else:
+        form = DerivacionForm()
+
+    args = {}
+    args.update(csrf(request))
+
+    args['form'] = form
+
+    return render_to_response('ABME/Operaciones/registrarderivacion.html', args)
+
+def registrarsolicitud(request):
+    if request.POST:
+        form = SolicitudForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('/')
+    else:
+        form = SolicitudForm()
+
+    args = {}
+    args.update(csrf(request))
+
+    args['form'] = form
+
+    return render_to_response('ABME/Operaciones/registrarsolicitud.html', args)
+
+def registrardetallesolicitud(request):
+    if request.POST:
+        form = DetalleSolicitudForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('/')
+    else:
+        form = DetalleSolicitudForm()
+
+    args = {}
+    args.update(csrf(request))
+
+    args['form'] = form
+
+    return render_to_response('ABME/Operaciones/registrardetalle.html', args)
 
 
 
@@ -111,104 +255,5 @@ def registrarpersona(request):
 
     return render_to_response('registrar/registrarpersona.html', args)
 
-def registrarfarmacia(request):
-    if request.POST:
-        form = FarmaciaForm(request.POST)
-        if form.is_valid():
-            form.save()
 
-            return HttpResponseRedirect('/fregistrado')#si registra el paciente envia a /pregistrado
-    else:
-        form = FarmaciaForm()
 
-    args = {}
-    args.update(csrf(request))
-
-    args['form'] = form
-
-    return render_to_response('registrar/registrarfarmacia.html', args)
-
-def registrarmedico(request):
-    if request.POST:
-        form = MedicoForm(request.POST)
-        if form.is_valid():
-            form.save()
-
-            return HttpResponseRedirect('/mregistrado')#si registra el paciente envia a /pregistrado
-    else:
-        form = MedicoForm()
-
-    args = {}
-    args.update(csrf(request))
-
-    args['form'] = form
-
-    return render_to_response('registrar/registrarmedico.html', args)
-
-def registrarpaciente(request):
-    if request.POST:
-        form = PacienteForm(request.POST)
-        if form.is_valid():
-            form.save()
-
-            return HttpResponseRedirect('/pregistrado') #si registra el paciente envia a /pregistrado
-    else:
-        form = PacienteForm()
-
-    args = {}
-    args.update(csrf(request))
-
-    args['form'] = form
-
-    return render_to_response('registrar/registrarpaciente.html', args)
-
-def registrarderivacion(request):
-    if request.POST:
-        form = DerivacionForm(request.POST)
-        if form.is_valid():
-            form.save()
-
-            return HttpResponseRedirect('/')
-    else:
-        form = DerivacionForm()
-
-    args = {}
-    args.update(csrf(request))
-
-    args['form'] = form
-
-    return render_to_response('registrar/registrarderivacion.html', args)
-
-def registrarsolicitud(request):
-    if request.POST:
-        form = SolicitudForm(request.POST)
-        if form.is_valid():
-            form.save()
-
-            return HttpResponseRedirect('/')
-    else:
-        form = SolicitudForm()
-
-    args = {}
-    args.update(csrf(request))
-
-    args['form'] = form
-
-    return render_to_response('registrar/registrarsolicitud.html', args)
-
-def registrardetallesolicitud(request):
-    if request.POST:
-        form = DetalleSolicitudForm(request.POST)
-        if form.is_valid():
-            form.save()
-
-            return HttpResponseRedirect('/')
-    else:
-        form = DetalleSolicitudForm()
-
-    args = {}
-    args.update(csrf(request))
-
-    args['form'] = form
-
-    return render_to_response('registrar/registrardetalle.html', args)

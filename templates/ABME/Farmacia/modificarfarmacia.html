@@ -1,0 +1,91 @@
+{% extends "index.html" %} 
+ {% block htitle %}<title>Modificar usuario</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Modificar Farmacia</h1>{% endblock %} 
+ 
+{% block contenido%}
+<div class="container">
+<form action="" method="GET" class="form-horizontal">
+   
+ 	
+	
+	<div class="form-group"> 
+    
+        <label for="criterio" class="control-label col-md-2">Criterio de busqueda:</label>
+        
+        <div class="col-md-2"> 
+            <select class="form-control" id="criterio" name="criterio">
+            <option value="" selected="selected">---------</option>
+            <option value="historiaclinica">Razon social</option>
+            <option value="documento">Cuit </option>
+            </select>
+        </div>   
+
+        <div class="col-md-3">
+            <input class="form-control" type="text" name="q">
+        </div>   
+
+        <div class="col-md-2"> 
+            <input class="form-control" type="submit" value="Buscar">   
+        </div>
+
+    </div>
+    
+    
+ 	<div class="form-group">
+		<label for="razon_social"  class="control-label col-md-2">Razon social:</label>
+		
+		<div class="col-md-4"> 
+		<input class="form-control" id="razon_social" maxlength="25" name="razon_social" type="text" />
+		</div>
+		
+	</div>
+	
+	<div class="form-group">
+		<label for="cuit" class="control-label col-md-2">Cuit:</label>
+		
+		<div class="col-md-4"> 
+		<input class="form-control" id="cuit" name="cuit" type="text" />
+		</div>
+		
+	</div>
+
+	<div class="form-group">
+		<label for="direccion" class="control-label col-md-2">Direccion:</label>
+		
+		<div class="col-md-4"> 
+		<input class="form-control" id="direccion" maxlength="25" name="direccion" type="text" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="telefono" class="control-label col-md-2">Telefono:</label>
+		
+		<div class="col-md-1"> 
+		<input class="form-control" id="telefono" name="telefono" type="text" placeholder="" />
+		</div>
+
+		<div class="col-md-2"> 
+		<input class="form-control" id="telefono" name="telefono" type="text" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="email" class="control-label col-md-2">Email:</label>
+		<div class="col-md-4">
+		<input class="form-control" id="email" maxlength="254" name="email" type="email" />
+		</div>
+	</div>
+
+	
+	<div class="form-group">
+		<div class="col-md-2 col-md-offset-2">
+	<input class="form-control" type="submit" name="submit" value="Modificar Farmacia">
+		</div>
+	</div>
+	
+  
+  </form>
+  
+  </div>
+ 
+{% endblock %}

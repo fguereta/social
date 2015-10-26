@@ -1,0 +1,51 @@
+
+
+<br>
+
+
+<div class="container">
+
+	<div class="form-group">
+	
+		<label for="apellido" class="control-label col-md-2">Apellido</label>
+		
+		<label for="nombre" class="control-label col-md-2">Nombre</label>
+
+		<label for="especialidad" class="control-label col-md-2">Especialidad</label>
+
+
+	</div>
+
+</div>
+<br>
+{% for elemento in medico %}
+<div class="container">
+
+	<div class="form-group">
+	
+		<label for="apellido" class="control-label col-md-2">{{elemento.apellido}}</label>
+		
+		<label for="nombre" class="control-label col-md-2">{{elemento.nombre}}</label>
+
+		<label for="especialidad" class="control-label col-md-2">{{elemento.especialidad}}</label>
+
+
+	</div>
+
+</div>
+
+{% endfor %}
+
+
+
+
+
+	
+	
+
+	
+  
+
+
+
+
