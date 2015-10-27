@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from aplicacion.models import *
 from aplicacion.form import *
 from django.db.models import Q
@@ -36,6 +36,31 @@ def registrarmedico(request):
     args['form'] = form
 
     return render_to_response('ABME/Medico/registrarmedico.html', args)
+
+def buscarmedico(request):
+    errors = []
+     
+    if 'q' and 'p' in request.GET: 
+        p = request.GET['p']
+        q = request.GET['q']
+        if not q:
+            errors.append('Por favor introduce un termino de busqueda.')
+        elif len(q) > 20:
+            errors.append('Por favor introduce un termino de busqueda menor a 20 caracteres.')
+        if not p:
+            errors.append('Por favor introduce un criterio de busqueda.')
+
+           
+        if p == 'nombre':
+            medicos = Medico.objects.filter(nombre__icontains=q) 
+            return render(request, 'ABME/Medico/buscarmedico.html',{'medicos': medicos, 'query': q})
+        elif p == 'apellido':
+            medicos = Medico.objects.filter(apellido__icontains=q) 
+            return render(request, 'ABME/Medico/buscarmedico.html',{'medicos': medicos, 'query': q})
+      
+    
+    return render(request, 'ABME/Medico/buscarmedico.html', {'errors': errors}) 
+    
 
 def modificarmedico(request):
     return render_to_response('ABME/Medico/modificarmedico.html')
@@ -91,22 +116,31 @@ def eliminarpaciente(request):
 def modificarpaciente(request):
     return render_to_response('ABME/Paciente/modificarpaciente.html')
 
-def busquedapaciente(request):
-    query = request.GET.get('q', '')
-    if query:
-        qset = (
-                             
-                
-            Q(dni=query) 
+def buscarpaciente(request):
+    errors = []
+     
+    if 'q' and 'p' in request.GET: 
+        p = request.GET['p']
+        q = request.GET['q']
+        if not q:
+            errors.append('Por favor introduce un termino de busqueda.')
+        elif len(q) > 20:
+            errors.append('Por favor introduce un termino de busqueda menor a 20 caracteres.')
+        if not p:
+            errors.append('Por favor introduce un criterio de busqueda.')
+
            
-        )
-        results = Paciente.objects.filter(qset).distinct()
-    else:
-        results = []
-    return render_to_response("busqueda.html", {
-        "Pacientes": results,
-        "query": query
-    })
+        if p == 'historiaclinica':
+            pacientes = Paciente.objects.filter(historiaclinica__icontains=q) 
+            return render(request, 'ABME/Paciente/buscarpaciente.html',{'pacientes': pacientes, 'query': q})
+        elif p == 'dni':
+            pacientes = Paciente.objects.filter(dni__icontains=q) 
+            return render(request, 'ABME/Paciente/buscarpaciente.html',{'pacientes': pacientes, 'query': q})
+        elif p == 'cuil':
+            pacientes = Paciente.objects.filter(cuil__icontains=q) 
+            return render(request, 'ABME/Paciente/buscarpaciente.html',{'pacientes': pacientes, 'query': q})
+    
+    return render(request, 'ABME/Paciente/buscarpaciente.html', {'errors': errors}) 
 
 #USUARIO
 

@@ -40,7 +40,7 @@ urlpatterns = [
     url(r'^registrarpaciente/', views.registrarpaciente, name='registrarpaciente'),
     url(r'^modificarpaciente/', views.modificarpaciente, name='modificarpaciente'),
     url(r'^eliminarpaciente/', views.eliminarpaciente, name='eliminarpaciente'),
-    url(r'^buscarpaciente/', views.busquedapaciente, name='busquedapaciente'),
+    url(r'^buscarpaciente/', views.buscarpaciente, name='buscarpaciente'),
     
     #MEDICO
     
@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^modificarmedico/', views.modificarmedico, name='modificarmedico'),
     url(r'^eliminarmedico/', views.eliminarmedico, name='eliminarmedico'),
     url(r'^listadomedico/', views.listadomedico, name='eliminarmedico'),
+    url(r'^buscarmedico/$', views.buscarmedico),
     
     #FARMACIA
     url(r'^farmacia/', views.farmacia, name='farmacia'),

@@ -1,0 +1,18 @@
+{%extend index.html%}
+
+<p>Estas buscado: <strong>{{ query }}</strong></p> 
+ 
+{% if medicos %} 
+	<p>Medicos encontrados: {{ medicos|length }} medico{{ medicos|pluralize }}.</p> 
+	<ul> 
+		{% for medicos in medicos %} 
+			<li>ID: {{ medicos.id }}</li>
+			<li>Nombre: {{ medicos.nombre }}</li>
+			<li>Apellido: {{ medicos.apellido }}</li>
+			<li>Especialidad: {{ medicos.especialidad }}</li>
+			 
+		{% endfor %} 
+	</ul> 
+{% else %} 
+<p>Ningún medico coincide con el criterio de búsqueda.</p> 
+{% endif %} 

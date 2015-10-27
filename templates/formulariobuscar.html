@@ -1,0 +1,32 @@
+<html> 		
+	<head> 
+		<title>Buscar</title> 
+	</head> 
+	<body> 
+	{% if errors %} 
+		<ul> 
+		{% for error in errors %} 
+		<li style="color: red;">{{ error }}</li> 
+		{% endfor %} 
+		</ul> 
+	{% endif %} 
+	
+	
+		<form action="/buscar/" method="get"> 
+		<div class="form-group">
+				<label for="p" class="control-label col-md-2">Criterio:</label>
+			<div class="col-md-4"> 
+				<select class="form-control" id="p" name="p">
+					<option value="" selected="selected">---------</option>
+					<option value="nombre">Nombre</option>
+					<option value="apellido">Apellido</option>
+					
+				</select>
+			</div>
+		</div>
+									
+			<input type="text" name="q"> 
+			<input type="submit" value="Buscar"> 
+		</form> 
+	</body> 
+</html> 
