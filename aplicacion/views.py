@@ -194,25 +194,29 @@ def listadofarmacia(request):
     return render_to_response('ABME/Farmacia/listadofarmacia.html')
 
 
-
-
-
-
 def buscarfarmacia(request):
-    query = request.GET.get('q', '')
-    if query:
-        qset = (
-            Q(razon_social=query) 
-           
-        )
-        results = Farmacia.objects.filter(qset).distinct()
-    else:
-        results = []
-    return render_to_response("ABME/Farmacia/buscarfarmacia.html", {
-        "Farmacias": results,
-        "query": query
-    })
+    errors = []
+     
+    if 'q' and 'p' in request.GET: 
+        p = request.GET['p']
+        q = request.GET['q']
+        if not q:
+            errors.append('Por favor introduce un termino de busqueda.')
+        elif len(q) > 20:
+            errors.append('Por favor introduce un termino de busqueda menor a 20 caracteres.')
+        if not p:
+            errors.append('Por favor introduce un criterio de busqueda.')
 
+           
+        if p == 'razonsocial':
+            farmacias = Farmacia.objects.filter(razon_social__icontains=q) 
+            return render(request, 'ABME/Farmacia/buscarfarmacia.html',{'farmacias': farmacias, 'query': q})
+        elif p == 'cuit':
+            farmacias = Farmacia.objects.filter(cuit__icontains=q) 
+            return render(request, 'ABME/Farmacia/buscarfarmacia.html',{'farmacias': farmacias, 'query': q})
+      
+    
+    return render(request, 'ABME/Farmacia/buscarfarmacia.html', {'errors': errors}) 
 
 
 
