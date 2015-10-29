@@ -38,7 +38,7 @@ urlpatterns = [
     #PACIENTE
     url(r'^paciente/', views.paciente, name='paciente'),
     url(r'^registrarpaciente/', views.registrarpaciente, name='registrarpaciente'),
-    url(r'^modificarpaciente/', views.modificarpaciente, name='modificarpaciente'),
+    url(r'^modificarmedico/(?P<medico_id>\d+)/$', views.modificarmedico, name='modificarmedico'),
     url(r'^eliminarpaciente/', views.eliminarpaciente, name='eliminarpaciente'),
     url(r'^buscarpaciente/', views.buscarpaciente, name='buscarpaciente'),
     
@@ -46,7 +46,7 @@ urlpatterns = [
     
     url(r'^medico/', views.medico, name='medico'),
     url(r'^registrarmedico/', views.registrarmedico, name='registrarmedico'),
-    url(r'^modificarmedico/', views.modificarmedico, name='modificarmedico'),
+    url(r'^modificarmedico/(?P<medico_id>\d+)/$', views.modificarmedico, name='modificarmedico'),
     url(r'^eliminarmedico/', views.eliminarmedico, name='eliminarmedico'),
     url(r'^listadomedico/', views.listadomedico, name='eliminarmedico'),
     url(r'^buscarmedico/$', views.buscarmedico, name='buscarmedico'),

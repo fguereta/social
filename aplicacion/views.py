@@ -62,8 +62,28 @@ def buscarmedico(request):
     return render(request, 'ABME/Medico/buscarmedico.html', {'errors': errors}) 
     
 
-def modificarmedico(request):
-    return render_to_response('ABME/Medico/modificarmedico.html')
+def modificarmedico(request,medico_id):
+    
+    query = medico_id
+    if query:
+        
+        qset = (
+            Q(persona_ptr_id=query) 
+           
+        )
+        results = Medico.objects.filter(qset).distinct()
+       
+        
+    else:
+        results = []
+    
+    return render_to_response('ABME/Medico/modificarmedico.html', {
+        "medicos": results,
+        "query": query
+    })
+
+
+
 
 
 def listadomedico(resquest):

@@ -1,32 +1,45 @@
-{% extends "index.html" %} 
- {% block htitle %}<title>Modificar medico</title>{% endblock %} 
+{% extends "ABME/Medico/medico.html" %} 
+
+{% block htitle %}<title>Modificar medico</title>{% endblock %} 
+
 {% block title %}<h1 class="page-header">Modificar Medico</h1>{% endblock %} 
  
+
 {% block contenido%}
+
+
+{% if query %}
+
+
+{%for medico in medicos%}
+
+
 <div class="container">
-<form action="" method="GET" class="form-horizontal">
-   
-	<div class="form-group"  >	
-    
-    <label for="q" class="control-label col-md-2">Buscar: </label>
- 	
- 	<div class="col-md-8">
-    <input class="form-control" type="text" name="q">
-    </div>
-    
-    </div>
-    
-    <div class="form-group">
-		<div class="col-md-2 col-md-offset-2">
-    	<input class="form-control" type="submit" value="Buscar">
-    	</div>
-    </div>
-    
- 	<div class="form-group">
+
+<form  method="post"  action="/aplicacion/update/{{ medico.persona_ptr_id }}/" enctype="multipart/form-data" class="form-horizontal">
+{% csrf_token %}
+
+	<div class="form-group">
+	
+		<label for="persona_ptr_id" class="control-label col-md-2">id:</label>
+		
+		<div class="col-md-4">
+			
+			<input class="form-control" id="persona_ptr_id" maxlength="20" name="persona_ptr_id" type="text" value="{{medico.persona_ptr_id}}"/>
+		
+		</div>
+		
+	</div>
+
+
+	<div class="form-group">
 	
 		<label for="nombre" class="control-label col-md-2">Nombre:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="nombre" maxlength="20" name="nombre" type="text"/>
+		
+		<div class="col-md-4">
+			
+			<input class="form-control" id="nombre" maxlength="20" name="nombre" type="text" value="{{medico.nombre}}"/>
+		
 		</div>
 		
 	</div>
@@ -34,108 +47,194 @@
 	
 
 	<div class="form-group">
+		
 		<label for="apellido" class="control-label col-md-2">Apellido:</label>
-		<div class="col-md-8">
-		<input class="form-control" id="apellido" maxlength="20" name="apellido" type="text" />
+		
+		<div class="col-md-4">
+		
+		<input class="form-control" id="apellido" maxlength="20" name="apellido" type="text" value="{{medico.apellido}}"/>
+		
 		</div>
+	
 	</div>
 
 	<div class="form-group">
+		
 		<label for="dni" class="control-label col-md-2">DNI:</label>
-		<div class="col-md-8"> 
-		<input class="form-control" id="dni" maxlength="9" name="dni" type="text" />
+		
+		<div class="col-md-4"> 
+		
+		<input class="form-control" id="dni" maxlength="9" name="dni" type="text" value="{{medico.dni}}" />
+		
 		</div>
+	
 	</div>
 
 	<div class="form-group">
+		
 		<label for="cuil" class="control-label col-md-2">CUIL:</label>
-		<div class="col-md-8">
-		<input class="form-control" id="cuil" maxlength="15" name="cuil" type="text" />
+		
+		<div class="col-md-4">
+		
+		<input class="form-control" id="cuil" maxlength="15" name="cuil" type="text"value="{{medico.cuil}}" />
+		
 		</div>
+	
 	</div>
 
 	<div class="form-group"> 
+		
 		<label for="nacimiento" class="control-label col-md-2">Fecha de Nacimiento:</label>
-		<div class="col-md-8"> 
-		<input class="form-control" id="nacimiento" name="nacimiento" type="date" />
+		
+		<div class="col-md-4"> 
+		
+		<input class="form-control" id="nacimiento" name="nacimiento" type="date" value="{{medico.nacimiento}}" />
+		
 		</div>
+	
 	</div>
 
 	<div class="form-group">
+		
 		<label for="correo" class="control-label col-md-2">Correo:</label> 
-		<div class="col-md-8">
-		<input class="form-control" id="correo" maxlength="254" name="correo" type="email" />
+		
+		<div class="col-md-4">
+		
+		<input class="form-control" id="correo" maxlength="254" name="correo" type="email" value="{{medico.correo}}"/>
+		
 		</div>
+	
 	</div>
 
 	<div class="form-group">
+		
 		<label for="direccion" class="control-label col-md-2">Direccion:</label>
-		<div class="col-md-8"> 
-		<input class="form-control" id="iireccion" maxlength="50" name="direccion" type="text" />
+		
+		<div class="col-md-4"> 
+		
+		<input class="form-control" id="direccion" maxlength="50" name="direccion" type="text" value="{{medico.direccion}}"/>
+		
 		</div>
+	
 	</div>
+	
+	
 
 	<div class="form-group">
-		<label for="observaciones" class="control-label col-md-2">Observaciones:</label>
-		<div class="col-md-8">
-		<textarea class="form-control" cols="40" id="observaciones" name="observaciones" rows="10"></textarea>
-		</div>
-	</div>
-
-	<div class="form-group">
+		
 		<label for="telefono" class="control-label col-md-2">Telefono:</label>
-		<div class="col-md-8"> 
-			<input class="form-control" id="telefono" name="telefono" type="number" />
+		
+		<div class="col-md-4"> 
+		
+			<input class="form-control" id="telefono" name="telefono" type="text" value="{{medico.telefono}}"/>
+		
 		</div>
+	
 	</div>
 
 	<div class="form-group">
+		
 		<label for="celular" class="control-label col-md-2">Celular:</label>
-		<div class="col-md-8"> 
-			<input class="form-control" id="celular" name="celular" type="number" />
+		
+		<div class="col-md-4"> 
+		
+			<input class="form-control" id="celular" name="celular" type="text" value="{{medico.celular}}" />
+		
 		</div>
+	
 	</div>
 
 	<div class="form-group">
+		
+		<label for="especialidad" class="control-label col-md-2">Especialidad:</label>
+		
+		<div class="col-md-4"> 
+		
+		<input class="form-control" id="especialidad" maxlength="20" name="especialidad" type="text" value="{{medico.especialidad}}" />
+		
+		</div>
+	
+	</div>
+
+	<div class="form-group">
+		
+		<label for="matriculanacional" class="control-label col-md-2">Matricula nacional:</label>
+		
+		<div class="col-md-4">
+		
+		<input class="form-control" id="matriculanacional" maxlength="20" name="matriculanacional" type="text" value="{{medico.matriculanacional}}" />
+		
+		</div>
+	
+	</div>
+
+	<div class="form-group">
+		
+		<label for="matriculaprovincial" class="control-label col-md-2">Matricula provincial:</label> 
+		
+		<div class="col-md-4">
+		
+		<input class="form-control" id="matriculaprovincial" maxlength="20" name="matriculaprovincial" type="text" value="{{medico.matriculaprovincial}}" />
+		
+		</div>
+	
+	</div>
+
+	<div class="form-group">
+		
 		<label for="sexo" class="control-label col-md-2">Sexo:</label>
-		<div class="col-md-8"> 
+		
+		<div class="col-md-4"> 
+		
 		<select class="form-control" id="sexo" name="sexo">
 		<option value="" selected="selected">---------</option>
 		<option value="Masculino">Masculino</option>
 		<option value="Femenino">Femenino</option>
 		</select>
+		
 		</div>
+	
 	</div>
 
-	<div class="form-group">
-		<label for="especialidad" class="control-label col-md-2">Especialidad:</label>
-		<div class="col-md-8"> 
-			<input class="form-control" id="especialidad" maxlength="20" name="especialidad" type="text" />
-		</div>
-	</div>
+	
 
+	
 	<div class="form-group">
-		<label for="matriculanacional" class="control-label col-md-2">Matricula nacional:</label>
+		
+		<label for="observaciones" class="control-label col-md-2">Observaciones:</label>
+		
 		<div class="col-md-8">
-			<input class="form-control" id="matriculanacional" maxlength="20" name="matriculanacional" type="text" />
+		
+		<textarea class="form-control" cols="20" id="observaciones" name="observaciones" rows="10">{{medico.observaciones}}</textarea>
+		
 		</div>
+	
 	</div>
+	
 
 	<div class="form-group">
-		<label for="matriculaprovincial" class="control-label col-md-2">Matricula provincial:</label> 
-		<div class="col-md-8">
-			<input class="form-control" id="matriculaprovincial" maxlength="20" name="matriculaprovincial" type="text" />
+		
+		<div class="col-md-2 col-md-offset-2">
+		
+		<input class="form-control" type="submit"  value="Modificar Medico">
+	
 		</div>
+
+		<div class="col-md-2 col-md-offset-2">
+	
+		<input class="form-control" type="reset" name="reset" value="Borrar Campos">
+		
+		</div>
+	
 	</div>
 
 
-<div class="form-group">
-	<div class="col-md-2 col-md-offset-2">
-	<input class="form-control" type="submit" name="submit" value="Registrar Medico">
-	</div>
+</form>
 </div>
-  </form>
-  
-  </div>
+
  
+{% endfor %}
+
+{% endif %}
+
 {% endblock %}
