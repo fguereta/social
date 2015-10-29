@@ -86,6 +86,8 @@ def mregistrado(request):
 
 def uregistrado(request):
     return render_to_response('ABME/notificaciones/uregistrado.html')
+def peliminado(request):
+    return render_to_response('ABME/notificaciones/peliminado.html')
 
 #Pacientes
 
@@ -110,8 +112,8 @@ def registrarpaciente(request):
 
     return render_to_response('ABME/Paciente/registrarpaciente.html', args)
 
-def eliminarpaciente(request):
-    return render_to_response('ABME/Paciente/eliminarpaciente.html')
+#def eliminarpaciente(request):
+ #   return render_to_response('ABME/Paciente/eliminarpaciente.html')
 
 def modificarpaciente(request):
     return render_to_response('ABME/Paciente/modificarpaciente.html')
@@ -141,6 +143,54 @@ def buscarpaciente(request):
             return render(request, 'ABME/Paciente/buscarpaciente.html',{'pacientes': pacientes, 'query': q})
     
     return render(request, 'ABME/Paciente/buscarpaciente.html', {'errors': errors}) 
+
+def eliminarpaciente(request):
+    errors = []
+     
+    if 'q' and 'p' in request.GET: 
+        p = request.GET['p']
+        q = request.GET['q']
+        if not q:
+            errors.append('Por favor introduce un termino de busqueda.')
+        elif len(q) > 20:
+            errors.append('Por favor introduce un termino de busqueda menor a 20 caracteres.')
+        if not p:
+            errors.append('Por favor introduce un criterio de busqueda.')
+
+           
+        if p == 'historiaclinica':
+            pacientes = Paciente.objects.filter(historiaclinica__icontains=q) 
+            return render(request, 'ABME/Paciente/eliminarpaciente.html',{'pacientes': pacientes, 'query': q})
+        elif p == 'dni':
+            pacientes = Paciente.objects.filter(dni__icontains=q) 
+            return render(request, 'ABME/Paciente/eliminarpaciente.html',{'pacientes': pacientes, 'query': q})
+        elif p == 'cuil':
+            pacientes = Paciente.objects.filter(cuil__icontains=q) 
+            return render(request, 'ABME/Paciente/eliminarpaciente.html',{'pacientes': pacientes, 'query': q})
+    
+    return render(request, 'ABME/Paciente/eliminarpaciente.html', {'errors': errors}) 
+    
+    
+
+def eliminar(request):
+    errors2 = []
+    
+    if 'i' in request.GET:
+               
+        i = request.GET['i']
+        if not i:
+            errors2.append('Por favor introduce un termino de busqueda.')
+        
+          
+        p=Paciente.objects.get(persona_ptr_id=i)
+        p.delete()
+        
+        
+        return render_to_response('ABME/Notificaciones/peliminado.html')
+    
+    return render(request, 'ABME/Paciente/eliminarpaciente.html', {'errors': errors2}) 
+
+    
 
 #USUARIO
 

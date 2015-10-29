@@ -1,147 +1,107 @@
 {% extends "index.html" %} 
- {% block htitle %}<title>Eliminar paciente</title>{% endblock %} 
-{% block title %}<h1 class="page-header">Eliminar Paciente</h1>{% endblock %} 
- 
-{% block contenido%}
-<div class="container">
-<form action="" method="GET" class="form-horizontal">
-   
-   <div class="form-group"  >	
-    
-    <label for="q" class="control-label col-md-2">Buscar: </label>
- 	
- 	<div class="col-md-8">
-    <input class="form-control" type="text" name="q">
-    </div>
-    
-    </div>
-    
-    <div class="form-group">
-		<div class="col-md-2 col-md-offset-2">
-    	<input class="form-control" type="submit" value="Buscar">
-    	</div>
-    </div>
-   
-   
+{% block htitle %}<title>Busqueda Paciente</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Busqueda Paciente</h1>{% endblock %} 
+
+{% block contenido%} 
+
+  <div class="container">
+  {% if errors %} 
+		<ul> 
+		{% for error in errors %} 
+		<li style="color: red;">{{ error }}</li> 
+		{% endfor %} 
+		</ul> 
+  {% endif %} 
+  
+  <form action="" method="GET">
+  
  	<div class="form-group">
-	
-		<label for="nombre" class="control-label col-md-2">Nombre:</label> 
-		<div class="col-md-8">
-			<input class="form-control" id="nombre" maxlength="20" name="nombre" type="text" />
-		</div>
-		
-</div>
-
-<div class="form-group">
-	
-		<label for="apellido" class="control-label col-md-2">Apellido:</label> 
-		<div class="col-md-8">
-			<input class="form-control" id="apellido" maxlength="20" name="apellido" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="dni" class="control-label col-md-2">DNI:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="dni" maxlength="9" name="dni" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="cuil" class="control-label col-md-2">CUIL:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="cuil" maxlength="15" name="cuil" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="nacimiento" class="control-label col-md-2">Nacimiento:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="nacimiento" name="nacimiento" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="correo" class="control-label col-md-2">Correo:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="correo" maxlength="254" name="correo" type="email" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="direccion" class="control-label col-md-2">Direccion:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="direccion" maxlength="50" name="direccion" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="observaciones" class="control-label col-md-2">Observaciones:</label>
-		<div class="col-md-8">	
-			<textarea cols="40" class="form-control" id="observaciones" name="observaciones" rows="10">
-			</textarea>
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="telefono" class="control-label col-md-2">Telefono:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="telefono" name="telefono" type="number" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="celular" class="control-label col-md-2">Celular:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="celular" name="celular" type="number" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="sexo" class="control-label col-md-2">Sexo:</label>
-		<div class="col-md-8">
-			<select class="form-control" id="sexo" name="sexo">
-			<option value="" selected="selected">---------</option>
-			<option value="Masculino">Masculino</option>
-			<option value="Femenino">Femenino</option>
-			</select>
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="historiaclinica" class="control-label col-md-2">Historia clinica:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="historiaclinica" maxlength="20" name="historiaclinica" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="osocial" class="control-label col-md-2">Obra social:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="osocial" maxlength="20" name="osocial" type="text"/>
-		</div>
-</div>	
-	
-	<div class="form-group">
-		<div class="col-md-2 col-md-offset-2">
-	<input class="form-control" type="submit" name="submit" value="Eliminar Paciente">
-		</div>
+			<label for="p" class="">Criterio:</label>
+			
+			<div class=""> 
+				<select class="form-control" id="p" name="p">
+					<option value="" selected="selected">---------</option>
+					<option value="dni">DNI</option>
+					<option value="cuil">CUIL</option>
+					<option value="historiaclinica">Historia clinica</option>
+					
+				</select>
+			</div>
 	</div>
 	
-  
+	<div class="form-group"  >	
+    <label for="q">Buscar: </label>
+    <input class="form-control" type="text" name="q" value="{{ query|escape }}">
+    </div>
+    <div class="form-group">
+    <input class="form-control" type="submit" value="Buscar">
+    </div>
   </form>
-  
   </div>
+{% if query %}
+  <div class="container">
+  <p>Estas buscado: <strong>{{ query }}</strong></p> 
  
-{% endblock %}
+{% if pacientes %} 
+	<p>Pacientes encontrados: {{ pacientes|length }} paciente{{ pacientes|pluralize }}.</p> 
+	<ul> 
+		{% for pacientes in pacientes %} 
+
+	<div class="table-responsive" >
+
+	<table class="table table-striped table-bordered table-hover table-condensed">
+		<tr class="info">
+			<th>Nombre</th>
+			<th>Apellido</th>
+			<th>DNI</th>
+			<th>CUIL</th>
+			<th>Dirección</th>
+			<th>Fecha de nacimiento</th>
+			<th>Correo</th>
+			<th>Telefono fijo</th>
+			<th>Celular</th>
+			<th>Obervaciones</th>
+			<th>Historia Clinica</th>
+			<th>Obra Social</th>
+			
+			
+			
+		</tr>
+		<tr>
+			<td>{{pacientes.nombre}}</td>
+			<td>{{pacientes.apellido}}</td>
+			<td>{{pacientes.dni}}</td>
+			<td>{{pacientes.cuil}}</td>
+			<td>{{pacientes.direccion}}</td>
+			<td>{{pacientes.nacimiento}}</td>
+			<td>{{pacientes.correo}}</td>
+			<td>{{pacientes.telefono}}</td>
+			<td>{{pacientes.celular}}</td>
+			<td>{{pacientes.observaciones}}</td>
+			<td>{{pacientes.historiaclinica}}</td>
+			<td>{{pacientes.osocial}}</td>
+		</tr>
+	</table>
+	</div>
+	 <form action="/aplicacion/eliminarpaciente2/" method="GET">
+	
+		<div class="form-group"  >	
+    		<label for="i">Eliminar</label>
+    			<input class="form-control" readonly='readonly' type="text" name="a" value="{{pacientes.apellido}}">
+    			<input class="form-control" type="hidden" name="i" value="{{pacientes.id}}">
+    	</div>
+    
+    	<div class="form-group">
+    		<input class="form-control" type="submit" value="Eliminar">
+    	</div>
+	
+	</form>
+		{% endfor %}
+	
+	</ul> 
+{% else %} 
+<p>Ningún paciente coincide con el criterio de búsqueda.</p> 
+{% endif %} 
+{% endif %} 
+  
+{%endblock%}
