@@ -1,38 +1,28 @@
 {% extends "ABME/Medico/medico.html" %} 
 
+<!--
+
 {% block htitle %}<title>Modificar medico</title>{% endblock %} 
+
 
 {% block title %}<h1 class="page-header">Modificar Medico</h1>{% endblock %} 
  
-
-{% block contenido%}
-
-
-{% if query %}
+-->
+{% block contenidomedico %}
 
 
-{%for medico in medicos%}
 
 
 <div class="container">
 
-<form  method="post"  action="/aplicacion/update/{{ medico.persona_ptr_id }}/" enctype="multipart/form-data" class="form-horizontal">
+<form  method="post"  enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 
-	<div class="form-group">
-	
-		<label for="persona_ptr_id" class="control-label col-md-2">id:</label>
-		
-		<div class="col-md-4">
-			
-			<input class="form-control" id="persona_ptr_id" maxlength="20" name="persona_ptr_id" type="text" value="{{medico.persona_ptr_id}}"/>
-		
-		</div>
-		
-	</div>
 
 
-	<div class="form-group">
+
+
+<div class="form-group">
 	
 		<label for="nombre" class="control-label col-md-2">Nombre:</label>
 		
@@ -88,11 +78,24 @@
 		
 		<div class="col-md-4"> 
 		
-		<input class="form-control" id="nacimiento" name="nacimiento" type="date" value="{{medico.nacimiento}}" />
+		<input class="form-control" id="nacimiento" name="nacimiento" type="date" value="{{ medico.nacimiento}}" />
 		
 		</div>
 	
 	</div>
+
+	<div class="form-group"> 
+		
+		<label for="estado" class="control-label col-md-2">Estado:</label>
+		
+		<div class="col-md-4"> 
+		
+		<input class="form-control" id="estado" name="estado" type="text" value="{{medico.estado}}" />
+		
+		</div>
+	
+	</div>
+
 
 	<div class="form-group">
 		
@@ -180,6 +183,9 @@
 	
 	</div>
 
+
+
+
 	<div class="form-group">
 		
 		<label for="sexo" class="control-label col-md-2">Sexo:</label>
@@ -187,14 +193,15 @@
 		<div class="col-md-4"> 
 		
 		<select class="form-control" id="sexo" name="sexo">
-		<option value="" selected="selected">---------</option>
-		<option value="Masculino">Masculino</option>
+		<option value="" >---------</option>
+		<option selected="selected" value="Masculino" selected="selected">Masculino</option>
 		<option value="Femenino">Femenino</option>
 		</select>
 		
 		</div>
 	
 	</div>
+
 
 	
 
@@ -216,7 +223,7 @@
 		
 		<div class="col-md-2 col-md-offset-2">
 		
-		<input class="form-control" type="submit"  value="Modificar Medico">
+		<input class="form-control" type="submit" name="submit"  value="Modificar Medico">
 	
 		</div>
 
@@ -233,8 +240,6 @@
 </div>
 
  
-{% endfor %}
 
-{% endif %}
 
 {% endblock %}

@@ -25,13 +25,13 @@ class Persona(models.Model):
     apellido=models.CharField(max_length=20)
     dni=models.CharField(max_length=9)
     cuil=models.CharField(max_length=15, null=True)
-    nacimiento=models.DateField()
+    nacimiento=models.DateField(null=True)
     correo=models.EmailField(null=True)
     direccion=models.CharField(max_length=25, null=True)
     observaciones=models.TextField(blank=True, null=True)
     telefono=models.CharField(max_length=20, blank=True, null=True)
     celular=models.CharField(max_length=20, blank=True, null=True)
-           
+        
     sex =( 
            ('Masculino', 'Masculino'), 
            ('Femenino', 'Femenino'), 
@@ -60,7 +60,7 @@ class Medico(Persona):
     especialidad=models.CharField(max_length=20)
     matriculanacional=models.CharField(max_length=20)
     matriculaprovincial=models.CharField(max_length=20)
-    
+    estado=models.CharField(max_length=20)
     def __unicode__(self):
         return "%s - %s" %(self.apellido, self.nombre)
 

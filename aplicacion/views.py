@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, RequestContext
 from aplicacion.models import *
 from aplicacion.form import *
 from django.db.models import Q
@@ -22,11 +22,13 @@ def medico(request):
 
 def registrarmedico(request):
     if request.POST:
+    
         form = MedicoForm(request.POST)
         if form.is_valid():
+
             form.save()
 
-            return HttpResponseRedirect('ABME/Notificaciones/mregistrado')#si registra el paciente envia a /pregistrado
+            return render_to_response('ABME/Notificaciones/mregistrado.html')#si registra el paciente envia a /pregistrado
     else:
         form = MedicoForm()
 
@@ -63,24 +65,78 @@ def buscarmedico(request):
     
 
 def modificarmedico(request,medico_id):
+     
+    medico=Medico.objects.get(persona_ptr_id=medico_id)
     
-    query = medico_id
-    if query:
-        
-        qset = (
-            Q(persona_ptr_id=query) 
-           
-        )
-        results = Medico.objects.filter(qset).distinct()
-       
-        
-    else:
-        results = []
     
-    return render_to_response('ABME/Medico/modificarmedico.html', {
-        "medicos": results,
-        "query": query
-    })
+    if request.method=="POST":
+
+        form=MedicoForm(request.POST)
+        if form.is_valid():
+            nombre=medico.nombre
+            apellido=medico.apellido
+            dni=medico.dni
+            cuil=medico.cuil
+            nacimiento=medico.nacimiento
+            correo=medico.correo
+            direccion=medico.direccion
+            observaciones=medico.observaciones
+            telefono=medico.telefono
+            celular=medico.celular
+            sexo=medico.sexo
+            especialidad=medico.especialidad
+            matriculanacional=medico.matriculanacional
+            matriculaprovincial=medico.matriculaprovincial
+            estado=medico.estado
+
+            medico.nombre=form.cleaned_data["nombre"]
+            medico.apellido=form.cleaned_data["apellido"]
+            medico.dni=form.cleaned_data["dni"]
+            medico.cuil=form.cleaned_data["cuil"]
+            medico.nacimiento=form.cleaned_data["nacimiento"]
+            medico.correo=form.cleaned_data["correo"]
+            medico.direccion=form.cleaned_data["direccion"]
+            medico.observaciones=form.cleaned_data["observaciones"]
+            medico.telefono=form.cleaned_data["telefono"]
+            medico.celular=form.cleaned_data["celular"]
+            medico.sexo=form.cleaned_data["sexo"]
+            medico.especialidad=form.cleaned_data["especialidad"]
+            medico.matriculanacional=form.cleaned_data["matriculanacional"]
+            medico.matriculaprovincial=form.cleaned_data["matriculaprovincial"]
+            medico.estado=form.cleaned_data["estado"]
+            medico.save()
+
+            return render_to_response('ABME/Notificaciones/mregistrado.html')
+
+            
+
+    if request.method=="GET":
+
+
+        form=MedicoForm(initial={
+                                'nombre':medico.nombre,
+                                'apellido':medico.apellido,
+                                'dni':medico.dni,
+                                'cuil':medico.cuil,
+                                'nacimiento':medico.nacimiento,
+                                'correo':medico.correo,
+                                'direccion':medico.direccion,
+                                'observaciones':medico.observaciones,
+                                'telefono':medico.telefono,
+                                'celular':medico.celular,
+                                'sexo':medico.sexo,
+                                'especialidad':medico.especialidad,
+                                'matriculaprovincial':medico.matriculaprovincial,
+                                'matriculanacional':medico.matriculanacional,
+                                'estado':medico.estado,
+
+                              })
+
+    ctx={'form':form, 'medico':medico} 
+    return render_to_response('ABME/Medico/modificarmedico.html',ctx,context_instance=RequestContext(request))       
+
+            
+
 
 
 
@@ -96,18 +152,18 @@ def eliminarmedico(request):
 #NOTIFICACIONES
 
 def pregistrado(request):
-    return render_to_response('ABME/notificaciones/pregistrado.html')
+    return render_to_response('ABME/Notificaciones/pregistrado.html')
 
 def fregistrado(request):
-    return render_to_response('ABME/notificaciones/fregistrado.html')
+    return render_to_response('ABME/Notificaciones/fregistrado.html')
 
 def mregistrado(request):
-    return render_to_response('ABME/notificaciones/mregistrado.html')
+    return render_to_response('ABME/Notificaciones/mregistrado.html')
 
 def uregistrado(request):
-    return render_to_response('ABME/notificaciones/uregistrado.html')
+    return render_to_response('ABME/Notificaciones/uregistrado.html')
 def peliminado(request):
-    return render_to_response('ABME/notificaciones/peliminado.html')
+    return render_to_response('ABME/Notificaciones/peliminado.html')
 
 #Pacientes
 
@@ -121,7 +177,7 @@ def registrarpaciente(request):
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect('ABME/Notificaciones/pregistrado') #si registra el paciente envia a /pregistrado
+            return render_to_response('ABME/Notificaciones/pregistrado.html') #si registra el paciente envia a /pregistrado
     else:
         form = PacienteForm()
 
@@ -203,7 +259,8 @@ def eliminar(request):
         
           
         p=Paciente.objects.get(persona_ptr_id=i)
-        p.delete()
+        p.eliminado=True
+        p.save()
         
         
         return render_to_response('ABME/Notificaciones/peliminado.html')
@@ -241,7 +298,7 @@ def registrarfarmacia(request):
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect('ABME/Notificaciones/fregistrado')#si registra el paciente envia a /pregistrado
+            return render_to_response('ABME/Notificaciones/fregistrado.html')#si registra el paciente envia a /pregistrado
     else:
         form = FarmaciaForm()
 
