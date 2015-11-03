@@ -40,7 +40,7 @@
   </div>
 {% if query %}
   <div class="container">
-  <p>Estas buscado: <strong>{{ query }}</strong></p> 
+  <p>Estas buscando: <strong>{{ query }}</strong></p> 
  
 {% if pacientes %} 
 	<p>Pacientes encontrados: {{ pacientes|length }} paciente{{ pacientes|pluralize }}.</p> 
@@ -83,11 +83,10 @@
 		</tr>
 	</table>
 	</div>
-	 <form action="/aplicacion/eliminarpaciente2/" method="GET">
+	 <form action="/aplicacion/peliminado/" method="GET">
 	
 		<div class="form-group"  >	
     		<label for="i">Eliminar</label>
-    			<input class="form-control" readonly='readonly' type="text" name="a" value="{{pacientes.apellido}}">
     			<input class="form-control" type="hidden" name="i" value="{{pacientes.id}}">
     	</div>
     

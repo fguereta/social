@@ -135,19 +135,54 @@ def modificarmedico(request,medico_id):
     ctx={'form':form, 'medico':medico} 
     return render_to_response('ABME/Medico/modificarmedico.html',ctx,context_instance=RequestContext(request))       
 
-            
-
-
-
-
-
 
 def listadomedico(resquest):
     medico=Medico.objects.all()
     return render_to_response("ABME/Medico/listadomedico.html", {'medico':medico})
 
 def eliminarmedico(request):
-    return render_to_response('ABME/Medico/eliminarmedico.html')
+    errors = []
+     
+    if 'q' and 'p' in request.GET: 
+        p = request.GET['p']
+        q = request.GET['q']
+        if not q:
+            errors.append('Por favor introduce un termino de busqueda.')
+        elif len(q) > 20:
+            errors.append('Por favor introduce un termino de busqueda menor a 20 caracteres.')
+        if not p:
+            errors.append('Por favor introduce un criterio de busqueda.')
+
+           
+        if p == 'nombre':
+            medicos = Medico.objects.filter(nombre__icontains=q) 
+            return render(request, 'ABME/Medico/eliminarmedico.html',{'medicos': medicos, 'query': q})
+        elif p == 'apellido':
+            medicos = Medico.objects.filter(apellido__icontains=q) 
+            return render(request, 'ABME/Medico/eliminarmedico.html',{'medicos': medicos, 'query': q})
+    
+    return render(request, 'ABME/Medico/eliminarmedico.html', {'errors': errors}) 
+
+
+
+def medico_elim(request):
+    errors2 = []
+    
+    if 'i' in request.GET:
+               
+        i = request.GET['i']
+        if not i:
+            errors2.append('Por favor introduce un termino de busqueda.')
+        
+          
+        p=Medico.objects.get(persona_ptr_id=i)
+        p.estado="inactivo"
+        p.save()
+        
+        
+        return render_to_response('ABME/Notificaciones/meliminado.html')
+    
+    return render(request, 'ABME/Medico/eliminarmedico.html', {'errors': errors2}) 
 
 #NOTIFICACIONES
 
@@ -188,8 +223,6 @@ def registrarpaciente(request):
 
     return render_to_response('ABME/Paciente/registrarpaciente.html', args)
 
-#def eliminarpaciente(request):
- #   return render_to_response('ABME/Paciente/eliminarpaciente.html')
 
 def modificarpaciente(request):
     return render_to_response('ABME/Paciente/modificarpaciente.html')
@@ -248,7 +281,7 @@ def eliminarpaciente(request):
     
     
 
-def eliminar(request):
+def paciente_elim(request):
     errors2 = []
     
     if 'i' in request.GET:
@@ -259,7 +292,7 @@ def eliminar(request):
         
           
         p=Paciente.objects.get(persona_ptr_id=i)
-        p.eliminado=True
+        p.estado="inactivo"
         p.save()
         
         
@@ -310,7 +343,48 @@ def registrarfarmacia(request):
     return render_to_response('ABME/Farmacia/registrarfarmacia.html', args)
 
 def eliminarfarmacia(request):
-    return render_to_response('ABME/Farmacia/eliminarfarmacia.html')
+    errors = []
+     
+    if 'q' and 'p' in request.GET: 
+        p = request.GET['p']
+        q = request.GET['q']
+        if not q:
+            errors.append('Por favor introduce un termino de busqueda.')
+        elif len(q) > 20:
+            errors.append('Por favor introduce un termino de busqueda menor a 20 caracteres.')
+        if not p:
+            errors.append('Por favor introduce un criterio de busqueda.')
+
+           
+        if p == 'razonsocial':
+            farmacias = Farmacia.objects.filter(razon_social__icontains=q) 
+            return render(request, 'ABME/Farmacia/eliminarfarmacia.html',{'farmacias': farmacias, 'query': q})
+        elif p == 'cuit':
+            farmacias = Farmacia.objects.filter(cuit__icontains=q) 
+            return render(request, 'ABME/Farmacia/eliminarfarmacia.html',{'farmacias': farmacias, 'query': q})
+    
+    return render(request, 'ABME/Farmacia/eliminarfarmacia.html', {'errors': errors}) 
+    
+    
+
+def farmacia_elim(request):
+    errors2 = []
+    
+    if 'i' in request.GET:
+               
+        i = request.GET['i']
+        if not i:
+            errors2.append('Por favor introduce un termino de busqueda.')
+        
+          
+        p=Farmacia.objects.get(id=i)
+        p.estado="inactivo"
+        p.save()
+        
+        
+        return render_to_response('ABME/Notificaciones/feliminado.html')
+    
+    return render(request, 'ABME/Farmacia/eliminarfarmacia.html', {'errors': errors2})
 
 
 

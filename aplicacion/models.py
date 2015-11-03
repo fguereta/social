@@ -31,6 +31,7 @@ class Persona(models.Model):
     observaciones=models.TextField(blank=True, null=True)
     telefono=models.CharField(max_length=20, blank=True, null=True)
     celular=models.CharField(max_length=20, blank=True, null=True)
+    estado=models.CharField(max_length=20, blank=True, null=True)    
         
     sex =( 
            ('Masculino', 'Masculino'), 
@@ -51,6 +52,7 @@ class Farmacia(models.Model):
     direccion = models.CharField(max_length=25)
     telefono = models.IntegerField()
     email = models.EmailField()
+    estado=models.CharField(max_length=20, blank=True, null=True)
     
     def __unicode__(self):
         return self.razon_social
@@ -60,7 +62,6 @@ class Medico(Persona):
     especialidad=models.CharField(max_length=20)
     matriculanacional=models.CharField(max_length=20)
     matriculaprovincial=models.CharField(max_length=20)
-    estado=models.CharField(max_length=20)
     def __unicode__(self):
         return "%s - %s" %(self.apellido, self.nombre)
 
@@ -107,6 +108,7 @@ class DetalleSolicitud(models.Model):
     fecha = models.DateField()
     dosis = models.CharField(max_length=20)
     observaciones=models.TextField(blank=True)
+    estado = models.CharField(max_length=20, blank=True, null=True)
     
     def __unicode__(self):
         return self.fecha
