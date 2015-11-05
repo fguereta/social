@@ -42,6 +42,7 @@ urlpatterns = [
     url(r'^eliminarpaciente/', views.eliminarpaciente, name='eliminarpaciente'),
     url(r'^buscarpaciente/', views.buscarpaciente, name='buscarpaciente'),
     url(r'^peliminado/', views.paciente_elim, name='peliminado'),
+    url(r'^oppaciente/$', views.oppaciente, name='oppaciente'),
     
     #MEDICO
     
@@ -52,6 +53,7 @@ urlpatterns = [
     url(r'^listadomedico/', views.listadomedico, name='eliminarmedico'),
     url(r'^buscarmedico/$', views.buscarmedico, name='buscarmedico'),
     url(r'^meliminado/$', views.medico_elim, name='meliminado'),
+    url(r'^opmedico/$', views.opmedico, name='opmedico'),
     
     #FARMACIA
     url(r'^farmacia/', views.farmacia, name='farmacia'),
@@ -61,6 +63,7 @@ urlpatterns = [
     url(r'^eliminarfarmacia/', views.eliminarfarmacia, name='eliminarfarmacia'),
     url(r'^buscarfarmacia/$', views.buscarfarmacia, name='buscarfarmacia'),
     url(r'^feliminado/$', views.farmacia_elim, name='feliminado'),
+    url(r'^opfarmacia/$', views.opfarmacia, name='opfarmacia'),
     
     #OPERACIONES
     

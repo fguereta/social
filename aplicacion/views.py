@@ -54,10 +54,13 @@ def buscarmedico(request):
 
            
         if p == 'nombre':
-            medicos = Medico.objects.filter(nombre__icontains=q) 
+            medicos = Medico.objects.filter(nombre__icontains=q, estado='activo') 
             return render(request, 'ABME/Medico/buscarmedico.html',{'medicos': medicos, 'query': q})
         elif p == 'apellido':
-            medicos = Medico.objects.filter(apellido__icontains=q) 
+            medicos = Medico.objects.filter(apellido__icontains=q, estado='activo') 
+            return render(request, 'ABME/Medico/buscarmedico.html',{'medicos': medicos, 'query': q})
+        elif p == 'especialidad':
+            medicos = Medico.objects.filter(especialidad__icontains=q, estado='activo')
             return render(request, 'ABME/Medico/buscarmedico.html',{'medicos': medicos, 'query': q})
       
     
@@ -155,10 +158,13 @@ def eliminarmedico(request):
 
            
         if p == 'nombre':
-            medicos = Medico.objects.filter(nombre__icontains=q) 
+            medicos = Medico.objects.filter(nombre__icontains=q, estado='activo') 
             return render(request, 'ABME/Medico/eliminarmedico.html',{'medicos': medicos, 'query': q})
         elif p == 'apellido':
-            medicos = Medico.objects.filter(apellido__icontains=q) 
+            medicos = Medico.objects.filter(apellido__icontains=q, estado='activo') 
+            return render(request, 'ABME/Medico/eliminarmedico.html',{'medicos': medicos, 'query': q})
+        elif p == 'especialidad':
+            medicos = Medico.objects.filter(especialidad__icontains=q, estado='activo')
             return render(request, 'ABME/Medico/eliminarmedico.html',{'medicos': medicos, 'query': q})
     
     return render(request, 'ABME/Medico/eliminarmedico.html', {'errors': errors}) 
@@ -199,6 +205,15 @@ def uregistrado(request):
     return render_to_response('ABME/Notificaciones/uregistrado.html')
 def peliminado(request):
     return render_to_response('ABME/Notificaciones/peliminado.html')
+
+def opmedico(request):
+    return render_to_response('ABME/Medico/opmedico.html')
+
+def opfarmacia(request):
+    return render_to_response('ABME/Farmacia/opfarmacia.html')
+
+def oppaciente(request):
+    return render_to_response('ABME/Paciente/oppaciente.html') 
 
 #Pacientes
 
@@ -242,13 +257,13 @@ def buscarpaciente(request):
 
            
         if p == 'historiaclinica':
-            pacientes = Paciente.objects.filter(historiaclinica__icontains=q) 
+            pacientes = Paciente.objects.filter(historiaclinica__icontains=q, estado='activo') 
             return render(request, 'ABME/Paciente/buscarpaciente.html',{'pacientes': pacientes, 'query': q})
         elif p == 'dni':
-            pacientes = Paciente.objects.filter(dni__icontains=q) 
+            pacientes = Paciente.objects.filter(dni__icontains=q, estado='activo') 
             return render(request, 'ABME/Paciente/buscarpaciente.html',{'pacientes': pacientes, 'query': q})
         elif p == 'cuil':
-            pacientes = Paciente.objects.filter(cuil__icontains=q) 
+            pacientes = Paciente.objects.filter(cuil__icontains=q, estado='activo') 
             return render(request, 'ABME/Paciente/buscarpaciente.html',{'pacientes': pacientes, 'query': q})
     
     return render(request, 'ABME/Paciente/buscarpaciente.html', {'errors': errors}) 
@@ -268,13 +283,13 @@ def eliminarpaciente(request):
 
            
         if p == 'historiaclinica':
-            pacientes = Paciente.objects.filter(historiaclinica__icontains=q) 
+            pacientes = Paciente.objects.filter(historiaclinica__icontains=q, estado='activo') 
             return render(request, 'ABME/Paciente/eliminarpaciente.html',{'pacientes': pacientes, 'query': q})
         elif p == 'dni':
-            pacientes = Paciente.objects.filter(dni__icontains=q) 
+            pacientes = Paciente.objects.filter(dni__icontains=q, estado='activo') 
             return render(request, 'ABME/Paciente/eliminarpaciente.html',{'pacientes': pacientes, 'query': q})
         elif p == 'cuil':
-            pacientes = Paciente.objects.filter(cuil__icontains=q) 
+            pacientes = Paciente.objects.filter(cuil__icontains=q, estado='activo') 
             return render(request, 'ABME/Paciente/eliminarpaciente.html',{'pacientes': pacientes, 'query': q})
     
     return render(request, 'ABME/Paciente/eliminarpaciente.html', {'errors': errors}) 
@@ -357,10 +372,10 @@ def eliminarfarmacia(request):
 
            
         if p == 'razonsocial':
-            farmacias = Farmacia.objects.filter(razon_social__icontains=q) 
+            farmacias = Farmacia.objects.filter(razon_social__icontains=q, estado='activo') 
             return render(request, 'ABME/Farmacia/eliminarfarmacia.html',{'farmacias': farmacias, 'query': q})
         elif p == 'cuit':
-            farmacias = Farmacia.objects.filter(cuit__icontains=q) 
+            farmacias = Farmacia.objects.filter(cuit__icontains=q, estado='activo') 
             return render(request, 'ABME/Farmacia/eliminarfarmacia.html',{'farmacias': farmacias, 'query': q})
     
     return render(request, 'ABME/Farmacia/eliminarfarmacia.html', {'errors': errors}) 
@@ -410,10 +425,10 @@ def buscarfarmacia(request):
 
            
         if p == 'razonsocial':
-            farmacias = Farmacia.objects.filter(razon_social__icontains=q) 
+            farmacias = Farmacia.objects.filter(razon_social__icontains=q, estado='activo') 
             return render(request, 'ABME/Farmacia/buscarfarmacia.html',{'farmacias': farmacias, 'query': q})
         elif p == 'cuit':
-            farmacias = Farmacia.objects.filter(cuit__icontains=q) 
+            farmacias = Farmacia.objects.filter(cuit__icontains=q, estado='activo') 
             return render(request, 'ABME/Farmacia/buscarfarmacia.html',{'farmacias': farmacias, 'query': q})
       
     

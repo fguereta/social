@@ -1,0 +1,29 @@
+{% extends 'index.html'%}
+
+<!--
+{% block htitle %}<title>Medico</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Medico</h1>{% endblock %}{{ variable }}
+
+-->
+
+{% block contenido%}
+
+<a href="/aplicacion/registrarmedico"><button class="btn btn-primary">Registrar Medico</button></a>
+<a href="/aplicacion/buscarmedico"><button class="btn btn-primary">Buscar Medico</button></a>
+<a href="/aplicacion/eliminarmedico"><button class="btn btn-primary">Eliminar Medico</button></a>
+
+<br>
+<br>
+
+{% block contenidomedico %}
+
+
+
+
+{% include 'ABME/Medico/listadomedico.html' %}
+
+{% endblock %}
+
+{% endblock %}
+
+
