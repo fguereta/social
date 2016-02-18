@@ -1,0 +1,104 @@
+{% extends "index.html" %} 
+{% block htitle %}<title>Registrar Derivacion</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Registrar Derivacion</h1>{% endblock %} 
+
+{% block contenido%} 
+
+<h1 align="center">Registrar Derivacion</h1>
+
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+
+
+<ul>
+
+<li><label>Paciente:</label> <select id="paciente" name="paciente">
+<option value="" selected="selected">---------</option>
+</select></li>
+
+<li><label>Diagnostico:</label> 
+<input required="required"  id="diagnostico" maxlength="20" name="diagnostico" type="text" /></li>
+
+<li><label>Prestacion:</label> 
+<textarea  required="required"  cols="40" id="prestacion" name="prestacion" rows="10">
+</textarea></li>
+
+<li><label>Proposito:</label>
+<textarea required="required"  cols="40" id="proposito" name="proposito" rows="10"></textarea></li>
+
+<li><label>Tipo de paciente:</label> 
+<select required="required" id="tipopaciente" name="tipopaciente">
+<option value="" selected="selected">---------</option>
+<option value="Internado">Internado</option>
+<option value="Ambulatorio">Ambulatorio</option>
+</select></li>
+
+<li><label >Caracter:</label> 
+<select required="required"  id="caracter" name="caracter">
+<option value="" selected="selected">---------</option>
+<option value="Urgente">Urgente</option>
+<option value="A la brevedad">A la brevedad</option>
+<option value="Programado">Programado</option>
+</select></li>
+
+<li><label>Fecha:</label> 
+<input required="required"  id="fecha" name="fecha" type="text" /></li>
+
+<li><label>Hora:</label>
+ <input required="required"  id="hora" name="hora" type="text" /></li>
+ 
+<li><label>Hospital:</label>
+<input required="required"  id="hospital" maxlength="20" name="hospital" type="text" /></li>
+
+<li><label>Servicio:</label> 
+<input required="required"  id="servicio" maxlength="20" name="servicio" type="text" /></li>
+
+<li><label>Contacto:</label> 
+<input required="required"  id="contacto" maxlength="20" name="contacto" type="text" /></li>
+
+<li><label>Requiere acompañante:</label> 
+<select required="required"  id="acompananate" name="acompananate">
+<option value="" selected="selected">---------</option>
+<option value="Si">Si</option>
+<option value="No">No</option>
+</select></li>
+
+<li><label>Motivo:</label> 
+<input required="required"  id="motivo" maxlength="20" name="motivo" type="text" /></li>
+
+<li><label>Tipo de traslado:</label> 
+<select required="required"  id="tipotraslado" name="tipotraslado">
+<option value="" selected="selected">---------</option>
+<option value="Aereo">Aereo</option>
+<option value="Terrestre">Terrestre</option>
+</select></li>
+
+<li><label>¿Puede viajar por empresa de transporte regular?:</label> 
+<select required="required"  id="transporteregular" name="transporteregular">
+<option value="" selected="selected">---------</option>
+<option value="Si">Si</option>
+<option value="No">No</option>
+</select></li>
+
+<li><label>¿Requiere traslado sanitario / evaluacion?</label> 
+<select required="required"  id="trasladosanitario" name="trasladosanitario">
+<option value="" selected="selected">---------</option>
+<option value="Si">Si</option>
+<option value="No">No</option>
+</select></li>
+
+<li><label>Condiciones:</label> 
+<textarea required="required"  cols="40" id="condiciones" name="condiciones" rows="10"></textarea></li>
+
+<li><label>Observaciones:</label> 
+<textarea cols="0" id="observaciones" name="observaciones" rows="10"></textarea></li>
+</ul> 
+
+
+<input type="submit" name="submit" value="Registrar Derivacion">
+
+
+</form>
+
+{% endblock %} 
+

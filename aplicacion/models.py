@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.fields import CharField
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.contrib import admin
 
 class Usuario(models.Model):
     user= models.OneToOneField(User)
@@ -102,25 +103,83 @@ class Remedio(models.Model):
     def __unicode__(self):
         return self.generico
 
+
+'''  
+class Solicitud(models.Model):
+    paciente = models.ForeignKey(Paciente)
+    '''
+
+
+
 class DetalleSolicitud(models.Model):
-    medico = models.ForeignKey(Medico)
-    remedio = models.ForeignKey(Remedio)
+    
+    paciente = models.ForeignKey(Paciente, db_column='paciente_id')
+    medico = models.ForeignKey(Medico, db_column='medico_id')
+    remedio = models.ForeignKey(Remedio, db_column='remedio_id')
     fecha = models.DateField()
     dosis = models.CharField(max_length=20)
-    observaciones=models.TextField(blank=True)
+    observaciones = models.TextField(blank=True)
     estado = models.CharField(max_length=20, blank=True, null=True)
     
     def __unicode__(self):
-        return self.fecha
+        return self.dosis    
+        
+'''       
+class DetalleSolicitudInline(admin.TabularInline):
+    model = DetalleSolicitud
+
+class SolicitudAdmin(admin.ModelAdmin):
+    inlines = (DetalleSolicitudInline,)
+
+admin.site.register(Paciente, SolicitudAdmin) 
+'''
+'''    
+class factura(models.Model):
+    #nombre = models.CharField(max_length=40, blank=True)
+    cliente= models.ForeignKey(cliente)
+    nit_cliente = models.CharField(max_length=10, blank=True)
+    fecha = models.DateField(null=True)
+    total = models.IntegerField(null=True, blank=True)
+    
+
+class detalle_factura(models.Model):
+    
+    factura = models.ForeignKey(factura, db_column='factura_id')
+    producto = models.ForeignKey(producto, db_column='producto_id')
+    cantidad = models.IntegerField()
+    
+    def calculo(self):
+        return self.cantidad*self.producto.precio
+    a=property(calculo)
     
     
     
-class Solicitud(models.Model):
-    paciente = models.ForeignKey(Paciente)
-    detalle = models.ForeignKey(DetalleSolicitud)
     
     def __unicode__(self):
-        return self.detalle
+        return 'total: %d' % (self.a)
+    
+
+
+class detalle_facturaInline(admin.TabularInline):
+    model = detalle_factura
+
+class facturaAdmin(admin.ModelAdmin):
+    inlines = (detalle_facturaInline,)
+
+admin.site.register(factura, facturaAdmin)    
+'''
+   
+    
+
+'''        
+class Entregas(models.Model):
+    solicitud = models.ForeignKey(Solicitud)
+    detalle = models.ManyToManyField(DetalleSolicitud)
+    
+    def __unicode__(self):
+        return self.solicitud
+''' 
+    
     
 class Derivacion(models.Model):
     paciente = models.ForeignKey(Paciente)

@@ -1,0 +1,81 @@
+{% extends "index.html" %} 
+{% block htitle %}<title>Busqueda Remedio</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Busqueda Remedio</h1>{% endblock %} 
+
+{% block contenido%} 
+
+  <div class="container">
+  {% if errors %} 
+		<ul> 
+		{% for error in errors %} 
+		<li style="color: red;">{{ error }}</li> 
+		{% endfor %} 
+		</ul> 
+  {% endif %} 
+  
+  <form action="/aplicacion/buscare/" method="GET" class="form-horizontal">
+  
+ 		
+	<div class="form-group">	
+    <label for="valor" class="control-label col-md-2">Nombre: </label>
+		<div class="col-md-5">	
+	    <input class="form-control" type="text" name="valor" value="{{ query|escape }}">
+	    </div>
+
+
+    </div>
+
+
+    	
+    	<div class="">
+    	<div class="">
+    	<input name="buscar" class="form-control" type="submit" value="Buscar">
+    	
+    	
+    </div>
+
+  </form>
+  </div>
+{% if query %}
+  <div class="container">
+  <p>Estas buscado: <strong>{{ query }}</strong></p> 
+ 
+{% if remedios %}
+	
+	<p>Remedios encontrados: {{ remedios|length }} remedio{{ remedios|pluralize }}.</p> 
+	<ul> 
+		{% for remedios in remedios %} 
+	
+	<div class="table-responsive" >
+
+	<table class="table table-bordered table-condensed">
+	<div class="form-group">
+		<tr class="info">
+			<th>Nombre</th>
+			<th>Presentacion</th>
+			<th>Observaciones</th>
+			<th></th>
+		</tr>
+
+		<tr>
+			
+			<td>{{remedios.generico}}</td>
+			<td>{{remedios.presentacion}}</td>
+			<td>{{remedios.observaciones}}</td>
+			<td><a href="/aplicacion/detalleremedio/{{remedios.id}}"><button>Seleccionar</button></a></td>
+		</tr>
+		</div>
+	</table>
+	</div>
+
+	
+			 
+		{% endfor %} 
+		</div>
+	</ul> 
+{% else %} 
+<p>Ningún remedio fue encontrado.</p> 
+{% endif %} 
+{% endif %} 
+  
+{%endblock%}

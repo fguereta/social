@@ -1,0 +1,36 @@
+
+  <div class="container">
+  {% if errors %} 
+		<ul> 
+		{% for error in errors %} 
+		<li style="color: red;">{{ error }}</li> 
+		{% endfor %} 
+		</ul> 
+  {% endif %} 
+  
+  <form action="" method="GET">
+  
+ 	<div class="form-group">
+			<label for="p" class="">Criterio:</label>
+			
+			<div class=""> 
+				<select class="form-control" id="p" name="p">
+					<option value="" selected="selected">---------</option>
+					<option value="dni">DNI</option>
+					<option value="cuil">CUIL</option>
+					<option value="historiaclinica">Historia clinica</option>
+					
+				</select>
+			</div>
+	</div>
+	
+	<div class="form-group"  >	
+    <label for="q">Buscar: </label>
+    <input class="form-control" type="text" name="q" value="{{ query|escape }}">
+    </div>
+    <div class="form-group">
+    <input class="form-control" type="submit" value="Buscar">
+    </div>
+  </form>
+  </div>
+	{% include "includes/resultadopaciente.html" %}

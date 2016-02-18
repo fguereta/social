@@ -1,0 +1,18 @@
+{% extends "index.html" %} 
+{% block htitle %}<title>Registrar Solicitud</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Registrar Solicitud</h1>{% endblock %} 
+
+{% block contenido%} 
+
+{%block buscar%}
+{% include 'ABME/Paciente/buscarpaciente.html' %}
+{%endblock%}
+
+{%block detalle%}
+{%include 'ABME/Operaciones/listadodetalle.html' %}
+{%endblock%}
+
+<a href="/aplicacion/registrardetalle"><button class="btn btn-primary">Solicitar Medicamento</button></a>
+
+
+{% endblock %} 

@@ -21,7 +21,7 @@ from aplicacion import views
 urlpatterns = [
     
     url(r'^index/', views.index, name='index'),
-    url(r'^registrarpersona/', views.registrarpersona, name='registrarpersona'),
+    #url(r'^registrarpersona/', views.registrarpersona, name='registrarpersona'),
     
     #NOTIFICACIONES
     url(r'^uregistrado/', views.uregistrado, name='uregistrado'),
@@ -43,6 +43,7 @@ urlpatterns = [
     url(r'^buscarpaciente/', views.buscarpaciente, name='buscarpaciente'),
     url(r'^peliminado/', views.paciente_elim, name='peliminado'),
     url(r'^oppaciente/$', views.oppaciente, name='oppaciente'),
+    url(r'^resultadopaciente/', views.resultadopaciente, name='resultadopaciente'),
     
     #MEDICO
     
@@ -69,7 +70,24 @@ urlpatterns = [
     
     url(r'^registrarderivacion/', views.registrarderivacion, name='registrarderivacion'),
     url(r'^registrarsolicitud/', views.registrarsolicitud, name='registrarsolicitud'),
-    url(r'^registrardetallesolicitud/', views.registrardetallesolicitud, name='registrardetallesolicitud'),
+    url(r'^listadodetalle/', views.listadodetalle, name='listadodetalle'),
+    url(r'^pacientesolicitud/', views.pacientesolicitud, name='pacientesolicitud'),
+    url(r'^registrardetalle/', views.registrardetalle, name='registrardetalle'),
+    url(r'^registrarsolicitud/buscarpa/', views.buscarpaciente, name='buscarpaciente'),
+    
+    #url(r'^modificarmedico/(?P<medico_id>\w+)/$', views.modificarmedico, name='modificarmedico'),
+    url(r'^entrega/(?P<paciente_id>\w+)/$', views.detallepa, name='detallepa'),
+    url(r'^detallemedico/(?P<medico_id>\w+)/$', views.detalleme, name='detalleme'),
+    url(r'^detalleremedio/(?P<remedio_id>\w+)/$', views.detallereme, name='detallereme'),
+    url(r'^buscarme/', views.buscarme, name='buscarme'),
+    url(r'^buscare/', views.buscare, name='buscare'),
+    #url(r'^entrega/(?P<medico_id>\w+)/$', views.entrega, name='entrega'),
+    #url(r'^entrega/(?P<remedio_id>\w+)/$', views.entrega, name='entrega'),
+    
+    
+    #BUSQUEDAS
+    url(r'^buscaremedio/', views.buscaRemedio, name='buscaRemedio'),
+    
      
       
        

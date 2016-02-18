@@ -13,7 +13,7 @@
 		</ul> 
   {% endif %} 
   
-  <form action="" method="GET">
+  <form action="/aplicacion/buscarme/" method="GET">
   
  	<div class="form-group">
 			<label for="criterio" class="">Criterio:</label>
@@ -28,7 +28,7 @@
 				</select>
 			</div>
 	</div>
-	
+	 
 	<div class="form-group"  >	
     <label for="valor">Buscar: </label>
     <input class="form-control" type="text" name="valor" value="{{ query|escape }}">
@@ -73,12 +73,13 @@
 		</tr>
 	</table>
 	</div>
-			 
+			  <a href="/aplicacion/detallemedico/{{medicos.id}}"><button  class="control-label col-md-2">Continuar</button></a>
 		{% endfor %} 
 	</ul> 
 {% else %} 
 <p>Ningún medico coincide con el criterio de búsqueda.</p> 
 {% endif %} 
 {% endif %} 
-  
+
+
 {%endblock%}

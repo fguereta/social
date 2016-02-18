@@ -6,31 +6,27 @@
 {% block contenido%} 
 
 <div class="container">
-
-<form action="/aplicacion/registrardetalle/" method="post" enctype="multipart/form-data" class="form-horizontal">
+<form method="post" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 
 <div class="form-group">
 <label for="medico" class="control-label col-md-2">Medico:</label> 
 	<div class="col-md-5">
-	<input class="form-control" id="medico" name="medico" type="hidden" value="{{ids.medico_id}}" />
-	<input class="form-control" id="nya_medico" name="nya_medico" type="text" readonly="readonly" value="{{ids.medico}}" />
+	<input class="form-control" id="medico" name="medico" type="number" />
 	</div>
 </div>
 
 <div class="form-group">
 <label for="paciente" class="control-label col-md-2">Paciente:</label> 
 	<div class="col-md-5">
-	<input class="form-control" id="paciente" name="paciente" type="hidden" value="{{ids.paciente_id}}"/>
-	<input class="form-control" id="nya_paciente" name="nya_paciente" type="text" readonly="readonly" value="{{ids.paciente}}"/>
+	<input class="form-control" id="paciente" name="paciente" type="number" />
 	</div>
 </div>
 
 <div class="form-group">
 <label for="remedio" class="control-label col-md-2">Remedio:</label> 
 	<div class="col-md-5">
-	<input class="form-control" id="remedio" name="remedio" type="hidden" value="{{ids.remedio_id}}"/>
-	<input class="form-control" id="nya_remedio" name="nya_remedio" type="text" readonly="readonly" value="{{ids.remedio}}"/>
+	<input class="form-control" id="remedio" name="remedio" type="number" />
 	</div>
 </div>
 

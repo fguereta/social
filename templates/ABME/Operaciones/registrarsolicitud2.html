@@ -1,0 +1,20 @@
+{% extends "index.html" %} 
+{% block htitle %}<title>Registrar Solicitud</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Registrar Solicitud</h1>{% endblock %} 
+
+{% block contenido%} 
+
+
+<form action="/registrarsolicitud/" method="post">{% csrf_token %}
+
+
+<ul>
+{{form.as_ul}}
+</ul> 
+
+
+<input type="submit" name="submit" value="Registrar Solicitud">
+
+
+</form>
+{% endblock %} 
