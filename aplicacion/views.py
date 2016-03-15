@@ -163,6 +163,9 @@ def fregistrado(request):
 def mregistrado(request):
     return render_to_response('ABME/Notificaciones/mregistrado.html')
 
+def sregistrada(request):
+    return render_to_response('ABME/Notificaciones/solicitudregistrada.html')
+
 def uregistrado(request):
     return render_to_response('ABME/Notificaciones/uregistrado.html')
 def peliminado(request):
@@ -234,6 +237,28 @@ def buscaPaciente(criterio, valor):
     pacientes=[]
     
     if criterio == 'historiaclinica':
+        pacientes = Paciente.objects.get(historiaclinica=valor, estado='activo') 
+            
+    elif criterio == 'dni':
+        pacientes = Paciente.objects.filter(dni=valor, estado='activo') 
+            
+    elif criterio == 'cuil':
+        pacientes = Paciente.objects.filter(cuil=valor, estado='activo')
+    else:
+        pacientes='no se ha encontrado el paciente'
+         
+
+    '''
+   # Aca se hace la busqueda del paciente por criterio y valor
+    '''
+    return pacientes
+
+    
+'''
+def buscaPaciente(criterio, valor):
+    pacientes=[]
+    
+    if criterio == 'historiaclinica':
         pacientes = Paciente.objects.filter(historiaclinica__icontains=valor, estado='activo') 
             
     elif criterio == 'dni':
@@ -245,11 +270,11 @@ def buscaPaciente(criterio, valor):
         pacientes='no se ha encontrado el paciente'
          
 
-    '''
-    Aca se hace la busqueda del paciente por criterio y valor
-    '''
+    
+   # Aca se hace la busqueda del paciente por criterio y valor
+    
     return pacientes
-
+'''
 def buscarmedico(request):
     errors = []
     
@@ -288,13 +313,13 @@ def buscaMedico(criterio, valor):
     medicos=[]
     
     if criterio == 'nombre':
-        medicos = Medico.objects.filter(nombre=valor, estado='activo') 
+        medicos = Medico.objects.get(nombre=valor, estado='activo') 
             
     elif criterio == 'apellido':
-        medicos = Medico.objects.filter(apellido=valor, estado='activo') 
+        medicos = Medico.objects.get(apellido=valor, estado='activo') 
             
     elif criterio == 'especialidad':
-        medicos = Medico.objects.filter(especialidad=valor, estado='activo') 
+        medicos = Medico.objects.get(especialidad=valor, estado='activo') 
 
     '''
     Aca se hace la busqueda del medico por criterio y valor
@@ -604,7 +629,6 @@ def registrarsolicitud(request):
             pacientes=buscaPaciente(criterio,valor)
             a=pacientes[0].persona_ptr_id
             detalle=listadodetalle(a)
-            
             return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'pacientes': pacientes, 'query': valor, 'detalle': detalle, 'persona':a})
         '''
             pacientes=buscaPaciente(criterio,valor)
@@ -637,8 +661,10 @@ def registrardetalle(request):
         
         if form.is_valid():
             form.save()
+            
 
-            return HttpResponseRedirect('ABME/Notificaciones/mregistrado.html')
+            return render_to_response('ABME/Notificaciones/solicitudregistrada.html')#si registra el paciente envia a /pregistrado
+
     else:
         form = DetalleSolicitudForm()
 

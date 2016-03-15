@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^pregistrado/', views.pregistrado, name='pregistrado'),
     url(r'^fregistrado/', views.fregistrado, name='fregistrado'),
     url(r'^mregistrado/', views.mregistrado, name='mregistrado'),
+    url(r'^sregistrada/', views.sregistrada, name='sregistrada'),
     
     #USUARIO
     url(r'^usuario/', views.usuario, name='usuario'),

@@ -58,6 +58,7 @@
 			<th>Correo</th>
 			<th>Celular</th>
 			<th>Obervaciones</th>
+			<th></th>
 			
 			
 			
@@ -70,10 +71,11 @@
 			<td>{{medicos.correo}}</td>
 			<td>{{medicos.celular}}</td>
 			<td>{{medicos.observaciones}}</td>
+			<td><a href="/aplicacion/detallemedico/{{medicos.id}}"><button  class="control-label col-md-2">Continuar</button></a> </td>
 		</tr>
 	</table>
 	</div>
-			  <a href="/aplicacion/detallemedico/{{medicos.id}}"><button  class="control-label col-md-2">Continuar</button></a>
+			  
 		{% endfor %} 
 	</ul> 
 {% else %} 
