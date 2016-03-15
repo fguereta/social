@@ -1,18 +1,28 @@
 {% extends "index.html" %} 
- {% block htitle %}<title>Registrar Paciente</title>{% endblock %} 
+{% block htitle %}<title>Registrar Paciente</title>{% endblock %} 
 {% block title %}<h1 class="page-header">Registrar Paciente</h1>{% endblock %} 
  
 {% block contenido %} 
+	
+<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery-1.11.3.min.js">
+</script> 
+<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery.validate.js">
+</script> 
+<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/additional-methods.js">
+</script> 
+<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/messages_es.js">
+</script> 
+
 
 <div class="container">
-<form  method="post" enctype="multipart/form-data" class="form-horizontal">
+<form id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 
 <div class="form-group">
 	
 		<label for="nombre" class="control-label col-md-2">Nombre:</label> 
 		<div class="col-md-8">
-			<input class="form-control" id="nombre" maxlength="20" name="nombre" type="text" />
+			<input class="form-control" id="nombre" name="nombre" type="text" />
 		</div>
 		
 </div>
@@ -21,7 +31,7 @@
 	
 		<label for="apellido" class="control-label col-md-2">Apellido:</label> 
 		<div class="col-md-8">
-			<input class="form-control" id="apellido" maxlength="20" name="apellido" type="text" />
+			<input class="form-control" id="apellido" name="apellido" type="text" />
 		</div>
 </div>
 
@@ -29,7 +39,7 @@
 	
 		<label for="dni" class="control-label col-md-2">DNI:</label>
 		<div class="col-md-8">
-			<input class="form-control" id="dni" maxlength="9" name="dni" type="text" />
+			<input class="form-control" id="dni" name="dni" type="text" />
 		</div>
 </div>
 
@@ -37,7 +47,7 @@
 	
 		<label for="cuil" class="control-label col-md-2">CUIL:</label>
 		<div class="col-md-8">
-			<input class="form-control" id="cuil" maxlength="15" name="cuil" type="text" />
+			<input class="form-control" id="cuil" name="cuil" type="text" />
 		</div>
 </div>
 
@@ -53,7 +63,7 @@
 	
 		<label for="correo" class="control-label col-md-2">Correo:</label>
 		<div class="col-md-8">
-			<input class="form-control" id="correo" maxlength="254" name="correo" type="email" />
+			<input class="form-control" id="correo" name="correo" type="email" />
 		</div>
 </div>
 
@@ -61,7 +71,7 @@
 	
 		<label for="direccion" class="control-label col-md-2">Direccion:</label>
 		<div class="col-md-8">
-			<input class="form-control" id="direccion" maxlength="50" name="direccion" type="text" />
+			<input class="form-control" id="direccion" name="direccion" type="text" />
 		</div>
 </div>
 
@@ -78,7 +88,7 @@
 	
 		<label for="telefono" class="control-label col-md-2">Telefono:</label>
 		<div class="col-md-8">
-			<input class="form-control" id="telefono" name="telefono" type="number" />
+			<input class="form-control" id="telefono" name="telefono" type="text" />
 		</div>
 </div>
 
@@ -86,7 +96,7 @@
 	
 		<label for="celular" class="control-label col-md-2">Celular:</label>
 		<div class="col-md-8">
-			<input class="form-control" id="celular" name="celular" type="number" />
+			<input class="form-control" id="celular" name="celular" type="text" />
 		</div>
 </div>
 
@@ -106,7 +116,7 @@
 	
 		<label for="historiaclinica" class="control-label col-md-2">Historia clinica:</label>
 		<div class="col-md-8">
-			<input class="form-control" id="historiaclinica" maxlength="20" name="historiaclinica" type="text" />
+			<input class="form-control" id="historiaclinica" name="historiaclinica" type="text" />
 		</div>
 </div>
 
@@ -114,7 +124,7 @@
 	
 		<label for="osocial" class="control-label col-md-2">Obra social:</label>
 		<div class="col-md-8">
-			<input class="form-control" id="osocial" maxlength="20" name="osocial" type="text"/>
+			<input class="form-control" id="osocial" name="osocial" type="text"/>
 		</div>
 </div>
 
@@ -128,5 +138,76 @@
 </form>
  
  </div>
+
+<script>
+	$("#miForm").validate({
+		rules: {
+	      	nombre: {
+	        	required: true,
+	        	lettersonly: true
+	      	},
+	      	apellido: {
+	        	required: true,
+	        	lettersonly: true
+	      	},
+	      	dni: {
+	        	required: true,
+	        	digits: true,
+	        	minlength: "8",
+	        	maxlength: "8"
+	      	},
+	      	cuil: {
+	        	required: true,
+	        	digits: true,
+	        	minlength: "10",
+	        	maxlength: "11"
+	      	},
+	      	nacimiento: {
+	        	required: true,
+	        	date: true
+	      	},
+	      	correo: {
+	        	required: true,
+	        	email: true
+	      	},
+	      	direccion: {
+	        	required: true
+	      	},
+	      	telefono: {
+	        	required: true,
+	        	digits: true
+	      	},
+	      	celular: {
+	        	required: true,
+	        	digits: true
+	      	},
+	      	sexo: {
+	        	required: true
+	      	},
+	      	historiaclinica: {
+	        	required: true,
+	        	lettersonly: true
+	      	},
+	      	osocial: {
+	        	required: true,
+	        	lettersonly: true
+	      	}
+		},
+	messages: {
+		nombre: {
+  			lettersonly: "Escribe sólo letras"	    
+	  	},
+	  	apellido: {
+  			lettersonly: "Escribe sólo letras"	    
+	  	},
+	  	historiaclinica: {
+  			lettersonly: "Escribe sólo letras"	    
+	  	},
+	  	osocial: {
+  			lettersonly: "Escribe sólo letras"	    
+	  	}
+		}
+	});
+</script>
 
 {% endblock %} 
