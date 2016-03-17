@@ -232,12 +232,43 @@ def buscarpaciente(request):
         
              
     return render(request, 'ABME/Paciente/buscarpaciente.html', {'errors': errors})
+'''
+def buscaPaciente(criterio, valor):
+    
+    pacientes=[]
+   
+    
+    
+    
+    if criterio == 'historiaclinica':
+        pacientes = Paciente.objects.filter(historiaclinica=valor, estado='activo') 
+        ban=True;
+            
+    elif criterio == 'dni':
+        pacientes = Paciente.objects.filter(dni=valor, estado='activo')
+        ban=True; 
+            
+    elif criterio == 'cuil':
+        pacientes = Paciente.objects.filter(cuil=valor, estado='activo')
+        ban=True;
+    else:
+        ban=False
+        pacientes='no se ha encontrado el paciente'
+         
+    info={ 'ban': ban,
+           'pacientes': pacientes,
+          }
+    
+   # Aca se hace la busqueda del paciente por criterio y valor
+    
+    return info
 
+    '''
 def buscaPaciente(criterio, valor):
     pacientes=[]
     
     if criterio == 'historiaclinica':
-        pacientes = Paciente.objects.get(historiaclinica=valor, estado='activo') 
+        pacientes = Paciente.objects.filter(historiaclinica=valor, estado='activo') 
             
     elif criterio == 'dni':
         pacientes = Paciente.objects.filter(dni=valor, estado='activo') 
@@ -248,33 +279,11 @@ def buscaPaciente(criterio, valor):
         pacientes='no se ha encontrado el paciente'
          
 
-    '''
-   # Aca se hace la busqueda del paciente por criterio y valor
-    '''
-    return pacientes
-
-    
-'''
-def buscaPaciente(criterio, valor):
-    pacientes=[]
-    
-    if criterio == 'historiaclinica':
-        pacientes = Paciente.objects.filter(historiaclinica__icontains=valor, estado='activo') 
-            
-    elif criterio == 'dni':
-        pacientes = Paciente.objects.filter(dni__icontains=valor, estado='activo') 
-            
-    elif criterio == 'cuil':
-        pacientes = Paciente.objects.filter(cuil__icontains=valor, estado='activo')
-    else:
-        pacientes='no se ha encontrado el paciente'
-         
-
     
    # Aca se hace la busqueda del paciente por criterio y valor
     
     return pacientes
-'''
+
 def buscarmedico(request):
     errors = []
     
@@ -313,13 +322,13 @@ def buscaMedico(criterio, valor):
     medicos=[]
     
     if criterio == 'nombre':
-        medicos = Medico.objects.get(nombre=valor, estado='activo') 
+        medicos = Medico.objects.filter(nombre=valor, estado='activo') 
             
     elif criterio == 'apellido':
-        medicos = Medico.objects.get(apellido=valor, estado='activo') 
+        medicos = Medico.objects.filter(apellido=valor, estado='activo') 
             
     elif criterio == 'especialidad':
-        medicos = Medico.objects.get(especialidad=valor, estado='activo') 
+        medicos = Medico.objects.filter(especialidad=valor, estado='activo') 
 
     '''
     Aca se hace la busqueda del medico por criterio y valor
@@ -626,31 +635,35 @@ def registrarsolicitud(request):
             errors.append('Por favor introduce un criterio de busqueda.')
         if not errors:
             
+            
             pacientes=buscaPaciente(criterio,valor)
-            a=pacientes[0].persona_ptr_id
-            detalle=listadodetalle(a)
-            return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'pacientes': pacientes, 'query': valor, 'detalle': detalle, 'persona':a})
-        '''
-            pacientes=buscaPaciente(criterio,valor)
-            b='no se ha encontrado el paciente'
+            try:
+                a=pacientes[0].persona_ptr_id
+                detalle=listadodetalle(a)
+                return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'pacientes': pacientes, 'query': valor, 'detalle': detalle, 'persona':a})
+            except IndexError:
+                pacientes=None
+                detalle=None
+                a=None
+                return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'pacientes': pacientes, 'query': valor, 'detalle': detalle, 'persona':a})
             
-            if pacientes ==  'no se ha encotrado el paciente':
-                 
+            
+            '''
+            
+            info=buscaPaciente(criterio,valor)
+            
+            pacientes=info['pacientes']
+            
+            if info['ban']==True:
+                #pacientes=info['pacientes']
+                a=pacientes[0].persona_ptr_id
+                detalle=listadodetalle(a)
+                return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'pacientes': pacientes, 'query': valor, 'detalle': detalle, 'persona':a})
+            elif info['ban']==False:
                 
-                return render(request, 'ABME/Paciente/buscarpaciente.html',{'pacientes': pacientes, 'query': valor})     
-            #else:
-                
-                #a=pacientes[0].persona_ptr_id
-                if a not null:
-                #detalle=listadodetalle(a)
-                #return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'pacientes': pacientes, 'query': valor, 'detalle': detalle, 'persona':a})
-            
-  
-            
-            
-            #return render(request, 'ABME/Paciente/buscarpaciente.html',{'pacientes': pacientes, 'query': valor})  
-            
-        '''
+                return render(request, 'ABME/Paciente/buscarpaciente.html',{'pacientes': pacientes, 'query': valor})
+            '''
+                       
     return render(request, 'ABME/Paciente/buscarpaciente.html', {'errors': errors}) 
 
 
