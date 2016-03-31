@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """tesismgd URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -25,7 +27,7 @@ urlpatterns = [
     
     #NOTIFICACIONES
     url(r'^uregistrado/', views.uregistrado, name='uregistrado'),
-    url(r'^pregistrado/', views.pregistrado, name='pregistrado'),
+    
     url(r'^fregistrado/', views.fregistrado, name='fregistrado'),
     url(r'^mregistrado/', views.mregistrado, name='mregistrado'),
     url(r'^sregistrada/', views.sregistrada, name='sregistrada'),
@@ -37,9 +39,15 @@ urlpatterns = [
     url(r'^eliminarusuario/', views.eliminarusuario, name='eliminarusuario'),
    
     #PACIENTE
+
+    #utilizados
     url(r'^paciente/', views.paciente, name='paciente'),
     url(r'^registrarpaciente/', views.registrarpaciente, name='registrarpaciente'),
-    url(r'^modificarpaciente/', views.modificarpaciente, name='modificarpaciente'),
+    url(r'^fichapaciente/(?P<id_paciente>\w+)/$', views.fichapaciente, name='fichapaciente'),
+    url(r'^modificarpaciente/(?P<id_paciente>\w+)/$', views.modificarpaciente, name='modificarpaciente'),
+
+    #no utilizados por el momento
+    
     url(r'^eliminarpaciente/', views.eliminarpaciente, name='eliminarpaciente'),
     url(r'^buscarpaciente/', views.buscarpaciente, name='buscarpaciente'),
     url(r'^peliminado/', views.paciente_elim, name='peliminado'),

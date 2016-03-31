@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django import forms
 from aplicacion.models import *
 
@@ -17,10 +19,17 @@ class MedicoForm(forms.ModelForm):
         exclude=('persona_ptr_id',)
 
         
-class PacienteForm(forms.ModelForm):    
+class PacienteForm(forms.Form):    
     class Meta:
-        model = Paciente
-        exclude=()  
+
+        nombre=forms.CharField()
+        apellido=forms.CharField()
+        dni=forms.CharField()
+        cuil=forms.CharField()
+        nombre=forms.CharField()
+        historiaclinica=forms.CharField()
+        direccion=forms.CharField()
+        exclude=('persona_ptr_id',)  
           
 class DerivacionForm(forms.ModelForm):    
     class Meta:

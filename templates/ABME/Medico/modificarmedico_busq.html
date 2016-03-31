@@ -1,0 +1,109 @@
+{% extends "index.html" %} 
+{% block htitle %}<title>Modificar Medico</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Modificar Medico</h1>{% endblock %} 
+
+{% block contenido%} 
+
+  <div class="container">
+  {% if errors %} 
+		<ul> 
+		{% for error in errors %} 
+		<li style="color: red;">{{ error }}</li> 
+		{% endfor %} 
+		</ul> 
+  {% endif %} 
+  
+  <form action="" method="GET" class="form-horizontal">
+  
+ 	<div class="form-group">
+			<label for="criterio" class="control-label col-md-2">Criterio:</label>
+			
+			<div class="col-md-5"> 
+				<select class="form-control" id="criterio" name="criterio">
+					<option value="" selected="selected">---------</option>
+					<option value="nombre">Nombre</option>
+					<option value="apellido">Apellido</option>
+					<option value="especialidad">Especialidad</option>
+					
+				</select>
+			</div>
+	</div>
+	
+	<div class="form-group">	
+    <label for="valor" class="control-label col-md-2">Buscar: </label>
+		<div class="col-md-5">	
+	    <input class="form-control" type="text" name="valor" value="{{ query|escape }}">
+	    </div>
+
+
+    </div>
+
+
+    	
+    	<div class="">
+    	<input name="buscar" class="form-control" type="submit" value="Buscar">
+    	
+    	
+    </div>
+
+  </form>
+  </div>
+{% if query %}
+  <div class="container">
+  <p>Estas buscado: <strong>{{ query }}</strong></p> 
+ 
+{% if medicos %}
+	
+	<p>Medicos encontrados: {{ medicos|length }} medico{{ medicos|pluralize }}.</p> 
+	<ul> 
+		{% for medicos in medicos %} 
+	
+	<div class="table-responsive" >
+
+	<table class="table table-bordered table-condensed">
+		<tr class="info">
+			<th>Nombre</th>
+			<th>Apellido</th>
+			<th>DNI</th>
+			<th>CUIL</th>
+			<th>Dirección</th>
+			<th>Fecha de nacimiento</th>
+			<th>Correo</th>
+			<th>Telefono fijo</th>
+			<th>Celular</th>
+			<th>Observaciones</th>
+			<th>Especialidad</th>
+			<th>Matricula nacional</th>
+			<th>Matricula provincial</th>
+			
+			
+		</tr>
+		<tr>
+			<!--td>{{medicos.persona_ptr_id}}</td-->
+			<td>{{medicos.nombre}}</td>
+			<td>{{medicos.apellido}}</td>
+			<td>{{medicos.dni}}</td>
+			<td>{{medicos.cuil}}</td>
+			<td>{{medicos.direccion}}</td>
+			<td>{{medicos.nacimiento}}</td>
+			<td>{{medicos.correo}}</td>
+			<td>{{medicos.telefono}}</td>
+			<td>{{medicos.celular}}</td>
+			<td>{{medicos.observaciones}}</td>
+			<td>{{medicos.especialidad}}</td>
+			<td>{{medicos.matriculanacional}}</td>
+			<td>{{medicos.matriculaprovincial}}</td>
+		</tr>
+	</table>
+	<a href="/aplicacion/modificarbusmedico/{{medicos.persona_ptr_id}}"><button  class="control-label col-md-2">Modificar</button></a>
+	</div>
+	
+			 
+		{% endfor %} 
+	</ul> 
+{% else %} 
+<p>Ningún medico coincide con el criterio de búsqueda.</p> 
+{% endif %} 
+{% endif %} 
+
+{%endblock%}

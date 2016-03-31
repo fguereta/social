@@ -1,0 +1,238 @@
+{% extends "index.html" %} 
+
+{% block htitle %}<title>El Paciente se registro exitosamente</title>{% endblock %} 
+ 
+
+
+{% block contenido %} 
+	
+
+<style type="text/css" media="screen">
+
+.container{
+   height: 80%;
+   width: 0%; /* Para que ocupe el 100% */
+}
+
+textarea.forma{
+   height: 80%;
+   width: 100%; /* Para que ocupe el 100% */
+}
+	fieldset.scheduler-border {
+    border: 0px groove #ddd !important;
+    padding: 1 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+
+}
+</style>
+ 
+{% if exitopaciente %}
+
+
+
+<script >
+alertify.success("Se registro correctamente");
+
+ </script>
+{% endif %}
+
+{% if id_paciente %}
+
+{% for elemento in id_paciente %}
+
+<ul class="breadcrumb">
+  <li><a href="/aplicacion/fichapaciente/{{elemento.id}}">Ficha</a></li>
+  <li><a href="#">Solicitudes</a></li>
+  <li><a href="#">Derivaciones/</a></li>
+  <li class=" col-md-offset-7"><a  href="/aplicacion/modificarpaciente/{{elemento.id}}">Modificar</a></li>
+  <li><a href="#">Eliminar</a></li>
+  
+</ul>
+
+
+	
+<div class=".container ">
+
+
+<fieldset  class="scheduler-border">
+
+
+<div class="row">
+		<div class="col-md-2">
+			<label class="form-control">{{elemento.dni}}</label>
+		</div>
+
+		<div class="col-md-2">
+			<label class="form-control">{{elemento.cuil}}</label>
+		</div>
+
+		<div class="col-md-2">
+			<label class="form-control">{{elemento.historiaclinica}}</label>
+		</div>
+		
+</div>
+<br><br>
+<legend class="scheduler-border">Informacion personal</legend>
+<br>
+<div class="row">
+	
+		
+		<div class="col-lg-3">
+			<label class="form-control">{{elemento.nombre}}</label>
+		</div>
+
+		<div class="col-lg-3">
+			<label class="form-control">{{elemento.apellido}}</label>
+		</div>
+</div>
+<br>
+<div class="row">
+		
+		<div class="col-md-3">
+			
+			<label class="form-control">{{elemento.nacimiento}}</label>
+		</div>
+		
+		<div class="col-md-3">
+			<label class="form-control">{{elemento.sexo}}</label>
+		</div>
+
+		<div class="col-md-3">
+			<label class="form-control">{{elemento.osocial}}</label>
+		</div>
+
+</div>
+
+
+<br>
+<legend class="scheduler-border">Datos de Contacto</legend>
+
+<div class="row">
+	
+		<div class="col-md-3">
+			<label class="form-control">{{elemento.telefono}}</label>
+		</div>
+		
+		<div class="col-md-3">
+			<label class="form-control">{{elemento.celular}}</label>
+		</div>
+</div>	
+<br>
+<div class="row">	
+		<div class="col-md-3">
+			<label class="form-control">{{elemento.direccion}}</label>
+		</div>
+		
+		<div class="col-md-3">
+			<label class="form-control">{{elemento.correo}}</label>
+		</div>
+
+</div>
+
+		
+<br>
+<legend class="scheduler-border">Observaciones</legend>
+<div class="row">
+
+	
+		
+		<div class="col-md-6">	
+			<textarea  class="form-control"  rows="5" cols="100">
+			{{elemento.observaciones}}
+			</textarea>
+		</div>
+
+</div>
+<br>
+<br>
+
+
+
+</fieldset>
+
+
+</div>
+
+
+{% endfor %}
+{% endif %}
+<script>
+	$("#miForm").validate({
+		rules: {
+	      	nombre: {
+	        	required: true,
+	        	lettersonly: true
+	      	},
+	      	apellido: {
+	        	required: true,
+	        	lettersonly: true
+	      	},
+	      	dni: {
+	        	required: true,
+	        	digits: true,
+	        	minlength: "8",
+	        	maxlength: "8"
+	      	},
+	      	cuil: {
+	        	required: true,
+	        	digits: true,
+	        	minlength: "10",
+	        	maxlength: "11"
+	      	},
+	      	nacimiento: {
+	        	required: true,
+	        	date: true
+	      	},
+	      	correo: {
+	        	required: true,
+	        	email: true
+	      	},
+	      	direccion: {
+	        	required: true
+	      	},
+	      	telefono: {
+	        	required: true,
+	        	digits: true
+	      	},
+	      	celular: {
+	        	required: true,
+	        	digits: true
+	      	},
+	      	sexo: {
+	        	required: true
+	      	},
+	      	historiaclinica: {
+	        	required: true,
+	        	lettersonly: true
+	      	},
+	      	osocial: {
+	        	required: true,
+	        	lettersonly: true
+	      	}
+		},
+	messages: {
+		nombre: {
+  			lettersonly: "Escribe sólo letras"	    
+	  	},
+	  	apellido: {
+  			lettersonly: "Escribe sólo letras"	    
+	  	},
+	  	historiaclinica: {
+  			lettersonly: "Escribe sólo letras"	    
+	  	},
+	  	osocial: {
+  			lettersonly: "Escribe sólo letras"	    
+	  	}
+		}
+	});
+</script>
+
+{% endblock %} 

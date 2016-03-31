@@ -1,143 +1,179 @@
 {% extends "index.html" %} 
 {% block htitle %}<title>Registrar Paciente</title>{% endblock %} 
-{% block title %}<h1 class="page-header">Registrar Paciente</h1>{% endblock %} 
+
  
 {% block contenido %} 
 	
-<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery-1.11.3.min.js">
-</script> 
-<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery.validate.js">
-</script> 
-<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/additional-methods.js">
-</script> 
-<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/messages_es.js">
-</script> 
+
+<style type="text/css" media="screen">
+
+.container{
+   height: 80%;
+   width: 0%; /* Para que ocupe el 100% */
+}
+
+textarea.forma{
+   height: 80%;
+   width: 100%; /* Para que ocupe el 100% */
+}
+	fieldset.scheduler-border {
+    border: 0px groove #ddd !important;
+    padding: 1 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+
+}
+</style>
 
 
-<div class="container">
+	
+<div class=".container ">
+
 <form id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 
-<div class="form-group">
+<br><br>
+
+
+<fieldset form="miForm" class="scheduler-border">
+
+
+	<legend class="scheduler-border" >Nuevo Paciente</legend>
+
+<div class="row">
+		<div class="col-md-2">
+			<input class="form-control" id="dni" name="dni" type="text" placeholder="Dni" />
+		</div>
+
+		<div class="col-md-2">
+			<input class="form-control" id="cuil" name="cuil" type="text" placeholder="Cuil" />
+		</div>
+
+		<div class="col-md-2">
+			<input class="form-control" id="historiaclinica" name="historiaclinica" type="text" placeholder="Historia Clinica" />
+		</div>
+		<div class="col-md-2">
+		<button type="button" class="btn btn-primary ">Comprobar</button>
+		</div>
+</div>
+<br><br>
+<legend class="scheduler-border">Informacion personal</legend>
+<br>
+<div class="row">
 	
-		<label for="nombre" class="control-label col-md-2">Nombre:</label> 
-		<div class="col-md-8">
-			<input class="form-control" id="nombre" name="nombre" type="text" />
+		
+		<div class="col-lg-3">
+			<input type="text" class="form-control" id="nombre" name="nombre"  placeholder="Nombre" />
+		</div>
+
+		<div class="col-lg-3">
+			<input type="text" class="form-control" id="apellido" name="apellido"  placeholder="Apellido" />
+		</div>
+</div>
+<br>
+<div class="row">
+		
+		<div class="col-md-3">
+			
+			<input class="form-control" id="nacimiento" name="nacimiento" type="text" placeholder="Fecha de nacimiento"/>
 		</div>
 		
-</div>
-
-<div class="form-group">
-	
-		<label for="apellido" class="control-label col-md-2">Apellido:</label> 
-		<div class="col-md-8">
-			<input class="form-control" id="apellido" name="apellido" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="dni" class="control-label col-md-2">DNI:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="dni" name="dni" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="cuil" class="control-label col-md-2">CUIL:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="cuil" name="cuil" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="nacimiento" class="control-label col-md-2">Nacimiento:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="nacimiento" name="nacimiento" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="correo" class="control-label col-md-2">Correo:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="correo" name="correo" type="email" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="direccion" class="control-label col-md-2">Direccion:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="direccion" name="direccion" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="observaciones" class="control-label col-md-2">Observaciones:</label>
-		<div class="col-md-8">	
-			<textarea cols="40" class="form-control" id="observaciones" name="observaciones" rows="10">
-			</textarea>
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="telefono" class="control-label col-md-2">Telefono:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="telefono" name="telefono" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="celular" class="control-label col-md-2">Celular:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="celular" name="celular" type="text" />
-		</div>
-</div>
-
-<div class="form-group">
-	
-		<label for="sexo" class="control-label col-md-2">Sexo:</label>
-		<div class="col-md-8">
+		<div class="col-md-3">
 			<select class="form-control" id="sexo" name="sexo">
-			<option value="" selected="selected">---------</option>
-			<option value="Masculino">Masculino</option>
-			<option value="Femenino">Femenino</option>
+			<option value="" selected="selected">---Sexo---</option>
+			<option value="MASCULINO">Masculino</option>
+			<option value="FEMENINO">Femenino</option>
 			</select>
 		</div>
-</div>
 
-<div class="form-group">
-	
-		<label for="historiaclinica" class="control-label col-md-2">Historia clinica:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="historiaclinica" name="historiaclinica" type="text" />
+		<div class="col-md-3">
+			<input class="form-control" id="osocial" name="osocial" type="text" placeholder="Obra social" />
 		</div>
+
+</div>
+<div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+    </div>
 </div>
 
-<div class="form-group">
+<br>
+<legend class="scheduler-border">Datos de Contacto</legend>
+
+<div class="row">
 	
-		<label for="osocial" class="control-label col-md-2">Obra social:</label>
-		<div class="col-md-8">
-			<input class="form-control" id="osocial" name="osocial" type="text"/>
+		<div class="col-md-3">
+			<input class="form-control" id="telefono" name="telefono" type="text" placeholder="Telefono" />
 		</div>
+		
+		<div class="col-md-3">
+			<input class="form-control" id="celular" name="celular" type="text" placeholder="Telefono Alternativo"/>
+		</div>
+</div>	
+<br>
+<div class="row">	
+		<div class="col-md-3">
+			<input class="form-control" id="direccion" name="direccion" type="text" placeholder="Domicio actual" />
+		</div>
+		
+		<div class="col-md-3">
+			<input class="form-control" id="correo" name="correo" type="email" placeholder="ejemplo@ejemplo.com" />
+		</div>
+
 </div>
 
-<div class="form-group">
-	<div class="col-md-2 col-md-offset-2">
-	<input class="form-control" type="submit" name="submit" value="Registrar Paciente">
-	<input class="form-control" type="hidden" name="estado" value="activo">
-	</div>
+		
+<br>
+<legend class="scheduler-border">Observaciones</legend>
+<div class="row">
+
+	
+		
+		<div class="col-md-6">	
+			<textarea  class="form-control" id="observaciones" name="observaciones" rows="5" cols="100">
+			</textarea>
+		</div>
+
 </div>
+<br>
+<br>
+<div class="row ">
+
+		
+			<button type="submit" class="btn btn-success col-md-offset-1">Regristrar paciente</button>
+			<button type="reset" class="btn btn-danger col-md-offset-1">Resetear campos</button>
+		
+
+</div>
+
+
+</fieldset>
 
 </form>
- 
- </div>
+
+</div>
+
 
 <script>
 	$("#miForm").validate({

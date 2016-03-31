@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """
 Django settings for tesismgd project.
 
@@ -32,7 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     
-    'django_admin_bootstrapped',
+    ##'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,8 +62,8 @@ ROOT_URLCONF = 'tesismgd.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/home/franco/git/social/templates'],
-        #'DIRS': ['/home/leandro/git/social/templates'],
+        #'DIRS': ['/home/franco/git/social/templates'],
+        'DIRS': ['/home/leandro/git/social/templates'],
         
         'APP_DIRS': True,
         'OPTIONS': {

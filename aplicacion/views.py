@@ -1,9 +1,9 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.shortcuts import render_to_response, render, RequestContext
 from aplicacion.models import *
 from aplicacion.form import *
 from django.db.models import Q
-
-
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 
@@ -180,30 +180,98 @@ def opfarmacia(request):
 def oppaciente(request):
     return render_to_response('ABME/Paciente/oppaciente.html') 
 
-#Pacientes
+###################PACIENTE###########################################
 
 def paciente(request):
-    return render_to_response('ABME/Paciente/paciente.html')
+    paciente=Paciente.objects.all()
+    
+    if 'id_paciente' in request.POST:
+
+        paciente_recibido = request.POST['id_paciente'],
+
+        paciente_enviar = Paciente.objects.filter(persona_ptr_id=paciente_recibido, estado='ACTIVO') 
+        
+        return render_to_response("ABME/Paciente/paciente.html",  {'id_paciente': paciente_enviar, 'busqueda_paciente':paciente  }, context_instance = RequestContext(request))
+
+    else:
+    
+    
+        return render_to_response("ABME/Paciente/paciente.html",  {'paciente': paciente, 'busqueda_paciente':paciente  }, context_instance = RequestContext(request))
 
 def registrarpaciente(request):
-    if request.POST:
-        form = PacienteForm(request.POST)
+    
+    if request.method=="POST":
+
+        form=PacienteForm(request.POST)
+        
         if form.is_valid():
-            form.save()
+            
+            newdoc = Paciente(
+                    
+                    dni=request.POST['dni'],
+                    cuil=request.POST['cuil'],
+                    historiaclinica=request.POST['historiaclinica'].upper(),
+                    nombre=request.POST['nombre'].upper(),
+                    apellido=request.POST['apellido'].upper(),
+                    nacimiento=request.POST['nacimiento'],
+                    sexo=request.POST['sexo'],
+                    osocial=request.POST['osocial'].upper(),
+                    telefono=request.POST['telefono'],
+                    direccion=request.POST['direccion'].upper(),
+                    celular=request.POST['celular'],
+                    correo=request.POST['correo'].upper(),
+                    estado='ACTIVO',
+                    observaciones=request.POST['observaciones'].upper()
+                    )
+            newdoc.save(form)
+            
+            id_paciente=Paciente.objects.filter(dni__icontains=request.POST['dni'], cuil__icontains=request.POST['cuil'])
+            ban='exitopaciente'
+            return render_to_response('ABME/Paciente/fichapaciente.html',{'id_paciente':id_paciente,'exitopaciente':ban},context_instance=RequestContext(request))
 
-            return render_to_response('ABME/Notificaciones/pregistrado.html') #si registra el paciente envia a /pregistrado
+    return render_to_response('ABME/Paciente/registrarpaciente.html',{'paciente':paciente},context_instance=RequestContext(request)) 
+
+def fichapaciente(request,id_paciente):
+    
+    paciente_enviar=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
+    return render_to_response("ABME/Paciente/fichapaciente.html",  {'id_paciente': paciente_enviar }, context_instance = RequestContext(request))
+
+def modificarpaciente(request, id_paciente):
+    
+
+    paciente=Paciente.objects.get(persona_ptr_id=id_paciente)
+    if request.method=="POST":
+
+        form=PacienteForm(request.POST)
+        
+        if form.is_valid():
+            
+
+            paciente.nombre=request.POST["nombre"]
+            paciente.apellido=request.POST["apellido"]
+            paciente.dni=request.POST["dni"]
+            paciente.cuil=request.POST["cuil"]
+            paciente.nacimiento=request.POST["nacimiento"]
+            paciente.correo=request.POST["correo"]
+            paciente.direccion=request.POST["direccion"]
+            paciente.observaciones=request.POST["observaciones"]
+            paciente.telefono=request.POST["telefono"]
+            paciente.celular=request.POST["celular"]
+            paciente.sexo=request.POST["sexo"]
+            paciente.osocial=request.POST["osocial"]
+            paciente.historiaclinica=request.POST["historiaclinica"]
+            paciente.estado="ACTIVO"
+            paciente.save()
+
+            return render_to_response('ABME/Notificaciones/mregistrado.html')
     else:
-        form = PacienteForm()
+        paciente_enviar=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
+        return render_to_response("ABME/Paciente/modificarpaciente.html",  {'id_paciente': paciente_enviar }, context_instance = RequestContext(request))
 
-    args = {}
-    args.update(csrf(request))
 
-    args['form'] = form
 
-    return render_to_response('ABME/Paciente/registrarpaciente.html', args)
 
-def modificarpaciente(request):
-    return render_to_response('ABME/Paciente/modificarpaciente.html')
+
 
 def resultadopaciente(request):
     return render_to_response('includes/resultadopaciente.html')

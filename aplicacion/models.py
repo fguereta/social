@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.db import models
 from django.db.models.fields import CharField
 from django.contrib.auth.models import User
@@ -26,7 +28,7 @@ class Persona(models.Model):
     apellido=models.CharField(max_length=20)
     dni=models.CharField(max_length=9)
     cuil=models.CharField(max_length=15, null=True)
-    nacimiento=models.DateField(null=True)
+    nacimiento=models.CharField(max_length=10, null=True)
     correo=models.EmailField(null=True)
     direccion=models.CharField(max_length=25, null=True)
     observaciones=models.TextField(blank=True, null=True)
