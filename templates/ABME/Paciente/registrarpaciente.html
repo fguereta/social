@@ -39,7 +39,7 @@ legend.scheduler-border {
 <form id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 
-<br><br>
+<br>
 
 
 <fieldset form="miForm" class="scheduler-border">
@@ -59,9 +59,7 @@ legend.scheduler-border {
 		<div class="col-md-2">
 			<input class="form-control" id="historiaclinica" name="historiaclinica" type="text" placeholder="Historia Clinica" />
 		</div>
-		<div class="col-md-2">
-		<button type="button" class="btn btn-primary ">Comprobar</button>
-		</div>
+		
 </div>
 <br><br>
 <legend class="scheduler-border">Informacion personal</legend>
@@ -69,11 +67,11 @@ legend.scheduler-border {
 <div class="row">
 	
 		
-		<div class="col-lg-3">
+		<div class="col-md-3">
 			<input type="text" class="form-control" id="nombre" name="nombre"  placeholder="Nombre" />
 		</div>
-
-		<div class="col-lg-3">
+		
+		<div class="col-md-3">
 			<input type="text" class="form-control" id="apellido" name="apellido"  placeholder="Apellido" />
 		</div>
 </div>
@@ -97,25 +95,6 @@ legend.scheduler-border {
 			<input class="form-control" id="osocial" name="osocial" type="text" placeholder="Obra social" />
 		</div>
 
-</div>
-<div class="container">
-    <div class="row">
-        <div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker();
-            });
-        </script>
-    </div>
 </div>
 
 <br>
