@@ -183,7 +183,7 @@ def oppaciente(request):
 ###################PACIENTE###########################################
 
 def paciente(request):
-    paciente=Paciente.objects.all()
+    paciente=Paciente.objects.filter(estado='ACTIVO')
     
     if 'id_paciente' in request.POST:
 
@@ -270,6 +270,17 @@ def modificarpaciente(request, id_paciente):
 
 
 
+def eliminarpaciente(request, id_paciente):
+    paciente=Paciente.objects.filter(estado='ACTIVO')
+    
+    paciente_eliminado=Paciente.objects.get(persona_ptr_id=id_paciente)
+    paciente_eliminado.estado="INACTIVO"
+    paciente_eliminado.save()
+        
+        
+    return render_to_response("ABME/Paciente/paciente.html",{'paciente':paciente},  context_instance = RequestContext(request))
+    
+    
 
 
 
@@ -481,6 +492,7 @@ def pacientesolicitud(request):
     
     #return render(request, 'ABME/Paciente/buscarpaciente.html', {'errors': errors}) 
 
+'''
 
 def eliminarpaciente(request):
     errors = []
@@ -508,7 +520,7 @@ def eliminarpaciente(request):
     
     return render(request, 'ABME/Paciente/eliminarpaciente.html', {'errors': errors}) 
     
-    
+    '''
 
 def paciente_elim(request):
     errors2 = []

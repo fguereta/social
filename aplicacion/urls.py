@@ -45,10 +45,10 @@ urlpatterns = [
     url(r'^registrarpaciente/', views.registrarpaciente, name='registrarpaciente'),
     url(r'^fichapaciente/(?P<id_paciente>\w+)/$', views.fichapaciente, name='fichapaciente'),
     url(r'^modificarpaciente/(?P<id_paciente>\w+)/$', views.modificarpaciente, name='modificarpaciente'),
-
+    url(r'^eliminarpaciente/(?P<id_paciente>\w+)/$', views.eliminarpaciente, name='eliminarpaciente'),
     #no utilizados por el momento
     
-    url(r'^eliminarpaciente/', views.eliminarpaciente, name='eliminarpaciente'),
+    
     url(r'^buscarpaciente/', views.buscarpaciente, name='buscarpaciente'),
     url(r'^peliminado/', views.paciente_elim, name='peliminado'),
     url(r'^oppaciente/$', views.oppaciente, name='oppaciente'),
