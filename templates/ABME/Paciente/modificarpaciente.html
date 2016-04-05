@@ -87,7 +87,7 @@ legend.scheduler-border {
 		
 		<div class="col-md-3">
 			
-			<input class="form-control" id="nacimiento" name="nacimiento" type="text" placeholder="Fecha de nacimiento" value="{{elemento.nacimiento}}"/>
+			<input class="form-control" id="datepicker" name="nacimiento" type="text" placeholder="Fecha de nacimiento" value="{{elemento.nacimiento}}"/>
 		</div>
 		
 		<div class="col-md-3">
@@ -144,7 +144,6 @@ legend.scheduler-border {
 
 </div>
 <br>
-<br>
 <div class="row ">
 
 		
@@ -162,7 +161,8 @@ legend.scheduler-border {
 
 <script>
 
- 
+ $('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
+    $.datepicker.regional[ "es" ]
 
 	$("#miForm").validate({
 		rules: {

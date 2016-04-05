@@ -7,6 +7,10 @@
 
 <style type="text/css" media="screen">
 
+#miForm .error {
+    color: #DF0101;
+}
+
 .container{
    height: 80%;
    width: 0%; /* Para que ocupe el 100% */
@@ -65,7 +69,7 @@ legend.scheduler-border {
 		</div>
 </div>
 		
-</div>
+
 <br><br>
 <legend class="scheduler-border">Informacion personal</legend>
 <br>
@@ -163,8 +167,7 @@ legend.scheduler-border {
 
 $('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
     $.datepicker.regional[ "es" ]
-
-
+    
 	$("#miForm").validate({
 		rules: {
 	      	nombre: {
@@ -192,7 +195,6 @@ $('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
 	        	date: true
 	      	},
 	      	correo: {
-	        	required: true,
 	        	email: true
 	      	},
 	      	direccion: {
@@ -203,35 +205,35 @@ $('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
 	        	digits: true
 	      	},
 	      	celular: {
-	        	required: true,
 	        	digits: true
 	      	},
 	      	sexo: {
 	        	required: true
 	      	},
 	      	historiaclinica: {
-	        	required: true,
-	        	lettersonly: true
+	        	required: true
 	      	},
 	      	osocial: {
-	        	required: true,
 	        	lettersonly: true
 	      	}
 		},
 	messages: {
 		nombre: {
-  			lettersonly: "Escribe sólo letras"	    
+  			lettersonly: "Escribe sólo letras"
 	  	},
 	  	apellido: {
-  			lettersonly: "Escribe sólo letras"	    
-	  	},
-	  	historiaclinica: {
   			lettersonly: "Escribe sólo letras"	    
 	  	},
 	  	osocial: {
   			lettersonly: "Escribe sólo letras"	    
 	  	}
-		}
+		},
+	highlight: function (element) {
+            $(element).closest('.miForm').addClass('has-error');
+        },
+    unhighlight: function (element) {
+            $(element).closest('.miForm').removeClass('has-error');
+        },
 	});
 </script>
 

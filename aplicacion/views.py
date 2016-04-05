@@ -247,19 +247,19 @@ def modificarpaciente(request, id_paciente):
         if form.is_valid():
             
 
-            paciente.nombre=request.POST["nombre"]
-            paciente.apellido=request.POST["apellido"]
+            paciente.nombre=request.POST["nombre"].upper()
+            paciente.apellido=request.POST["apellido"].upper()
             paciente.dni=request.POST["dni"]
             paciente.cuil=request.POST["cuil"]
             paciente.nacimiento=request.POST["nacimiento"]
-            paciente.correo=request.POST["correo"]
-            paciente.direccion=request.POST["direccion"]
-            paciente.observaciones=request.POST["observaciones"]
+            paciente.correo=request.POST["correo"].upper()
+            paciente.direccion=request.POST["direccion"].upper()
+            paciente.observaciones=request.POST["observaciones"].upper()
             paciente.telefono=request.POST["telefono"]
             paciente.celular=request.POST["celular"]
-            paciente.sexo=request.POST["sexo"]
-            paciente.osocial=request.POST["osocial"]
-            paciente.historiaclinica=request.POST["historiaclinica"]
+            paciente.sexo=request.POST["sexo"].upper()
+            paciente.osocial=request.POST["osocial"].upper()
+            paciente.historiaclinica=request.POST["historiaclinica"].upper()
             paciente.estado="ACTIVO"
             paciente.save()
 
