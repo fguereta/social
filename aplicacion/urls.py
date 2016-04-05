@@ -93,6 +93,8 @@ urlpatterns = [
     #url(r'^entrega/(?P<medico_id>\w+)/$', views.entrega, name='entrega'),
     #url(r'^entrega/(?P<remedio_id>\w+)/$', views.entrega, name='entrega'),
     
+    #listado de solicitudes x fecha
+    url(r'^remediofecha/', views.remediofecha, name='remediofecha'),
     
     #BUSQUEDAS
     url(r'^buscaremedio/', views.buscaRemedio, name='buscaRemedio'),

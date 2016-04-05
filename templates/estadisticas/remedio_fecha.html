@@ -17,18 +17,18 @@
   
  		
 	<div class="form-group">	
-    <label for="valor" class="control-label col-md-2">Desde: </label>
+    <label for="fecha1" class="control-label col-md-2">Desde: </label>
 		<div class="col-md-5">	
-	    <input class="form-control" type="date" name="fecha1" value="{{ query|escape }}">
+	    <input class="form-control" id="datepicker" type="text" name="fecha1" value="{{ query|escape }}">
 	    </div>
 
 
     </div>
     
 	<div class="form-group">	
-    <label for="valor" class="control-label col-md-2">Hasta: </label>
+    <label for="fecha2" class="control-label col-md-2">Hasta: </label>
 		<div class="col-md-5">	
-	    <input class="form-control" type="date" name="fecha2" value="{{ query|escape }}">
+	    <input class="form-control" id="datepicker2" type="text" name="fecha2" value="{{ query|escape }}">
 	    </div>
 
 
@@ -79,6 +79,14 @@
 {% else %} 
 <p>Ningún remedio fue encontrado.</p> 
 {% endif %} 
-{% endif %} 
-  
+{% endif %}
+ 
+ 	<script>
+  	$('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
+  	$('#datepicker2').datepicker({ dateFormat: 'dd/mm/yy' });
+    $.datepicker.regional[ "es" ]
+    
+    
+    </script>
+    
 {%endblock%}

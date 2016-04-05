@@ -891,81 +891,33 @@ def detallereme(request, remedio_id):
     
     ctx={'ids':ids} 
     return render_to_response('ABME/Operaciones/registrardetalle.html',ctx,context_instance=RequestContext(request))
-''' 
-    
 
-def medicamento(request, remedio_id):
-    ids.append(remedio_id)
-    paciente_id=ids[0]
-    medico_id=ids[1]
-    remedio_id=ids[2]
-    
-    medico=Medico.objects.get(persona_ptr_id=medico_id)
-    paciente=Paciente.objects.get(persona_ptr_id=paciente_id)
-    remedio=Remedio.objects.get(id=remedio_id)
-    
-    
-    if request.method=="POST":
-
-        form=DetalleSolicitudForm(request.POST)
-        if form.is_valid():
+def remediofecha(request):
+   
+    if 'fecha1' and 'fecha2' in request.GET:
+        fecha1 = request.GET['fecha1']
+        fecha2 = request.GET['fecha2']
+        
+        #desde = datetime.strptime(fecha1,"%d/%m/%Y").strftime("%Y-%m-%d")
+        #hasta = datetime.strptime(fecha2,"%d/%m/%Y").strftime("%Y-%m-%d") 
+        remedios=listadoremedios(fecha1, fecha2)
+        
+        try:
+            return render(request,"estadisticas/remedio_fecha.html", {'remedios':remedios, 'query': fecha1})
+        except IndexError:
+            remedios=None
+            return render(request,"estadisticas/remedio_fecha.html", {'remedios':remedios, 'query': fecha1})
             
+    
+    return render(request, 'estadisticas/remedio_fecha.html')                
+     
 
-            
-            medico.persona_ptr_id=form.cleaned_data["medico"]
-            paciente.persona_ptr_id=form.cleaned_data["paciente"]
-            remedio.id=form.cleaned_data["remedio"]
-            DetalleSolicitud.fecha=form.cleaned_data["fecha"]
-            medico.correo=form.cleaned_data["dosis"]
-            medico.direccion=form.cleaned_data["observaciones"]
-            medico.observaciones=form.cleaned_data["estado"]
-            medico.save()
-
-            return render_to_response('ABME/Notificaciones/mregistrado.html')
-
-            
-
-    if request.method=="GET":
-
-
-        form=MedicoForm(initial={
-                                'nombre':medico.nombre,
-                                'apellido':medico.apellido,
-                                'dni':medico.dni,
-                                'cuil':medico.cuil,
-                                'nacimiento':medico.nacimiento,
-                                'correo':medico.correo,
-                                'direccion':medico.direccion,
-                                'observaciones':medico.observaciones,
-                                'telefono':medico.telefono,
-                                'celular':medico.celular,
-                                'sexo':medico.sexo,
-                                'especialidad':medico.especialidad,
-                                'matriculaprovincial':medico.matriculaprovincial,
-                                'matriculanacional':medico.matriculanacional,
-                                'estado':medico.estado,
-
-                              })
-
-    ctx={'form':form, 'medico':medico} 
-    return render_to_response('ABME/Medico/modificarmedico.html',ctx,context_instance=RequestContext(request))       
-
-'''
-'''
-def registrarpersona(request):
-    if request.POST:
-        form = PersonaForm(request.POST)
-        if form.is_valid():
-            form.save()
-
-            return HttpResponseRedirect('/')
-        else:
-            form = PersonaForm()
-
-    args = {}
-    args.update(csrf(request))
-
-    args['form'] = form
-
-    return render_to_response('registrar/registrarpersona.html', args)
-'''
+def listadoremedios(fecha1, fecha2):
+        
+        remedios=[]
+        medicamentos=[]
+        
+        
+        detalles = DetalleSolicitud.objects.filter(fecha__range=(fecha1, fecha2))
+        
+        return detalles  
