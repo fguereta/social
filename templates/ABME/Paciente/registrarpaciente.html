@@ -47,18 +47,23 @@ legend.scheduler-border {
 
 	<legend class="scheduler-border" >Nuevo Paciente</legend>
 
+
+
+
 <div class="row">
 		<div class="col-md-2">
 			<input class="form-control" id="dni" name="dni" type="text" placeholder="Dni" />
 		</div>
 
-		<div class="col-md-2">
-			<input class="form-control" id="cuil" name="cuil" type="text" placeholder="Cuil" />
-		</div>
 
 		<div class="col-md-2">
 			<input class="form-control" id="historiaclinica" name="historiaclinica" type="text" placeholder="Historia Clinica" />
 		</div>
+
+		<div class="col-md-2">
+			<input class="form-control" id="cuil" name="cuil" type="text" placeholder="Cuil" />
+		</div>
+</div>
 		
 </div>
 <br><br>
@@ -80,7 +85,7 @@ legend.scheduler-border {
 		
 		<div class="col-md-3">
 			
-			<input class="form-control" id="nacimiento" name="nacimiento" type="text" placeholder="Fecha de nacimiento"/>
+			<input class="form-control" id="datepicker" name="nacimiento" type="text" placeholder="Fecha de nacimiento"/>
 		</div>
 		
 		<div class="col-md-3">
@@ -155,6 +160,11 @@ legend.scheduler-border {
 
 
 <script>
+
+$('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
+    $.datepicker.regional[ "es" ]
+
+
 	$("#miForm").validate({
 		rules: {
 	      	nombre: {
