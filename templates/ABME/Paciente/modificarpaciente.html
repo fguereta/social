@@ -45,7 +45,7 @@ legend.scheduler-border {
   
 </ul>
 
-<form id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">
+<form id="miForm" role="form" method="post" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 
 
@@ -90,13 +90,14 @@ legend.scheduler-border {
 			<input class="form-control" id="datepicker" name="nacimiento" type="text" placeholder="Fecha de nacimiento" value="{{elemento.nacimiento}}"/>
 		</div>
 		
-		<div class="col-md-3">
+		<div class="col-md-3 sexo">
 			<select class="form-control" id="sexo" name="sexo">
-			<option value="" selected="selected">{{elemento.sexo}}</option>
-			<option value="MASCULINO">Masculino</option>
-			<option value="FEMENINO">Femenino</option>
+			
+			<option value="MASCULINO">MASCULINO</option>
+			<option value="FEMENINO">FEMENINO</option>
 			</select>
 		</div>
+		<script>$("div.sexo select").val("{{elemento.sexo}}");</script>
 
 		<div class="col-md-3">
 			<input class="form-control" id="osocial" name="osocial" type="text" placeholder="Obra social" value="{{elemento.osocial}}"/>
@@ -133,33 +134,29 @@ legend.scheduler-border {
 		
 <br>
 <legend class="scheduler-border">Observaciones</legend>
-<div class="row">
+<div class="row form-group">
+	<div class="col-md-5"> 
+        <textarea class="form-control" rows="5"  id="observaciones" name="observaciones">{{elemento.observaciones}}</textarea>
+     </div> 
+ </div>
 
-	
-		
-		<div class="col-md-6">	
-			<textarea  class="form-control" id="observaciones" name="observaciones" rows="5" cols="100">{{elemento.observaciones}}
-			</textarea>
-		</div>
 
-</div>
 <br>
 <div class="row ">
 
 		
-		<button type="submit" class="btn btn-success col-md-offset-1">Modificar </button>
+		<button type="submit" class="btn btn-success btn-lg col-md-offset-9">Guardar</button>
 		
 </div>
 
 
 </fieldset>
-
 </form>
-
 </div>
 {% endfor %}
 
 <script>
+
 
  $('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
     $.datepicker.regional[ "es" ]

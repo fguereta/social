@@ -16,88 +16,91 @@ def index(request):
 #MEDICO
 
 def medico(request):
-    medico=Medico.objects.all()
-    return render_to_response('ABME/Medico/medico.html', {'medico':medico})
+    medico=Medico.objects.filter(estado='ACTIVO')
+    
+    if 'id_medico' in request.POST:
 
+        medico_recibido = request.POST['id_medico'],
+
+        medico_enviar = Medico.objects.filter(persona_ptr_id=medico_recibido, estado='ACTIVO') 
+        
+        return render_to_response("ABME/Medico/medico.html",  {'id_medico': medico_enviar, 'busqueda_medico':medico  }, context_instance = RequestContext(request))
+
+    else:
+    
+    
+        return render_to_response("ABME/Medico/medico.html",  {'medico': medico, 'busqueda_medico':medico  }, context_instance = RequestContext(request))
+
+def fichamedico(request,id_medico):
+    
+    medico_enviar=Medico.objects.filter(persona_ptr_id=id_medico, estado='ACTIVO')
+    return render_to_response("ABME/Medico/fichamedico.html",  {'id_medico': medico_enviar }, context_instance = RequestContext(request))
 
 def registrarmedico(request):
-    if request.POST:
-    
-        form = MedicoForm(request.POST)
-        if form.is_valid():
-
-            form.save()
-
-            return render_to_response('ABME/Notificaciones/mregistrado.html')#si registra el paciente envia a /pregistrado
-    else:
-        form = MedicoForm()
-
-    args = {}
-    args.update(csrf(request))
-
-    args['form'] = form
-
-    return render_to_response('ABME/Medico/registrarmedico.html', args)
-
-
-    
-
-def modificarmedico(request,medico_id):
-     
-    medico=Medico.objects.get(persona_ptr_id=medico_id)
-    
-    
     if request.method=="POST":
 
         form=MedicoForm(request.POST)
+        
+        if form.is_valid():
+            
+            newdoc = Medico(
+                    
+                    dni=request.POST['dni'],
+                    cuil=request.POST['cuil'],
+                    nombre=request.POST['nombre'].upper(),
+                    apellido=request.POST['apellido'].upper(),
+                    nacimiento=request.POST['nacimiento'],
+                    sexo=request.POST['sexo'],
+                    #osocial=request.POST['osocial'].upper(),
+                    telefono=request.POST['telefono'],
+                    direccion=request.POST['direccion'].upper(),
+                    celular=request.POST['celular'],
+                    correo=request.POST['correo'].upper(),
+                    estado='ACTIVO',
+                    observaciones=request.POST['observaciones'].upper(),
+                    matriculanacional=request.POST['matriculanacional'].upper(),
+                    matriculaprovincial=request.POST['matriculaprovincial'].upper(),
+                    especialidad=request.POST['especialidad'].upper()
+                    )
+            newdoc.save(form)
+            
+            id_medico=Medico.objects.filter(dni__icontains=request.POST['dni'], cuil__icontains=request.POST['cuil'])
+            ban='exitopaciente'
+            return render_to_response('ABME/Medico/fichamedico.html',{'id_medico':id_medico,'exitomedico':ban},context_instance=RequestContext(request))
+
+    return render_to_response('ABME/Medico/registrarmedico.html',{'medico':medico},context_instance=RequestContext(request)) 
+
+def modificarmedico(request,id_medico):
+     
+    medico=Medico.objects.get(persona_ptr_id=id_medico)
+    if request.method=="POST":
+
+        form=MedicoForm(request.POST)
+        
         if form.is_valid():
             
 
-            medico.nombre=form.cleaned_data["nombre"]
-            medico.apellido=form.cleaned_data["apellido"]
-            medico.dni=form.cleaned_data["dni"]
-            medico.cuil=form.cleaned_data["cuil"]
-            medico.nacimiento=form.cleaned_data["nacimiento"]
-            medico.correo=form.cleaned_data["correo"]
-            medico.direccion=form.cleaned_data["direccion"]
-            medico.observaciones=form.cleaned_data["observaciones"]
-            medico.telefono=form.cleaned_data["telefono"]
-            medico.celular=form.cleaned_data["celular"]
-            medico.sexo=form.cleaned_data["sexo"]
-            medico.especialidad=form.cleaned_data["especialidad"]
-            medico.matriculanacional=form.cleaned_data["matriculanacional"]
-            medico.matriculaprovincial=form.cleaned_data["matriculaprovincial"]
-            medico.estado=form.cleaned_data["estado"]
+            medico.nombre=request.POST["nombre"].upper()
+            medico.apellido=request.POST["apellido"].upper()
+            medico.dni=request.POST["dni"]
+            medico.cuil=request.POST["cuil"]
+            medico.nacimiento=request.POST["nacimiento"]
+            medico.correo=request.POST["correo"].upper()
+            medico.direccion=request.POST["direccion"].upper()
+            medico.observaciones=request.POST["observaciones"].upper()
+            medico.telefono=request.POST["telefono"]
+            medico.celular=request.POST["celular"]
+            medico.sexo=request.POST["sexo"].upper()
+            medico.especialidad=request.POST["especialidad"].upper()
+            medico.matriculaprovincial=request.POST["matriculaprovincial"].upper()
+            medico.matriculanacional=request.POST["matriculanacional"].upper()
+            medico.estado="ACTIVO"
             medico.save()
 
             return render_to_response('ABME/Notificaciones/mregistrado.html')
-
-            
-
-    if request.method=="GET":
-
-
-        form=MedicoForm(initial={
-                                'nombre':medico.nombre,
-                                'apellido':medico.apellido,
-                                'dni':medico.dni,
-                                'cuil':medico.cuil,
-                                'nacimiento':medico.nacimiento,
-                                'correo':medico.correo,
-                                'direccion':medico.direccion,
-                                'observaciones':medico.observaciones,
-                                'telefono':medico.telefono,
-                                'celular':medico.celular,
-                                'sexo':medico.sexo,
-                                'especialidad':medico.especialidad,
-                                'matriculaprovincial':medico.matriculaprovincial,
-                                'matriculanacional':medico.matriculanacional,
-                                'estado':medico.estado,
-
-                              })
-
-    ctx={'form':form, 'medico':medico} 
-    return render_to_response('ABME/Medico/modificarmedico.html',ctx,context_instance=RequestContext(request))       
+    else:
+        medico_enviar=Medico.objects.filter(persona_ptr_id=id_medico, estado='ACTIVO')
+        return render_to_response("ABME/Medico/modificarmedico.html",  {'id_medico': medico_enviar }, context_instance = RequestContext(request))    
 
 
 def listadomedico(resquest):
@@ -267,8 +270,6 @@ def modificarpaciente(request, id_paciente):
     else:
         paciente_enviar=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
         return render_to_response("ABME/Paciente/modificarpaciente.html",  {'id_paciente': paciente_enviar }, context_instance = RequestContext(request))
-
-
 
 def eliminarpaciente(request, id_paciente):
     paciente=Paciente.objects.filter(estado='ACTIVO')

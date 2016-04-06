@@ -1,148 +1,422 @@
 {% extends "index.html" %} 
- {% block htitle %}<title>Registrar Medico</title>{% endblock %} 
-{% block title %}<h1 class="page-header">Registrar Medico</h1>{% endblock %} 
- 
-{% block contenido%} 
+{% block htitle %}<title>Agregar medico/a</title>{% endblock %} 
 
-<div class="container">
-<form  method="post"  enctype="multipart/form-data" class="form-horizontal">
+ 
+{% block contenido %} 
+	
+
+<style type="text/css" media="screen">
+
+#miForm .error {
+    color: #DF0101;
+}
+
+.container{
+   height: 80%;
+   width: 0%; /* Para que ocupe el 100% */
+}
+
+textarea.forma{
+   height: 80%;
+   width: 100%; /* Para que ocupe el 100% */
+}
+	fieldset.scheduler-border {
+    border: 0px groove #ddd !important;
+    padding: 1 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+
+}
+
+
+
+.table-responsive {height:350px;}
+
+select.form-control + .chosen-container.chosen-container-single .chosen-single {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    background-image:none;
+}
+ 
+select.form-control + .chosen-container.chosen-container-single .chosen-single div {
+    top:4px;
+    color:#000;
+}
+ 
+select.form-control + .chosen-container .chosen-drop {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+    margin: 2px 0 0;
+ 
+}
+ 
+select.form-control + .chosen-container .chosen-search input[type=text] {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    background-image:none;
+}
+ 
+select.form-control + .chosen-container .chosen-results {
+    margin: 2px 0 0;
+    padding: 5px 0;
+    font-size: 14px;
+    list-style: none;
+    background-color: #fff;
+    margin-bottom: 5px;
+}
+ 
+select.form-control + .chosen-container .chosen-results li , 
+select.form-control + .chosen-container .chosen-results li.active-result {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333;
+    white-space: nowrap;
+    background-image:none;
+}
+select.form-control + .chosen-container .chosen-results li:hover, 
+select.form-control + .chosen-container .chosen-results li.active-result:hover,
+select.form-control + .chosen-container .chosen-results li.highlighted
+{
+    color: #FFF;
+    text-decoration: none;
+    background-color: #428BCA;
+    background-image:none;
+}
+ 
+select.form-control + .chosen-container-multi .chosen-choices {
+    display: block;
+    width: 100%;
+    min-height: 34px;
+    padding: 6px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    background-image:none;
+}
+ 
+select.form-control + .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+    height:auto;
+    padding:5px 0;
+}
+ 
+select.form-control + .chosen-container-multi .chosen-choices li.search-choice {
+ 
+    background-image: none;
+    padding: 3px 24px 3px 5px;
+    margin: 0 6px 0 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    background-color: #FFF;
+    border-color: #CCC;
+}
+ 
+select.form-control + .chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+    top:8px;
+    right:6px;
+}
+ 
+select.form-control + .chosen-container-multi.chosen-container-active .chosen-choices,
+select.form-control + .chosen-container.chosen-container-single.chosen-container-active .chosen-single,
+select.form-control + .chosen-container .chosen-search input[type=text]:focus{
+    border-color: #66AFE9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),0 0 8px rgba(102, 175, 233, 0.6);
+}
+ 
+select.form-control + .chosen-container-multi .chosen-results li.result-selected{
+    display: list-item;
+    color: #ccc;
+    cursor: default;
+    background-color: white;
+}
+
+
+  
+
+</style>
+
+
+	
+<div class=".container ">
+
+<form id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 
+<br>
 
-	<div class="form-group">
-	
-		<label for="nombre" class="control-label col-md-2">Nombre:</label>
-		<div class="col-md-4">
-			<input class="form-control" id="nombre" maxlength="20" name="nombre" type="text"/>
+
+<fieldset class="scheduler-border">
+
+
+	<legend class="scheduler-border" >Agregar Medico/o</legend>
+
+
+
+
+<div class="row">
+		<div class="col-md-2">
+			<input class="form-control" id="dni" name="dni" type="text" placeholder="Dni" />
+		</div>
+
+		<div class="col-md-2">
+			<input class="form-control" id="cuil" name="cuil" type="text" placeholder="Cuil" />
+		</div>
+
+</div>
+<br>
+
+<div class="row">
+
+		<div class="col-md-3">
+			<input class="form-control" id="matriculanacional" name="matriculanacional" type="text" placeholder="Matricula nacional" />
+		</div>
+
+		<div class="col-md-3">
+			<input class="form-control" id="matriculaprovincial" name="matriculaprovincial" type="text" placeholder="Matricula provincial" />
 		</div>
 		
-	</div>
+		<div class="col-md-3 ">
+            
+                <select name="especialidad" id="especialidad" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+
+                <option value="">Especialidad</option>	
+                
+                <option value="ALERGOLOGIA">Alergología</option>
+                <option value="ANASTESIOLOGIA">Anestesiología</option>
+                <option value="CARDIOLOGIA">Cardiología </option>
+                <option value="GASTROENTEROLOGIA">Gastroenterología</option>
+                
+                </select>
+        </div>
+</div>
+		
+
+<br><br>
+<legend class="scheduler-border">Informacion personal</legend>
+<br>
+<div class="row">
 	
-	
-
-	<div class="form-group">
-		<label for="apellido" class="control-label col-md-2">Apellido:</label>
-		<div class="col-md-4">
-		<input class="form-control" id="apellido" maxlength="20" name="apellido" type="text" />
+		
+		<div class="col-md-3">
+			<input type="text" class="form-control" id="nombre" name="nombre"  placeholder="Nombre" />
 		</div>
-	</div>
-
-	<div class="form-group">
-		<label for="dni" class="control-label col-md-2">DNI:</label>
-		<div class="col-md-4"> 
-		<input class="form-control" id="dni" maxlength="9" name="dni" type="text" />
+		
+		<div class="col-md-3">
+			<input type="text" class="form-control" id="apellido" name="apellido"  placeholder="Apellido" />
 		</div>
-	</div>
-
-	<div class="form-group">
-		<label for="cuil" class="control-label col-md-2">CUIL:</label>
-		<div class="col-md-4">
-		<input class="form-control" id="cuil" maxlength="15" name="cuil" type="text" />
+</div>
+<br>
+<div class="row">
+		
+		<div class="col-md-3">
+			
+			<input class="form-control" id="datepicker" name="nacimiento" type="text" placeholder="Fecha de nacimiento"/>
 		</div>
-	</div>
-
-	<div class="form-group"> 
-		<label for="nacimiento" class="control-label col-md-2">Fecha de Nacimiento:</label>
-		<div class="col-md-4"> 
-		<input class="form-control" id="nacimiento" name="nacimiento" type="date"  />
+		
+		<div class="col-md-3">
+			<select class="form-control" id="sexo" name="sexo">
+			<option value="" selected="selected">---Sexo---</option>
+			<option value="MASCULINO">Masculino</option>
+			<option value="FEMENINO">Femenino</option>
+			</select>
 		</div>
-	</div>
+		
+		
 
-	<div class="form-group">
-		<label for="correo" class="control-label col-md-2">Correo:</label> 
-		<div class="col-md-4">
-		<input class="form-control" id="correo" maxlength="254" name="correo" type="email" />
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label for="estado" class="control-label col-md-2">estado:</label> 
-		<div class="col-md-4">
-		<input class="form-control" id="estado" maxlength="254" name="estado" type="text" />
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label for="direccion" class="control-label col-md-2">Direccion:</label>
-		<div class="col-md-4"> 
-		<input class="form-control" id="iireccion" maxlength="50" name="direccion" type="text" />
-		</div>
-	</div>
-	
-	
-
-	<div class="form-group">
-		<label for="telefono" class="control-label col-md-2">Telefono:</label>
-		<div class="col-md-4"> 
-			<input class="form-control" id="telefono" name="telefono" type="text" />
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label for="celular" class="control-label col-md-2">Celular:</label>
-		<div class="col-md-4"> 
-			<input class="form-control" id="celular" name="celular" type="text" />
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label for="especialidad" class="control-label col-md-2">Especialidad:</label>
-		<div class="col-md-4"> 
-			<input class="form-control" id="especialidad" maxlength="20" name="especialidad" type="text" />
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label for="matriculanacional" class="control-label col-md-2">Matricula nacional:</label>
-		<div class="col-md-4">
-			<input class="form-control" id="matriculanacional" maxlength="20" name="matriculanacional" type="text" />
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label for="matriculaprovincial" class="control-label col-md-2">Matricula provincial:</label> 
-		<div class="col-md-4">
-			<input class="form-control" id="matriculaprovincial" maxlength="20" name="matriculaprovincial" type="text" />
-		</div>
-	</div>
-
-<div class="form-group">
-		<label for="sexo" class="control-label col-md-2">Sexo:</label>
-		<div class="col-md-4"> 
-		<select class="form-control" id="sexo" name="sexo">
-		<option value="" selected="selected">---------</option>
-		<option value="Masculino">Masculino</option>
-		<option value="Femenino">Femenino</option>
-		</select>
-		</div>
-	</div>
-
-	
-
-	
-	<div class="form-group">
-		<label for="observaciones" class="control-label col-md-2">Observaciones:</label>
-		<div class="col-md-8">
-		<textarea class="form-control" cols="20" id="observaciones" name="observaciones" rows="10"></textarea>
-		</div>
-	</div>
-	
-
-<div class="form-group">
-	<div class="col-md-2 col-md-offset-2">
-	<input class="form-control" type="submit" name="submit" value="Registrar Medico">
-	<input class="form-control" type="hidden" name="estado" value="activo">
-	</div>
-
-	<div class="col-md-2 col-md-offset-2">
-	<input class="form-control" type="reset" name="reset" value="Borrar Campos">
-	</div>
 </div>
 
+<br>
+<legend class="scheduler-border">Datos de Contacto</legend>
+
+<div class="row">
+	
+		<div class="col-md-3">
+			<input class="form-control" id="telefono" name="telefono" type="text" placeholder="Telefono" />
+		</div>
+		
+		<div class="col-md-3">
+			<input class="form-control" id="celular" name="celular" type="text" placeholder="Telefono Alternativo"/>
+		</div>
+</div>	
+<br>
+<div class="row">	
+		<div class="col-md-3">
+			<input class="form-control" id="direccion" name="direccion" type="text" placeholder="Domicio actual" />
+		</div>
+		
+		<div class="col-md-3">
+			<input class="form-control" id="correo" name="correo" type="email" placeholder="ejemplo@ejemplo.com" />
+		</div>
+
+</div>
+
+		
+<br>
+<legend class="scheduler-border">Observaciones</legend>
+<div class="row form-group ">
+	<div class="col-md-5"> 
+        <textarea class="form-control" rows="5"  id="observaciones" name="observaciones" placeholder="Deje su comentario" ></textarea>
+     </div> 
+ </div>
+<br>
+<br>
+<div class="row ">
+
+		
+			<button type="submit" class="btn btn-success col-md-offset-1">Regristrar paciente</button>
+			<button type="reset" class="btn btn-danger col-md-offset-1">Resetear campos</button>
+		
+
+</div>
+
+
+</fieldset>
 
 </form>
+
 </div>
- 
+
+
+<script>
+
+$('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
+    $.datepicker.regional[ "es" ]
+    
+	$("#miForm").validate({
+		rules: {
+	      	nombre: {
+	        	required: true,
+	        	lettersonly: true
+	      	},
+	      	apellido: {
+	        	required: true,
+	        	lettersonly: true
+	      	},
+	      	dni: {
+	        	required: true,
+	        	digits: true,
+	        	minlength: "8",
+	        	maxlength: "8"
+	      	},
+	      	cuil: {
+	        	required: true,
+	        	digits: true,
+	        	minlength: "10",
+	        	maxlength: "11"
+	      	},
+	      	nacimiento: {
+	        	required: true,
+	        	date: true
+	      	},
+	      	correo: {
+	        	email: true
+	      	},
+	      	direccion: {
+	        	required: true
+	      	},
+	      	telefono: {
+	        	required: true,
+	        	digits: true
+	      	},
+	      	celular: {
+	        	digits: true
+	      	},
+	      	sexo: {
+	        	required: true
+	      	},
+	      	historiaclinica: {
+	        	required: true
+	      	},
+	      	osocial: {
+	        	lettersonly: true
+	      	}
+		},
+	messages: {
+		nombre: {
+  			lettersonly: "Escribe sólo letras"
+	  	},
+	  	apellido: {
+  			lettersonly: "Escribe sólo letras"	    
+	  	},
+	  	osocial: {
+  			lettersonly: "Escribe sólo letras"	    
+	  	}
+		},
+	highlight: function (element) {
+            $(element).closest('.miForm').addClass('has-error');
+        },
+    unhighlight: function (element) {
+            $(element).closest('.miForm').removeClass('has-error');
+        },
+	});
+
+    
+    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+</script>
+
+
+
+
+
+
 
 {% endblock %} 
-

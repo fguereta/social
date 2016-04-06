@@ -1,6 +1,6 @@
 {% extends "index.html" %} 
 
-{% block htitle %}<title>Ficha de paciente</title>{% endblock %} 
+{% block htitle %}<title>Ficha de medico</title>{% endblock %} 
  
 
 
@@ -34,7 +34,7 @@ legend.scheduler-border {
 }
 </style>
  
-{% if exitopaciente %}
+{% if exitomedico %}
 
 
 
@@ -44,15 +44,15 @@ alertify.success("Se registro correctamente");
  </script>
 {% endif %}
 
-{% if id_paciente %}
+{% if id_medico %}
 
-{% for elemento in id_paciente %}
+{% for elemento in id_medico %}
 
 <ul class="breadcrumb">
-  <li><a href="/aplicacion/fichapaciente/{{elemento.id}}">Ficha</a></li>
-  <li><a href="#">Solicitudes</a></li>
-  <li><a href="#">Derivaciones/</a></li>
-  <li class=" col-md-offset-7"><a  href="/aplicacion/modificarpaciente/{{elemento.id}}">Modificar</a></li>
+  <li><a href="/aplicacion/fichamedico/{{elemento.id}}">Ficha</a></li>
+  <li><a href="#">Pacientes intervenidos</a></li>
+  
+  <li class=" col-md-offset-7"><a  href="/aplicacion/modificarmedico/{{elemento.id}}">Modificar</a></li>
   <li><a id="confirmacion">Eliminar</a></li>
   
 </ul>
@@ -64,6 +64,8 @@ alertify.success("Se registro correctamente");
 
 <fieldset  class="scheduler-border">
 
+<legend class="scheduler-border">Profesional: {{elemento.apellido}}, {{elemento.nombre}}</legend>
+
 
 <div class="row">
 		<div class="col-md-2">
@@ -74,22 +76,35 @@ alertify.success("Se registro correctamente");
 			<label class="form-control">{{elemento.cuil}}</label>
 		</div>
 
-		<div class="col-md-2">
-			<label class="form-control">{{elemento.historiaclinica}}</label>
-		</div>
 		
 </div>
-
-<legend class="scheduler-border">Informacion personal</legend>
 <br>
+<div class="row">
+
+		<div class="col-md-3">
+			<label class="form-control">{{elemento.especialidad}}</label>
+		</div>
+		<div class="col-md-3">
+			<label class="form-control">{{elemento.matriculanacional}}</label>
+		</div>
+		<div class="col-md-3">
+			<label class="form-control">{{elemento.matriculaprovincial}}</label>
+		</div>
+
+</div>
+<br>
+<br>
+<legend class="scheduler-border">Informacion personal</legend>
+
+
 <div class="row">
 	
 		
-		<div class="col-lg-3">
+		<div class="col-md-3">
 			<label class="form-control">{{elemento.nombre}}</label>
 		</div>
 
-		<div class="col-lg-3">
+		<div class="col-md-3">
 			<label class="form-control">{{elemento.apellido}}</label>
 		</div>
 </div>
@@ -105,9 +120,7 @@ alertify.success("Se registro correctamente");
 			<label class="form-control">{{elemento.sexo}}</label>
 		</div>
 
-		<div class="col-md-3">
-			<label class="form-control">{{elemento.osocial}}</label>
-		</div>
+		
 
 </div>
 
@@ -163,7 +176,7 @@ alertify.success("Se registro correctamente");
 <script type="text/javascript" charset="utf-8" async defer>
 	
 var apellidonombre ='{{elemento.apellido}}, {{elemento.nombre}} <strong>Cuil:{{elemento.cuil}}';
-var id_paciente='{{elemento.id}}'
+var id_medico='{{elemento.id}}'
 
 </script>
 
@@ -182,7 +195,7 @@ var id_paciente='{{elemento.id}}'
     	alertify.confirm("Confirmar eliminacion  "+apellidonombre,
             function (e) {
                 if (e) {
-                   window.location = "/aplicacion/eliminarpaciente/"+id_paciente;
+                   window.location = "/aplicacion/eliminarmedico/"+id_medico;
                 } else {
                     alertify.error("Has pulsado <strong>"
                              + alertify.labels.cancel

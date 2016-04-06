@@ -13,9 +13,16 @@ class FarmaciaForm(forms.ModelForm):
         model = Farmacia
         exclude=()  
           
-class MedicoForm(forms.ModelForm):    
+class MedicoForm(forms.Form):    
     class Meta:
-        model = Medico
+        nombre=forms.CharField()
+        apellido=forms.CharField()
+        dni=forms.CharField()
+        cuil=forms.CharField()
+        nombre=forms.CharField()
+        especialidad=forms.CharField()
+        matriculanacional=forms.CharField()
+        matriculaprovincial=forms.CharField()
         exclude=('persona_ptr_id',)
 
         

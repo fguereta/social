@@ -55,10 +55,14 @@ urlpatterns = [
     url(r'^resultadopaciente/', views.resultadopaciente, name='resultadopaciente'),
     
     #MEDICO
-    
+    #utilizados
     url(r'^medico/', views.medico, name='medico'),
     url(r'^registrarmedico/', views.registrarmedico, name='registrarmedico'),
-    url(r'^modificarmedico/(?P<medico_id>\w+)/$', views.modificarmedico, name='modificarmedico'),
+    url(r'^fichamedico/(?P<id_medico>\w+)/$', views.fichamedico, name='fichamedico'),
+
+
+
+    url(r'^modificarmedico/(?P<id_medico>\w+)/$', views.modificarmedico, name='modificarmedico'),
     url(r'^eliminarmedico/', views.eliminarmedico, name='eliminarmedico'),
     url(r'^listadomedico/', views.listadomedico, name='eliminarmedico'),
     url(r'^buscarmedico/$', views.buscarmedico, name='buscarmedico'),
