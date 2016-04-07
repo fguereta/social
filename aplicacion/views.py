@@ -348,13 +348,13 @@ def buscaPaciente(criterio, valor):
     pacientes=[]
     
     if criterio == 'historiaclinica':
-        pacientes = Paciente.objects.filter(historiaclinica=valor, estado='activo') 
+        pacientes = Paciente.objects.filter(historiaclinica=valor, estado='ACTIVO') 
             
     elif criterio == 'dni':
-        pacientes = Paciente.objects.filter(dni=valor, estado='activo') 
+        pacientes = Paciente.objects.filter(dni=valor, estado='ACTIVO') 
             
     elif criterio == 'cuil':
-        pacientes = Paciente.objects.filter(cuil=valor, estado='activo')
+        pacientes = Paciente.objects.filter(cuil=valor, estado='ACTIVO')
     else:
         pacientes='no se ha encontrado el paciente'
          
@@ -402,13 +402,13 @@ def buscaMedico(criterio, valor):
     medicos=[]
     
     if criterio == 'nombre':
-        medicos = Medico.objects.filter(nombre=valor, estado='activo') 
+        medicos = Medico.objects.filter(nombre__icontains=valor, estado='ACTIVO') 
             
     elif criterio == 'apellido':
-        medicos = Medico.objects.filter(apellido=valor, estado='activo') 
+        medicos = Medico.objects.filter(apellido__icontains=valor, estado='ACTIVO') 
             
     elif criterio == 'especialidad':
-        medicos = Medico.objects.filter(especialidad=valor, estado='activo') 
+        medicos = Medico.objects.filter(especialidad__icontains=valor, estado='ACTIVO') 
 
     '''
     Aca se hace la busqueda del medico por criterio y valor
@@ -439,7 +439,7 @@ def buscaRemedio(request):
 def busquedaRemedio(valor):
     remedios=[]
     
-    remedios = Remedio.objects.filter(generico=valor)
+    remedios = Remedio.objects.filter(generico__icontains=valor)
     
     return remedios
 
@@ -666,8 +666,10 @@ def buscarfarmacia(request):
 #OPERACIONES
 
 
-def registrarderivacion(request):
+def registrarderivacion(request, paciente_id):
+    paciente=Paciente.objects.get(persona_ptr_id=paciente_id)
     if request.POST:
+        
         form = DerivacionForm(request.POST)
         if form.is_valid():
             form.save()
@@ -681,7 +683,18 @@ def registrarderivacion(request):
 
     args['form'] = form
 
-    return render_to_response('ABME/Operaciones/registrarderivacion.html', args)
+    return render_to_response('ABME/Operaciones/registrarderivacion.html', args, paciente)
+
+def detallederivacion(request, paciente_id):
+    
+    #ids.append(remedio_id)
+    #return render_to_response('ABME/Operaciones/registrardetalle.html', {'ids':ids})
+    
+    paciente=Paciente.objects.get(persona_ptr_id=paciente_id)
+    
+    
+    return render(request, 'ABME/Operaciones/registrarderivacion.html',{'paciente':paciente})
+    #return render_to_response('ABME/Operaciones/registrarderivacion.html',paciente,context_instance=RequestContext(request))
 
 def listadodetalle(a):
     detalle=[]
@@ -699,53 +712,19 @@ def detalles(persona_ptr_id):
     #detalle=DetalleSolicitud.objects.all(solicitud_id=solicitud.solicitud_id)
     return detalle
 '''
-def registrarsolicitud(request):
-    errors = []
-    ban=True
-      
-    if 'criterio' and 'valor' in request.GET:
-        ban=False
-        criterio = request.GET['criterio']
-        valor = request.GET['valor']
-        
-        if not valor:
-            errors.append('Por favor introduce un termino de busqueda.')
-        elif len(valor) > 20:
-            errors.append('Por favor introduce un termino de busqueda menor a 20 caracteres.')
-        if not criterio:
-            errors.append('Por favor introduce un criterio de busqueda.')
-        if not errors:
+def registrarsolicitud(request, paciente_id):
             
-            
-            pacientes=buscaPaciente(criterio,valor)
-            try:
-                a=pacientes[0].persona_ptr_id
-                detalle=listadodetalle(a)
-                return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'pacientes': pacientes, 'query': valor, 'detalle': detalle, 'persona':a})
-            except IndexError:
-                pacientes=None
-                detalle=None
-                a=None
-                return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'pacientes': pacientes, 'query': valor, 'detalle': detalle, 'persona':a})
-            
-            
-            '''
-            
-            info=buscaPaciente(criterio,valor)
-            
-            pacientes=info['pacientes']
-            
-            if info['ban']==True:
-                #pacientes=info['pacientes']
-                a=pacientes[0].persona_ptr_id
-                detalle=listadodetalle(a)
-                return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'pacientes': pacientes, 'query': valor, 'detalle': detalle, 'persona':a})
-            elif info['ban']==False:
+    try:
                 
-                return render(request, 'ABME/Paciente/buscarpaciente.html',{'pacientes': pacientes, 'query': valor})
-            '''
-                       
-    return render(request, 'ABME/Paciente/buscarpaciente.html', {'errors': errors}) 
+        detalle=listadodetalle(paciente_id)
+        return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'query': paciente_id, 'detalle': detalle, 'persona':paciente_id})
+    except IndexError:
+           
+        detalle=None
+        a=None
+        return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'query': paciente_id, 'detalle': detalle, 'persona':paciente_id})
+            
+          
 
 
 def registrardetalle(request):
@@ -922,3 +901,4 @@ def listadoremedios(fecha1, fecha2):
         detalles = DetalleSolicitud.objects.filter(fecha__range=(fecha1, fecha2))
         
         return detalles  
+    

@@ -1,6 +1,6 @@
 {% extends "index.html" %} 
-{% block htitle %}<title>Registrar Derivación</title>{% endblock %} 
-{% block title %}<h1 class="page-header">Registrar Derivación</h1>{% endblock %} 
+{% block htitle %}<title>Solicitar Derivación</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Solicitar Derivación</h1>{% endblock %} 
 
 
 {% block contenido%} 
@@ -10,12 +10,17 @@
 <form method="post" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 
+{% if paciente%}
+<fieldset  class="scheduler-border">
+
 <div class="form-group">
 <label class="control-label col-md-2" >Paciente:</label> 
 	<div class="col-md-5">
-	<input class="form-control" id="paciente" name="paciente" type="number" />
+	<input class="form-control" id="medico" name="medico" type="hidden" value="{{paciente.persona_ptr_id}}" />
+	<input class="form-control" id="nya_medico" name="nya_medico" type="text" readonly="readonly" value="{{paciente.apellido}} {{paciente.nombre}}" />
 	</div>
 </div>
+{%endif%}
 
 <div class="form-group">
 <label class="control-label col-md-2">Diagnostico:</label> 
