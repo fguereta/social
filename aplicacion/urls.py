@@ -82,7 +82,9 @@ urlpatterns = [
     #OPERACIONES
     
     url(r'^registrarderivacion/', views.registrarderivacion, name='registrarderivacion'),
-    url(r'^registrarsolicitud/', views.registrarsolicitud, name='registrarsolicitud'),
+    url(r'^detallederivacion/(?P<paciente_id>\w+)/$', views.detallederivacion, name='detallederivacion'),
+
+    url(r'^registrarsolicitud/(?P<paciente_id>\w+)/$', views.registrarsolicitud, name='registrarsolicitud'),
     url(r'^listadodetalle/', views.listadodetalle, name='listadodetalle'),
     url(r'^pacientesolicitud/', views.pacientesolicitud, name='pacientesolicitud'),
     url(r'^registrardetalle/', views.registrardetalle, name='registrardetalle'),
