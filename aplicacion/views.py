@@ -203,34 +203,59 @@ def paciente(request):
 
 def registrarpaciente(request):
     paciente=Paciente.objects.all()
+    error=[]
+    ban=0
+
     if request.method=="POST":
 
         form=PacienteForm(request.POST)
         
         if form.is_valid():
             
-            newdoc = Paciente(
+            for elemento in paciente:
+
+                if elemento.dni==request.POST['dni']:
+
+                    ban=ban+1
+
+
+            if ban>0:
+                    for elemento in paciente:
+                        if elemento.estado=='INACTIVO' and elemento.dni==request.POST['dni']:
+
+                            error.append('¿ESTE PACIENTE ESTA INACTIVO DESEA ACTIVARLO?')
                     
-                    dni=request.POST['dni'],
-                    cuil=request.POST['cuil'],
-                    historiaclinica=request.POST['historiaclinica'].upper(),
-                    nombre=request.POST['nombre'].upper(),
-                    apellido=request.POST['apellido'].upper(),
-                    nacimiento=request.POST['nacimiento'],
-                    sexo=request.POST['sexo'],
-                    osocial=request.POST['osocial'].upper(),
-                    telefono=request.POST['telefono'],
-                    direccion=request.POST['direccion'].upper(),
-                    celular=request.POST['celular'],
-                    correo=request.POST['correo'].upper(),
-                    estado='ACTIVO',
-                    observaciones=request.POST['observaciones'].upper()
-                    )
-            newdoc.save(form)
+                            return render_to_response('ABME/Paciente/registrarpaciente.html',{'error':error},context_instance=RequestContext(request))
+
+                        
+                        elif elemento.estado=='ACTIVO' and elemento.dni==request.POST['dni']:
+                            error.append('Este DNI ya se encuentra registrado en el sistema')
+                            return render_to_response('ABME/Paciente/registrarpaciente.html',{'error':error},context_instance=RequestContext(request))
+                
+            if ban<1:
+
+                    newdoc = Paciente(
+                    
+                        dni=request.POST['dni'],
+                        cuil=request.POST['cuil'],
+                        historiaclinica=request.POST['historiaclinica'].upper(),
+                        nombre=request.POST['nombre'].upper(),
+                        apellido=request.POST['apellido'].upper(),
+                        nacimiento=request.POST['nacimiento'],
+                        sexo=request.POST['sexo'],
+                        osocial=request.POST['osocial'].upper(),
+                        telefono=request.POST['telefono'],
+                        direccion=request.POST['direccion'].upper(),
+                        celular=request.POST['celular'],
+                        correo=request.POST['correo'].upper(),
+                        estado='ACTIVO',
+                        observaciones=request.POST['observaciones'].upper()
+                        )
+                    newdoc.save(form)
             
-            id_paciente=Paciente.objects.filter(dni__icontains=request.POST['dni'], cuil__icontains=request.POST['cuil'])
-            ban='exitopaciente'
-            return render_to_response('ABME/Paciente/fichapaciente.html',{'id_paciente':id_paciente,'exitopaciente':ban},context_instance=RequestContext(request))
+                    id_paciente=Paciente.objects.filter(dni__icontains=request.POST['dni'], cuil__icontains=request.POST['cuil'])
+                    ban='exitopaciente'
+                    return render_to_response('ABME/Paciente/fichapaciente.html',{'id_paciente':id_paciente,'exitopaciente':ban},context_instance=RequestContext(request))
 
     return render_to_response('ABME/Paciente/registrarpaciente.html',{'paciente':paciente},context_instance=RequestContext(request)) 
 
