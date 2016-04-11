@@ -1,0 +1,183 @@
+{% extends "ABME/Paciente/menupaciente.html" %}
+{% block contenido_paciente %}
+
+
+
+
+{% for elemento in id_paciente %}
+
+
+<div class="container">
+    <fieldset>
+        <legend>Solicitudes de pacientes {{elemento.apellido}}. {{elemento.nombre}}</legend>
+            <div class="col-md-offset-10"> <a  href="/aplicacion/registrarsolicitud/{{elemento.persona_ptr_id}}"><button class="btn btn-success ">Nueva solicitud</button></a>
+            </div>
+{% endfor %}
+
+			
+            <div class="row">
+            	
+            		<form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+                    <div class="col-md-4 text-left">
+                    <select name="id_solicitud" id="id_solicitud" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                        <option value=""></option>
+                        {% for elemento in solicitudes_paciente %}
+                        <option value="{{elemento.id}}" >Nro de solicitud: {{elemento.id}}, Fecha: {{elemento.fecha}}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+    
+                    <div>
+                    <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                </form> 
+            </div>
+        
+  </fieldset>
+
+
+
+ {% if  id_solicitud %}
+  
+<div class="row">
+<br>
+
+<div class=".container">
+  
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+    <div class="container">
+		
+		<div class="form-group">
+		
+			<label  class="control-label col-md-2">Remedio</label>
+
+			<label class="control-label col-md-2">Fecha</label>
+			
+			<label  class="control-label col-md-2">Dosis</label>
+
+			<label  class="control-label col-md-2">Medico</label>
+			
+			<label  class="control-label col-md-2">Observaciones</label>
+
+
+
+
+		</div>
+    <tbody>
+    {% for elemento in id_solicitud %}
+      <div class="form-group">
+		
+			<label  class="control-label col-md-2">{{elemento.remedio_id}}</label>
+			
+			<label  class="control-label col-md-2">{{elemento.fecha}}</label>
+
+			<label  class="control-label col-md-2">{{elemento.dosis}}</label>
+
+			<label  class="control-label col-md-2">{{elemento.medico_id}}</label>
+
+			<label  class="control-label col-md-2">{{elemento.observaciones}}</label>
+		</div>
+     {% endfor %} 
+      
+    </tbody>
+  </table>
+</div>
+    <br><br>
+            <div class="text-center">
+                <button class="col-md-2 btn btn-primary col-md-offset-10" type="submit">Continuar</button>
+            </div>
+</div>
+</div>
+
+
+ 
+
+ {% endif %}
+ 
+
+ {% if  solicitudes_paciente %}
+<div class="row">
+<br>
+
+<div class=".container">
+  
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+    <div class="container">
+		
+		<div class="form-group">
+		
+			<label  class="control-label col-md-2">Remedio</label>
+
+			<label class="control-label col-md-2">Fecha</label>
+			
+			<label  class="control-label col-md-2">Dosis</label>
+
+			<label  class="control-label col-md-2">Medico</label>
+			
+			<label  class="control-label col-md-2">Observaciones</label>
+
+
+
+
+		</div>
+    <tbody>
+    {% for elemento in solicitudes_paciente %}
+      <div class="form-group">
+		
+			<label  class="control-label col-md-2">{{elemento.remedio_id}}</label>
+			
+			<label  class="control-label col-md-2">{{elemento.fecha}}</label>
+
+			<label  class="control-label col-md-2">{{elemento.dosis}}</label>
+
+			<label  class="control-label col-md-2">{{elemento.medico_id}}</label>
+
+			<label  class="control-label col-md-2">{{elemento.observaciones}}</label>
+		</div>
+     {% endfor %} 
+      
+    </tbody>
+  </table>
+</div>
+    <br><br>
+            <div class="text-center">
+                <button class="col-md-2 btn btn-primary col-md-offset-10" type="submit">Continuar</button>
+            </div>
+</div>
+</div>
+
+
+ 
+
+ {% endif %}
+<script type="text/javascript" charset="utf-8" async defer>
+    
+    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock contenido_paciente %}

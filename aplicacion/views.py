@@ -202,7 +202,7 @@ def paciente(request):
         return render_to_response("ABME/Paciente/paciente.html",  {'paciente': paciente, 'busqueda_paciente':paciente  }, context_instance = RequestContext(request))
 
 def registrarpaciente(request):
-    
+    paciente=Paciente.objects.all()
     if request.method=="POST":
 
         form=PacienteForm(request.POST)
@@ -234,11 +234,15 @@ def registrarpaciente(request):
 
     return render_to_response('ABME/Paciente/registrarpaciente.html',{'paciente':paciente},context_instance=RequestContext(request)) 
 
+def menupaciente(request):
+    
+    
+    return render_to_response("ABME/Paciente/menupaciente.html", context_instance = RequestContext(request))
+
 def fichapaciente(request,id_paciente):
     
     paciente_enviar=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
     return render_to_response("ABME/Paciente/fichapaciente.html",  {'id_paciente': paciente_enviar }, context_instance = RequestContext(request))
-
 def modificarpaciente(request, id_paciente):
     
 
@@ -665,6 +669,29 @@ def buscarfarmacia(request):
 
 #OPERACIONES
 
+def solicitudespaciente(request,id_paciente):
+    
+    solicitudes_paciente=DetalleSolicitud.objects.filter(paciente_id=id_paciente)  
+    idpaciente=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
+    
+    if 'id_solicitud' in request.POST:
+
+        solicitud_recibido = request.POST['id_solicitud']
+
+        solicitud_enviar = DetalleSolicitud.objects.filter(id__icontains=solicitud_recibido) 
+        
+        return render_to_response("ABME/Operaciones/solicitudes_paciente.html",  {'id_solicitud': solicitud_enviar,'id_paciente':idpaciente,'solicitudes_paciente':solicitudes_paciente, }, context_instance = RequestContext(request))
+
+    else:
+    
+    
+        return render_to_response("ABME/Operaciones/solicitudes_paciente.html",  {'solicitudes_paciente':solicitudes_paciente, 'busqueda_paciente':paciente,'id_paciente':idpaciente  }, context_instance = RequestContext(request))
+    
+   
+      
+   
+
+
 
 def registrarderivacion(request, paciente_id):
     paciente=Paciente.objects.get(persona_ptr_id=paciente_id)
@@ -702,29 +729,20 @@ def listadodetalle(a):
     detalle=DetalleSolicitud.objects.filter(paciente_id=a)
     return detalle
 
-'''
-def detalles(persona_ptr_id):
-    
-    detalle=Solicitud.objects.filter(paciente_id=persona_ptr_id)
-    
-    #idsol=solicitud.id()
-        
-    #detalle=DetalleSolicitud.objects.all(solicitud_id=solicitud.solicitud_id)
-    return detalle
-'''
-def registrarsolicitud(request, paciente_id):
-            
+
+def registrarsolicitud(request, id_paciente):
+    id_paciente=Paciente.objects.filter(persona_ptr_id=id_paciente)    
     try:
                 
-        detalle=listadodetalle(paciente_id)
-        return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'query': paciente_id, 'detalle': detalle, 'persona':paciente_id})
+        detalle=listadodetalle(id_paciente)
+        
+        return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'query': id_paciente,'id_paciente':id_paciente, 'detalle': detalle, 'persona':id_paciente})
     except IndexError:
            
         detalle=None
         a=None
-        return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'query': paciente_id, 'detalle': detalle, 'persona':paciente_id})
-            
-          
+        return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'query': id_paciente,'id_paciente':id_paciente, 'detalle': detalle, 'persona':id_paciente})
+        
 
 
 def registrardetalle(request):

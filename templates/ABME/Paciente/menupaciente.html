@@ -1,0 +1,91 @@
+{% extends "index.html" %} 
+
+{% block htitle %}<title>Ficha de paciente</title>{% endblock %} 
+ 
+
+
+{% block contenido %} 
+	
+
+ 
+{% if exitopaciente %}
+
+
+
+<script >
+alertify.success("Se registro correctamente");
+
+ </script>
+{% endif %}
+
+{% if id_paciente %}
+
+{% for elemento in id_paciente %}
+
+
+
+<div class='container'>
+    <div class='panel panel-primary dialog-panel'>
+      <div class='panel-heading'>
+        <h5>{{elemento.apellido}}, {{elemento.nombre}}</h5>
+      </div>
+      <div class="navbar navbar-inverse navbar-fixed ">
+  	<div class="container-fluid ">
+      <div class="navbar-header">
+        	<ul class="nav navbar-nav navbar-right">
+  				<li><a href="/aplicacion/fichapaciente/{{elemento.id}}">Ficha</a></li>
+  				<li><a href="/aplicacion/solicitudespaciente/{{elemento.id}}">Solicitudes</a></li>
+  				<li><a href="/aplicacion/detallederivacion/{{elemento.id}}">Derivaciones</a></li>
+  				<li><a href="/aplicacion/modificarpaciente/{{elemento.id}}">Modificar</a></li>
+  				<li><a  id="confirmacion">Eliminar</a></li>
+			</ul>
+      </div>
+  	</div>
+</div>
+      
+<script type="text/javascript" charset="utf-8" async defer>
+	
+var apellidonombre ='{{elemento.apellido}}, {{elemento.nombre}} <strong>Cuil:{{elemento.cuil}}';
+var id_paciente='{{elemento.id}}'
+
+</script>
+
+
+	{% block contenido_paciente %}	        	
+
+	{% endblock contenido_paciente %}
+
+
+{% endfor %}
+{% endif %}
+
+
+<script type="text/javascript" charset="utf-8" async defer>
+
+
+
+    $("#confirmacion").click(function() {
+
+    	
+	alertify.defaults.glossary.title = '';
+
+    	alertify.confirm("Confirmar eliminacion  "+apellidonombre,
+            function (e) {
+                if (e) {
+                   window.location = "/aplicacion/eliminarpaciente/"+id_paciente;
+                } else {
+                    alertify.error("Has pulsado <strong>"
+                             + alertify.labels.cancel
+                             + "</strong>");
+                }
+        }).setting('labels',{'ok':'Confirmar', 'cancel': 'Cancelar'});
+    });
+
+
+  
+ 
+   
+
+    
+</script>
+{% endblock %} 

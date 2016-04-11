@@ -1,158 +1,137 @@
-{% extends "index.html" %} 
- {% block htitle %}<title>Modificar paciente</title>{% endblock %} 
-
-{% block contenido %} 
+{% extends "ABME/Paciente/menupaciente.html" %}
+{% block contenido_paciente %}
 	
-
-<style type="text/css" media="screen">
-
-.container{
-   height: 80%;
-   width: 0%; /* Para que ocupe el 100% */
-}
-
-textarea.forma{
-   height: 80%;
-   width: 100%; /* Para que ocupe el 100% */
-}
-	fieldset.scheduler-border {
-    border: 0px groove #ddd !important;
-    padding: 1 1.4em 1.4em 1.4em !important;
-    margin: 0 0 1.5em 0 !important;
-    -webkit-box-shadow:  0px 0px 0px 0px #000;
-            box-shadow:  0px 0px 0px 0px #000;
-}
-
-legend.scheduler-border {
-    font-size: 1.2em !important;
-    font-weight: bold !important;
-    text-align: left !important;
-
-}
-</style>
 
 {% for elemento in id_paciente %}
 	
-<div class=".container ">
+<div class='container'>
+    
+      <div class='panel-body'>
+        <form  id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='dni' name='dni' value="{{elemento.dni}}" ></input>
+            </div>
+        
+        </div>
+          
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='cuil' name='cuil' value="{{elemento.cuil}}" ></input>
+            </div>
+        </div>
+          
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Historia clinica</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='historiaclinica' name='historiaclinica' value="{{elemento.historiaclinica}}" ></input>
+            </div>
+        </div>
 
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Obra social</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='osocial' name='osocial' value="{{elemento.osocial}}" ></input>
+            </div>
+        </div>
 
-<ul class="breadcrumb">
-  <li><a href="/aplicacion/fichapaciente/{{elemento.id}}">Ficha</a></li>
-  <li><a href="#">Solicitudes</a></li>
-  <li><a href="#">Derivaciones/</a></li>
-  <li class=" col-md-offset-7" ><a  href="/aplicacion/modificarpaciente/{{elemento.id}}">Modificar</a></li>
-  <li><a href="#">Eliminar</a></li>
-  
-</ul>
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='nombre'>Nombre</label>
+            <div class='col-md-8'>
+              
+              <div class='col-md-4 indent-small'>
+                <div class='form-group internal'>
+                  <input class='form-control' id='nombre' name="nombre" placeholder='Nombre' type='text' value="{{elemento.nombre}}" ></input>
+                </div>
+              </div>
+              <div class='col-md-4 indent-small'>
+                <div class='form-group internal'>
+                  <input class='form-control' id='apellido' name="apellido" placeholder='Apellido' type='text' value="{{elemento.apellido}}" > </input>
+                </div>
 
-<form id="miForm" role="form" method="post" enctype="multipart/form-data" class="form-horizontal">
-{% csrf_token %}
+              </div>
+            </div>
+          </div>
 
+          <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion</label>
+            <div class='col-md-3'>
+              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" value="{{elemento.direccion}}" ></input>
+            </div>
+          </div>
 
-<fieldset form="miForm" class="scheduler-border">
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='telefono'>Telefono</label>
+            <div class='col-md-8'>
+            	<div class='col-md-3 indent-small'>
+            		<div class='form-group internal'>
+             			<input class='form-control' id='telefono' name="telefono" placeholder='Telefono' type='text' value="{{elemento.telefono}}" ></input>
+             		</div>	
+            	</div>
+           		<div class='col-md-3 indent-small'>
+            		<div class='form-group internal'>
+             			<input class='form-control' id='celular' name="celular" placeholder='Alternativo' type='text' value="{{elemento.celular}}"></input>
+             		</div>	
+            	</div>
+            </div>
+         </div>
+          
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='nacimineto'>Fecha de nacimiento</label>
+            <div class='col-md-8'>
+              
+              <div class='col-md-3'>
+                <div class='form-group internal input-group'>
+                  <input class='form-control datepicker' name="nacimiento "id='datepicker' value="{{elemento.nacimiento}}" ></input>
+                  <span class='input-group-addon'>
+                    <i class='glyphicon glyphicon-calendar'></i>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-3 sexo">
+				<select class="form-control" id="sexo" name="sexo">
+					<option value="">---sexo---</option>
+					<option value="MASCULINO">MASCULINO</option>
+					<option value="FEMENINO">FEMENINO</option>
+				</select>
+			</div>
+			<script>$("div.sexo select").val("{{elemento.sexo}}");</script>
+            </div>
+         </div>
 
+          <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='correo'>E-mail</label>
+            <div class='col-md-6'>
+              <div class='form-group'>
+                <div class='col-md-11'>
+                  <input class='form-control' id='correo' name='correo' placeholder='E-mail' type='text' value="{{elemento.correo}}" ></input>
+                </div>
+            	</div>
+           	</div>
+          </div>
+          
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='id_comments'>Observaciones</label>
+            <div class='col-md-6'>
+              <textarea class='form-control' id='observaciones' name='observaciones' placeholder='Escribe aqui...' rows='3' >{{elemento.observaciones}}</textarea>
+            </div>
+         </div>
+        
+         <div class='form-group'>
+           	<div class='col-md-offset-9 col-md-3'>
+           	  <br>
+              <button class='btn-lg btn-danger' style='float:right' type='submit'>Cancelar</button>
+              <button class='btn-lg btn-primary' style='float:right' type='submit'>Guardar</button>
+            </div>
+  		</div>
 
-	<legend class="scheduler-border" >Modificar datos de paciente: {{elemento.apellido}} {{elemento.nombre}}</legend>
-<br>
-<div class="row">
-		<div class="col-md-2">
-			<input class="form-control" id="dni" name="dni" type="text" placeholder="Dni" value="{{elemento.dni}}"/>
-		</div>
+        </form>
+      </div>
+    </div>
+ 
 
-		<div class="col-md-2">
-			<input class="form-control" id="cuil" name="cuil" type="text" placeholder="Cuil" value="{{elemento.cuil}}"/>
-		</div>
-
-		<div class="col-md-2">
-			<input class="form-control" id="historiaclinica" name="historiaclinica" type="text" placeholder="Historia Clinica" value="{{elemento.historiaclinica}}" />
-		</div>
-		
-</div>
-<br><br>
-<legend class="scheduler-border">Informacion personal</legend>
-<br>
-<div class="row">
-	
-		
-		<div class="col-lg-3">
-			<input type="text" class="form-control" id="nombre" name="nombre"  placeholder="Nombre" value="{{elemento.nombre}}" />
-		</div>
-
-		<div class="col-lg-3">
-			<input type="text" class="form-control" id="apellido" name="apellido"  placeholder="Apellido" value="{{elemento.apellido}}"/>
-		</div>
-</div>
-<br>
-<div class="row">
-		
-		<div class="col-md-3">
-			
-			<input class="form-control" id="datepicker" name="nacimiento" type="text" placeholder="Fecha de nacimiento" value="{{elemento.nacimiento}}"/>
-		</div>
-		
-		<div class="col-md-3 sexo">
-			<select class="form-control" id="sexo" name="sexo">
-			
-			<option value="MASCULINO">MASCULINO</option>
-			<option value="FEMENINO">FEMENINO</option>
-			</select>
-		</div>
-		<script>$("div.sexo select").val("{{elemento.sexo}}");</script>
-
-		<div class="col-md-3">
-			<input class="form-control" id="osocial" name="osocial" type="text" placeholder="Obra social" value="{{elemento.osocial}}"/>
-		</div>
-
-</div>
-
-
-<br>
-<legend class="scheduler-border">Datos de Contacto</legend>
-
-<div class="row">
-	
-		<div class="col-md-3">
-			<input class="form-control" id="telefono" name="telefono" type="text" placeholder="Telefono" value="{{elemento.telefono}}"/>
-		</div>
-		
-		<div class="col-md-3">
-			<input class="form-control" id="celular" name="celular" type="text" placeholder="Telefono Alternativo" value="{{elemento.celular}}"/>
-		</div>
-</div>	
-<br>
-<div class="row">	
-		<div class="col-md-3">
-			<input class="form-control" id="direccion" name="direccion" type="text" placeholder="Domicio actual" value="{{elemento.direccion}}" />
-		</div>
-		
-		<div class="col-md-3">
-			<input class="form-control" id="correo" name="correo" type="email" placeholder="ejemplo@ejemplo.com" value="{{elemento.correo}}" />
-		</div>
-
-</div>
-
-		
-<br>
-<legend class="scheduler-border">Observaciones</legend>
-<div class="row form-group">
-	<div class="col-md-5"> 
-        <textarea class="form-control" rows="5"  id="observaciones" name="observaciones">{{elemento.observaciones}}</textarea>
-     </div> 
- </div>
-
-
-<br>
-<div class="row ">
-
-		
-		<button type="submit" class="btn btn-success btn-lg col-md-offset-9">Guardar</button>
-		
-</div>
-
-
-</fieldset>
-</form>
-</div>
 {% endfor %}
 
 <script>
@@ -231,4 +210,4 @@ legend.scheduler-border {
 	});
 </script>
 
-{% endblock %} 
+{% endblock contenido_paciente %} 

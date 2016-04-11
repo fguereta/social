@@ -4,161 +4,154 @@
  
 {% block contenido %} 
 	
+<div class='container'>
+    <div class='panel panel-primary dialog-panel'>
+      <div class='panel-heading'>
+        <h5>Nuevo paciente</h5>
+      </div>
+      <div class='panel-body'>
+        <form  id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='dni' name='dni'></input>
+            </div>
+            <div class='col-md-2'>
+              <div class='btn btn-primary' id='comprobar'>Comprobar</div>
+            </div>
+            {% for elemento in paciente %}
+            <script  type="text/javascript" charset="utf-8" async defer>
+              
+            $("#comprobar").click(function(){
+              valor_dni=$(#dni).val()
+           alert("The paragraph was clicked."+valor_dni.val());
+            });
+  
 
-<style type="text/css" media="screen">
-
-#miForm .error {
-    color: #DF0101;
-}
-
-.container{
-   height: 80%;
-   width: 0%; /* Para que ocupe el 100% */
-}
-
-textarea.forma{
-   height: 80%;
-   width: 100%; /* Para que ocupe el 100% */
-}
-	fieldset.scheduler-border {
-    border: 0px groove #ddd !important;
-    padding: 1 1.4em 1.4em 1.4em !important;
-    margin: 0 0 1.5em 0 !important;
-    -webkit-box-shadow:  0px 0px 0px 0px #000;
-            box-shadow:  0px 0px 0px 0px #000;
-}
-
-legend.scheduler-border {
-    font-size: 1.2em !important;
-    font-weight: bold !important;
-    text-align: left !important;
-
-}
-</style>
+            
 
 
+
+            </script>
+            {% endfor %}
+        </div>
+          
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='cuil' name='cuil'></input>
+            </div>
+        </div>
+          
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Historia clinica*</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='historiaclinica' name='historiaclinica'></input>
+            </div>
+        </div>
+
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Obra social*</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='osocial' name='osocial'></input>
+            </div>
+        </div>
+
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='nombre'>Nombre*</label>
+            <div class='col-md-8'>
+              
+              <div class='col-md-4 indent-small'>
+                <div class='form-group internal'>
+                  <input class='form-control' id='nombre' name="nombre" placeholder='Nombre' type='text'>
+                </div>
+              </div>
+              <div class='col-md-4 indent-small'>
+                <div class='form-group internal'>
+                  <input class='form-control' id='apellido' name="apellido" placeholder='Apellido' type='text'>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          
+ 		<div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion*</label>
+            <div class='col-md-3'>
+              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion"></input>
+            </div>
+          </div>
+
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='telefono'>Telefono</label>
+            <div class='col-md-8'>
+            	<div class='col-md-3 indent-small'>
+            		<div class='form-group internal'>
+             			<input class='form-control' id='telefono' name="telefono" placeholder='Telefono' type='text'>
+             		</div>	
+            	</div>
+           		<div class='col-md-3 indent-small'>
+            		<div class='form-group internal'>
+             			<input class='form-control' id='celular' name="celular" placeholder='Alternativo' type='text'>
+             		</div>	
+            	</div>
+            </div>
+         </div>
+          
+          <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='nacimineto'>Fecha de nacimiento*</label>
+            <div class='col-md-8'>
+              
+              <div class='col-md-3'>
+                <div class='form-group internal input-group'>
+                  <input class='form-control datepicker' name="nacimiento "id='datepicker'>
+                  <span class='input-group-addon'>
+                    <i class='glyphicon glyphicon-calendar'></i>
+                  </span>
+                </div>
+              </div>
+             <div class="col-md-3 sexo">
+				<select class="form-control" id="sexo" name="sexo">
+					<option value="">---sexo---</option>
+					<option value="MASCULINO">Masculino</option>
+					<option value="FEMENINO">Femenino</option>
+				</select>
+			</div>
 	
-<div class=".container ">
+            </div>
+          </div>
 
-<form id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">
-{% csrf_token %}
-
-<br>
-
-
-<fieldset class="scheduler-border">
-
-
-	<legend class="scheduler-border" >Nuevo Paciente</legend>
-
-
-
-
-<div class="row">
-		<div class="col-md-2">
-			<input class="form-control" id="dni" name="dni" type="text" placeholder="Dni" />
-		</div>
-
-
-		<div class="col-md-2">
-			<input class="form-control" id="historiaclinica" name="historiaclinica" type="text" placeholder="Historia Clinica" />
-		</div>
-
-		<div class="col-md-2">
-			<input class="form-control" id="cuil" name="cuil" type="text" placeholder="Cuil" />
-		</div>
-</div>
-		
-
-<br><br>
-<legend class="scheduler-border">Informacion personal</legend>
-<br>
-<div class="row">
-	
-		
-		<div class="col-md-3">
-			<input type="text" class="form-control" id="nombre" name="nombre"  placeholder="Nombre" />
-		</div>
-		
-		<div class="col-md-3">
-			<input type="text" class="form-control" id="apellido" name="apellido"  placeholder="Apellido" />
-		</div>
-</div>
-<br>
-<div class="row">
-		
-		<div class="col-md-3">
-			
-			<input class="form-control" id="datepicker" name="nacimiento" type="text" placeholder="Fecha de nacimiento"/>
-		</div>
-		
-		<div class="col-md-3">
-			<select class="form-control" id="sexo" name="sexo">
-			<option value="" selected="selected">---Sexo---</option>
-			<option value="MASCULINO">Masculino</option>
-			<option value="FEMENINO">Femenino</option>
-			</select>
-		</div>
-
-		<div class="col-md-3">
-			<input class="form-control" id="osocial" name="osocial" type="text" placeholder="Obra social" />
-		</div>
-
-</div>
-
-<br>
-<legend class="scheduler-border">Datos de Contacto</legend>
-
-<div class="row">
-	
-		<div class="col-md-3">
-			<input class="form-control" id="telefono" name="telefono" type="text" placeholder="Telefono" />
-		</div>
-		
-		<div class="col-md-3">
-			<input class="form-control" id="celular" name="celular" type="text" placeholder="Telefono Alternativo"/>
-		</div>
-</div>	
-<br>
-<div class="row">	
-		<div class="col-md-3">
-			<input class="form-control" id="direccion" name="direccion" type="text" placeholder="Domicio actual" />
-		</div>
-		
-		<div class="col-md-3">
-			<input class="form-control" id="correo" name="correo" type="email" placeholder="ejemplo@ejemplo.com" />
-		</div>
-
-</div>
-
-		
-<br>
-<legend class="scheduler-border">Observaciones</legend>
-<div class="row form-group ">
-	<div class="col-md-5"> 
-        <textarea class="form-control" rows="5"  id="observaciones" placeholder="Deje su comentario" ></textarea>
-     </div> 
- </div>
-<br>
-<br>
-<div class="row ">
-
-		
-			<button type="submit" class="btn btn-success col-md-offset-1">Regristrar paciente</button>
-			<button type="reset" class="btn btn-danger col-md-offset-1">Resetear campos</button>
-		
-
-</div>
-
-
-</fieldset>
-
-</form>
-
-</div>
-
+          <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='correo'>E-mail</label>
+            <div class='col-md-6'>
+              <div class='form-group'>
+                <div class='col-md-11'>
+                  <input class='form-control' id='correo' name='correo' placeholder='E-mail' type='text'>
+                </div>
+            	</div>
+           	</div>
+          </div>
+          
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='id_comments'>Observaciones</label>
+            <div class='col-md-6'>
+              <textarea class='form-control' id='observaciones' name='observaciones' placeholder='Escribe aqui...' rows='3'></textarea>
+            </div>
+          </div>
+         <div class='form-group'>
+           	<div class='col-md-offset-9 col-md-3'>
+           	  <br>
+              <button class='btn-lg btn-danger' style='float:right' type='submit'>Cancelar</button>
+              <button class='btn-lg btn-primary' style='float:right' type='submit'>Guardar</button>
+            </div>
+  		</div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 <script>
+
 
 $('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
     $.datepicker.regional[ "es" ]

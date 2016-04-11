@@ -43,7 +43,8 @@ urlpatterns = [
     #utilizados
     url(r'^paciente/', views.paciente, name='paciente'),
     url(r'^registrarpaciente/', views.registrarpaciente, name='registrarpaciente'),
-    url(r'^fichapaciente/(?P<id_paciente>\w+)/$', views.fichapaciente, name='fichapaciente'),
+    url(r'^menupaciente/(?P<id_paciente>\w+)/$', views.menupaciente, name='menupaciente'),
+    url(r'^fichapaciente/(?P<id_paciente>\w+)/$', views.fichapaciente, name='modificarpaciente'),
     url(r'^modificarpaciente/(?P<id_paciente>\w+)/$', views.modificarpaciente, name='modificarpaciente'),
     url(r'^eliminarpaciente/(?P<id_paciente>\w+)/$', views.eliminarpaciente, name='eliminarpaciente'),
     #no utilizados por el momento
@@ -80,11 +81,13 @@ urlpatterns = [
     url(r'^opfarmacia/$', views.opfarmacia, name='opfarmacia'),
     
     #OPERACIONES
-    
+    url(r'^solicitudespaciente/(?P<id_paciente>\w+)/$', views.solicitudespaciente, name='solicitudespaciente'),
+
+
     url(r'^registrarderivacion/', views.registrarderivacion, name='registrarderivacion'),
     url(r'^detallederivacion/(?P<paciente_id>\w+)/$', views.detallederivacion, name='detallederivacion'),
 
-    url(r'^registrarsolicitud/(?P<paciente_id>\w+)/$', views.registrarsolicitud, name='registrarsolicitud'),
+    url(r'^registrarsolicitud/(?P<id_paciente>\w+)/$', views.registrarsolicitud, name='registrarsolicitud'),
     url(r'^listadodetalle/', views.listadodetalle, name='listadodetalle'),
     url(r'^pacientesolicitud/', views.pacientesolicitud, name='pacientesolicitud'),
     url(r'^registrardetalle/', views.registrardetalle, name='registrardetalle'),

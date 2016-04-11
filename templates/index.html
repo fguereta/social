@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-
-  
- 	<meta charset="utf-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="/static/favicon.ico">
@@ -14,78 +11,42 @@
     {% block htitle%}<title>Ministerio de salud - Servicio social</title>{%endblock htitle%}
 
     
-  
-  
-
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/bootstrap/css/dashboard.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/bootstrap/chosen/chosen.css">
-   
-   
     <link rel="stylesheet" href="/static/bootstrap/alertifyjs/css/alertify.css">
-   
-   <link rel="stylesheet" href="/static/bootstrap/alertifyjs/css/themes/default.css">
-  
-   <link rel="stylesheet" href="/static/bootstrap/alertifyjs/css/themes/bootstrap.min.css">
-   <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui.css">
-   <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui-1.10.4.custom.css">
-
-    <!-- Custom styles for this template -->
-    
-
-    
-
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery-1.11.3.min.js">
-    </script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery.validate.js">
-    </script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/additional-methods.js">
-    </script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/messages_es.js">
-    </script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/chosen/chosen.jquery.js">
-    </script> 
-  
-   <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery-ui-1.10.4.custom.js">
-    </script>
-<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/datepicker-es.js">
-    </script>
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/alertifyjs/alertify.min.js">
-    </script>
+    <link rel="stylesheet" href="/static/bootstrap/alertifyjs/css/themes/default.css">
+    <link rel="stylesheet" href="/static/bootstrap/alertifyjs/css/themes/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui-1.10.4.custom.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/estilo.css">
+    <!-- Jquery -->
+    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery-1.11.3.min.js"></script> 
+    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery.validate.js"></script> 
+    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/additional-methods.js"></script> 
+    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/messages_es.js"></script> 
+    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/chosen/chosen.jquery.js"></script> 
+    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery-ui-1.10.4.custom.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/datepicker-es.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/alertifyjs/alertify.min.js"></script>
 
   </head>
 
   <body>
+        {% include "includes/navtop.html" %}
+        <div>
+          {% include "includes/navdown.html" %}
+        </div>
+      
+        <div class="col-sm-0 col-sm-offset-0 col-md-0 col-md-offset-0 main">
+          {%block title%}
+          {%endblock title%}
+          {% block contenido %}	        	
+          {% endblock contenido %}
+        </div>
+      
 
-    {% include "includes/nav.html" %}
-
-    <div class="container-fluid">
-      <div class="row">
-        
-       {% include "includes/sidebar.html" %}
-        
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-       
-
-        {%block title%}
-                
-        {%endblock title%}
-
-
-        
-        {% block contenido %}	        	{% endblock contenido %}
-        
-        
-		</div>
-     
-     </div>
-   </div>
-
-	{% include "includes/scri.html" %}
-   
-
-
-
+    {% include "includes/scri.html" %}
   </body>
 </html>
