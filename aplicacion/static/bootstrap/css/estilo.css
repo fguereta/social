@@ -1,7 +1,19 @@
 
-#miForm .error {
-    color: #DF0101;
+input[type="text"].claserror{
+	color:"red";
+	background:#F79F81;
+	border:2px solid #FE2E2E;
 }
+input[type="email"].claserror{
+	color:"red";
+	background:#F79F81;
+	border:2px solid #FE2E2E;
+}
+erele.claserror {
+	color:#DF0101;
+	font-size: 90%;
+}
+
 /*
 .container{
    height: 80%;
@@ -13,7 +25,7 @@ textarea.forma{
    height: 80%;
    width: 100%; /* Para que ocupe el 100% */
 }
-  fieldset.scheduler-border {
+fieldset.scheduler-border {
     border: 0px groove #ddd !important;
     padding: 1 1.4em 1.4em 1.4em !important;
     margin: 0 0 1.5em 0 !important;

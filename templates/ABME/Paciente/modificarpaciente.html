@@ -11,7 +11,7 @@
         <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni</label>
             <div class='col-md-2'>
-              <input class='form-control' id='dni' name='dni' value="{{elemento.dni}}" ></input>
+              <input class='form-control' id='dni' name='dni' type="text" value="{{elemento.dni}}" ></input>
             </div>
         
         </div>
@@ -19,21 +19,21 @@
          <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
             <div class='col-md-2'>
-              <input class='form-control' id='cuil' name='cuil' value="{{elemento.cuil}}" ></input>
+              <input class='form-control' id='cuil' name='cuil' type="text" value="{{elemento.cuil}}" ></input>
             </div>
         </div>
           
         <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Historia clinica</label>
             <div class='col-md-2'>
-              <input class='form-control' id='historiaclinica' name='historiaclinica' value="{{elemento.historiaclinica}}" ></input>
+              <input class='form-control' id='historiaclinica' name='historiaclinica' type="text" value="{{elemento.historiaclinica}}" ></input>
             </div>
         </div>
 
         <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Obra social</label>
             <div class='col-md-2'>
-              <input class='form-control' id='osocial' name='osocial' value="{{elemento.osocial}}" ></input>
+              <input class='form-control' id='osocial' name='osocial' type="text" value="{{elemento.osocial}}" ></input>
             </div>
         </div>
 
@@ -58,7 +58,7 @@
           <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion</label>
             <div class='col-md-3'>
-              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" value="{{elemento.direccion}}" ></input>
+              <input class='form-control' id='direccion' name='direccion' type="text" placeholder="Direccion" value="{{elemento.direccion}}" ></input>
             </div>
           </div>
 
@@ -84,7 +84,7 @@
               
               <div class='col-md-3'>
                 <div class='form-group internal input-group'>
-                  <input class='form-control datepicker' name="nacimiento "id='datepicker' value="{{elemento.nacimiento}}" ></input>
+                  <input class='form-control datepicker' name='nacimiento' type='text' id='datepicker' value="{{elemento.nacimiento}}" ></input>
                   <span class='input-group-addon'>
                     <i class='glyphicon glyphicon-calendar'></i>
                   </span>
@@ -92,7 +92,7 @@
               </div>
               <div class="col-md-3 sexo">
 				<select class="form-control" id="sexo" name="sexo">
-					<option value="">---sexo---</option>
+					<option value="">---Sexo---</option>
 					<option value="MASCULINO">MASCULINO</option>
 					<option value="FEMENINO">FEMENINO</option>
 				</select>
@@ -136,19 +136,43 @@
 
 <script>
 
-
- $('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
-    $.datepicker.regional[ "es" ]
-
-	$("#miForm").validate({
+$('#datepicker').datepicker({
+	dateFormat: 'dd/mm/yy',
+	changeYear: true,
+	yearRange: "1900:2100"
+	});
+$.datepicker.regional[ "es" ]
+    
+$("#miForm").validate({
+	errorClass: "claserror",
+    validClass: "clasevalida",
+    errorElement: 'erele',
 		rules: {
 	      	nombre: {
 	        	required: true,
-	        	lettersonly: true
+	        	lettersonly: true,
+				maxlength: "20"
+	      	},
+			razon_social: {
+	        	required: true,
+	        	lettersonly: true,
+				maxlength: "25"
+	      	},
+			especialidad: {
+	        	required: true
+	      	},
+			matriculaprovincial: {
+	        	required: true,
+				maxlength: "20"
+	      	},
+			matriculanacional: {
+	        	required: true,
+				maxlength: "20"
 	      	},
 	      	apellido: {
 	        	required: true,
-	        	lettersonly: true
+	        	lettersonly: true,
+				maxlength: "20"
 	      	},
 	      	dni: {
 	        	required: true,
@@ -167,47 +191,57 @@
 	        	date: true
 	      	},
 	      	correo: {
-	        	required: true,
 	        	email: true
 	      	},
 	      	direccion: {
-	        	required: true
+	        	required: true,
+				maxlength: "25"
 	      	},
 	      	telefono: {
 	        	required: true,
-	        	digits: true
+	        	digits: true,
+				maxlength: "20"
 	      	},
 	      	celular: {
-	        	required: true,
-	        	digits: true
+	        	digits: true,
+				maxlength: "20"
 	      	},
 	      	sexo: {
 	        	required: true
 	      	},
 	      	historiaclinica: {
 	        	required: true,
-	        	lettersonly: true
+			maxlength: "20"
 	      	},
 	      	osocial: {
-	        	required: true,
-	        	lettersonly: true
+	        	lettersonly: true,
+				maxlength: "20"
 	      	}
 		},
 	messages: {
 		nombre: {
-  			lettersonly: "Escribe sólo letras"	    
+  			lettersonly: "Escribe sólo letras"
 	  	},
 	  	apellido: {
   			lettersonly: "Escribe sólo letras"	    
 	  	},
-	  	historiaclinica: {
-  			lettersonly: "Escribe sólo letras"	    
-	  	},
 	  	osocial: {
   			lettersonly: "Escribe sólo letras"	    
+	  	},
+		razon_social: {
+  			lettersonly: "Escribe sólo letras"
 	  	}
-		}
+		},
+	highlight: function (element, errorClass, validClass) {
+        $(element).parent('.miForm').addClass('error');
+        $(element).addClass(errorClass).removeClass(validClass);
+        },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).parent('.miForm').removeClass('error');
+        $(element).addClass(validClass).removeClass(errorClass);
+        }
 	});
+
 </script>
 
 {% endblock contenido_paciente %} 

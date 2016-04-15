@@ -10,11 +10,11 @@
         <h5>Nuevo paciente</h5>
       </div>
       <div class='panel-body'>
-        <form  id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+        <form id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
         <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
             <div class='col-md-2'>
-              <input class='form-control' id='dni' name='dni'></input>
+              <input class='form-control' id='dni' name='dni' type='text'></input>
             </div>
 
             <div class='col-md-2'>
@@ -38,21 +38,21 @@
          <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
             <div class='col-md-2'>
-              <input class='form-control' id='cuil' name='cuil'></input>
+              <input class='form-control' id='cuil' name='cuil' type='text'></input>
             </div>
         </div>
           
         <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Historia clinica*</label>
             <div class='col-md-2'>
-              <input class='form-control' id='historiaclinica' name='historiaclinica'></input>
+              <input class='form-control' id='historiaclinica' name='historiaclinica' type='text'></input>
             </div>
         </div>
 
         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Obra social*</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Obra social</label>
             <div class='col-md-2'>
-              <input class='form-control' id='osocial' name='osocial'></input>
+              <input class='form-control' id='osocial' name='osocial' type='text'></input>
             </div>
         </div>
 
@@ -77,7 +77,7 @@
  		<div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion*</label>
             <div class='col-md-3'>
-              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion"></input>
+              <input class='form-control' id='direccion' name='direccion' type='text' placeholder="Direccion"></input>
             </div>
           </div>
 
@@ -103,7 +103,7 @@
               
               <div class='col-md-3'>
                 <div class='form-group internal input-group'>
-                  <input class='form-control datepicker' name="nacimiento "id='datepicker'>
+                  <input class='form-control datepicker' name='nacimiento' type='text' id='datepicker'>
                   <span class='input-group-addon'>
                     <i class='glyphicon glyphicon-calendar'></i>
                   </span>
@@ -111,7 +111,7 @@
               </div>
              <div class="col-md-3 sexo">
 				<select class="form-control" id="sexo" name="sexo">
-					<option value="">---sexo---</option>
+					<option value="">---Sexo---</option>
 					<option value="MASCULINO">Masculino</option>
 					<option value="FEMENINO">Femenino</option>
 				</select>
@@ -125,7 +125,7 @@
             <div class='col-md-6'>
               <div class='form-group'>
                 <div class='col-md-11'>
-                  <input class='form-control' id='correo' name='correo' placeholder='E-mail' type='text'>
+                  <input class='form-control' id='correo' name='correo' placeholder='E-mail' type='email'>
                 </div>
             	</div>
            	</div>
@@ -152,19 +152,43 @@
 
 <script>
 
-
-$('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
-    $.datepicker.regional[ "es" ]
+$('#datepicker').datepicker({
+	dateFormat: 'dd/mm/yy',
+	changeYear: true,
+	yearRange: "1900:2100"
+	});
+$.datepicker.regional[ "es" ]
     
-	$("#miForm").validate({
+$("#miForm").validate({
+	errorClass: "claserror",
+    validClass: "clasevalida",
+    errorElement: 'erele',
 		rules: {
 	      	nombre: {
 	        	required: true,
-	        	lettersonly: true
+	        	lettersonly: true,
+				maxlength: "20"
+	      	},
+			razon_social: {
+	        	required: true,
+	        	lettersonly: true,
+				maxlength: "25"
+	      	},
+			especialidad: {
+	        	required: true
+	      	},
+			matriculaprovincial: {
+	        	required: true,
+				maxlength: "20"
+	      	},
+			matriculanacional: {
+	        	required: true,
+				maxlength: "20"
 	      	},
 	      	apellido: {
 	        	required: true,
-	        	lettersonly: true
+	        	lettersonly: true,
+				maxlength: "20"
 	      	},
 	      	dni: {
 	        	required: true,
@@ -186,23 +210,28 @@ $('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
 	        	email: true
 	      	},
 	      	direccion: {
-	        	required: true
+	        	required: true,
+				maxlength: "25"
 	      	},
 	      	telefono: {
 	        	required: true,
-	        	digits: true
+	        	digits: true,
+				maxlength: "20"
 	      	},
 	      	celular: {
-	        	digits: true
+	        	digits: true,
+				maxlength: "20"
 	      	},
 	      	sexo: {
 	        	required: true
 	      	},
 	      	historiaclinica: {
-	        	required: true
+	        	required: true,
+			maxlength: "20"
 	      	},
 	      	osocial: {
-	        	lettersonly: true
+	        	lettersonly: true,
+				maxlength: "20"
 	      	}
 		},
 	messages: {
@@ -214,14 +243,19 @@ $('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
 	  	},
 	  	osocial: {
   			lettersonly: "Escribe sólo letras"	    
+	  	},
+		razon_social: {
+  			lettersonly: "Escribe sólo letras"
 	  	}
 		},
-	highlight: function (element) {
-            $(element).closest('.miForm').addClass('has-error');
+	highlight: function (element, errorClass, validClass) {
+        $(element).parent('.miForm').addClass('error');
+        $(element).addClass(errorClass).removeClass(validClass);
         },
-    unhighlight: function (element) {
-            $(element).closest('.miForm').removeClass('has-error');
-        },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).parent('.miForm').removeClass('error');
+        $(element).addClass(validClass).removeClass(errorClass);
+        }
 	});
 </script>
 
