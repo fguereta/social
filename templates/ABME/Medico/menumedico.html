@@ -1,6 +1,6 @@
 {% extends "index.html" %} 
 
-{% block htitle %}<title>Ficha de paciente</title>{% endblock %} 
+{% block htitle %}<title>Ficha de profesional</title>{% endblock %} 
  
 
 
@@ -8,13 +8,12 @@
 	
 
  
-{% if exitopaciente %}<script >alertify.success("Se registro correctamente");</script>{% endif %}
-{% if exito_modificar_paciente %}<script >alertify.success("Se modificaron los datos correctamente");</script>{% endif %}
+{% if exitomedico %}<script >alertify.success("Se registro correctamente");</script>{% endif %}
+{% if exito_modificar_medico %}<script >alertify.success("Se modificaron los datos correctamente");</script>{% endif %}
 
+{% if id_medico %}
 
-{% if id_paciente %}
-
-{% for elemento in id_paciente %}
+{% for elemento in id_medico %}
 
 
 
@@ -27,10 +26,9 @@
   	<div class="container-fluid ">
       <div class="navbar-header">
         	<ul class="nav navbar-nav navbar-right">
-  				<li><a href="/aplicacion/fichapaciente/{{elemento.id}}">Ficha</a></li>
-  				<li><a href="/aplicacion/solicitudespaciente/{{elemento.id}}">Solicitudes</a></li>
-  				<li><a href="/aplicacion/detallederivacion/{{elemento.id}}">Derivaciones</a></li>
-  				<li><a href="/aplicacion/modificarpaciente/{{elemento.id}}">Modificar</a></li>
+  				<li><a href="/aplicacion/fichamedico/{{elemento.id}}">Ficha</a></li>
+  				<li><a href="">Pacientes intervenidos</a></li>
+  				<li><a href="/aplicacion/modificarmedico/{{elemento.id}}">Modificar</a></li>
   				<li><a  id="confirmacion">Eliminar</a></li>
 			</ul>
       </div>
@@ -40,14 +38,14 @@
 <script type="text/javascript" charset="utf-8" async defer>
 	
 var apellidonombre ='{{elemento.apellido}}, {{elemento.nombre}} <strong>Cuil:{{elemento.cuil}}';
-var id_paciente='{{elemento.id}}'
+var id_medico='{{elemento.id}}'
 
 </script>
 
 
-	{% block contenido_paciente %}	        	
+	{% block contenido_medico %}	        	
 
-	{% endblock contenido_paciente %}
+	{% endblock contenido_medico %}
 
 
 {% endfor %}

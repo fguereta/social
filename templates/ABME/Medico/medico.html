@@ -3,37 +3,29 @@
 
 {% block contenido%}
 
+<div class="container">
+    <fieldset>
+        <legend>Profesionales</legend>
+            <div class="col-md-offset-10"> <a  href="/aplicacion/registrarmedico"><button class="btn btn-success ">Agregar profesional</button></a>
+            </div>
 
-<fieldset>
-    <legend>Profesoniales</legend>
-   
-    <div class="col-md-offset-10"> <a  href="/aplicacion/registrarmedico"><button class="btn btn-success ">Agregar</button></a>
-</div>
-
+            <div class="row">
+                <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+                    <div class="col-md-4 text-left">
+                    <select name="id_medico" id="id_medico" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                        <option value=""></option>
+                        {% for elemento in busqueda_medico %}
+                        <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
     
-
-
-<div class="row">
-    <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">
-{% csrf_token %}
-            <div class="col-md-4 text-left">
-            
-                <select name="id_medico" id="id_medico" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-
-                <option value=""></option>
-                {% for elemento in busqueda_medico %}
-                    <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
-                {% endfor %}
+                    <div>
+                    <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                </form> 
+            </div>
         
-                </select>
-            </div>
-    
-            <div>
-                <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
-            </div>
-    </form> 
-</div>
-     
   </fieldset>
  
  {% if id_medico %}
@@ -50,7 +42,7 @@
         <th class=" text-center"></th>
         <th class="text-center">Apellido y Nombre</th>
         <th class="text-center">Dni</th>
-        <th class="text-center">Especialidad</th>
+        <th class="text-center">Cuil</th>
         
         
       </tr>
@@ -61,7 +53,7 @@
         <td class="col-md-1 text-center"><a href="/aplicacion/fichamedico/{{elemento.id}}/"><button class=" btn btn-success btn-sm"  >Ver ficha</button></a>
         <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
         <td class="col-md-2 text-center">{{elemento.dni}}</td>
-        <td class="col-md-2 text-center">{{elemento.especialidad}}</td>
+        <td class="col-md-2 text-center">{{elemento.cuil}}</td>
         
          
       </tr>
@@ -70,7 +62,7 @@
     </tbody>
   </table>
 </div>
-    <br><br>
+   
 </div>
 </div>
  {% endif %}
@@ -89,7 +81,7 @@
         <th class=" text-center"></th>
         <th class="text-center">Apellido y Nombre</th>
         <th class="text-center">Dni</th>
-        <th class="text-center">Especialidad</th>
+        <th class="text-center">Cuil</th>
         
         
       </tr>
@@ -100,7 +92,7 @@
         <td class="col-md-1 text-center"><a href="/aplicacion/fichamedico/{{elemento.id}}/"><button class=" btn btn-success btn-sm">Ver ficha</button></a>
         <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
         <td class="col-md-2 text-center">{{elemento.dni}}</td>
-        <td class="col-md-2 text-center">{{elemento.especialidad}}</td>
+        <td class="col-md-2 text-center">{{elemento.cuil}}</td>
         
          
       </tr>
@@ -112,22 +104,17 @@
             
 </div>
 </div>
+</div>
  {% endif %}
 
 
 <script type="text/javascript" charset="utf-8" async defer>
     
-    $(".chosen-select").chosen({no_results_text: "No existe ese medico"});
+    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
 
 </script>
 
 
 
 
-
 {% endblock %}
-
-
-
-
-

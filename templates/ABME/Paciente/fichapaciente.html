@@ -1,5 +1,7 @@
 {% extends "ABME/Paciente/menupaciente.html" %}
+
 {% block contenido_paciente %}
+
 {% if id_paciente %}
 
 {% for elemento in id_paciente %}
@@ -10,7 +12,6 @@
             <div class='col-md-2'>
               <input class='form-control' id='dni' name='dni' value="{{elemento.dni}}" readonly></input>
             </div>
-        
         </div>
           
          <div class='form-group'>
@@ -78,7 +79,6 @@
          <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='nacimineto'>Fecha de nacimiento</label>
             <div class='col-md-8'>
-              
               <div class='col-md-3'>
                 <div class='form-group internal input-group'>
                   <input class='form-control datepicker' name="nacimiento "id='datepicker' value="{{elemento.nacimiento}}" readonly></input>
@@ -117,5 +117,8 @@
     </div>
   </div>
 {% endfor %}
+
 {% endif %}
-  {% endblock contenido_paciente %}
+
+
+{% endblock contenido_paciente %}

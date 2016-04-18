@@ -6,7 +6,7 @@ from aplicacion.form import *
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
-
+from django.core.urlresolvers import reverse
 
 
 def index(request):
@@ -97,7 +97,9 @@ def modificarmedico(request,id_medico):
             medico.estado="ACTIVO"
             medico.save()
 
-            return render_to_response('ABME/Notificaciones/mregistrado.html')
+            id_medico=Medico.objects.filter(dni__icontains=request.POST['dni'], cuil__icontains=request.POST['cuil'])
+            ban='exito_modificar_medico'
+            return render_to_response('ABME/Medico/fichamedico.html',{'id_medico':id_medico,'exito_modificar_medico':ban},context_instance=RequestContext(request))
     else:
         medico_enviar=Medico.objects.filter(persona_ptr_id=id_medico, estado='ACTIVO')
         return render_to_response("ABME/Medico/modificarmedico.html",  {'id_medico': medico_enviar }, context_instance = RequestContext(request))    
@@ -201,6 +203,28 @@ def paciente(request):
     
         return render_to_response("ABME/Paciente/paciente.html",  {'paciente': paciente, 'busqueda_paciente':paciente  }, context_instance = RequestContext(request))
 
+
+def menupaciente(request):
+    
+    
+    return render_to_response("ABME/Paciente/menupaciente.html", context_instance = RequestContext(request))
+
+def fichapaciente(request,id_paciente):
+    
+    paciente_enviar=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
+    return render_to_response("ABME/Paciente/fichapaciente.html",  {'id_paciente': paciente_enviar }, context_instance = RequestContext(request))        
+
+
+def comprobarpaciente(request,dni_paciente):
+
+    id_paciente=Paciente.objects.filter(dni=dni_paciente,estado="ACTIVO")
+    id_paciente_inactivo=Paciente.objects.filter(dni=dni_paciente,estado="INACTIVO")
+
+    return render_to_response("ABME/Paciente/registrarpaciente.html",{'id_paciente':id_paciente,'id_paciente_inactivo':id_paciente_inactivo}, context_instance = RequestContext(request))
+    
+    
+
+
 def registrarpaciente(request):
     paciente=Paciente.objects.all()
     error=[]
@@ -223,14 +247,16 @@ def registrarpaciente(request):
                     for elemento in paciente:
                         if elemento.estado=='INACTIVO' and elemento.dni==request.POST['dni']:
 
-                            error.append('¿ESTE PACIENTE ESTA INACTIVO DESEA ACTIVARLO?')
-                    
-                            return render_to_response('ABME/Paciente/registrarpaciente.html',{'error':error},context_instance=RequestContext(request))
+                            id_paciente_inactivo=Paciente.objects.filter(estado='INACTIVO', dni=elemento.dni)
+                            error.append('Este numero de dni se encunetra inactivo. ¿Desea activarlo?')
+                            return render_to_response('ABME/Paciente/registrarpaciente.html',{'id_paciente_inactivo':id_paciente_inactivo},context_instance=RequestContext(request))
 
                         
                         elif elemento.estado=='ACTIVO' and elemento.dni==request.POST['dni']:
-                            error.append('Este DNI ya se encuentra registrado en el sistema')
-                            return render_to_response('ABME/Paciente/registrarpaciente.html',{'error':error},context_instance=RequestContext(request))
+                            
+                            paciente_enviar=Paciente.objects.filter(estado='ACTIVO', dni=elemento.dni)
+                            error.append('Este numero de dni ya se encuentra registrado en el sistema')
+                            return render_to_response('ABME/Paciente/registrarpaciente.html',{'id_paciente':paciente_enviar,'error':error},context_instance=RequestContext(request))
                 
             if ban<1:
 
@@ -259,15 +285,7 @@ def registrarpaciente(request):
 
     return render_to_response('ABME/Paciente/registrarpaciente.html',{'paciente':paciente},context_instance=RequestContext(request)) 
 
-def menupaciente(request):
-    
-    
-    return render_to_response("ABME/Paciente/menupaciente.html", context_instance = RequestContext(request))
 
-def fichapaciente(request,id_paciente):
-    
-    paciente_enviar=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
-    return render_to_response("ABME/Paciente/fichapaciente.html",  {'id_paciente': paciente_enviar }, context_instance = RequestContext(request))
 def modificarpaciente(request, id_paciente):
     
 
@@ -295,25 +313,42 @@ def modificarpaciente(request, id_paciente):
             paciente.estado="ACTIVO"
             paciente.save()
 
-            return render_to_response('ABME/Notificaciones/mregistrado.html')
+            id_paciente=Paciente.objects.filter(dni__icontains=request.POST['dni'], cuil__icontains=request.POST['cuil'])
+            ban='exito_modificar_paciente'
+            return render_to_response('ABME/Paciente/fichapaciente.html',{'id_paciente':id_paciente,'exito_modificar_paciente':ban},context_instance=RequestContext(request))
     else:
         paciente_enviar=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
         return render_to_response("ABME/Paciente/modificarpaciente.html",  {'id_paciente': paciente_enviar }, context_instance = RequestContext(request))
 
+        
 def eliminarpaciente(request, id_paciente):
+    
     paciente=Paciente.objects.filter(estado='ACTIVO')
     
-    paciente_eliminado=Paciente.objects.get(persona_ptr_id=id_paciente)
-    paciente_eliminado.estado="INACTIVO"
-    paciente_eliminado.save()
+    paciente_actualizar_estado=Paciente.objects.get(persona_ptr_id=id_paciente)
+
+    if paciente_actualizar_estado.estado=='INACTIVO':
+        
+        paciente_activado=Paciente.objects.get(persona_ptr_id=id_paciente)
+        paciente_activado.estado="ACTIVO"
+        paciente_activado.save()
+        paciente_enviar=Paciente.objects.filter(persona_ptr_id=id_paciente)
+        return render_to_response("ABME/Paciente/fichapaciente.html",{'id_paciente':paciente_enviar},  context_instance = RequestContext(request))
+        
+
+    if paciente_actualizar_estado.estado=='ACTIVO':
+        paciente_eliminado=Paciente.objects.get(persona_ptr_id=id_paciente)
+        paciente_eliminado.estado="INACTIVO"
+        paciente_eliminado.save()
+        
+        return render_to_response("ABME/Paciente/paciente.html",{'paciente':paciente},  context_instance = RequestContext(request))
+        
+        
         
         
     return render_to_response("ABME/Paciente/paciente.html",{'paciente':paciente},  context_instance = RequestContext(request))
     
     
-
-
-
 def resultadopaciente(request):
     return render_to_response('includes/resultadopaciente.html')
 
