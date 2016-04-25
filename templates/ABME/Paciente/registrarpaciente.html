@@ -14,7 +14,7 @@
         <div class='form-group'>
           <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
           <div class='col-md-2'>
-            <input class='form-control' id='dni' name='dni' type='text' value='{{elemento.dni}}'></input>
+            <input class='form-control' id='dni' name='dni' type='text' placeholder='Dni' value='{{elemento.dni}}'></input>
           </div>
           <div class='col-md-2'>
             <div class='btn btn-primary' id='comprobar'>Comprobar</div>
@@ -40,21 +40,21 @@
         <div class='form-group'>
           <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
           <div class='col-md-2'>
-            <input class='form-control' id='cuil' name='cuil' type='text' value='{{elemento.cuil}}'></input>
+            <input class='form-control' id='cuil' name='cuil' type='text' placeholder='Cuil' value='{{elemento.cuil}}'></input>
           </div>
         </div>
           
         <div class='form-group'>
           <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Historia clinica*</label>
           <div class='col-md-2'>
-            <input class='form-control' id='historiaclinica' name='historiaclinica' type='text' value='{{elemento.historiaclinica}}'></input>
+            <input class='form-control' id='historiaclinica' name='historiaclinica' type='text' placeholder='Historia clinica' value='{{elemento.historiaclinica}}'></input>
           </div>
         </div>
 
         <div class='form-group'>
           <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Obra social</label>
           <div class='col-md-2'>
-            <input class='form-control' id='osocial' name='osocial' type='text' value='{{elemento.osocial}}'></input>
+            <input class='form-control' id='osocial' name='osocial' type='text' placeholder='Obra social' value='{{elemento.osocial}}'></input>
           </div>
         </div>
 
@@ -140,9 +140,14 @@
           <div class='form-group'>
             <div class='col-md-offset-9 col-md-3'>
               <br>
-              <button class='btn-lg btn-danger' style='float:right' type='submit'>Cancelar</button>
+              <!--<button class='btn-lg btn-danger' style='float:right' id='cancelar'>Cancelar</button>-->
               <button class='btn-lg btn-primary' style='float:right' type='submit'>Guardar</button>
             </div>
+            <script type="text/javascript" charset="utf-8" async defer>
+              $("button[id=cancelar]").click(function () {
+                window.location.href = "/aplicacion/paciente";
+              });
+            </script>
           </div>
         
         </form>
@@ -162,28 +167,49 @@
         
           <div class='form-group'>
             
-            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
-            <div class='col-md-2'>
+            
               {% if id_paciente_inactivo %}
                 {% for elemento in id_paciente_inactivo %}
-                  <input class='form-control' id='dni' name='dni' type='text' value='{{elemento.dni}}'></input>
+                <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
+                  <div class='col-md-2'>
+                    <input class='form-control' id='dni' name='dni' type='text' placeholder='Dni' value='{{elemento.dni}}'></input>
+                  </div>
+                  <div class='col-md-2'>
+                    <div class='btn btn-primary' id='comprobar'>Comprobar</div>
+                  </div>
                 {% endfor %}
              
-              {% else %}
-                <input class='form-control' id='dni' name='dni' type='text'></input>
+              {% elif dni %}
+                <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
+                  <div class='col-md-2'>
+                  <input class='form-control' id='dni' name='dni' type='text' placeholder='Dni' value='{{dni}}' ></input>
+                  </div>
+                
+                <div class='col-md-4'>
+                  <font color="green" SIZE=5 >✓</font>
+                    <div class='btn btn-primary col-md-offset-1' id='comprobar'>Comprobar</div>
+                </div>
+               
+              {% else %} 
+                <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
+                <div class='col-md-2'>
+                  <input class='form-control' id='dni' name='dni' type='text'  placeholder='Dni' ></input>
+                </div>
+                
+                <div class='col-md-2'>
+                  <div class='btn btn-primary' id='comprobar'>Comprobar</div>
+                </div>
               {% endif %}  
-            </div>
+            
               
-            <div class='col-md-2'>
-              <div class='btn btn-primary' id='comprobar'>Comprobar</div>
-            </div>
+            
             <script  type="text/javascript" charset="utf-8" async defer>
               $("div[id=comprobar]").click(function () {
                 var dni = $("#dni").val();
                 window.location.href = "/aplicacion/comprobarpaciente/"+dni;
               });
             </script>
-          </div>
+         </div>
         
           {% if paciente_enviar %}
             {% for elemento in paciente_enviar %}
@@ -211,7 +237,7 @@
           {% if id_paciente_inactivo %}
             {% for elemento in id_paciente_inactivo %}
               <div class='form-group'>
-                <label class='control-label col-md-5 col-md-offset-2'>¿Este paciente se encuentra inactivo desea activarlo?</label>
+                <label class='control-label col-md-7 col-md-offset-1'>Este DNI pertenece a un paciente que se encuentra inactivo. ¿Desea activarlo?</label>
                 <div type="button" class="btn btn-success btn-xs" id="activar">Si</div>
                 <div type="button" class="btn btn-danger btn-xs" id='no_activar'>No</div>
               </div>
@@ -234,21 +260,21 @@
           <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
             <div class='col-md-2'>
-              <input class='form-control' id='cuil' name='cuil' type='text'></input>
+              <input class='form-control' id='cuil' name='cuil' type='text' placeholder='Cuil'></input>
             </div>
           </div>
           
           <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Historia clinica*</label>
             <div class='col-md-2'>
-              <input class='form-control' id='historiaclinica' name='historiaclinica' type='text'></input>
+              <input class='form-control' id='historiaclinica' name='historiaclinica' type='text' placeholder='Historia clinica'></input>
             </div>
           </div>
 
           <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Obra social</label>
             <div class='col-md-2'>
-              <input class='form-control' id='osocial' name='osocial' type='text'></input>
+              <input class='form-control' id='osocial' name='osocial' type='text' placeholder='Obra social'></input>
             </div>
           </div>
 
@@ -296,7 +322,8 @@
             <div class='col-md-8'>
               <div class='col-md-3'>
                 <div class='form-group internal input-group'>
-                  <input class='form-control datepicker' name='nacimiento' type='text' id='datepicker'>
+                  <input class='form-control datepicker' name='nacimiento' type='text' id='datepicker'
+                  placeholder='dd/mm/yyyy'>
                   <span class='input-group-addon'>
                     <i class='glyphicon glyphicon-calendar'></i>
                   </span>
@@ -333,9 +360,14 @@
           <div class='form-group'>
             <div class='col-md-offset-9 col-md-3'>
               <br>
-              <button class='btn-lg btn-danger' style='float:right' type='submit'>Cancelar</button>
+              <button class='btn-lg btn-danger' style='float:right' id='cancelar'>Cancelar</button>
               <button class='btn-lg btn-primary' style='float:right' type='submit'>Guardar</button>
             </div>
+            <script type="text/javascript" charset="utf-8" async defer>
+              $("button[id=cancelar]").click(function () {
+                window.location.href = "/aplicacion/paciente";
+              });
+            </script>
           </div>
         
         </form>

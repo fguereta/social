@@ -217,10 +217,12 @@ def fichapaciente(request,id_paciente):
 
 def comprobarpaciente(request,dni_paciente):
 
+
+
     id_paciente=Paciente.objects.filter(dni=dni_paciente,estado="ACTIVO")
     id_paciente_inactivo=Paciente.objects.filter(dni=dni_paciente,estado="INACTIVO")
-
-    return render_to_response("ABME/Paciente/registrarpaciente.html",{'id_paciente':id_paciente,'id_paciente_inactivo':id_paciente_inactivo}, context_instance = RequestContext(request))
+    dni=dni_paciente
+    return render_to_response("ABME/Paciente/registrarpaciente.html",{'id_paciente':id_paciente,'id_paciente_inactivo':id_paciente_inactivo, 'dni':dni}, context_instance = RequestContext(request))
     
     
 
@@ -257,7 +259,9 @@ def registrarpaciente(request):
                             paciente_enviar=Paciente.objects.filter(estado='ACTIVO', dni=elemento.dni)
                             error.append('Este numero de dni ya se encuentra registrado en el sistema')
                             return render_to_response('ABME/Paciente/registrarpaciente.html',{'id_paciente':paciente_enviar,'error':error},context_instance=RequestContext(request))
-                
+                        else:
+                            dni=request.POST['dni']
+                            return render_to_response('ABME/Paciente/registrarpaciente.html',{'dni':dni},context_instance=RequestContext(request))
             if ban<1:
 
                     newdoc = Paciente(
