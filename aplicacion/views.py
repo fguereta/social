@@ -203,7 +203,58 @@ def paciente(request):
     
         return render_to_response("ABME/Paciente/paciente.html",  {'paciente': paciente, 'busqueda_paciente':paciente  }, context_instance = RequestContext(request))
 
+def comprobar(request,cuil_paciente='0'):
+    
 
+    cuil_recibido=cuil_paciente
+    
+    id_paciente=Paciente.objects.filter(cuil=cuil_paciente)
+    #id_paciente_inactivo=Paciente.objects.filter(cuil=cuil_paciente,estado="INACTIVO")
+
+    if cuil_paciente=='0':
+
+        return render_to_response("ABME/Paciente/comprobar.html", context_instance = RequestContext(request)) 
+
+    
+
+    if cuil_recibido!=0:
+
+        cuil={
+            'cuil1':cuil_recibido[0:2],
+            'dni':cuil_recibido[2:10],
+            'cuil2':cuil_recibido[10]
+        }
+        
+        for elemento in id_paciente:
+
+            if elemento.estado=="INACTIVO":
+                
+                datos_enviados={
+
+                    'cuil':cuil,
+                    'id_paciente_inactivo':id_paciente
+                }
+
+
+                return render_to_response("ABME/Paciente/comprobar.html",  {'datos_recibidos':datos_enviados}, context_instance = RequestContext(request))   
+
+            elif elemento.estado=="ACTIVO":
+
+                datos_enviados={
+
+                    'cuil':cuil,
+                    'id_paciente_activo':id_paciente
+                }
+
+
+                return render_to_response("ABME/Paciente/comprobar.html",  {'datos_recibidos':datos_enviados }, context_instance = RequestContext(request))
+
+            
+        
+
+        return render_to_response("ABME/Paciente/registrarpaciente.html",  {'cuil':cuil}, context_instance = RequestContext(request))  
+
+   
 def menupaciente(request):
     
     

@@ -38,13 +38,16 @@ urlpatterns = [
     url(r'^modificarusuario/', views.modificarusuario, name='modificarusuario'),
     url(r'^eliminarusuario/', views.eliminarusuario, name='eliminarusuario'),
    
+
+    
+    url(r'^comprobar/(?P<cuil_paciente>\w+)/$', views.comprobar, name='comprobar'),
     #PACIENTE
 
     #utilizados
     url(r'^paciente/', views.paciente, name='paciente'),
     url(r'^registrarpaciente/', views.registrarpaciente, name='registrarpaciente'),
     url(r'^fichapaciente/(?P<id_paciente>\w+)/$', views.fichapaciente, name='modificarpaciente'),
-    url(r'^comprobarpaciente/(?P<dni_paciente>\w+)/$', views.comprobarpaciente, name='comprobarpaciente'),
+    url(r'^comprobarpaciente/(?P<cuil_paciente>\w+)/$', views.comprobarpaciente, name='comprobarpaciente'),
     url(r'^modificarpaciente/(?P<id_paciente>\w+)/$', views.modificarpaciente, name='modificarpaciente'),
     url(r'^eliminarpaciente/(?P<id_paciente>\w+)/$', views.eliminarpaciente, name='eliminarpaciente'),
     #no utilizados por el momento

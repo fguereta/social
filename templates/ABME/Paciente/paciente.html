@@ -6,9 +6,13 @@
 <div class="container">
     <fieldset>
         <legend>Pacientes</legend>
-            <div class="col-md-offset-10"> <a  href="/aplicacion/registrarpaciente"><button class="btn btn-success ">Nuevo Paciente</button></a>
-            </div>
+            <div class="col-md-offset-10"> 
+            <a href="/aplicacion/comprobar/0">
+            <button class="btn btn-success ">Nuevo Paciente</button>
+            </a>
 
+            </div>
+            
             <div class="row">
                 <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
                     <div class="col-md-4 text-left">
@@ -111,6 +115,30 @@
 <script type="text/javascript" charset="utf-8" async defer>
     
     $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+
+ 
+
+   $("button[id=btn_nuevo_paciente]").click(function() {
+
+      
+  alertify.defaults.glossary.title = '';
+
+      alertify.confirm("Confirmar eliminacion  "+apellidonombre,
+            function (e) {
+                if (e) {
+                   window.location = "/aplicacion/eliminarpaciente/"+id_paciente;
+                } else {
+                    alertify.error("Has pulsado <strong>"
+                             + alertify.labels.cancel
+                             + "</strong>");
+                }
+        }).setting('labels',{'ok':'Confirmar', 'cancel': 'Cancelar'});
+    });
+ 
+   
+
+
 
 </script>
 

@@ -1,163 +1,12 @@
+
 {% extends "index.html" %} 
 {% block htitle %}<title>Registrar Paciente</title>{% endblock %} 
 {% block contenido %} 
-{% if id_paciente %}
-{% for elemento in id_paciente %}
-  
-  <div class='container'>
-    <div class='panel panel-primary dialog-panel'>
-      <div class='panel-heading'>
-        <h5>Nuevo paciente</h5>
-      </div>
-      <div class='panel-body'>
-        <form id='miForm' method='post' action="/aplicacion/registrarpaciente/" enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
-          <div class='col-md-2'>
-            <input class='form-control' id='dni' name='dni' type='text' placeholder='Dni' value='{{elemento.dni}}'></input>
-          </div>
-          <div class='col-md-2'>
-            <div class='btn btn-primary' id='comprobar'>Comprobar</div>
-          </div>
-          <script  type="text/javascript" charset="utf-8" async defer>
-  
-            $("div[id=comprobar]").click(function () {
-      
-               var dni = $("#dni").val();
-               window.location.href = "/aplicacion/comprobarpaciente/"+dni;
-            });
-          </script>
-        </div>
 
-        {% if error %}
-          {% for elemento in error %}
-            <div class='form-group'>
-              <font color="red" class='control-label col-md-5 col-md-offset-3' >{{elemento}}</font>
-            </div>
-          {% endfor %}
-        {% endif %}
-          
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
-          <div class='col-md-2'>
-            <input class='form-control' id='cuil' name='cuil' type='text' placeholder='Cuil' value='{{elemento.cuil}}'></input>
-          </div>
-        </div>
-          
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Historia clinica*</label>
-          <div class='col-md-2'>
-            <input class='form-control' id='historiaclinica' name='historiaclinica' type='text' placeholder='Historia clinica' value='{{elemento.historiaclinica}}'></input>
-          </div>
-        </div>
+{% if cuil %}
 
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Obra social</label>
-          <div class='col-md-2'>
-            <input class='form-control' id='osocial' name='osocial' type='text' placeholder='Obra social' value='{{elemento.osocial}}'></input>
-          </div>
-        </div>
 
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='nombre'>Nombre*</label>
-          <div class='col-md-8'>
-              <div class='col-md-4 indent-small'>
-                <div class='form-group internal'>
-                  <input class='form-control' id='nombre' name="nombre" placeholder='Nombre' type='text' value='{{elemento.nombre}}'>
-                </div>
-              </div>
-              <div class='col-md-4 indent-small'>
-                <div class='form-group internal'>
-                  <input class='form-control' id='apellido' name="apellido" placeholder='Apellido' type='text' value='{{elemento.apellido}}'>
-                </div>
-              </div>
-          </div>
-        </div>
-          
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion*</label>
-          <div class='col-md-3'>
-            <input class='form-control' id='direccion' name='direccion' type='text' placeholder='Direccion' value='{{elemento.direccion}}'></input>
-          </div>
-        </div>
-
-         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='telefono'>Telefono</label>
-            <div class='col-md-8'>
-              <div class='col-md-3 indent-small'>
-                <div class='form-group internal'>
-                  <input class='form-control' id='telefono' name="telefono" placeholder='Telefono' type='text' value='{{elemento.telefono}}'>
-                </div>  
-              </div>
-              <div class='col-md-3 indent-small'>
-                <div class='form-group internal'>
-                  <input class='form-control' id='celular' name="celular" placeholder='Alternativo' type='text' value='{{elemento.celular}}'>
-                </div>  
-              </div>
-            </div>
-         </div>
-          
-        <div class='form-group'>
-          <label class='control-label col-md-3 col-md-offset-1' for='nacimineto'>Fecha de nacimiento*</label>
-          <div class='col-md-8'>
-              <div class='col-md-3'>
-                <div class='form-group internal input-group'>
-                  <input class='form-control datepicker' name='nacimiento' type='text' id='datepicker' value='{{elemento.nacimiento}}'>
-                  <span class='input-group-addon'>
-                    <i class='glyphicon glyphicon-calendar'></i>
-                  </span>
-                </div>
-              </div>
-            <div class="col-md-3 sexo">
-              <select class="form-control" id="sexo" name="sexo">
-              <option value="">---Sexo---</option>
-              <option value="MASCULINO">MASCULINO</option>
-              <option value="FEMENINO">FEMENINO</option>
-              </select>
-            </div>
-            <script>$("div.sexo select").val("{{elemento.sexo}}");</script>
-          </div>
-        </div>
-
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='correo'>E-mail</label>
-          <div class='col-md-6'>
-            <div class='form-group'>
-              <div class='col-md-11'>
-                <input class='form-control' id='correo' name='correo' placeholder='E-mail' type='email' value='{{elemento.correo}}'>
-              </div>
-            </div>
-          </div>
-        </div>
-          
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='id_comments'>Observaciones</label>
-          <div class='col-md-6'>
-            <textarea class='form-control' id='observaciones' name='observaciones' placeholder='Escribe aqui...' rows='3' >{{elemento.observaciones}}</textarea>
-          </div>
-        </div>
-
-          <div class='form-group'>
-            <div class='col-md-offset-9 col-md-3'>
-              <br>
-              <!--<button class='btn-lg btn-danger' style='float:right' id='cancelar'>Cancelar</button>-->
-              <button class='btn-lg btn-primary' style='float:right' type='submit'>Guardar</button>
-            </div>
-            <script type="text/javascript" charset="utf-8" async defer>
-              $("button[id=cancelar]").click(function () {
-                window.location.href = "/aplicacion/paciente";
-              });
-            </script>
-          </div>
-        
-        </form>
-      </div>
-    </div>
-  </div>
-{% endfor %}
-
-{% else %}
-  <div class='container'>
+  <div class='container' >
     <div class='panel panel-primary dialog-panel'>
       <div class='panel-heading'>
         <h5>Nuevo paciente</h5>
@@ -167,103 +16,32 @@
         
           <div class='form-group'>
             
-            
-              {% if id_paciente_inactivo %}
-                {% for elemento in id_paciente_inactivo %}
-                <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
-                  <div class='col-md-2'>
-                    <input class='form-control' id='dni' name='dni' type='text' placeholder='Dni' value='{{elemento.dni}}'></input>
-                  </div>
-                  <div class='col-md-2'>
-                    <div class='btn btn-primary' id='comprobar'>Comprobar</div>
-                  </div>
-                {% endfor %}
-             
-              {% elif dni %}
-                <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
-                  <div class='col-md-2'>
-                  <input class='form-control' id='dni' name='dni' type='text' placeholder='Dni' value='{{dni}}' ></input>
-                  </div>
-                
-                <div class='col-md-4'>
-                  <font color="green" SIZE=5 >✓</font>
-                    <div class='btn btn-primary col-md-offset-1' id='comprobar'>Comprobar</div>
-                </div>
-               
-              {% else %} 
-                <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
-                <div class='col-md-2'>
-                  <input class='form-control' id='dni' name='dni' type='text'  placeholder='Dni' ></input>
-                </div>
-                
-                <div class='col-md-2'>
-                  <div class='btn btn-primary' id='comprobar'>Comprobar</div>
-                </div>
-              {% endif %}  
-            
-              
-            
-            <script  type="text/javascript" charset="utf-8" async defer>
-              $("div[id=comprobar]").click(function () {
-                var dni = $("#dni").val();
-                window.location.href = "/aplicacion/comprobarpaciente/"+dni;
-              });
-            </script>
-         </div>
-        
-          {% if paciente_enviar %}
-            {% for elemento in paciente_enviar %}
-              <div class='form-group'>
-                <label class='control-label col-md-7 col-md-offset-1'>Este DNI pertenece a un paciente que se encuentra inactivo. ¿Desea activarlo?</label>
-                <div type="button" class="btn btn-success btn-xs" id="activar">Si</div>
-                <div type="button" class="btn btn-danger btn-xs" id='no_activar'>No</div>
-              </div>
-            
-                <script  type="text/javascript" charset="utf-8" async defer>
-                  $("div[id=activar]").click(function () {
-                    
-                    window.location.href = "/aplicacion/eliminarpaciente/{{elemento.persona_ptr_id}}";
-                  });
-                </script>
-
-                <script  type="text/javascript" charset="utf-8" async defer>
-                  $("div[id=no_activar]").click(function () {
-                    window.location.href = "/aplicacion/registrarpaciente/";
-                  });
-                </script>
-              {% endfor %}
-          {% endif %}
-          
-          {% if id_paciente_inactivo %}
-            {% for elemento in id_paciente_inactivo %}
-              <div class='form-group'>
-                <label class='control-label col-md-7 col-md-offset-1'>Este DNI pertenece a un paciente que se encuentra inactivo. ¿Desea activarlo?</label>
-                <div type="button" class="btn btn-success btn-xs" id="activar">Si</div>
-                <div type="button" class="btn btn-danger btn-xs" id='no_activar'>No</div>
-              </div>
-            
-                <script  type="text/javascript" charset="utf-8" async defer>
-                  $("div[id=activar]").click(function () {
-                    
-                    window.location.href = "/aplicacion/eliminarpaciente/{{elemento.persona_ptr_id}}";
-                  });
-                </script>
-
-                <script  type="text/javascript" charset="utf-8" async defer>
-                  $("div[id=no_activar]").click(function () {
-                    window.location.href = "/aplicacion/registrarpaciente/";
-                  });
-                </script>
-            {% endfor %}
-          {% endif %}
-          
-          <div class='form-group'>
+            <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
             <div class='col-md-2'>
-              <input class='form-control' id='cuil' name='cuil' type='text' placeholder='Cuil'></input>
+              <input class='form-control' id='cuil' name='cuil' type='text' value='{{cuil.cuil1}}{{cuil.dni}}{{cuil.cuil2}}' readonly="readonly"></input>
             </div>
-          </div>
+
+            <div class='col-md-3 indent-small'>
+                    <div class='btn-group btn-group-justifiedl'>
+                        <font color="green" SIZE=5 >✓</font>
+                    </div>  
+            </div> 
           
+          </div>
+              <div class='form-group'>
+                <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni</label>
+                  <div class='col-md-2'>
+                  <input class='form-control' id='dni' name='dni' type='text' placeholder='Dni' value='{{cuil.dni}}' readonly="readonly"></input>
+                  </div>
+                  <div class='col-md-3 indent-small'>
+                    <div class='btn-group btn-group-justifiedl'>
+                        <font color="green" SIZE=5 >✓</font>
+                    </div>  
+              </div> 
+                
+            </div>
+        
           <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Historia clinica*</label>
             <div class='col-md-2'>
@@ -358,16 +136,12 @@
           </div>
           
           <div class='form-group'>
-            <div class='col-md-offset-9 col-md-3'>
+            <div class='col-md-offset-8 col-md-3'>
               <br>
-              <button class='btn-lg btn-danger' style='float:right' id='cancelar'>Cancelar</button>
+             
               <button class='btn-lg btn-primary' style='float:right' type='submit'>Guardar</button>
             </div>
-            <script type="text/javascript" charset="utf-8" async defer>
-              $("button[id=cancelar]").click(function () {
-                window.location.href = "/aplicacion/paciente";
-              });
-            </script>
+            
           </div>
         
         </form>
@@ -379,102 +153,102 @@
 <script>
 
 $('#datepicker').datepicker({
-	dateFormat: 'dd/mm/yy',
-	changeYear: true,
-	yearRange: "1900:2100"
-	});
+  dateFormat: 'dd/mm/yy',
+  changeYear: true,
+  yearRange: "1900:2100"
+  });
 $.datepicker.regional[ "es" ]
     
 $("#miForm").validate({
-	errorClass: "claserror",
+  errorClass: "claserror",
     validClass: "clasevalida",
     errorElement: 'erele',
-		rules: {
-	      	nombre: {
-	        	required: true,
-	        	lettersonly: true,
-				maxlength: "20"
-	      	},
-			razon_social: {
-	        	required: true,
-	        	lettersonly: true,
-				maxlength: "25"
-	      	},
-			especialidad: {
-	        	required: true
-	      	},
-			matriculaprovincial: {
-	        	required: true,
-				maxlength: "20"
-	      	},
-			matriculanacional: {
-	        	required: true,
-				maxlength: "20"
-	      	},
-	      	apellido: {
-	        	required: true,
-	        	lettersonly: true,
-				maxlength: "20"
-	      	},
-	      	dni: {
-	        	required: true,
-	        	digits: true,
-	        	minlength: "8",
-	        	maxlength: "8"
-	      	},
-	      	cuil: {
-	        	required: true,
-	        	digits: true,
-	        	minlength: "10",
-	        	maxlength: "11"
-	      	},
-	      	nacimiento: {
-	        	required: true,
-	        	date: true
-	      	},
-	      	correo: {
-	        	email: true
-	      	},
-	      	direccion: {
-	        	required: true,
-				maxlength: "25"
-	      	},
-	      	telefono: {
-	        	required: true,
-	        	digits: true,
-				maxlength: "20"
-	      	},
-	      	celular: {
-	        	digits: true,
-				maxlength: "20"
-	      	},
-	      	sexo: {
-	        	required: true
-	      	},
-	      	historiaclinica: {
-	        	required: true,
-			maxlength: "20"
-	      	},
-	      	osocial: {
-	        	lettersonly: true,
-				maxlength: "20"
-	      	}
-		},
-	messages: {
-		nombre: {
-  			lettersonly: "Escribe sólo letras"
-	  	},
-	  	apellido: {
-  			lettersonly: "Escribe sólo letras"	    
-	  	},
-	  	osocial: {
-  			lettersonly: "Escribe sólo letras"	    
-	  	},
-		razon_social: {
-  			lettersonly: "Escribe sólo letras"
-	  	}
-		},
-	highlight: function (element, errorClass, validClass) {
+    rules: {
+          nombre: {
+            required: true,
+            lettersonly: true,
+        maxlength: "20"
+          },
+      razon_social: {
+            required: true,
+            lettersonly: true,
+        maxlength: "25"
+          },
+      especialidad: {
+            required: true
+          },
+      matriculaprovincial: {
+            required: true,
+        maxlength: "20"
+          },
+      matriculanacional: {
+            required: true,
+        maxlength: "20"
+          },
+          apellido: {
+            required: true,
+            lettersonly: true,
+        maxlength: "20"
+          },
+          dni: {
+            required: true,
+            digits: true,
+            minlength: "8",
+            maxlength: "8"
+          },
+          cuil: {
+            required: true,
+            digits: true,
+            minlength: "10",
+            maxlength: "11"
+          },
+          nacimiento: {
+            required: true,
+            date: true
+          },
+          correo: {
+            email: true
+          },
+          direccion: {
+            required: true,
+        maxlength: "25"
+          },
+          telefono: {
+            required: true,
+            digits: true,
+        maxlength: "20"
+          },
+          celular: {
+            digits: true,
+        maxlength: "20"
+          },
+          sexo: {
+            required: true
+          },
+          historiaclinica: {
+            required: true,
+      maxlength: "20"
+          },
+          osocial: {
+            lettersonly: true,
+        maxlength: "20"
+          }
+    },
+  messages: {
+    nombre: {
+        lettersonly: "Escribe sólo letras"
+      },
+      apellido: {
+        lettersonly: "Escribe sólo letras"      
+      },
+      osocial: {
+        lettersonly: "Escribe sólo letras"      
+      },
+    razon_social: {
+        lettersonly: "Escribe sólo letras"
+      }
+    },
+  highlight: function (element, errorClass, validClass) {
         $(element).parent('.miForm').addClass('error');
         $(element).addClass(errorClass).removeClass(validClass);
         },
@@ -482,7 +256,11 @@ $("#miForm").validate({
         $(element).parent('.miForm').removeClass('error');
         $(element).addClass(validClass).removeClass(errorClass);
         }
-	});
+  });
+
+
+
+
 </script>
 
 {% endblock %} 
