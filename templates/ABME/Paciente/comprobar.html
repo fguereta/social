@@ -12,9 +12,42 @@
       <div class='panel-body' id="miForm">
         <form  id="miForm"  class="form-horizontal">
         
+        <div class='form-group' >
+            <label class='control-label col-md-2'>Generar CUIL:</label>
+           
+            <div class="col-xs-2">
+                <div class="form-group">
+                    
+                    <select class="form-control smallselect" id='sexo' >
+                        <option value="">--</option>
+                        <option value="MASCULINO">MASCULINO</option>
+                        <option value="FEMENINO">FEMENINO</option>
+                        
+                    </select>     
+                </div>
+            </div>
+       
+           <div class="row">
+          
+            <div class="col-md-2 ">
+               
+                <input class='form-control' id='dni' name="dni"  type='text' maxlength="8" placeholder="Dni">
+                 
+            
+            </div>
+            
+       
+            <div class="col-xs-2">
+                <div class="form-group">
+                    <div id='continuar' name='continuar' value="Continuar" class="btn btn-danger btn-block" />Generar</div>
+                </div>
+            </div>
+       
+    </div>
+<br>
 
          <div class='form-group' >
-            <label class='control-label col-md-1 col-md-offset-1'>Cuil:</label>
+            <label class='control-label col-md-2 '>CUIL:</label>
            
 
            <div class="row">
@@ -80,6 +113,11 @@
             <script>$("div.cuil1 select").val("{{datos_recibidos.cuil.cuil1}}");</script>
             <script>$("div.cuil2 select").val("{{datos_recibidos.cuil.cuil2}}");</script>
           {% endif %}
+          
+
+          
+
+
   </form>
         <br>
         <br>
@@ -141,11 +179,7 @@
                 </script>
             {% endfor %}
           {% endif %}
-          
-
-
-
-
+ 
       </div>
     </div>
   </div>
