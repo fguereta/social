@@ -301,7 +301,7 @@ def registrarpaciente(request):
                         if elemento.estado=='INACTIVO' and elemento.dni==request.POST['dni']:
 
                             id_paciente_inactivo=Paciente.objects.filter(estado='INACTIVO', dni=elemento.dni)
-                            error.append('Este numero de dni se encunetra inactivo. ¿Desea activarlo?')
+                            error.append('Este numero de dni se encuentra inactivo. ¿Desea activarlo?')
                             return render_to_response('ABME/Paciente/registrarpaciente.html',{'id_paciente_inactivo':id_paciente_inactivo},context_instance=RequestContext(request))
 
                         
@@ -808,24 +808,26 @@ def solicitudespaciente(request,id_paciente):
 
 
 
-def registrarderivacion(request, paciente_id):
-    paciente=Paciente.objects.get(persona_ptr_id=paciente_id)
+#def registrarderivacion(request, paciente_id):
+def registrarderivacion(request):    
+    #paciente=Paciente.objects.get(persona_ptr_id=paciente_id)
     if request.POST:
         
         form = DerivacionForm(request.POST)
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect('/')
-    else:
-        form = DerivacionForm()
+            return render_to_response('ABME/Notificaciones/solicitudregistrada.html')    
+        else:
+            form = DerivacionForm()
 
     args = {}
     args.update(csrf(request))
 
     args['form'] = form
 
-    return render_to_response('ABME/Operaciones/registrarderivacion.html', args, paciente)
+    return render_to_response('ABME/Operaciones/registrarderivacion.html')
+    #return render_to_response('ABME/Operaciones/registrarderivacion.html', args, paciente)
 
 def detallederivacion(request, paciente_id):
     
@@ -838,20 +840,26 @@ def detallederivacion(request, paciente_id):
     return render(request, 'ABME/Operaciones/registrarderivacion.html',{'paciente':paciente})
     #return render_to_response('ABME/Operaciones/registrarderivacion.html',paciente,context_instance=RequestContext(request))
 
-def listadodetalle(a):
+def listadodetalle(a):#aca llega la id del paciente y se obtiene un listado con las solicitudes
     detalle=[]
     
     detalle=DetalleSolicitud.objects.filter(paciente_id=a)
     return detalle
 
 
-def registrarsolicitud(request, id_paciente):
-    id_paciente=Paciente.objects.filter(persona_ptr_id=id_paciente)    
+def registrarsolicitud(request, id_paciente):#aca llega la id del paciente para obtener el listado y mostrar las solicitudes
+    
+    paciente=Paciente.objects.filter(persona_ptr_id=id_paciente)
+        
     try:
                 
-        detalle=listadodetalle(id_paciente)
+        #detalle=listadodetalle(id_paciente)
         
-        return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'query': id_paciente,'id_paciente':id_paciente, 'detalle': detalle, 'persona':id_paciente})
+        
+        detalle=DetalleSolicitud.objects.filter(paciente_id=id_paciente)
+        
+        
+        return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'query': paciente,'id_paciente':id_paciente, 'detalle': detalle, 'persona':paciente})
     except IndexError:
            
         detalle=None
@@ -905,17 +913,21 @@ def detallepa(request, paciente_id):
    paciente_id=paciente_id
    request.session['paciente'] = paciente_id
    
-   return render(request,'ABME/Operaciones/buscarme.html' )
+   #return render(request,'ABME/Operaciones/buscarme.html', {'id_paciente':paciente_id} )
+   return render(request,'ABME/Operaciones/buscarme.html')
 #def anotherfoo(request):
 #   num = request.session.get('num')
    # and so on, and so on
 
         
+#def buscarme(request, id_paciente='hola'):
 def buscarme(request):
     
     errors = []
     
-     
+    #paciente_id=id_paciente
+    #request.session['paciente'] = paciente_id
+   
     if 'criterio' and 'valor' in request.GET: 
         valor = request.GET['valor']
         criterio = request.GET['criterio']
@@ -929,7 +941,8 @@ def buscarme(request):
         if not errors:
             
             medicos=buscaMedico(criterio,valor)
-            return render(request, 'ABME/Operaciones/buscarme.html',{'medicos': medicos, 'query': valor})   
+            #return render(request, 'ABME/Operaciones/buscarme.html',{'medicos': medicos, 'query': valor, 'id_paciente':paciente_id})
+            return render(request, 'ABME/Operaciones/buscarme.html',{'medicos': medicos, 'query': valor})    
 
 
         '''   
