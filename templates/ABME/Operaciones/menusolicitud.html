@@ -1,23 +1,11 @@
 {% extends "index.html" %} 
 
-{% block htitle %}<title>Ficha de paciente</title>{% endblock %} 
+{% block htitle %}<title>Ficha de solicitud</title>{% endblock %} 
  
 
 
 {% block contenido %} 
 	
-
- 
-{% if exitopaciente %}<script >alertify.success("Se registro correctamente");</script>{% endif %}
-{% if exito_modificar_paciente %}<script >alertify.success("Se modificaron los datos correctamente");</script>{% endif %}
-
-
-{% if id_paciente %}
-
-{% for elemento in id_paciente %}
-
-
-
 <div class='container'>
     <div class='panel panel-primary dialog-panel'>
       <div class='panel-heading'>
@@ -50,8 +38,8 @@ var id_paciente='{{elemento.id}}'
 	{% endblock contenido_paciente %}
 
 
-{% endfor %}
-{% endif %}
+
+
 
 
 <script type="text/javascript" charset="utf-8" async defer>

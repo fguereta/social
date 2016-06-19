@@ -9,12 +9,12 @@
 
 <div class="container">
     <fieldset>
-        <legend>Solicitudes de pacientes {{elemento.apellido}}. {{elemento.nombre}}</legend>
+        <legend>Solicitudes</legend>
             <div class="col-md-offset-10"> <a  href="/aplicacion/registrarsolicitud/{{elemento.persona_ptr_id}}"><button class="btn btn-success ">Nueva solicitud</button></a>
             </div>
 {% endfor %}
 
-			
+		<!--
             <div class="row">
             	
             		<form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
@@ -27,11 +27,14 @@
                     </select>
                     </div>
     
-                    <div>
+    <!--                <div>
                     <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
                     </div>
+                    
+                    
                 </form> 
-            </div>
+            </div>-->
+            			
         
   </fieldset>
 

@@ -1,11 +1,76 @@
 {% extends "ABME/Paciente/menupaciente.html" %}
+
 {% block contenido_paciente %}
 
 
 
-	<div>
-	<a href="/aplicacion/entrega/{{elemento.persona_ptr_id}}"><button  class="control-label col-md-2">Continuarr</button></a>
-	</div>
+{% for detalle in detalle %}
+
+			
+
+
+
+
+<div class='panel-body'>
+        <form  class="form-horizontal">
+        
+<div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Solicitud</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='dni' name='dni' value="{{detalle.id}}" readonly></input>
+            </div>
+        </div>
+        
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Remedio</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='dni' name='dni' value="{{detalle.remedio_id}}" readonly></input>
+            </div>
+        </div>
+          
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Fecha</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='cuil' name='cuil' value="{{detalle.fecha}}" readonly></input>
+            </div>
+        </div>
+          
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Dósis</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='historiaclinica' name='historiaclinica' value="{{detalle.dosis}}" readonly></input>
+            </div>
+        </div>
+
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Médico</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='osocial' name='osocial' value="{{detalle.medico_id}}" readonly></input>
+            </div>
+        </div>
+
+          <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Observaciones</label>
+            <div class='col-md-3'>
+              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" value="{{detalle.observaciones}}" readonly></input>
+            </div>
+          </div>
+    
+             
+        
+      
+    
+    </form>
+{% endfor %}    
+ <div class="col-md-offset-10"> 
+    		<a href="/aplicacion/entrega/{{id_paciente}}">
+            <button class="btn btn-success ">Nueva Solicitud</button>
+            </a>
+
+            </div>
+
+  </div>
+
 
 
 
