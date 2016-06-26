@@ -12,8 +12,9 @@
 		{% endfor %} 
 		</ul> 
   {% endif %} 
-  
-  <form action="buscarpa" method="GET">
+  {%include "ABME/Operaciones/listadodetalle.html"%}
+  <!--{% include "includes/navdown.html" %}
+  <!--form action="buscarpa" method="GET">
   
  	<div class="form-group">
 			<label for="p" class="">Criterio:</label>
@@ -36,16 +37,17 @@
     <div class="form-group">
     <input class="form-control" type="submit" value="Buscar">
     </div>
-  </form>
+  </form> 
+  
   </div>
 {% if query %}
   <div class="container">
-  <p>Estas buscado: <strong>{{ query }}</strong></p> 
+  <p>Estas buscado: hola <strong>{{ query }}</strong></p> 
  
-{% if pacientes %} 
-	<p>Pacientes encontrados: {{ pacientes|length }} paciente{{ pacientes|pluralize }}.</p> 
+	{% if paciente %} 
+	<p>Pacientes encontrado: {{ paciente|length }} paciente{{ paciente|pluralize }}.</p> 
 	<ul> 
-		{% for pacientes in pacientes %} 
+			{% for elemento in paciente %} 
 
 	<div class="table-responsive" >
 
@@ -68,29 +70,30 @@
 			
 		</tr>
 		<tr>
-			<td>{{pacientes.nombre}}</td>
-			<td>{{pacientes.apellido}}</td>
-			<td>{{pacientes.dni}}</td>
-			<td>{{pacientes.cuil}}</td>
-			<td>{{pacientes.direccion}}</td>
-			<td>{{pacientes.nacimiento}}</td>
-			<td>{{pacientes.correo}}</td>
-			<td>{{pacientes.telefono}}</td>
-			<td>{{pacientes.celular}}</td>
-			<td>{{pacientes.observaciones}}</td>
-			<td>{{pacientes.historiaclinica}}</td>
-			<td>{{pacientes.osocial}}</td>
+			<td>{{elemento.nombre}}</td>
+			<td>{{elemento.apellido}}</td>
+			<td>{{elemento.dni}}</td>
+			<td>{{elemento.cuil}}</td>
+			<td>{{elemento.direccion}}</td>
+			<td>{{elemento.nacimiento}}</td>
+			<td>{{elemento.correo}}</td>
+			<td>{{elemento.telefono}}</td>
+			<td>{{elemento.celular}}</td>
+			<td>{{elemento.observaciones}}</td>
+			<td>{{elemento.historiaclinica}}</td>
+			<td>{{elemento.osocial}}</td>
 		</tr>
 	</table>
 	</div>
 			 
-		{% endfor %} 
+			{% endfor %} 
 	</ul> 
-{% else %} 
+	{% else %} 
 <p>Ningún paciente coincide con el criterio de búsqueda.</p> 
-{% endif %} 
+	{% endif %} 
 {% endif %}
-
+			
+			
 
 <form action="/registrarsolicitud/" method="post">{% csrf_token %}
 
@@ -100,8 +103,14 @@
 </ul> 
 
 
-<input type="submit" name="submit" value="Registrar Solicitud">
+<input type="submit" name="submit" value="{{id_paciente}}">
+
 
 
 </form>
+-->
+<div>
+	<a href="/aplicacion/entrega/{{id_paciente}}"><button  class="control-label col-md-2">Continuarr</button></a>
+</div>
+	
 {% endblock %} 

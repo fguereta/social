@@ -1,0 +1,133 @@
+{% extends "index.html" %} 
+{% block htitle %}<title>Registrar Solicitud</title>{% endblock %} 
+{% block title %}<h1 class="page-header">Registrar Solicitud</h1>{% endblock %} 
+
+{% block contenido%} 
+
+<div class="container">
+  {% if errors %} 
+		<ul> 
+		{% for error in errors %} 
+		<li style="color: red;">{{ error }}</li> 
+		{% endfor %} 
+		</ul> 
+  {% endif %} 
+  {%include "ABME/Operaciones/listadodetalle.html"%}
+ <div class='panel-body'>
+        <form  class="form-horizontal">
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='dni' name='dni' value="{{elemento.dni}}" readonly></input>
+            </div>
+        </div>
+          
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='cuil' name='cuil' value="{{elemento.cuil}}" readonly></input>
+            </div>
+        </div>
+          
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Historia clinica</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='historiaclinica' name='historiaclinica' value="{{elemento.historiaclinica}}" readonly></input>
+            </div>
+        </div>
+
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Obra social</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='osocial' name='osocial' value="{{elemento.osocial}}" readonly></input>
+            </div>
+        </div>
+
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='nombre'>Nombre</label>
+            <div class='col-md-8'>
+              
+              <div class='col-md-4 indent-small'>
+                <div class='form-group internal'>
+                  <input class='form-control' id='nombre' name="nombre" placeholder='Nombre' type='text' value="{{elemento.nombre}}" readonly></input>
+                </div>
+              </div>
+              <div class='col-md-4 indent-small'>
+                <div class='form-group internal'>
+                  <input class='form-control' id='apellido' name="apellido" placeholder='Apellido' type='text' value="{{elemento.apellido}}" readonly> </input>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion</label>
+            <div class='col-md-3'>
+              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" value="{{elemento.direccion}}" readonly></input>
+            </div>
+          </div>
+
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='telefono'>Telefono</label>
+            <div class='col-md-8'>
+            	<div class='col-md-3 indent-small'>
+            		<div class='form-group internal'>
+             			<input class='form-control' id='telefono' name="telefono" placeholder='Telefono' type='text' value="{{elemento.telefono}}" readonly></input>
+             		</div>	
+            	</div>
+           		<div class='col-md-3 indent-small'>
+            		<div class='form-group internal'>
+             			<input class='form-control' id='celular' name="celular" placeholder='Alternativo' type='text' value="{{elemento.celular}}" readonly></input>
+             		</div>	
+            	</div>
+            </div>
+         </div>
+          
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='nacimineto'>Fecha de nacimiento</label>
+            <div class='col-md-8'>
+              <div class='col-md-3'>
+                <div class='form-group internal input-group'>
+                  <input class='form-control datepicker' name="nacimiento "id='datepicker' value="{{elemento.nacimiento}}" readonly></input>
+                  <span class='input-group-addon'>
+                    <i class='glyphicon glyphicon-calendar'></i>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-3 sexo">
+				<input class='form-control' id='sexo' name="sexo" type='text' value="{{elemento.sexo}}" readonly></input>
+			  </div>
+		
+            </div>
+         </div>
+
+          <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='correo'>E-mail</label>
+            <div class='col-md-6'>
+              <div class='form-group'>
+                <div class='col-md-11'>
+                  <input class='form-control' id='correo' name='correo' placeholder='E-mail' type='text' value="{{elemento.correo}}" readonly></input>
+                </div>
+            	</div>
+           	</div>
+          </div>
+          
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='id_comments'>Observaciones</label>
+            <div class='col-md-6'>
+              <textarea class='form-control' id='observaciones' name='observaciones' placeholder='Escribe aqui...' rows='3' readonly>{{elemento.observaciones}}</textarea>
+            </div>
+          </div>
+        
+        </form>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<div>
+	<a href="/aplicacion/entrega/{{id_paciente}}"><button  class="control-label col-md-2">Continuarr</button></a>
+</div>
+	
+{% endblock %} 

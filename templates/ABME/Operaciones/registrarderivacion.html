@@ -7,7 +7,7 @@
 
 <div class="container">
 
-<form method="post" enctype="multipart/form-data" class="form-horizontal">
+<form method="post" action="/aplicacion/registrarderivacion/" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
 
 {% if paciente%}
@@ -16,8 +16,8 @@
 <div class="form-group">
 <label class="control-label col-md-2" >Paciente:</label> 
 	<div class="col-md-5">
-	<input class="form-control" id="medico" name="medico" type="hidden" value="{{paciente.persona_ptr_id}}" />
-	<input class="form-control" id="nya_medico" name="nya_medico" type="text" readonly="readonly" value="{{paciente.apellido}} {{paciente.nombre}}" />
+	<input class="form-control" id="paciente_id" name="paciente_id" type="text" value="{{paciente.persona_ptr_id}}" />
+	<input class="form-control" id="apellido" name="apellido" type="text" readonly="readonly" value="{{paciente.apellido}} {{paciente.nombre}}" />
 	</div>
 </div>
 {%endif%}
@@ -180,6 +180,7 @@
 
 	</div>
 </div>
+
 
 
 	<div class="col-md-5">
