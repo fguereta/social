@@ -90,7 +90,7 @@ urlpatterns = [
     url(r'^registrarderivacion/', views.registrarderivacion, name='registrarderivacion'),
     url(r'^detallederivacion/(?P<paciente_id>\w+)/$', views.detallederivacion, name='detallederivacion'),
 
-    url(r'^registrarsolicitud/(?P<id_paciente>\w+)/$', views.registrarsolicitud, name='registrarsolicitud'),
+    url(r'^solicitudes/(?P<id_paciente>\w+)/$', views.solicitudes, name='solicitudes'),
     url(r'^listadodetalle/', views.listadodetalle, name='listadodetalle'),
     url(r'^pacientesolicitud/', views.pacientesolicitud, name='pacientesolicitud'),
     url(r'^registrardetalle/', views.registrardetalle, name='registrardetalle'),

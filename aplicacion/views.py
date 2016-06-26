@@ -847,7 +847,7 @@ def listadodetalle(a):#aca llega la id del paciente y se obtiene un listado con 
     return detalle
 
 
-def registrarsolicitud(request, id_paciente):#aca llega la id del paciente para obtener el listado y mostrar las solicitudes
+def solicitudes(request, id_paciente):#aca llega la id del paciente para obtener el listado y mostrar las solicitudes
     
     paciente=Paciente.objects.filter(persona_ptr_id=id_paciente)
         
@@ -859,12 +859,12 @@ def registrarsolicitud(request, id_paciente):#aca llega la id del paciente para 
         detalle=DetalleSolicitud.objects.filter(paciente_id=id_paciente)
         
         
-        return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'query': paciente,'id_paciente':id_paciente, 'detalle': detalle, 'persona':paciente})
+        return render(request, 'ABME/Operaciones/solicitudes.html',{'query': id_paciente,'id_paciente':paciente, 'detalle': detalle, 'persona':paciente})
     except IndexError:
            
         detalle=None
         a=None
-        return render(request, 'ABME/Operaciones/registrarsolicitud.html',{'query': id_paciente,'id_paciente':id_paciente, 'detalle': detalle, 'persona':id_paciente})
+        return render(request, 'ABME/Operaciones/solicitudes.html',{'query': id_paciente,'id_paciente':paciente, 'detalle': detalle, 'persona':id_paciente})
         
 
 
