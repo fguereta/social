@@ -8,10 +8,12 @@ class PersonaForm(forms.ModelForm):
         model = Persona
         exclude=()
         
-class FarmaciaForm(forms.ModelForm):    
+class FarmaciaForm(forms.Form):    
     class Meta:
-        model = Farmacia
-        exclude=()  
+        razon_social=forms.CharField()
+        cuit=forms.CharField()
+
+        exclude=('id')  
           
 class MedicoForm(forms.Form):    
     class Meta:

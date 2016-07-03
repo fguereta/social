@@ -3,113 +3,94 @@
 
 {% block contenido%}
 
-
-
-
-  <div class='container' >
-    <div class='panel panel-primary dialog-panel'>
       
-      <div class='panel-body' id="miForm">
-        <form  id="miForm"  class="form-horizontal">
-        <!--
-        <div class='form-group' >
-            <label class='control-label col-md-2'>Generar CUIL:</label>
-           
-            <div class="col-xs-2">
-                <div class="form-group">
-                    
-                    <select class="form-control smallselect" id='sexo' >
+ 
+
+
+  <div class='panel panel-primary dialog-panel'>
+      
+      <div class='panel-body'>
+
+
+          <div class="row form-horizontal">
+                  
+                 
+                  <div class="col-xs-2 ">
+                      <select class="form-control smallselect" id='sexo' >
                         <option value="">--</option>
                         <option value="MASCULINO">MASCULINO</option>
                         <option value="FEMENINO">FEMENINO</option>
-                        
-                    </select>     
-                </div>
-            </div>
+                      </select>     
+                  </div>
        
-           <div class="row">
-          
-            <div class="col-md-2 ">
-               
-                <input class='form-control' id='dni' name="dni"  type='text' maxlength="8" placeholder="Dni">
-                 
-            
-            </div>
-            
+                  <div class="col-xs-2">
+                    <input class='form-control' id='dni_g' name="dni_g"  type='text' maxlength="8" placeholder="Dni">
+                  </div>
+              
+                  <div class="col-xs-2">
+                      <div class="form-group">
+                        <input id='generar' name='generar' Value='Generar CUIL' class="btn btn-danger btn-block"> </input>
+                      </div>
+                  </div>
        
-            <div class="col-xs-2">
-                <div class="form-group">
-                    <div id='continuar' name='continuar' value="Continuar" class="btn btn-danger btn-block" />Generar</div>
-                </div>
-            </div>
-            
-       
-    </div> -->
-<br>
+          </div>
+              
+             
+              <br>
+              <br>
+              <br>
 
-         <div class='form-group' >
-            <label class='control-label col-md-2 '>CUIL:</label>
+              <div class="row form-horizontal">
+                   <div class='form-group' >
+                        <label class='control-label col-md-3 '>CUIL:</label>
            
-
-           <div class="row">
+                        <div class="row">
           
-            <div class="col-md-1 ">
-               
-                <div class="form-group cuil1">
-                   
-                    <select class="form-control smallselect cuil1" id='cuil1'>
-                        <option value="">--</option>
-                        <option value="20">20 -</option>
-                        <option value="23">23 -</option>
-                        <option value="27">27 -</option>
-                        
-                    </select>
-                </div>
-            </div>
-            
-            <div class="col-md-2">
-                <div class="form-group input-group dni">
+                          <div class="form-group cuil1 col-md-1">
+                              <select class="form-control smallselect cuil1" id='cuil1'>
+                                <option value="">--</option>
+                                <option value="20">20 -</option>
+                                <option value="23">23 -</option>
+                                <option value="27">27 -</option>
+                              </select>
+                          </div>
 
-                {% if datos_recibidos.cuil %}
-            <input class='form-control' id='dni' name="dni"  type='text' maxlength="8" value='{{datos_recibidos.cuil.dni}}'>
-            {% else %}
+                          <div class="col-xs-2">
+                            <div class="form-group input-group dni">
+                            {% if datos_recibidos.cuil %}
+                              <input class='form-control' id='dni' name="dni"  type='text' maxlength="8" value='{{datos_recibidos.cuil.dni}}'>
+                            {% else %}
+                              <input class='form-control' id='dni' name='dni'  type='text' maxlength="8" >
+                            {% endif %}
+                             </div>
+                          </div>
+            
+                          <div class="col-xs-1">
+                            <div class="form-group cuil2">
+                              <select class="form-control smallselect" id='cuil2' >
+                                <option value="">--</option>
+                                <option value="0"> 0</option>
+                                <option value="1"> 1</option>
+                                <option value="2"> 2</option>
+                                <option value="3"> 3</option>
+                                <option value="4"> 4</option>
+                                <option value="5"> 5</option>
+                                <option value="6"> 6</option>
+                                <option value="7"> 7</option>
+                                <option value="8"> 8</option>
+                                <option value="9"> 9</option>
+                              </select>     
+                            </div>
+                          </div>
+       
+                          <div class="col-xs-2">
+                            <div class="form-group">
+                              <input type='button' id='continuar' name='continuar' value="Continuar" class="btn btn-primary btn-block" /></input>
+                            </div>
+                          </div>
+              </div>
+      </div>
 
-            <input class='form-control' id='dni' name="dni"  type='text' maxlength="8">
-              {% endif %}
-                    
-                    
-                </div>
-            
-            </div>
-            
-            <div class="col-xs-1">
-                <div class="form-group cuil2">
-                    
-                    <select class="form-control smallselect" id='cuil2' >
-                        <option value="">--</option>
-                        <option value="0"> 0</option>
-                        <option value="1"> 1</option>
-                        <option value="2"> 2</option>
-                        <option value="3"> 3</option>
-                        <option value="4"> 4</option>
-                        <option value="5"> 5</option>
-                        <option value="6"> 6</option>
-                        <option value="7"> 7</option>
-                        <option value="8"> 8</option>
-                        <option value="9"> 9</option>
-                    </select>     
-                </div>
-            </div>
-       
-        
-        
-            <div class="col-xs-2">
-                <div class="form-group">
-                    <div id='continuar' name='continuar' value="Continuar" class="btn btn-primary btn-block" />Continuar</div>
-                </div>
-            </div>
-       
-    </div>
           {% if datos_recibidos.cuil %}
             <script>$("div.cuil1 select").val("{{datos_recibidos.cuil.cuil1}}");</script>
             <script>$("div.cuil2 select").val("{{datos_recibidos.cuil.cuil2}}");</script>
@@ -119,7 +100,6 @@
           
 
 
-  </form>
         <br>
         <br>
 
@@ -127,9 +107,8 @@
 
         {% if datos_recibidos.id_paciente_activo %}
 
-
             <table class="table table-bordered" >
-              <tbody>
+                <tbody>
                   <!-- Aplicadas en las filas -->
                     <tr class="active">Este CUIL pertenece a un paciente "ACTIVO". </tr>
 
@@ -158,45 +137,117 @@
             {% for elemento in datos_recibidos.id_paciente_inactivo %}
               <div class='form-group'>
 
-              <div class="row">
-          
-                <div class="col-md-11">
-                  <label class='col-md-7 col-md-offset-1'>Este CUIL pertenece a un paciente que se encuentra inactivo. ¿Desea activarlo?</label>
-                  <div type="button" class="btn btn-success btn-xs" id="activar">Si</div>
-                  <div type="button" class="btn btn-danger btn-xs" id='no_activar'>No</div>
-                </div>
-            
-                <script  type="text/javascript" charset="utf-8" async defer>
-                  $("div[id=activar]").click(function () {
-                    
-                    window.location.href = "/aplicacion/eliminarpaciente/{{elemento.persona_ptr_id}}";
-                  });
-                </script>
+                <div class="row">
+                
+                    <div class="col-md-11">
+                      
+                      <script>
+               
+                        alertify.set({ labels: {
+                          ok     : "Confirmar",
+                          cancel : "Cancelar"
+                         } });
+                        // confirm dialog
+                        alertify.confirm("Este paciente se encuentra inactivo, ¿Desea activarlo?", function (e) {
+    
+                       if (e) {
+                          window.location.href = "/aplicacion/eliminarpaciente/{{elemento.persona_ptr_id}}";
+                        } else {
+                          window.location.href = "/aplicacion/paciente/";
+                        }});
 
-                <script  type="text/javascript" charset="utf-8" async defer>
-                  $("div[id=no_activar]").click(function () {
-                    window.location.href = "/aplicacion/paciente/";
-                  });
-                </script>
-            {% endfor %}
-          {% endif %}
- 
-      </div>
-    </div>
+                      </script>
+                  
+
+                    </div>
+            
+              
+          {% endfor %}
+        {% endif %}
+        
+  
+              </div>
+            </div>
   </div>
 
 <script type="text/javascript" charset="utf-8" async defer>
               
-              $("div[id=continuar]").click(function () {
+    $("input[id=continuar]").click(function () {
       
-               var cuil1 = $("#cuil1").val();
-               var dni = $("#dni").val();
-               var cuil2 = $("#cuil2").val();
-               var cuil=cuil1+dni+cuil2;
-               window.location.href = "/aplicacion/comprobar/"+cuil;
-            });
-            </script>
+        var cuil1 = $("#cuil1").val();
+        var dni = $("#dni").val();
+        var cuil2 = $("#cuil2").val();
+        var cuil=cuil1+dni+cuil2;
+        window.location.href = "/aplicacion/comprobar_paciente/"+cuil;
+     });
 
+              
+    $("input[id=generar]").click(function () {
+      
+               var sexo = $("#sexo").val();
+               var dni_g = $("#dni_g").val();
+               
+               if (sexo=='MASCULINO')
+               {
+                  var cuil1='20';
+
+               }
+               else if(sexo=='FEMENINO')
+               {
+
+                  var cuil1='27';
+               }
+               var a=cuil1[0]*5;
+               var b=cuil1[1]*4;
+               var c=dni_g[0]*3;
+               var d=dni_g[1]*2;
+               var e=dni_g[2]*7;
+               var f=dni_g[3]*6;
+               var g=dni_g[4]*5;
+               var h=dni_g[5]*4;
+               var i=dni_g[6]*3;
+               var j=dni_g[7]*2;
+
+               var suma=a+b+c+d+e+f+g+h+i+j;
+
+               cociente_division=suma/11;
+               resto_division=(suma%11)
+
+               if (resto_division==0)
+               {
+                  var Z=0;
+
+               }
+               else if( parseInt(resto_division)==1){
+
+                  if(sexo=='MASCULINO')
+                  {
+                    var Z=9;
+                    var cuil1='23';
+
+                  }
+                  else if( sexo=='FEMENINO')
+                  {
+                    var Z=4;
+                    cuil1='23';
+
+                  }
+
+               }
+               else if(resto_division>1)
+              {
+                var resto2=parseInt(suma-(parseInt(cociente_division)*11));
+                var Z=(11-resto2);
+
+              }
+
+              cuil_generado=cuil1+dni_g+Z;
+
+               $("#dni").val(dni_g);
+               $("div.cuil1 select").val(cuil1);
+               $("div.cuil2 select").val(Z);
+            });
+    </script>
 
 
 

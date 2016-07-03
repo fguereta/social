@@ -61,23 +61,26 @@ var id_paciente='{{elemento.id}}'
     $("#confirmacion").click(function() {
 
     	
-	alertify.defaults.glossary.title = '';
 
-    	alertify.confirm("Confirmar eliminacion  "+apellidonombre,
-            function (e) {
-                if (e) {
-                   window.location = "/aplicacion/eliminarpaciente/"+id_paciente;
-                } else {
-                    alertify.error("Has pulsado <strong>"
-                             + alertify.labels.cancel
-                             + "</strong>");
-                }
-        }).setting('labels',{'ok':'Confirmar', 'cancel': 'Cancelar'});
-    });
+   
 
 
+    alertify.set({ labels: {
+            ok     : "Confirmar",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("Este paciente pasara a NO ACTIVO, ¿Esta de acuerdo?", function (e) {
+
+
+          if (e) {
+          window.location.href = "/aplicacion/eliminarpaciente/"+id_paciente;
+          } else {
+        window.location.href = "/aplicacion/paciente/";
+         }
+          });
   
- 
+  });
    
 
     

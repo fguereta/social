@@ -51,10 +51,10 @@ class Persona(models.Model):
     
 class Farmacia(models.Model):    
     razon_social = models.CharField(max_length=25)
-    cuit = models.IntegerField()
+    cuit = models.CharField(max_length=20)
     direccion = models.CharField(max_length=25)
-    telefono = models.IntegerField()
-    email = models.EmailField()
+    telefono = models.CharField(max_length=20)
+    email = models.EmailField(null=True)
     estado=models.CharField(max_length=20, blank=True, null=True)
     
     def __unicode__(self):

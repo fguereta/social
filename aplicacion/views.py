@@ -203,7 +203,7 @@ def paciente(request):
     
         return render_to_response("ABME/Paciente/paciente.html",  {'paciente': paciente, 'busqueda_paciente':paciente  }, context_instance = RequestContext(request))
 
-def comprobar(request,cuil_paciente='0'):
+def comprobar_paciente(request,cuil_paciente='0'):
     
 
     cuil_recibido=cuil_paciente
@@ -254,7 +254,6 @@ def comprobar(request,cuil_paciente='0'):
 
         return render_to_response("ABME/Paciente/registrarpaciente.html",  {'cuil':cuil}, context_instance = RequestContext(request))  
 
-   
 def menupaciente(request):
     
     
@@ -264,18 +263,6 @@ def fichapaciente(request,id_paciente):
     
     paciente_enviar=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
     return render_to_response("ABME/Paciente/fichapaciente.html",  {'id_paciente': paciente_enviar }, context_instance = RequestContext(request))        
-
-
-def comprobarpaciente(request,dni_paciente):
-
-
-
-    id_paciente=Paciente.objects.filter(dni=dni_paciente,estado="ACTIVO")
-    id_paciente_inactivo=Paciente.objects.filter(dni=dni_paciente,estado="INACTIVO")
-    dni=dni_paciente
-    return render_to_response("ABME/Paciente/registrarpaciente.html",{'id_paciente':id_paciente,'id_paciente_inactivo':id_paciente_inactivo, 'dni':dni}, context_instance = RequestContext(request))
-    
-    
 
 
 def registrarpaciente(request):
@@ -687,21 +674,30 @@ def farmacia(request):
     return render_to_response('ABME/Farmacia/farmacia.html')
 
 def registrarfarmacia(request):
-    if request.POST:
-        form = FarmaciaForm(request.POST)
+
+    if request.method=="POST":
+
+        form=FarmaciaForm(request.POST)
+
         if form.is_valid():
-            form.save()
 
-            return render_to_response('ABME/Notificaciones/fregistrado.html')#si registra el paciente envia a /pregistrado
-    else:
-        form = FarmaciaForm()
 
-    args = {}
-    args.update(csrf(request))
+            newdoc = Farmacia(
 
-    args['form'] = form
+            razon_social=request.POST['razon_social'].upper(),
+            cuit=request.POST['cuit'],
+            direccion=request.POST['direccion'].upper(),
+            telefono=request.POST['telefono'],
+            email=request.POST["email"].upper(),
+            estado='ACTIVO'
+            )
 
-    return render_to_response('ABME/Farmacia/registrarfarmacia.html', args)
+            newdoc.save(form)
+
+
+    
+
+    return render_to_response("ABME/Farmacia/registrarfarmacia.html", context_instance = RequestContext(request))
 
 def eliminarfarmacia(request):
     errors = []
@@ -779,8 +775,6 @@ def buscarfarmacia(request):
       
     
     return render(request, 'ABME/Farmacia/buscarfarmacia.html', {'errors': errors}) 
-
-
 
 #OPERACIONES
 
@@ -1046,5 +1040,6 @@ def listadoremedios(fecha1, fecha2):
         
         detalles = DetalleSolicitud.objects.filter(fecha__range=(fecha1, fecha2))
         
-        return detalles  
-    
+        return detalles 
+
+

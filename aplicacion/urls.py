@@ -40,14 +40,14 @@ urlpatterns = [
    
 
     
-    url(r'^comprobar/(?P<cuil_paciente>\w+)/$', views.comprobar, name='comprobar'),
+    
     #PACIENTE
 
     #utilizados
     url(r'^paciente/', views.paciente, name='paciente'),
+    url(r'^comprobar_paciente/(?P<cuil_paciente>\w+)/$', views.comprobar_paciente, name='comprobar'),
     url(r'^registrarpaciente/', views.registrarpaciente, name='registrarpaciente'),
     url(r'^fichapaciente/(?P<id_paciente>\w+)/$', views.fichapaciente, name='modificarpaciente'),
-    url(r'^comprobarpaciente/(?P<cuil_paciente>\w+)/$', views.comprobarpaciente, name='comprobarpaciente'),
     url(r'^modificarpaciente/(?P<id_paciente>\w+)/$', views.modificarpaciente, name='modificarpaciente'),
     url(r'^eliminarpaciente/(?P<id_paciente>\w+)/$', views.eliminarpaciente, name='eliminarpaciente'),
     #no utilizados por el momento
@@ -83,7 +83,8 @@ urlpatterns = [
     url(r'^feliminado/$', views.farmacia_elim, name='feliminado'),
     url(r'^opfarmacia/$', views.opfarmacia, name='opfarmacia'),
     
-    #OPERACIONES
+  
+   #OPERACIONES
     url(r'^solicitudespaciente/(?P<id_paciente>\w+)/$', views.solicitudespaciente, name='solicitudespaciente'),
 
 
@@ -109,10 +110,5 @@ urlpatterns = [
     url(r'^remediofecha/', views.remediofecha, name='remediofecha'),
     
     #BUSQUEDAS
-    url(r'^buscaremedio/', views.buscaRemedio, name='buscaRemedio'),
-    
-     
-      
-       
-    
+    url(r'^buscaremedio/', views.buscaRemedio, name='buscaRemedio'), 
 ]

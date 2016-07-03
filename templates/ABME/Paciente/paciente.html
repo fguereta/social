@@ -3,34 +3,36 @@
 
 {% block contenido%}
 
-<div class="container">
-    <fieldset>
-        <legend>Pacientes</legend>
-            <div class="col-md-offset-10"> 
-            <a href="/aplicacion/comprobar/0">
-            <button class="btn btn-success ">Nuevo Paciente</button>
-            </a>
+ <div class='' >
+      <div class='panel panel-primary dialog-panel'>
+          <div class='panel-body'>
 
-            </div>
+              <fieldset>
+                 <legend>Pacientes</legend>
+                 <div class="col-md-offset-10"> 
+                  <a href="/aplicacion/comprobar_paciente/0">
+                    <button class="btn btn-success ">Nuevo Paciente</button>
+                  </a>
+              </div>
             
-            <div class="row">
+              <div class="row">
                 <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
                     <div class="col-md-4 text-left">
-                    <select name="id_paciente" id="id_paciente" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-                        <option value=""></option>
-                        {% for elemento in busqueda_paciente %}
-                        <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
-                        {% endfor %}
-                    </select>
+                      <select name="id_paciente" id="id_paciente" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                          <option value=""></option>
+                          {% for elemento in busqueda_paciente %}
+                          <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
+                          {% endfor %}
+                      </select>
                     </div>
     
                     <div>
-                    <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
+                      <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
                     </div>
                 </form> 
-            </div>
+              </div>
         
-  </fieldset>
+            </fieldset>
  
  {% if id_paciente %}
 <div class="row">
@@ -40,7 +42,7 @@
   
 <br> 
 <div class="table-responsive">             
-  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+  <table id="example" class="table table-condensed  table-hover " cellspacing="0" width="100%">
     <thead>
       <tr>
         <th class=" text-center"></th>
@@ -111,6 +113,9 @@
 </div>
  {% endif %}
 
+</div>
+</div>
+
 
 <script type="text/javascript" charset="utf-8" async defer>
     
@@ -137,6 +142,9 @@
     });
  
    
+
+
+
 
 
 
