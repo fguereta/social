@@ -44,13 +44,11 @@ class DerivacionForm(forms.ModelForm):
     class Meta:
         model = Derivacion
         exclude=()
-'''        
-class SolicitudForm(forms.ModelForm):    
+
+class SolicitudForm(forms.Form):    
     class Meta:
-        model = Solicitud
-        exclude=()    
-'''
-class DetalleSolicitudForm(forms.ModelForm):    
-    class Meta:
-        model = DetalleSolicitud
-        exclude=()    
+        paciente=forms.CharField()
+        medico=forms.CharField()
+        remedio=forms.CharField()
+        dosis=forms.CharField()
+        exclude=('id',)    

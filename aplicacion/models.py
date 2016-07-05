@@ -29,6 +29,7 @@ class Persona(models.Model):
     dni=models.CharField(max_length=9)
     cuil=models.CharField(max_length=15, null=True)
     nacimiento=models.CharField(max_length=10, null=True)
+    nacionalidad=models.CharField(max_length=20, null=True)
     correo=models.EmailField(null=True)
     direccion=models.CharField(max_length=25, null=True)
     observaciones=models.TextField(blank=True, null=True)
@@ -101,10 +102,23 @@ class Remedio(models.Model):
     precio=models.CharField(max_length=20)
     presentacion=models.CharField(max_length=20)
     observaciones=models.TextField(blank=True)
+    estado=models.CharField(max_length=6)
     
     def __unicode__(self):
         return self.generico
 
+class Solicitud(models.Model):
+    
+    paciente = models.ForeignKey(Paciente, db_column='paciente_id')
+    medico = models.ForeignKey(Medico, db_column='medico_id')
+    remedio = models.ForeignKey(Remedio, db_column='remedio_id')
+    fecha = models.CharField(max_length=15)
+    dosis = models.CharField(max_length=20)
+    observaciones = models.TextField(blank=True)
+    estado = models.CharField(max_length=6, blank=True, null=True)
+    
+    def __unicode__(self):
+        return self.dosis  
 
 '''  
 class Solicitud(models.Model):
@@ -113,18 +127,7 @@ class Solicitud(models.Model):
 
 
 
-class DetalleSolicitud(models.Model):
-    
-    paciente = models.ForeignKey(Paciente, db_column='paciente_id')
-    medico = models.ForeignKey(Medico, db_column='medico_id')
-    remedio = models.ForeignKey(Remedio, db_column='remedio_id')
-    fecha = models.DateField()
-    dosis = models.CharField(max_length=20)
-    observaciones = models.TextField(blank=True)
-    estado = models.CharField(max_length=20, blank=True, null=True)
-    
-    def __unicode__(self):
-        return self.dosis    
+  
         
 '''       
 class DetalleSolicitudInline(admin.TabularInline):

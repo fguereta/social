@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 """tesismgd URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -21,4 +23,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^aplicacion/',include('aplicacion.urls')),
     url(r'^index/', views.index, name='index'),
+    url(r'^usuario_inicio/', views.usuario_inicio, name='usuario'),
 ]

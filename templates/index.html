@@ -37,7 +37,9 @@
 
   </head>
 <!-- onload="nobackbutton();" -->
-  <body  >
+  <body>
+        
+
         {% include "includes/navtop.html" %}
         
         <!--
@@ -45,6 +47,12 @@
           {% include "includes/navdown.html" %}
         </div>
       -->
+
+
+
+
+
+
         <div class="col-sm-0 col-sm-offset-0 col-md-0 col-md-offset-0 main">
           {%block title%}
           {%endblock title%}
@@ -76,4 +84,20 @@ function nobackbutton(){
 }
 
 
+
+if(registro_login==false){
+
+  window.location = "/usuario_inicio/";
+
+}
+
+
+
+
+
 </script>
+
+
+
+
+

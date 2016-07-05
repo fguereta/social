@@ -1,7 +1,29 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         
-        <div class="navbar-header">
+        <div class="navbar-header" id='include_topadmin'>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/index/">Servicio social</a>
+
+          <ul class="nav navbar-nav navbar-right">
+          <li> <a href="/aplicacion/paciente">Pacientes</a></li>
+          <li><a href="/aplicacion/medico">Medicos</a></li>
+          <li><a href="/aplicacion/farmacia">Farmacia</a></li>
+          <li> <a href="/aplicacion/usuario">Usuarios</a></li>
+          <li> <a href="/aplicacion/registrarderivacion">Derivaciones</a></li>
+          <li> <a href="/aplicacion/registrarsolicitud">Solicitud</a></li>
+          <li><a href="/aplicacion/remediofecha">Solicitudes x fecha</a></li>
+        </ul>
+
+
+        </div>
+
+        <div class="navbar-header" style="display:none;" id='include_usuriocomun'>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>

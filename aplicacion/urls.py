@@ -53,10 +53,10 @@ urlpatterns = [
     #no utilizados por el momento
     
     
-    url(r'^buscarpaciente/', views.buscarpaciente, name='buscarpaciente'),
+    
     url(r'^peliminado/', views.paciente_elim, name='peliminado'),
     url(r'^oppaciente/$', views.oppaciente, name='oppaciente'),
-    url(r'^resultadopaciente/', views.resultadopaciente, name='resultadopaciente'),
+   
     
     #MEDICO
     #utilizados
@@ -69,7 +69,7 @@ urlpatterns = [
     url(r'^modificarmedico/(?P<id_medico>\w+)/$', views.modificarmedico, name='modificarmedico'),
     url(r'^eliminarmedico/', views.eliminarmedico, name='eliminarmedico'),
     url(r'^listadomedico/', views.listadomedico, name='eliminarmedico'),
-    url(r'^buscarmedico/$', views.buscarmedico, name='buscarmedico'),
+    
     url(r'^meliminado/$', views.medico_elim, name='meliminado'),
     url(r'^opmedico/$', views.opmedico, name='opmedico'),
     
@@ -85,6 +85,11 @@ urlpatterns = [
     
   
    #OPERACIONES
+
+   url(r'^registrarsolicitud/(?P<id_paciente>\w+)/$', views.registrarsolicitud, name='registrarsolicitud'),
+
+
+
     url(r'^solicitudespaciente/(?P<id_paciente>\w+)/$', views.solicitudespaciente, name='solicitudespaciente'),
 
 
@@ -92,10 +97,11 @@ urlpatterns = [
     url(r'^detallederivacion/(?P<paciente_id>\w+)/$', views.detallederivacion, name='detallederivacion'),
 
     url(r'^solicitudes/(?P<id_paciente>\w+)/$', views.solicitudes, name='solicitudes'),
+    url(r'^derivaciones/(?P<id_paciente>\w+)/$', views.derivaciones, name='derivaciones'),
     url(r'^listadodetalle/', views.listadodetalle, name='listadodetalle'),
     url(r'^pacientesolicitud/', views.pacientesolicitud, name='pacientesolicitud'),
     url(r'^registrardetalle/', views.registrardetalle, name='registrardetalle'),
-    url(r'^registrarsolicitud/buscarpa/', views.buscarpaciente, name='buscarpaciente'),
+    
     
     #url(r'^modificarmedico/(?P<medico_id>\w+)/$', views.modificarmedico, name='modificarmedico'),
     url(r'^entrega/(?P<paciente_id>\w+)/$', views.detallepa, name='detallepa'),

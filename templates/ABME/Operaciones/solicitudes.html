@@ -2,68 +2,20 @@
 
 {% block contenido_paciente %}
 
+ 
+
+{% if solicitudes   %}
 
 
-{% for detalle in detalle %}
-
-			
+<div class="container">
 
 
+{% for elemento in id_paciente %}
+<br>
 
 
-<div class='panel-body'>
-        <form  class="form-horizontal">
-        
-<div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Solicitud</label>
-            <div class='col-md-2'>
-              <input class='form-control' id='dni' name='dni' value="{{detalle.id}}" readonly></input>
-            </div>
-        </div>
-        
-        <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Remedio</label>
-            <div class='col-md-2'>
-              <input class='form-control' id='dni' name='dni' value="{{detalle.remedio_id}}" readonly></input>
-            </div>
-        </div>
-          
-         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Fecha</label>
-            <div class='col-md-2'>
-              <input class='form-control' id='cuil' name='cuil' value="{{detalle.fecha}}" readonly></input>
-            </div>
-        </div>
-          
-        <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Dósis</label>
-            <div class='col-md-2'>
-              <input class='form-control' id='historiaclinica' name='historiaclinica' value="{{detalle.dosis}}" readonly></input>
-            </div>
-        </div>
-
-        <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Médico</label>
-            <div class='col-md-2'>
-              <input class='form-control' id='osocial' name='osocial' value="{{detalle.medico_id}}" readonly></input>
-            </div>
-        </div>
-
-          <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Observaciones</label>
-            <div class='col-md-3'>
-              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" value="{{detalle.observaciones}}" readonly></input>
-            </div>
-          </div>
-    
-             
-        
-      
-    
-    </form>
-{% endfor %}    
  <div class="col-md-offset-10"> 
-    		<a href="/aplicacion/entrega/{{query}}">
+        <a href="/aplicacion/registrarsolicitud/{{elemento.persona_ptr_id}}">
             <button class="btn btn-success ">Nueva Solicitud</button>
             </a>
 
@@ -71,8 +23,61 @@
 
   </div>
 
+{% endfor %}
 
 
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed  table-hover " cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        
+        <th class="text-center">Fecha de solicitud</th>
+        <th class="text-center">Remedio</th>
+        <th class="text-center">Medico</th>
+        <th class=" text-center"></th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in solicitudes %}
+      <tr>
+        
+        <td class="col-md-2 text-center">{{elemento.fecha}}</td>
+        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
+        <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
+        <td class="col-md-1 text-center"><a href="/aplicacion/fichasolicitud/{{elemento.id}}/"><button class=" btn btn-success btn-sm"  >Ver solicitud</button></a>
+         
+      </tr>
+     {% endfor %} 
+      
+    </tbody>
+  </table>
+</div>
+  
+</div>
+</div>
+
+ {% else %}
+
+                  <script>
+               
+                        alertify.set({ labels: {
+                          ok     : "Confirmar",
+                          cancel : "Cancelar"
+                         } });
+                        // confirm dialog
+                        alertify.confirm("Este paciente no posee solicitudes ¿Desea crear solicitud?", function (e) {
+    
+                       if (e) {
+                          window.location.href = "/aplicacion/registrarsolicitud/{{elemento.persona_ptr_id}}";
+                        } else {
+                          window.location.href = "/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}";
+                        }});
+
+                      </script>
+
+ {% endif %}
 
 
 {% endblock contenido_paciente %}

@@ -1,0 +1,97 @@
+{% extends "index.html" %}
+
+{% block contenido %}
+<div class="container">
+<div class='panel panel-primary dialog-panel  '>
+      <div class='panel-heading'>
+        <h5>Nuevo paciente</h5>
+      </div>
+      		<div class='panel-body'>
+				<form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+				{% csrf_token %}
+
+
+				<div class="form-group">
+					<label for="paciente" class="control-label col-md-2">Paciente:</label> 
+					<div class="col-md-5">
+						{% for elemento in id_paciente %}
+						<input class="form-control" id="id_paciente" name="id_paciente" type="hidden" value="{{elemento.id}}"/>
+						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.apellido}}, {{elemento.nombre}}"/>
+						{% endfor %}
+					</div>
+				</div>
+
+
+
+			<div class="form-group">
+				<label for="medico" class="control-label col-md-2">Medico:</label> 
+					<div class="col-md-4 text-left">
+                      <select name="id_medico" id="id_medico" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                          <option value=""></option>
+                          
+                          {% for elemento in medico_enviado %}
+                          <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
+                          {% endfor %}
+                      
+
+                      </select>
+                    </div>
+			</div>
+
+
+
+		<div class="form-group">
+				<label for="remedio" class="control-label col-md-2">Remedio:</label> 
+					<div class="col-md-4 text-left">
+                      <select name="id_remedio" id="id_remedio" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                          <option value=""></option>
+                          
+                          {% for elemento in remedio_enviado %}
+                          <option value="{{elemento.id}}" >{{elemento.generico}}</option>
+                          {% endfor %}
+                      
+
+                      </select>
+                    </div>
+			</div>
+
+<div class="form-group">
+<label for="fecha" class="control-label col-md-2">Fecha:</label> 
+	<div class="col-md-5">
+	<input class="form-control" id="fecha" name="fecha" type="text" />
+	</div>
+</div>
+
+<div class="form-group">
+<label for="dosis" class="control-label col-md-2">Dosis:</label>
+	<div class="col-md-5">
+	<input class="form-control" id="dosis" maxlength="20" name="dosis" type="text" />
+	</div>
+</div>
+
+<div class="form-group">
+<label for="observaciones" class="control-label col-md-2">Observaciones:</label> 
+	<div class="col-md-5">
+	<textarea class="form-control" cols="40" id="observaciones" name="observaciones" rows="10"></textarea>
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-md-2 col-md-offset-2">
+	
+	
+	<input class="form-control" type="submit" name="submit" value="Solicitar">
+	</div>
+</div>
+
+</form>
+</div>
+</div>
+</div>
+<script type="text/javascript" charset="utf-8" async defer>
+    
+    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+ </script>
+
+{% endblock %}

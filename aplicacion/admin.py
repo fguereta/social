@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.contrib import admin
 from aplicacion.models import *
 from django.contrib.auth.models import User
@@ -23,6 +25,6 @@ admin.site.register(Paciente)
 admin.site.register(Farmaceutico)
 admin.site.register(Derivacion)
 #admin.site.register(Solicitud)
-admin.site.register(DetalleSolicitud)
+admin.site.register(Solicitud)
 #admin.site.register(Entregas)
 admin.site.register(Remedio)
