@@ -115,7 +115,8 @@ class Solicitud(models.Model):
     fecha = models.CharField(max_length=15)
     dosis = models.CharField(max_length=20)
     observaciones = models.TextField(blank=True)
-    estado = models.CharField(max_length=6, blank=True, null=True)
+    estado_aprobacion=models.CharField(max_length=10)
+    estado = models.CharField(max_length=6)
     
     def __unicode__(self):
         return self.dosis  

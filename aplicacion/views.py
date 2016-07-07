@@ -1,13 +1,103 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
+#LIBRERIAS REPORTLAB (pip install reportlab)
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4, cm
+from io import BytesIO
+#
+
+#from __future__ import unicode_literals
 from django.shortcuts import render_to_response, render, RequestContext
 from aplicacion.models import *
 from aplicacion.form import *
 from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 
+
+def aprobacion_estado(request, estado_nuevo, id_solicitud):
+
+    '''
+    if request.method=="POST":
+
+        form=MedicoForm(request.POST)
+        
+        if form.is_valid():
+            
+
+            medico.nombre=request.POST["nombre"].upper()
+            medico.apellido=request.POST["apellido"].upper()
+            medico.dni=request.POST["dni"]
+            medico.cuil=request.POST["cuil"]
+            medico.nacimiento=request.POST["nacimiento"]
+            medico.correo=request.POST["correo"].upper()
+            medico.direccion=request.POST["direccion"].upper()
+            medico.observaciones=request.POST["observaciones"].upper()
+            medico.telefono=request.POST["telefono"]
+            medico.celular=request.POST["celular"]
+            medico.sexo=request.POST["sexo"].upper()
+            medico.especialidad=request.POST["especialidad"].upper()
+            medico.matriculaprovincial=request.POST["matriculaprovincial"].upper()
+            medico.matriculanacional=request.POST["matriculanacional"].upper()
+            medico.estado="ACTIVO"
+            medico.save()
+
+            id_medico=Medico.objects.filter(dni__icontains=request.POST['dni'], cuil__icontains=request.POST['cuil'])
+            ban='exito_modificar_medico'
+
+            '''
+    
+    return render_to_response('ABME/Operaciones/solicitudes.html',context_instance=RequestContext(request))
+
+
+
+
+def pdf_solicitud(request, nro_solicitud):
+
+    solicitud=Solicitud.objects.filter(id=nro_solicitud)
+   
+
+    for elemento in solicitud:
+        nro_solicitud=elemento.id
+        fecha=elemento.fecha
+        dosis=elemento.dosis
+        observaciones=elemento.observaciones
+        id_medico=elemento.medico_id
+        id_paciente=elemento.paciente_id
+        id_remedio=elemento.remedio_id
+
+
+    paciente=Paciente.objects.filter(persona_ptr_id=id_paciente)
+
+    for elemento in paciente:
+        nombre=elemento.nombre
+        apellido=elemento.apellido
+       
+
+
+    response =  HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment ; filename=Solicitud-N°'+str(nro_solicitud)+'.pdf'
+    buffer =BytesIO()
+    c = canvas.Canvas(buffer, pagesize=A4)
+
+    #Header
+    c.setLineWidth(.3)
+    c.setFont('Helvetica', 22)
+    c.drawString(30,750,fecha)
+    c.setFont('Helvetica', 12)
+    c.drawString(30,735,'Report')
+
+    c.save()
+
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response
+
+
+
+    return HttpResponse("Hello, world. yout at polll index")
 
 def index(request):
     return render_to_response("index.html")
@@ -678,7 +768,8 @@ def registrarsolicitud(request,id_paciente):
             fecha=request.POST['fecha'].upper(),
             dosis=request.POST["dosis"].upper(),
             observaciones=request.POST["observaciones"].upper(),
-            estado='ACTIVO'
+            estado='ACTIVO',
+            estado_aprobacion='EN PROCESO'
             )
 
             newdoc.save(form)

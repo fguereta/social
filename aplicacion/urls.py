@@ -21,7 +21,9 @@ from aplicacion import views
 
 
 urlpatterns = [
-    
+    url(r'^pdf_solicitud/(?P<nro_solicitud>(\w+))/$', views.pdf_solicitud, name='report'),
+    url(r'^aprobacion_estado/(?P<estado_nuevo>\w+)/(?P<id_solicitud>\w+)/$', views.aprobacion_estado, name='aprobacion_estado'),
+
     url(r'^index/', views.index, name='index'),
     #url(r'^registrarpersona/', views.registrarpersona, name='registrarpersona'),
     
