@@ -21,7 +21,12 @@
 <div class='container'>
     <div class='panel panel-primary dialog-panel'>
       <div class='panel-heading'>
-        <h5>{{elemento.apellido}}, {{elemento.nombre}}</h5>
+        <h5 id='paciente_nombre' >{{elemento.apellido}}, {{elemento.nombre}}</h5>
+        <h3 id='estado_cancelada' style="display:none;" >Solicitud "Cancelada"</h3>
+        <h3 id='estado_aprobado' style="display:none;" >Solicitud "Aprobada"</h3>
+        <h3 id='estado_enproceso' style="display:none;" >Solicitud "En proceso"</h3>
+        <h3 id='estado_parcial' style="display:none;" >Solicitud "En entrega parcial"</h3>
+        <h3 id='estado_entregado' style="display:none;" >Solicitud "Completada con exito"</h3>
       </div>
       <div class="navbar navbar-inverse navbar-fixed ">
   	<div class="container-fluid ">
@@ -29,7 +34,7 @@
         	<ul class="nav navbar-nav navbar-right">
   				<li><a href="/aplicacion/fichapaciente/{{elemento.id}}">Ficha</a></li>
   				<li><a href="/aplicacion/solicitudes/{{elemento.id}}">Solicitudes</a></li>
-  				<li><a href="/aplicacion/derivaciones/{{elemento.id}}">Derivaciones</a></li>
+  				<li id='derivaciones'><a href="/aplicacion/derivaciones/{{elemento.id}}">Derivaciones</a></li>
   				<li id='modificar'><a href="/aplicacion/modificarpaciente/{{elemento.id}}">Modificar</a></li>
   				<li id='eliminar' ><a  id="confirmacion">Eliminar</a></li>
 			</ul>

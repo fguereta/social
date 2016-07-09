@@ -21,8 +21,8 @@ from aplicacion import views
 
 
 urlpatterns = [
-    url(r'^pdf_solicitud/(?P<nro_solicitud>(\w+))/$', views.pdf_solicitud, name='report'),
-    url(r'^aprobacion_estado/(?P<estado_nuevo>\w+)/(?P<id_solicitud>\w+)/$', views.aprobacion_estado, name='aprobacion_estado'),
+    
+   
 
     url(r'^index/', views.index, name='index'),
     #url(r'^registrarpersona/', views.registrarpersona, name='registrarpersona'),
@@ -88,17 +88,17 @@ urlpatterns = [
   
    #OPERACIONES
 
-   url(r'^registrarsolicitud/(?P<id_paciente>\w+)/$', views.registrarsolicitud, name='registrarsolicitud'),
-
-
-
+   #utilizados solicitud
+    url(r'^solicitudes/(?P<id_paciente>\w+)/$', views.solicitudes, name='solicitudes'),
+    url(r'^registrarsolicitud/(?P<id_paciente>\w+)/$', views.registrarsolicitud, name='registrarsolicitud'),
+    url(r'^pdf_solicitud/(?P<nro_solicitud>(\w+))/$', views.pdf_solicitud, name='report'),
     url(r'^solicitudespaciente/(?P<id_paciente>\w+)/$', views.solicitudespaciente, name='solicitudespaciente'),
-
+    url(r'^fichasolicitud/(?P<id_solicitud>\w+)/$', views.fichasolicitud, name='fichasolicitud'),
 
     url(r'^registrarderivacion/', views.registrarderivacion, name='registrarderivacion'),
     url(r'^detallederivacion/(?P<paciente_id>\w+)/$', views.detallederivacion, name='detallederivacion'),
 
-    url(r'^solicitudes/(?P<id_paciente>\w+)/$', views.solicitudes, name='solicitudes'),
+    
     url(r'^derivaciones/(?P<id_paciente>\w+)/$', views.derivaciones, name='derivaciones'),
     url(r'^listadodetalle/', views.listadodetalle, name='listadodetalle'),
     url(r'^pacientesolicitud/', views.pacientesolicitud, name='pacientesolicitud'),

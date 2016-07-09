@@ -19,20 +19,41 @@
 
 $('#modificar').hide(); 
 $('#eliminar').hide();
+$('#derivaciones').hide();
 
 </script>
 
+<style type="text/css">
+  .tachado{text-decoration:line-through;}
+ 
+  .rojocolor{background:#FA5858;}
+  .amarillocolor{background:#F3F781;}
+  .entregadocolor{background:#01A9DB}
+  .aprobadocolor{background: #81F781;}
+  .parcial{background: #FAAC58 }
 
+  .headertabla{background:#A9E2F3;}
+
+
+tr.resaltar {
+    
+    cursor: pointer;
+   
+}
+
+</style>
  
 
 
 
 
 <br> 
+
+
 <div class="table-responsive">             
   <table id="example" class="table table-condensed  table-hover " cellspacing="0" width="100%">
     <thead>
-      <tr>
+      <tr class=''>
         
         <th class="text-center">Fecha</th>
         <th class="text-center">Nombre Generico</th>
@@ -45,16 +66,79 @@ $('#eliminar').hide();
     </thead>
     <tbody>
     {% for elemento in solicitudes %}
-      <tr>
-        
-        <td class="col-md-2 text-center">{{elemento.fecha}}</td>
+      
+    {% ifequal elemento.estado_aprobacion "APROBADO" %}
+    
+
+      <tr class='aprobadocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
+        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
         <td class="col-md-2 text-center">{{elemento.remedio}}</td>
         <td class="col-md-2 text-center">{{elemento.dosis}}</td>
         <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
-        <td class="col-md-2 text-center"><input id='aprobacion_estado' type='button' id='aprobacion_estado' name='aprobacion_estado' value='{{elemento.estado_aprobacion}}'></input>
+        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
         <td class="col-md-1 text-center"><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/">Exportar PDF</a>
-      </tr>
+      </td>
+    </tr>
+      {% endifequal %}
 
+    {% ifequal elemento.estado_aprobacion "ENTREGADO" %}
+    
+
+      <tr class='entregadocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
+                <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
+        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
+        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-1 text-center"><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/">Exportar PDF</a>
+      </td>
+    </tr>
+      {% endifequal %}
+
+      {% ifequal elemento.estado_aprobacion "EN PROCESO" %}
+    
+
+      <tr class='amarillocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
+                <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
+        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
+        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-1 text-center"><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/">Exportar PDF</a>
+      </td>
+    </tr>
+      {% endifequal %}
+
+
+      {% ifequal elemento.estado_aprobacion "CANCELADO" %}
+    
+
+      <tr class='tachado rojocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
+                <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
+        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
+        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-1 text-center"><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/">Exportar PDF</a>
+      </td>
+    </tr>
+      {% endifequal %}
+ 
+
+      {% ifequal elemento.estado_aprobacion "PARCIAL" %}
+    
+
+      <tr class='parcial' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
+                <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
+        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
+        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-1 text-center"><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/">Exportar PDF</a>
+      </td>
+    </tr>
+      {% endifequal %}
+ 
 
      {% endfor %} 
       <tr>
@@ -72,12 +156,14 @@ $('#eliminar').hide();
 
             </div></a>
       </tr>
+    
     </tbody>
   </table>
 </div>
   
 </div>
 </div>
+
 
  {% else %}
 
@@ -100,33 +186,6 @@ $('#eliminar').hide();
 
  {% endif %}
 
-<script  type="text/javascript" charset="utf-8" async defer>
-  
-$("input[id=aprobacion_estado]").click(function (){
 
-"{% for elemento in solicitudes %}"
-  
-  var paciente_id="{{elemento.paciente_id}}";
-
-"{% endfor %}"
-  alertify.set({ labels: {
-                          ok     : "Confirmar",
-                          cancel : "Cancelar"
-                         } });
-                        // confirm dialog
-                        alertify.confirm("<div class='container'><div class=' form-horizontal  col-md-offset-1'><div class='col-xs-3 '  sexo'><select class='form-control col-md-2 ' id='estado_aprobacion' name='estado_aprobacion'><option value='1'>EN PROCESO</option><option value='2'>ACEPTADO</option><option value='3'>DENEGADO</option></select></div></div></div>", function (e) {
-    
-                       if (e) {
-                            var estado_nuevo = $("#estado_aprobacion").val();
-                            
-                        
-                        } else {
-                          window.location.href = "/aplicacion/solicitudes/"+paciente_id;
-                        }});
-
- });
- 
-
-</script>
 {% endblock contenido_paciente %}
 

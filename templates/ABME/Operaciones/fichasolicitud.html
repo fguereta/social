@@ -1,0 +1,238 @@
+{% extends "ABME/Paciente/menupaciente.html" %}
+
+{% block contenido_paciente %}
+
+
+
+
+{% if solicitud_enviado %}
+{% for elemento in solicitud_enviado %}
+
+{% ifequal elemento.estado_aprobacion "CANCELADO" %}
+
+
+
+
+<style type="text/css" media="screen">
+ 
+ .panel > .panel-heading {
+    background-image: none;
+    background-color: #FA5858;
+    color: #000000;
+}
+
+
+ .panel > .panel-body {
+    
+    
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
+</style>
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+	
+$('#paciente_nombre').hide(); 
+$('#estado_cancelada').show();
+$('#modificar').hide(); 
+$('#eliminar').hide();
+$('#derivaciones').hide(); 
+
+
+
+</script>
+
+{% endifequal %}
+
+{% ifequal elemento.estado_aprobacion "APROBADO" %}
+
+
+
+
+<style type="text/css" media="screen">
+ 
+ .panel > .panel-heading {
+    background-image: none;
+    background-color: #81F781;
+    color: #000000;
+}
+
+
+ .panel > .panel-body {
+    
+    
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #000000;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
+</style>
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+	
+$('#paciente_nombre').hide(); 
+$('#estado_aprobado').show();
+$('#modificar').hide(); 
+$('#eliminar').hide();
+$('#derivaciones').hide(); 
+
+
+
+</script>
+
+{% endifequal %}
+{% ifequal elemento.estado_aprobacion "EN PROCESO" %}
+
+
+
+
+<style type="text/css" media="screen">
+ 
+ .panel > .panel-heading {
+    background-image: none;
+    background-color: #F3F781;
+    color: #000000;
+}
+
+
+ .panel > .panel-body {
+    
+    
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #000000;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
+</style>
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+	
+$('#paciente_nombre').hide(); 
+$('#estado_enproceso').show();
+$('#modificar').hide(); 
+$('#eliminar').hide();
+$('#derivaciones').hide(); 
+
+
+
+</script>
+
+{% endifequal %}
+
+{% ifequal elemento.estado_aprobacion "PARCIAL" %}
+
+
+
+
+<style type="text/css" media="screen">
+ 
+ .panel > .panel-heading {
+    background-image: none;
+    background-color: #FAAC58;
+    color: #000000;
+}
+
+
+ .panel > .panel-body {
+    
+    
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
+</style>
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+	
+$('#paciente_nombre').hide(); 
+$('#estado_parcial').show();
+$('#modificar').hide(); 
+$('#eliminar').hide();
+$('#derivaciones').hide(); 
+
+
+
+</script>
+
+{% endifequal %}
+
+{% ifequal elemento.estado_aprobacion "ENTREGADO" %}
+
+
+
+
+<style type="text/css" media="screen">
+ 
+ .panel > .panel-heading {
+    background-image: none;
+    background-color: #01A9DB;
+    color: #000000;
+}
+
+
+ .panel > .panel-body {
+    
+    
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
+</style>
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+	
+$('#paciente_nombre').hide(); 
+$('#estado_entregado').show();
+$('#modificar').hide(); 
+$('#eliminar').hide();
+$('#derivaciones').hide(); 
+
+
+
+</script>
+
+{% endifequal %}
+
+
+
+
+
+
+
+
+
+
+      		<div class='panel-body'>
+				
+				
+				
+
+</div>
+
+{% endfor %}
+
+
+
+{% endif %}
+
+
+{% endblock contenido_paciente %}
