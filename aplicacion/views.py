@@ -1081,3 +1081,18 @@ def pdf_solicitud(request, nro_solicitud):
 
 
     return HttpResponse("Hello, world. yout at polll index")
+
+
+def cambiarestado(request, id_solicitud):
+
+    solicitud=Solicitud.objects.filter(id=id_solicitud)
+
+    for elemento in solicitud:
+        paciente_id=elemento.paciente_id
+    
+    id_paciente=Paciente.objects.filter(persona_ptr_id=paciente_id)
+
+
+    return render_to_response('ABME/Operaciones/fichasolicitud.html',{'solicitud_enviado':solicitud,'id_paciente':id_paciente},context_instance=RequestContext(request))
+
+

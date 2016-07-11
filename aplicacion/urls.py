@@ -94,6 +94,8 @@ urlpatterns = [
     url(r'^pdf_solicitud/(?P<nro_solicitud>(\w+))/$', views.pdf_solicitud, name='report'),
     url(r'^solicitudespaciente/(?P<id_paciente>\w+)/$', views.solicitudespaciente, name='solicitudespaciente'),
     url(r'^fichasolicitud/(?P<id_solicitud>\w+)/$', views.fichasolicitud, name='fichasolicitud'),
+    url(r'^cambiarestado/(?P<id_solicitud>\w+)/$', views.cambiarestado, name='fichasolicitud'),
+
 
     url(r'^registrarderivacion/', views.registrarderivacion, name='registrarderivacion'),
     url(r'^detallederivacion/(?P<paciente_id>\w+)/$', views.detallederivacion, name='detallederivacion'),
