@@ -1003,6 +1003,14 @@ def pdf_solicitud(request, nro_solicitud):
     for elemento in remedio:
         generico=elemento.generico
 
+    medico=Medico.objects.filter(id=id_medico)
+
+    for elemento in medico:
+        medico_nombre=elemento.nombre
+        medico_apellido=elemento.apellido
+
+
+
     response =  HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment ; filename=Solicitud-N°'+str(nro_solicitud)+'.pdf'
     buffer =BytesIO()
@@ -1030,47 +1038,43 @@ def pdf_solicitud(request, nro_solicitud):
     c.drawString(100,675,str(apellido)+', '+str(nombre) )
 
     c.setFont('Helvetica', 15)
-    c.drawString(300,675,'D.N.I: ' )
+    c.drawString(30,640,'D.N.I: ' )
     c.setFont('Helvetica-Bold', 14)
-    c.drawString(345,675,str(dni) )
+    c.drawString(75,640,str(dni) )
 
     c.setFont('Helvetica', 15)
-    c.drawString(30,650,'Obra Social: ' )
+    c.drawString(200,640,'Historia Clinica: ' )
     c.setFont('Helvetica-Bold', 14)
-    c.drawString(120,650,str(osocial) )
+    c.drawString(310,640,str(historiaclinica) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,605,'Obra Social: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(120,605,str(osocial) )
     
-    c.setFont('Helvetica', 15)
-    c.drawString(300,650,'Historia Clinica: ' )
-    c.setFont('Helvetica-Bold', 14)
-    c.drawString(410,650,str(historiaclinica) )
-
-
-    c.setFont('Helvetica', 15)
-    c.drawString(30,600,'Nombre Generico: ' )
-    c.setFont('Helvetica-Bold', 14)
-    c.drawString(160,600,str(generico) )
-
-    c.setFont('Helvetica', 15)
-    c.drawString(30,565,'Dosis: ' )
-    c.setFont('Helvetica-Bold', 14)
-    c.drawString(80,565,str(dosis) )
-
-    #TABLA
-    '''
-    tabla_paciente = [{'Paciente: '+str(apellido),'Obra Social: '+str(osocial)},
-                        {'D.N.I: '+str(dni),'Historia Clinica: '+str(historiaclinica)}]
-
-    styles = getSampleStyleSheet()
-    styleBH = styles["Normal"]
-    styleBH.alignment = TA_CENTER
-    styleBH.fontSize = 10
-
     
 
-    data = []
 
-    data.append([[Paciente, ObraSocial, D.N.I, HistoriaClinica]])
-    '''
+    c.setFont('Helvetica', 15)
+    c.drawString(30,570,'Nombre Generico: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,570,str(generico) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,535,'Dosis: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(80,535,str(dosis) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,500,'Medico: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(90,500,str(medico_apellido)+', '+str(medico_nombre) )
+
+
+    c.line(440,490,565,490)
+    c.setFont('Helvetica', 15)
+    c.drawString(460,470,'Autorización ' )
+   
     c.save()
 
     pdf = buffer.getvalue()
@@ -1083,7 +1087,7 @@ def pdf_solicitud(request, nro_solicitud):
     return HttpResponse("Hello, world. yout at polll index")
 
 
-def cambiarestado(request, id_solicitud):
+def cambiarestado(request, id_solicitud, nuevo_estado):
 
     solicitud=Solicitud.objects.filter(id=id_solicitud)
 
@@ -1093,6 +1097,15 @@ def cambiarestado(request, id_solicitud):
     id_paciente=Paciente.objects.filter(persona_ptr_id=paciente_id)
 
 
-    return render_to_response('ABME/Operaciones/fichasolicitud.html',{'solicitud_enviado':solicitud,'id_paciente':id_paciente},context_instance=RequestContext(request))
+    #
+
+    soli=Solicitud.objects.get(id=id_solicitud)
+
+    soli.estado_aprobacion=nuevo_estado
+    soli.save()
+
+    solicitud_enviar=Solicitud.objects.filter(id=id_solicitud)
+
+    return render_to_response('ABME/Operaciones/fichasolicitud.html',{'solicitud_enviado':solicitud_enviar,'id_paciente':id_paciente},context_instance=RequestContext(request))
 
 

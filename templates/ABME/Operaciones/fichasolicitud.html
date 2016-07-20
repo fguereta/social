@@ -42,7 +42,7 @@ $('#estado_cancelada').show();
 $('#modificar').hide(); 
 $('#eliminar').hide();
 $('#derivaciones').hide(); 
-
+$( "p" ).hide();
 
 
 </script>
@@ -89,7 +89,7 @@ $('#derivaciones').hide();
 </script>
 
 {% endifequal %}
-{% ifequal elemento.estado_aprobacion "EN PROCESO" %}
+{% ifequal elemento.estado_aprobacion "ENPROGRESO" %}
 
 
 
@@ -220,13 +220,14 @@ $('#derivaciones').hide();
 	<div class="form-group">
 					
 		<div class="row">
-			<div class="col-xs-6 col-md-4 col-md-offset-9" style=' font-size:30px;'  >Fecha: {{elemento.fecha}}</div>
+
+			<div class="col-xs-6 col-md-4 col-md-offset-9" style='font-size:30px;'>Fecha: {{elemento.fecha}}</div>
 			<br><br><br>
   			
 		</div>			
 
 		<div class="row">
-			<div class="col-xs-6 col-md-4" style=' font-size:30px;'  >N° de solicitud: {{elemento.id}}</div>
+			<div class="col-xs-6 col-md-4" style=' font-size:30px;'>N° de solicitud: {{elemento.id}}</div>
 			<br><br><br>
   			
 		</div>
@@ -238,15 +239,26 @@ $('#derivaciones').hide();
 			<br>
 			<br>
 		<div class="row">
-		<div class="col-xs-6 col-md-4" style=' font-size:25px;'  >Dni: {{elemento.paciente.dni}}</div>
-		<div class="col-xs-6 col-md-4" style=' font-size:25px;'  >Obra Social: {{elemento.paciente.osocial}}</div>
-		<div class="col-xs-6 col-md-4" style=' font-size:25px;'  >Historia Clinica: {{elemento.paciente.historiaclinica}}</div>
+		<div class="col-xs-6 col-md-3" style=' font-size:25px;'>Dni: {{elemento.paciente.dni}}</div>
+		
+		<div class="col-xs-6 col-md-4" style=' font-size:25px;'>Historia Clinica: {{elemento.paciente.historiaclinica}}</div>
 		</div>
 
 		<br>
 			<br>
 		<div class="row">
-		<div class="col-xs-6 col-md-12" style=' font-size:25px;'  >Nombre del Generico: {{elemento.remedio}}</div>
+		<div class="col-xs-6 col-md-12" style=' font-size:25px;'>Obra Social: {{elemento.paciente.osocial}}</div>
+		
+		
+		</div>
+
+
+
+
+		<br>
+			<br>
+		<div class="row">
+		<div class="col-xs-6 col-md-12" style=' font-size:25px;'>Nombre del Generico: {{elemento.remedio}}</div>
 		
 		
 		</div>
@@ -256,21 +268,19 @@ $('#derivaciones').hide();
 
 		<div class="row">
 		
-		<div class="col-xs-6 col-md-4" style=' font-size:25px;'  >Dosis: {{elemento.dosis}}</div>
+		<div class="col-xs-6 col-md-4" style=' font-size:25px;'>Dosis: {{elemento.dosis}}</div>
 		
 		</div>
 		<br><br>
 
 		<div class="row">
 		
-		<div class="col-xs-6 col-md-12" style=' font-size:25px;'  >Medico: {{elemento.medico.apellido}}, {{elemento.medico.nombre}}</div>
+		<div class="col-xs-6 col-md-12" style=' font-size:25px;'>Medico: {{elemento.medico.apellido}}, {{elemento.medico.nombre}}</div>
 		
 		</div>
 		<br><br>
 
-		<style type="text/css" media="screen">
 		
-		</style>
 
 		<div class="row">
 		
@@ -283,12 +293,16 @@ $('#derivaciones').hide();
 			<br>
 			<br>
 			<br>
-		<div class="row">
+
+		<p id='a' name='a'>
+		<div class="row" >
 			
-			<div class="col-xs-6 col-md-4 col-md-offset-2" style=' font-size:25px;'  ><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/"><input class='btn-lg btn-primary' type="button" value='Exportar PDF'/></a></div>
+			<div id='exportarpdf' class="col-xs-6 col-md-4 col-md-offset-2" style=' font-size:25px;'  ><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/"><input  class='btn-lg btn-primary' type="button" value='Exportar PDF'/></a></div>
 			
-			<div class="col-xs-6 col-md-4" style=' font-size:25px;'><input class='btn-lg btn-primary' name='cambiar_estado' id='cambiar_estado' type="button"  value='Cambiar Estado'/></div>
+			<div class="col-xs-6 col-md-4" style=' font-size:25px;' ><input class='btn-lg btn-primary' name='cambiar_estado' id='cambiar_estado' type="button"  value='Cambiar Estado'/></div>
 		</div>
+
+		</p>
 
 </div>
 
@@ -297,21 +311,46 @@ $('#derivaciones').hide();
               
     $("input[id=cambiar_estado]").click(function () {
       
-       
-    alertify.set({ labels: {
-            ok     : "Cancelar",
-           
-          } });
-          // confirm dialog
- alertify
-  .alert("<form action='' method='post' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}<div class='row'><div class='col-md-offset-2 col-xs-6'  >Seleccione el nuevo ESTADO: </div><br><br><div class='col-md-offset-2 col-xs-4' ><select class='form-control smallselect ' id='cuil1' required><option value='EN PROCESO'>EN PROCESO</option><option value='APROBADO'>APROBADO</option><option value='CALCELADO'>CALCELAR</option><option value='PARCIAL'> ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select><div class=' col-xs-3'  ><input class='btn btn-primary' type='button' value='Confirmar'</div></div></div></div><br><br></form>	", function(){
-   
-   window.location.href = "/aplicacion/fichasolicitud/{{elemento.id}}";
-  });
+   		alertify.set({ labels: {
+            ok     : "Confirmar",
+            cancel : "Cancelar"
+            } });
+        // confirm dialog
+        
+        alertify.confirm("<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'> SELECCIONE NUEVO ESTADO <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='CANCELADO'>CANCELAR</option><option value='ENPROGRESO'>EN PROGRESO</option><option value='APROBADO'>APROBADO</option><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div>", function (e) {
+    
+            if (e) {
+            	nuevo_estado=$('select[name=nuevoestado]').val();
+
+            		if(nuevo_estado=="CANCELADO"){
+
+            			alertify.confirm("Una vez CANCELADA esta solicitud quedara anulada, ¿Desea cancelar la solicitud?", function (e) {
+    					if (e) {
+    						window.location.href = "/aplicacion/cambiarestado/{{elemento.id}}/"+nuevo_estado;
+        					
+    					} else {
+        					// user clicked "cancel"
+    					}
+						});
+
+            		}else{
+
+            			window.location.href = "/aplicacion/cambiarestado/{{elemento.id}}/"+nuevo_estado;
 
 
+            		}
+            	
 
-});
+
+                
+                
+                	} else {
+                
+                
+                
+                }});
+
+			});
 
 </script>
 
