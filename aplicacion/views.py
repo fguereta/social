@@ -1086,6 +1086,207 @@ def pdf_solicitud(request, nro_solicitud):
 
     return HttpResponse("Hello, world. yout at polll index")
 
+def pdf_derivacion(request, nro_derivacion):
+
+    derivaciones=Derivacion.objects.filter(id=nro_derivacion)
+   
+
+    for elemento in derivaciones:
+        nro_derivacion=elemento.id
+        fecha=elemento.fecha
+        diagnostico=elemento.diagnostico
+        prestacion=elemento.prestacion
+        observaciones=elemento.observaciones
+        acompananate=elemento.acompananate
+        id_paciente=elemento.paciente_id
+        paciente = elemento.paciente_id
+        diagnostico = elemento.diagnostico
+        prestacion = elemento.prestacion
+        proposito = elemento.proposito
+        tipopaciente = elemento.tipopaciente
+        caracter = elemento.caracter
+        fecha = elemento.fecha
+        hora = elemento.hora
+        hospital = elemento.hospital
+        servicio = elemento.servicio
+        contacto = elemento.contacto
+        acompananate = elemento.acompananate
+        motivo = elemento.motivo
+        tipotraslado = elemento.tipotraslado
+        transporteregular = elemento.transporteregular
+        trasladosanitario = elemento.trasladosanitario
+        condiciones = elemento.condiciones
+        observaciones = elemento.observaciones
+
+
+    paciente=Paciente.objects.filter(persona_ptr_id=id_paciente)
+
+    for elemento in paciente:
+        nombre=elemento.nombre
+        apellido=elemento.apellido
+        osocial=elemento.osocial
+        dni=elemento.dni
+        historiaclinica=elemento.historiaclinica
+        correo=elemento.correo
+
+
+    response =  HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment ; filename=Solicitud-N°'+str(nro_derivacion)+'.pdf'
+    buffer =BytesIO()
+    c = canvas.Canvas(buffer, pagesize=A4)
+
+    #Header
+    c.setLineWidth(.3)
+    
+    c.setFont('Helvetica-Bold', 12)
+    c.drawString(460,800,'Fecha: '+str(fecha))
+    c.line(460,795,565,795)
+
+    c.setFont('Helvetica-Bold', 15)
+    c.drawString(190,770,'SERVICIO SOCIAL H.R.R.G.')
+
+    c.setFont('Helvetica-Bold', 15)
+    c.drawString(30,720,'N° de derivacion: '+str(nro_derivacion) )
+    #c.setFont('Helvetica', 12)
+    #c.drawString(30,735,'Fecha: '+str(fecha))
+    
+    
+    c.setFont('Helvetica', 15)
+    c.drawString(30,675,'Paciente: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(100,675,str(apellido)+', '+str(nombre) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,640,'D.N.I: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(75,640,str(dni) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(200,640,'Historia Clinica: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(310,640,str(historiaclinica) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,605,'Obra Social: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(120,605,str(osocial) )
+    
+    c.setFont('Helvetica', 15)
+    c.drawString(30,570,'DIÁGNOSTICO: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,570,str(diagnostico) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,535,'PRESTACIÓN SOLICITADA: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,535,str(prestacion) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,500,'PROPÓSITO DE LA PRESTACIÓN Y BREVE RESUMEN CLÍNICO: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,500,str(proposito) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,465,'PACIENTE: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,465,str(tipopaciente) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,430,'CARACTER: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,430,str(caracter) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,395,'FECHA: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,395,str(fecha) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,360,'HORA: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,360,str(hora) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,325,'HOSPITAL: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,325,str(hospital) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,290,'SERVICIO: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,290,str(servicio) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,255,'FIRMA Y SELLO DEL SOLICITANTE: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(30,255,'..............' )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,220,'TELÉFONO PERSONAL PARA CONTACTO DE AUDITORÍA MÉDICA: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,220,str(contacto) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,195,'E-MAIL(correo electronico): ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,195,str(correo) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,160,'ACOMPAÑANTE: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,160,str(acompananate) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,125,'MOTIVO: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,125,str(motivo) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,90,'TIPO DE TRASLADO: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,90,str(tipotraslado) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,55,'¿PUEDE VIAJAR POR EMPRESA DE TRANSPORTE REGULAR?: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,55,str(transporteregular) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,20,'¿REQUIERE TRASLADO SANITARIO / EVALUACIÓN?: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,20,str(trasladosanitario) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,570,'CONDICIONES DE TRASLADO: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,570,str(servicio) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,570,'CON ENFERMERO - MEDICO Y ENFERMERO: ' )
+    c.drawString(30,570,'CON MONITOREO ECG / SATUROMETRÍA / OXIGENO / ARM: ' )
+    c.drawString(30,570,'' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,570,str(condiciones) )
+
+    c.setFont('Helvetica', 15)
+    c.drawString(30,570,'OBSERVACIONES: ' )
+    c.setFont('Helvetica-Bold', 14)
+    c.drawString(160,570,str(observaciones) )
+
+    c.line(440,490,565,490)
+    c.setFont('Helvetica', 15)
+    c.drawString(460,470,'Autorización ' )
+   
+    c.save()
+
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response
+
+
+
+    return HttpResponse("Hello, world. yout at polll index")
 
 def cambiarestado(request, id_solicitud, nuevo_estado):
 

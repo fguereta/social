@@ -1,59 +1,134 @@
 {% extends "ABME/Paciente/menupaciente.html" %}
 
 
+
+
 {% block contenido_paciente %}
 
-{% for derivaciones in derivaciones %}
+ 
 
-<div class='panel-body'>
-        <form  class="form-horizontal">
+{% if derivaciones   %}
+
+
+<div class="">
+
+
+
+<br>
+<script type="text/javascript" charset="utf-8" async defer>
+
+$('#modificar').hide(); 
+$('#eliminar').hide();
+
+
+</script>
+
+<style type="text/css">
+  .tachado{text-decoration:line-through;}
+ 
+  .rojocolor{background:#FA5858;}
+  .amarillocolor{background:#F3F781;}
+  .entregadocolor{background:#01A9DB}
+  .aprobadocolor{background: #81F781;}
+  .parcial{background: #FAAC58 }
+
+  .headertabla{background:#A9E2F3;}
+
+
+tr.resaltar {
+    
+    cursor: pointer;
+   
+}
+
+</style>
+ 
+
+
+
+
+<br> 
+
+
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed  table-hover " cellspacing="0" width="100%">
+    <thead>
+      <tr class=''>
         
-<div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='derivacion_id'>Derivacion numero:</label>
-            <div class='col-md-2'>
-              <input class='form-control' id='dni' name='dni' value="{{derivaciones.id}}" readonly></input>
-            </div>
-        </div>
+        <th class="text-center">Fecha</th>
+        <th class="text-center">Diagnostico</th>
+        <th class="text-center">Observaciones</th>
+        <th class="text-center">Acompañante</th>
         
-        <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='fecha'>Fecha</label>
-            <div class='col-md-2'>
-              <input class='form-control' id='fecha' name='fecha' value="{{derivaciones.fecha}}" readonly></input>
-            </div>
-        </div>
-          
-         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='diagnostico'>Diagnostico</label>
-            <div class='col-md-2'>
-              <input class='form-control' id='diagnostico' name='diagnostico' value="{{derivaciones.diagnostico}}" readonly></input>
-            </div>
-        </div>
-          
-        <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Observaciones</label>
-            <div class='col-md-2'>
-              <input class='form-control' id='historiaclinica' name='historiaclinica' value="{{derivaciones.observaciones}}" readonly></input>
-            </div>
-        </div>
-
-        <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='acompananate'>Acompañante</label>
-            <div class='col-md-2'>
-              <input class='form-control' id='acompananate' name='acompananate' value="{{derivaciones.acompananate}}" readonly></input>
-            </div>
-        </div>
-
-              
-    </form>
-{% endfor %}
-
-<div class="col-md-offset-10"> 
-    		<a href="/aplicacion/detallederivacion/{{query}}">
-            <button class="btn btn-success ">Nueva derivación</button>
-            </a>
-
-            </div>
-
-  </div>
+        <th class=" text-center"></th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in derivaciones %}
       
-{%endblock%}
+    
+    
+
+      <tr class='aprobadocolor' onclick="document.location='/aplicacion/derivaciones/{{elemento.id}}'"    style="cursor:pointer" >
+        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center">{{elemento.diagnostico}}</td>
+        <td class="col-md-2 text-center">{{elemento.observaciones}}</td>
+        <td class="col-md-2 text-center">{{elemento.acompananate}}</td>
+        <td class="col-md-1 text-center"><a href="/aplicacion/pdf_derivacion/{{elemento.id}}/">Exportar PDF</a>
+        
+      </td>
+    </tr>
+      
+
+    
+ 
+
+     {% endfor %} 
+      <tr>
+        
+        <td class="col-md-2 text-center"></td>
+        <td class="col-md-2 text-center"></td>
+        <td class="col-md-2 text-center"></td>
+        <td class="col-md-1 text-center"></a>
+        <td class="col-md-2 text-center">
+        {% for elemento in id_paciente %}<a href="/aplicacion/detallederivacion/{{elemento.persona_ptr_id}}">
+            + Nueva Solicitud
+            </a>
+            {% endfor %}
+
+            </div></a>
+      </tr>
+    
+    </tbody>
+  </table>
+</div>
+  
+</div>
+</div>
+
+
+ {% else %}
+
+                  <script>
+               
+                        alertify.set({ labels: {
+                          ok     : "Confirmar",
+                          cancel : "Cancelar"
+                         } });
+                        // confirm dialog
+                        alertify.confirm("Este paciente no posee solicitudes ¿Desea crear solicitud?", function (e) {
+    
+                       if (e) {
+                          window.location.href = "/aplicacion/registrarsolicitud/{{elemento.persona_ptr_id}}";
+                        } else {
+                          window.location.href = "/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}";
+                        }});
+
+                      </script>
+
+ {% endif %}
+
+
+{% endblock contenido_paciente %}
+
