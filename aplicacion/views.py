@@ -733,24 +733,50 @@ def detallederivacion(request, paciente_id):
     paciente=Paciente.objects.get(persona_ptr_id=paciente_id)
     return render(request, 'ABME/Operaciones/registrarderivacion.html',{'paciente':paciente})
 
-def registrarderivacion(request):    
+def registrarderivacion(request, id_paciente):    
     #paciente=Paciente.objects.get(persona_ptr_id=paciente_id)
-    if request.POST:
-        
-        form = DerivacionForm(request.POST)
+    paciente=Paciente.objects.filter(persona_ptr_id=id_paciente)
+
+    if request.method=="POST":
+
+        form=DerivacionForm(request.POST)
+
         if form.is_valid():
-            form.save()
 
-            return render_to_response('ABME/Notificaciones/solicitudregistrada.html')    
-        else:
-            form = DerivacionForm()
 
-    args = {}
-    args.update(csrf(request))
+            newdoc = Derivacion(
 
-    args['form'] = form
+            diagnostico=request.POST['diagnostico'].upper(),
+            prestacion=request.POST['prestacion'].upper(),
+            proposito=request.POST['proposito'].upper(),
+            tipopaciente=request.POST['tipopaciente'].upper(),
+            caracter=request.POST["caracter"].upper(),
+            fecha=request.POST["fecha"].upper(),
 
-    return render_to_response('ABME/Operaciones/registrarderivacion.html')
+            hora=request.POST['hora'].upper(),
+            hospital=request.POST['hospital'].upper(),
+            servicio=request.POST['servicio'].upper(),
+            contacto=request.POST['contacto'].upper(),
+            acompanante=request.POST["acompanante"].upper(),
+            motivo=request.POST["motivo"].upper(),
+
+
+            tipotraslado=request.POST['tipotraslado'].upper(),
+            transporteregular=request.POST['transporteregular'].upper(),
+            trasladosanitario=request.POST['trasladosanitario'].upper(),
+            condiciones=request.POST['condiciones'].upper(),
+            observaciones=request.POST["observaciones"].upper(),
+            paciente_id=request.POST["paciente_id"].upper(),
+
+            
+            )
+
+            newdoc.save(form)
+            return render_to_response("ABME/Operaciones/derivaciones.html", context_instance = RequestContext(request))
+
+
+    return render_to_response('ABME/Operaciones/registrarderivacion.html',{'paciente':paciente},context_instance=RequestContext(request))
+
 
 def listadodetalle(a):#aca llega la id del paciente y se obtiene un listado con las solicitudes
     detalle=[]
@@ -1097,7 +1123,7 @@ def pdf_derivacion(request, nro_derivacion):
         diagnostico=elemento.diagnostico
         prestacion=elemento.prestacion
         observaciones=elemento.observaciones
-        acompananate=elemento.acompananate
+        acompanante=elemento.acompanante
         id_paciente=elemento.paciente_id
         paciente = elemento.paciente_id
         diagnostico = elemento.diagnostico
@@ -1110,7 +1136,7 @@ def pdf_derivacion(request, nro_derivacion):
         hospital = elemento.hospital
         servicio = elemento.servicio
         contacto = elemento.contacto
-        acompananate = elemento.acompananate
+        acompanante = elemento.acompanante
         motivo = elemento.motivo
         tipotraslado = elemento.tipotraslado
         transporteregular = elemento.transporteregular
@@ -1234,7 +1260,7 @@ def pdf_derivacion(request, nro_derivacion):
     c.setFont('Helvetica', 15)
     c.drawString(30,160,'ACOMPAÑANTE: ' )
     c.setFont('Helvetica-Bold', 14)
-    c.drawString(160,160,str(acompananate) )
+    c.drawString(160,160,str(acompanante) )
 
     c.setFont('Helvetica', 15)
     c.drawString(30,125,'MOTIVO: ' )

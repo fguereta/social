@@ -210,8 +210,8 @@ class Derivacion(models.Model):
        
     caracter = models.CharField(max_length=12, choices=tipocarac)
     
-    fecha = models.DateField()
-    hora = models.TimeField()
+    fecha = models.CharField(max_length=20)
+    hora = models.CharField(max_length=10)
     hospital = models.CharField(max_length=20)
     servicio = models.CharField(max_length=20)
     contacto = models.CharField(max_length=20)
@@ -221,7 +221,7 @@ class Derivacion(models.Model):
            ('No', 'No'),
            ) 
     
-    acompananate = models.CharField(max_length=2, choices=sino)
+    acompanante = models.CharField(max_length=2, choices=sino)
     
     motivo = models.CharField(max_length=20)
     

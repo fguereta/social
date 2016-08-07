@@ -74,7 +74,7 @@ tr.resaltar {
         <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
         <td class="col-md-2 text-center">{{elemento.diagnostico}}</td>
         <td class="col-md-2 text-center">{{elemento.observaciones}}</td>
-        <td class="col-md-2 text-center">{{elemento.acompananate}}</td>
+        <td class="col-md-2 text-center">{{elemento.acompanante}}</td>
         <td class="col-md-1 text-center"><a href="/aplicacion/pdf_derivacion/{{elemento.id}}/">Exportar PDF</a>
         
       </td>
@@ -117,10 +117,10 @@ tr.resaltar {
                           cancel : "Cancelar"
                          } });
                         // confirm dialog
-                        alertify.confirm("Este paciente no posee solicitudes ¿Desea crear solicitud?", function (e) {
+                        alertify.confirm("Este paciente no posee una derivacion ¿Desea crear una derivacion?", function (e) {
     
                        if (e) {
-                          window.location.href = "/aplicacion/registrarsolicitud/{{elemento.persona_ptr_id}}";
+                          window.location.href = "/aplicacion/registrarderivacion/{{elemento.persona_ptr_id}}";
                         } else {
                           window.location.href = "/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}";
                         }});

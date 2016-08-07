@@ -40,10 +40,10 @@ class PacienteForm(forms.Form):
         direccion=forms.CharField()
         exclude=('persona_ptr_id',)  
           
-class DerivacionForm(forms.ModelForm):    
+class DerivacionForm(forms.Form):    
     class Meta:
-        model = Derivacion
-        exclude=()
+        diagnostico=forms.CharField()
+        exclude=('id',)
 
 class SolicitudForm(forms.Form):    
     class Meta:
