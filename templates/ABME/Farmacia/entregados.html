@@ -1,13 +1,13 @@
-{% extends "ABME/Paciente/menupaciente.html" %}
+{% extends "ABME/Farmacia/menufarmacia.html" %}
 
 
 
 
-{% block contenido_paciente %}
+{% block contenido_farmacia %}
 
  
 
-{% if solicitudes   %}
+{% if entregados   %}
 
 
 <div class="">
@@ -65,7 +65,7 @@ tr.resaltar {
       </tr>
     </thead>
     <tbody>
-    {% for elemento in solicitudes %}
+    {% for elemento in entregados %}
       
     {% ifequal elemento.estado_aprobacion "APROBADO" %}
     
@@ -149,10 +149,7 @@ tr.resaltar {
         <td class="col-md-2 text-center"></td>
         <td class="col-md-1 text-center"></a>
         <td class="col-md-2 text-center">
-        {% for elemento in id_paciente %}<a href="/aplicacion/registrarsolicitud/{{elemento.persona_ptr_id}}">
-            + Nueva Solicitud
-            </a>
-            {% endfor %}
+        
 
             </div></a>
       </tr>
@@ -163,29 +160,7 @@ tr.resaltar {
   
 </div>
 </div>
+{%endif%}
 
-
- {% else %}
-
-                  <script>
-               
-                        alertify.set({ labels: {
-                          ok     : "Confirmar",
-                          cancel : "Cancelar"
-                         } });
-                        // confirm dialog
-                        alertify.confirm("Este paciente no posee solicitudes ¿Desea crear solicitud?", function (e) {
-    
-                       if (e) {
-                          window.location.href = "/aplicacion/registrarsolicitud/{{elemento.persona_ptr_id}}";
-                        } else {
-                          window.location.href = "/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}";
-                        }});
-
-                      </script>
-
- {% endif %}
-
-
-{% endblock contenido_paciente %}
+{% endblock contenido_farmacia %}
 

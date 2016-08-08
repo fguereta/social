@@ -1,0 +1,77 @@
+{% extends "index.html" %} 
+
+{% block htitle %}<title>Ficha de farmacia</title>{% endblock %} 
+ 
+
+
+{% block contenido %} 
+	
+
+ 
+{% if exitofarmacia %}<script >alertify.success("Se registro correctamente");</script>{% endif %}
+{% if exito_modificar_farmacia %}<script >alertify.success("Se modificaron los datos correctamente");</script>{% endif %}
+
+
+{% if id_farmacia %}
+
+{% for elemento in id_farmacia %}
+
+
+
+<div class='container'>
+    <div class='panel panel-primary dialog-panel'>
+    <div class='panel-heading'>
+        <h5 id='paciente_nombre' >{{elemento.razon_social}}</h5>
+    </div>
+    <div class="navbar navbar-inverse navbar-fixed ">
+  	<div class="container-fluid ">
+      <div class="navbar-header">
+        	<ul class="nav navbar-nav navbar-right">
+  				<li id='ficha'><a href="/aplicacion/fichafarmacia/{{elemento.id}}">Ficha</a></li>
+  				<li id='entregados'><a href="/aplicacion/entregados/{{elemento.id}}">Medicamentos entregados</a></li>
+  			</ul>
+      </div>
+  	</div>
+</div>
+      
+	{% block contenido_farmacia %}	        	
+
+	{% endblock contenido_farmacia %}
+
+
+{% endfor %}
+{% endif %}
+
+
+<script type="text/javascript" charset="utf-8" async defer>
+
+
+
+    $("#confirmacion").click(function() {
+
+    	
+
+   
+
+
+    alertify.set({ labels: {
+            ok     : "Confirmar",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("Este paciente pasara a NO ACTIVO, ¿Esta de acuerdo?", function (e) {
+
+
+          if (e) {
+          window.location.href = "/aplicacion/eliminarpaciente/"+id_paciente;
+          } else {
+        window.location.href = "/aplicacion/fichapaciente/"+id_paciente;
+         }
+          });
+  
+  });
+   
+
+    
+</script>
+{% endblock %} 

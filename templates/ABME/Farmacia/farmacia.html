@@ -3,30 +3,36 @@
 
 {% block contenido%}
 
-<div class="container">
-    <fieldset>
-        <legend>Farmacias</legend>
-            <div class="col-md-offset-10"> <a  href="/aplicacion/registrarfarmacia"><button class="btn btn-success ">Agregar farmacia</button></a>
-            </div>
+ <div class='' >
+      <div class='panel panel-primary dialog-panel'>
+          <div class='panel-body'>
 
-            <div class="row">
+              <fieldset>
+                 <legend>Farmacias</legend>
+                 <div class="col-md-offset-10"> 
+                  <a href="/aplicacion/registrarfarmacia">
+                    <button class="btn btn-success ">Nueva Farmacia</button>
+                  </a>
+              </div>
+            
+              <div class="row">
                 <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
                     <div class="col-md-4 text-left">
-                    <select name="id_farmacia" id="id_farmacia" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-                        <option value=""></option>
-                        {% for elemento in busqueda_farmacia %}
-                        <option value="{{elemento.id}}" >{{elemento.razon_social}} --Cuit: {{elemento.cuit}}</option>
-                        {% endfor %}
-                    </select>
+                      <select name="id_paciente" id="id_paciente" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                          <option value=""></option>
+                          {% for elemento in busqueda_farmacia %}
+                          <option value="{{elemento.razon_Social}}" >{{elemento.razon_social}}</option>
+                          {% endfor %}
+                      </select>
                     </div>
     
                     <div>
-                    <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
+                      <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
                     </div>
                 </form> 
-            </div>
+              </div>
         
-  </fieldset>
+            </fieldset>
  
  {% if id_farmacia %}
 <div class="row">
@@ -36,24 +42,24 @@
   
 <br> 
 <div class="table-responsive">             
-  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+  <table id="example" class="table table-condensed  table-hover " cellspacing="0" width="100%">
     <thead>
       <tr>
-        <th class=" text-center"></th>
-        <th class="text-center">Razon social</th>
-        <th class="text-center">Cuit</th>
-        <th class="text-center">Telefono</th>
-        <th class="text-center">Direccion</th>
+        <th class="text-center"></th>
+        <th class="text-center">Razon Social</th>
+        <th class="text-center">CUIT</th>
+        
+        
       </tr>
     </thead>
     <tbody>
     {% for elemento in id_farmacia %}
       <tr>
         <td class="col-md-1 text-center"><a href="/aplicacion/fichafarmacia/{{elemento.id}}/"><button class=" btn btn-success btn-sm"  >Ver ficha</button></a>
-        <td class="col-md-2 text-center">{{elemento.razon_social}}</td>
-        <td class="col-md-2 text-center">{{elemento.cuit}}</td>
-        <td class="col-md-2 text-center">{{elemento.telefono}}</td>
-        <td class="col-md-2 text-center">{{elemento.direccion}}</td>
+        <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
+        <td class="col-md-2 text-center">{{elemento.dni}}</td>
+        <td class="col-md-2 text-center">{{elemento.cuil}}</td>
+        
          
       </tr>
      {% endfor %} 
@@ -78,10 +84,12 @@
     <thead>
       <tr>
         <th class=" text-center"></th>
-        <th class="text-center">Razon social</th>
-        <th class="text-center">Cuit</th>
-        <th class="text-center">Telefono</th>
-        <th class="text-center">Direccion</th>
+        <th class="text-center">Nombre</th>
+        <th class="text-center">Dirección</th>
+        <th class="text-center">Teléfono</th>
+        <th class="text-center">Correo Electrónico</th>
+        
+        
         
       </tr>
     </thead>
@@ -90,9 +98,10 @@
       <tr>
         <td class="col-md-1 text-center"><a href="/aplicacion/fichafarmacia/{{elemento.id}}/"><button class=" btn btn-success btn-sm">Ver ficha</button></a>
         <td class="col-md-2 text-center">{{elemento.razon_social}}</td>
-        <td class="col-md-2 text-center">{{elemento.cuit}}</td>
-        <td class="col-md-2 text-center">{{elemento.telefono}}</td>
         <td class="col-md-2 text-center">{{elemento.direccion}}</td>
+        <td class="col-md-2 text-center">{{elemento.telefono}}</td>
+        <td class="col-md-2 text-center">{{elemento.email}}</td>
+        
          
       </tr>
      {% endfor %} 
@@ -106,10 +115,40 @@
 </div>
  {% endif %}
 
+</div>
+</div>
+
 
 <script type="text/javascript" charset="utf-8" async defer>
     
     $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+
+ 
+
+   $("button[id=btn_nuevo_paciente]").click(function() {
+
+      
+  alertify.defaults.glossary.title = '';
+
+      alertify.confirm("Confirmar eliminacion  "+apellidonombre,
+            function (e) {
+                if (e) {
+                   window.location = "/aplicacion/eliminarpaciente/"+id_paciente;
+                } else {
+                    alertify.error("Has pulsado <strong>"
+                             + alertify.labels.cancel
+                             + "</strong>");
+                }
+        }).setting('labels',{'ok':'Confirmar', 'cancel': 'Cancelar'});
+    });
+ 
+   
+
+
+
+
+
 
 </script>
 

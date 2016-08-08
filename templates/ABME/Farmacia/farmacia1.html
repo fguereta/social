@@ -1,0 +1,123 @@
+{% extends 'index.html'%}
+{% block htitle %}<title>Farmacias</title>{% endblock %} 
+
+{% block contenido%}
+
+<div class="container">
+    <fieldset>
+        <legend>Farmacias</legend>
+            <div class="col-md-offset-10"> <a  href="/aplicacion/registrarfarmacia"><button class="btn btn-success ">Agregar farmacia</button></a>
+            </div>
+
+            <div class="row">
+                <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+                    <div class="col-md-4 text-left">
+                    <select name="id_farmacia" id="id_farmacia" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                        <option value=""></option>
+                        {% for elemento in busqueda_farmacia %}
+                        <option value="{{elemento.id}}" >{{elemento.razon_social}} --Cuit: {{elemento.cuit}}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+    
+                    <div>
+                    <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                </form> 
+            </div>
+        
+  </fieldset>
+ 
+ {% if id_farmacia %}
+<div class="row">
+<br>
+
+<div class=".container">
+  
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th class=" text-center"></th>
+        <th class="text-center">Razon social</th>
+        <th class="text-center">Cuit</th>
+        <th class="text-center">Telefono</th>
+        <th class="text-center">Direccion</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in id_farmacia %}
+      <tr>
+        <td class="col-md-1 text-center"><a href="/aplicacion/fichafarmacia/{{elemento.id}}/"><button class=" btn btn-success btn-sm"  >Ver ficha</button></a>
+        <td class="col-md-2 text-center">{{elemento.razon_social}}</td>
+        <td class="col-md-2 text-center">{{elemento.cuit}}</td>
+        <td class="col-md-2 text-center">{{elemento.telefono}}</td>
+        <td class="col-md-2 text-center">{{elemento.direccion}}</td>
+         
+      </tr>
+     {% endfor %} 
+      
+    </tbody>
+  </table>
+</div>
+  
+</div>
+</div>
+ {% endif %}
+
+ {% if farmacia %}
+<div class="row">
+<br>
+
+<div class=".container">
+  
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th class=" text-center"></th>
+        <th class="text-center">Razon social</th>
+        <th class="text-center">Cuit</th>
+        <th class="text-center">Telefono</th>
+        <th class="text-center">Direccion</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in farmacia %}
+      <tr>
+        <td class="col-md-1 text-center"><a href="/aplicacion/fichafarmacia/{{elemento.id}}/"><button class=" btn btn-success btn-sm">Ver ficha</button></a>
+        <td class="col-md-2 text-center">{{elemento.razon_social}}</td>
+        <td class="col-md-2 text-center">{{elemento.cuit}}</td>
+        <td class="col-md-2 text-center">{{elemento.telefono}}</td>
+        <td class="col-md-2 text-center">{{elemento.direccion}}</td>
+         
+      </tr>
+     {% endfor %} 
+      
+    </tbody>
+  </table>
+</div>
+            
+</div>
+</div>
+</div>
+ {% endif %}
+
+
+<script type="text/javascript" charset="utf-8" async defer>
+    
+    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+</script>
+
+
+
+
+{% endblock %}
+
+
+
+

@@ -112,6 +112,7 @@ class Solicitud(models.Model):
     paciente = models.ForeignKey(Paciente, db_column='paciente_id')
     medico = models.ForeignKey(Medico, db_column='medico_id')
     remedio = models.ForeignKey(Remedio, db_column='remedio_id')
+    farmacia = models.ForeignKey(Farmacia, db_column='farmacia_id', blank=True, null=True)
     fecha = models.CharField(max_length=15)
     dosis = models.CharField(max_length=20)
     observaciones = models.TextField(blank=True)

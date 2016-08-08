@@ -555,6 +555,21 @@ def eliminarusuario(request):
 
 
 def farmacia(request):
+    farmacia=Farmacia.objects.filter(estado='ACTIVO')
+    
+    if 'id_farmacia' in request.POST:
+
+        farmacia_recibido = request.POST['id_farmacia'],
+
+        farmacia_enviar = Farmacia.objects.filter(id=farmacia_recibido, estado='ACTIVO') 
+        
+        return render_to_response("ABME/Farmacia/farmacia.html",  {'id_farmacia': farmacia_enviar, 'busqueda_farmacia':farmacia  }, context_instance = RequestContext(request))
+
+    else:
+    
+    
+        return render_to_response("ABME/Farmacia/farmacia.html",  {'farmacia': farmacia, 'busqueda_farmacia':farmacia  }, context_instance = RequestContext(request))
+
     return render_to_response('ABME/Farmacia/farmacia.html')
 
 def registrarfarmacia(request):
@@ -660,12 +675,29 @@ def buscarfarmacia(request):
     
     return render(request, 'ABME/Farmacia/buscarfarmacia.html', {'errors': errors}) 
 
+def menufarmacia(request):
+   
+    return render_to_response("ABME/Farmacia/menufarmacia.html", context_instance = RequestContext(request))
+
+
+def fichafarmacia(request, id_farmacia):
+    
+    farmacia_enviar=Farmacia.objects.filter(id=id_farmacia, estado='ACTIVO')
+    return render_to_response("ABME/Farmacia/fichafarmacia.html",  {'id_farmacia': farmacia_enviar }, context_instance = RequestContext(request))
+
+def entregados(request, id_farmacia):
+    medicamentos=Solicitud.objects.filter(farmacia_id=id_farmacia, estado='ACTIVO')
+    farmacia_enviar=Farmacia.objects.filter(id=id_farmacia, estado='ACTIVO')
+    return render(request, 'ABME/Farmacia/entregados.html',{'entregados': medicamentos,'id_farmacia':farmacia_enviar})
+
+
 #OPERACIONES
 
 
 def registrarsolicitud(request,id_paciente):
     paciente_enviado=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO') 
     medico_enviado=Medico.objects.filter(estado='ACTIVO') 
+    farmacia_enviado=Farmacia.objects.filter(estado='ACTIVO')
     remedio_enviado=Remedio.objects.all()
 
     if request.method=="POST":
@@ -680,6 +712,7 @@ def registrarsolicitud(request,id_paciente):
             paciente_id=request.POST['id_paciente'],
             medico_id=request.POST['id_medico'],
             remedio_id=request.POST['id_remedio'],
+            #farmacia_id=request.POST['id_farmacia'],
             fecha=request.POST['fecha'].upper(),
             dosis=request.POST["dosis"].upper(),
             observaciones=request.POST["observaciones"].upper(),
@@ -690,7 +723,7 @@ def registrarsolicitud(request,id_paciente):
             newdoc.save(form)
             return render_to_response("ABME/Operaciones/solicitudes.html", context_instance = RequestContext(request))
 
-    return render_to_response("ABME/Operaciones/registrarsolicitud.html",{'id_paciente':paciente_enviado,'medico_enviado':medico_enviado, 'remedio_enviado':remedio_enviado}, context_instance = RequestContext(request))
+    return render_to_response("ABME/Operaciones/registrarsolicitud.html",{'id_paciente':paciente_enviado,'medico_enviado':medico_enviado, 'remedio_enviado':remedio_enviado, 'farmacia_enviado':farmacia_enviado}, context_instance = RequestContext(request))
 
 
 

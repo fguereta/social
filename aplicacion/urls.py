@@ -76,7 +76,11 @@ urlpatterns = [
     url(r'^opmedico/$', views.opmedico, name='opmedico'),
     
     #FARMACIA
+    
     url(r'^farmacia/', views.farmacia, name='farmacia'),
+    url(r'^fichafarmacia/(?P<id_farmacia>\w+)/$', views.fichafarmacia, name='fichafarmacia'),
+    url(r'^entregados/(?P<id_farmacia>\w+)/$', views.entregados, name='entregados'),
+    
     url(r'^registrarfarmacia/', views.registrarfarmacia, name='registrarfarmacia'),
     url(r'^buscarfarmacia/', views.buscarfarmacia, name='buscarfarmacia'),
     url(r'^modificarfarmacia/', views.modificarfarmacia, name='modificarfarmacia'),
