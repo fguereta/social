@@ -95,7 +95,7 @@ tr.resaltar {
     </tr>
       {% endifequal %}
 
-      {% ifequal elemento.estado_aprobacion "EN PROCESO" %}
+      {% ifequal elemento.estado_aprobacion "ENPROGRESO" %}
     
 
       <tr class='amarillocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
@@ -103,7 +103,7 @@ tr.resaltar {
         <td class="col-md-2 text-center">{{elemento.remedio}}</td>
         <td class="col-md-2 text-center">{{elemento.dosis}}</td>
         <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
-        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-2 text-center">EN PROGRESO</td>
         <td class="col-md-1 text-center"><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/">Exportar PDF</a>
       </td>
     </tr>

@@ -487,6 +487,9 @@ def registrarsolicitud(request,id_paciente):
     farmacia_enviado=Farmacia.objects.filter(estado='ACTIVO')
     remedio_enviado=Remedio.objects.all()
 
+    import datetime
+    d= datetime.date.today()
+    fecha_registro= d.strftime("%d/%m/%Y")
     if request.method=="POST":
 
         form=SolicitudForm(request.POST)
@@ -500,15 +503,32 @@ def registrarsolicitud(request,id_paciente):
             medico_id=request.POST['id_medico'],
             remedio_id=request.POST['id_remedio'],
             #farmacia_id=request.POST['id_farmacia'],
-            fecha=request.POST['fecha'].upper(),
+            fecha=fecha_registro,
             dosis=request.POST["dosis"].upper(),
             observaciones=request.POST["observaciones"].upper(),
             estado='ACTIVO',
-            estado_aprobacion='EN PROCESO'
+            estado_aprobacion='ENPROGRESO'
             )
 
             newdoc.save(form)
-            return render_to_response("ABME/Solicitudes/solicitudes.html", context_instance = RequestContext(request))
+
+            cont=0
+            solicitudes=Solicitud.objects.all()
+
+            for elemento in solicitudes:
+                if elemento.id>=0:
+                    cont=cont+1
+
+            solicitud=Solicitud.objects.filter(id=cont)
+
+                        
+            for elemento in solicitud:
+                paciente_id=elemento.paciente_id
+    
+            id_paciente=Paciente.objects.filter(persona_ptr_id=paciente_id)
+
+            exitosolicitud=1
+            return render_to_response("ABME/Solicitudes/fichasolicitud.html",{'solicitud_enviado':solicitud,'id_paciente':id_paciente,'exitosolicitud':exitosolicitud}, context_instance = RequestContext(request))
 
     return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'id_paciente':paciente_enviado,'medico_enviado':medico_enviado, 'remedio_enviado':remedio_enviado, 'farmacia_enviado':farmacia_enviado}, context_instance = RequestContext(request))
 

@@ -3,10 +3,13 @@
 {% block contenido_paciente %}
 
 
-
+{% if exitomedico %}<script >alertify.success("Se registro correctamente");</script>{% endif %}
 
 {% if solicitud_enviado %}
 {% for elemento in solicitud_enviado %}
+
+
+{% if exitosolicitud %}<script >alertify.success("Se registro correctamente la solicitud");</script>{% endif %}
 
 {% ifequal elemento.estado_aprobacion "CANCELADO" %}
 
