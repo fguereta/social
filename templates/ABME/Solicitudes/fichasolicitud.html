@@ -3,13 +3,11 @@
 {% block contenido_paciente %}
 
 
-{% if exitomedico %}<script >alertify.success("Se registro correctamente");</script>{% endif %}
-
 {% if solicitud_enviado %}
 {% for elemento in solicitud_enviado %}
 
 
-{% if exitosolicitud %}<script >alertify.success("Se registro correctamente la solicitud");</script>{% endif %}
+
 
 {% ifequal elemento.estado_aprobacion "CANCELADO" %}
 
@@ -297,15 +295,55 @@ $('#derivaciones').hide();
 			<br>
 			<br>
 
-		<p id='a' name='a'>
-		<div class="row" >
-			
-			<div id='exportarpdf' class="col-xs-6 col-md-4 col-md-offset-2" style=' font-size:25px;'  ><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/"><input  class='btn-lg btn-primary' type="button" value='Exportar PDF'/></a></div>
-			
-			<div class="col-xs-6 col-md-4" style=' font-size:25px;' ><input class='btn-lg btn-primary' name='cambiar_estado' id='cambiar_estado' type="button"  value='Cambiar Estado'/></div>
-		</div>
 
-		</p>
+		{% ifequal elemento.estado_aprobacion "CANCELADO"  %}	
+		
+		<div class="row">
+		
+			<div class="col-xs-6 col-md-4" style=' font-size:25px;'><font color="red" SIZE=5 >Motivo de Cancelacion</font> <br><br>
+				<textarea class="form-control" cols="200" style="width:816px; height:109px;"  name="observaciones" rows="5" readonly>{{elemento.com_cancelado}}</textarea>
+			</div>
+		</div>
+		
+		<br>
+			<br>
+			<br>
+			<br>
+
+		{% else %}
+
+
+			{% ifequal elemento.estado_aprobacion "ENTREGADO"  %}	
+		
+			
+
+
+			{% else %}
+
+					<p id='a' name='a'>
+						<div class="row" >
+			
+							<div id='exportarpdf' class="col-xs-6 col-md-4 col-md-offset-2" style=' font-size:25px;'  ><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/"><input  class='btn-lg btn-primary' type="button" value='Exportar PDF'/></a></div>
+							<div class="col-xs-6 col-md-4" style=' font-size:25px;' ><input class='btn-lg btn-primary' name='cambiar_estado' id='cambiar_estado' type="button"  value='Cambiar Estado'/></div>
+						</div>
+
+					</p>
+		
+			{% endifequal %}
+
+
+
+
+		
+
+		
+		
+		{% endifequal %}
+
+
+		
+
+
 
 </div>
 
@@ -320,7 +358,7 @@ $('#derivaciones').hide();
             } });
         // confirm dialog
         
-        alertify.confirm("<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'> SELECCIONE NUEVO ESTADO <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='CANCELADO'>CANCELAR</option><option value='ENPROGRESO'>EN PROGRESO</option><option value='APROBADO'>APROBADO</option><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div>", function (e) {
+        alertify.confirm("{% ifequal elemento.estado_aprobacion 'ENPROGRESO' %}<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'> SELECCIONE NUEVO ESTADO <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='CANCELADO'>CANCELAR</option><option value='APROBADO'>APROBADO</option></select></div></div></div></div>{% endifequal %}{% ifequal elemento.estado_aprobacion 'APROBADO' %}<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'> SELECCIONE NUEVO ESTADO <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='CANCELADO'>CANCELAR</option><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div>{% endifequal %}{% ifequal elemento.estado_aprobacion 'PARCIAL' %}<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'> SELECCIONE NUEVO ESTADO <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='CANCELADO'>CANCELAR</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div>{% endifequal %}", function (e) {
     
             if (e) {
             	nuevo_estado=$('select[name=nuevoestado]').val();
@@ -329,7 +367,7 @@ $('#derivaciones').hide();
 
             			alertify.confirm("Una vez CANCELADA esta solicitud quedara anulada, ¿Desea cancelar la solicitud?", function (e) {
     					if (e) {
-    						window.location.href = "/aplicacion/cambiarestado/{{elemento.id}}/"+nuevo_estado;
+    						window.location.href = "/aplicacion/solicitudcancelada/{{elemento.id}}/";
         					
     					} else {
         					// user clicked "cancel"

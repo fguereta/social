@@ -506,6 +506,8 @@ def registrarsolicitud(request,id_paciente):
             fecha=fecha_registro,
             dosis=request.POST["dosis"].upper(),
             observaciones=request.POST["observaciones"].upper(),
+            com_cancelado='-',
+            com_parcial='-',
             estado='ACTIVO',
             estado_aprobacion='ENPROGRESO'
             )
@@ -524,11 +526,13 @@ def registrarsolicitud(request,id_paciente):
                         
             for elemento in solicitud:
                 paciente_id=elemento.paciente_id
-    
+                refrescar=elemento.id
+            
             id_paciente=Paciente.objects.filter(persona_ptr_id=paciente_id)
 
             exitosolicitud=1
-            return render_to_response("ABME/Solicitudes/fichasolicitud.html",{'solicitud_enviado':solicitud,'id_paciente':id_paciente,'exitosolicitud':exitosolicitud}, context_instance = RequestContext(request))
+            
+            return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'refrescar':refrescar,'solicitud_enviado':solicitud,'id_paciente':id_paciente,'exitosolicitud':exitosolicitud}, context_instance = RequestContext(request))
 
     return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'id_paciente':paciente_enviado,'medico_enviado':medico_enviado, 'remedio_enviado':remedio_enviado, 'farmacia_enviado':farmacia_enviado}, context_instance = RequestContext(request))
 
@@ -582,6 +586,34 @@ def fichasolicitud(request,id_solicitud):
 
         return render_to_response('ABME/Solicitudes/fichasolicitud.html',{'solicitud_enviado':solicitud,'id_paciente':id_paciente},context_instance=RequestContext(request))
 
+def solicitudcancelada(request,id_solicitud):
+    
+    
+
+
+    if id_solicitud>0:
+        solicitud=Solicitud.objects.filter(id=id_solicitud)
+        soli=Solicitud.objects.get(id=id_solicitud)
+
+    for elemento in solicitud:
+        paciente_id=elemento.paciente_id
+    
+        id_paciente=Paciente.objects.filter(persona_ptr_id=paciente_id)
+
+    if request.method=="POST":
+            comcan=str(request.POST['comcancelado'].upper())
+            soli.com_cancelado=comcan,
+            soli.estado_aprobacion='CANCELADO'
+            
+            soli.save()
+            refrescar=id_solicitud
+            return render_to_response('ABME/Solicitudes/solicitudcancelada.html',{'refrescar':refrescar},context_instance=RequestContext(request))
+
+
+
+    
+    
+    return render_to_response('ABME/Solicitudes/solicitudcancelada.html',{'solicitud_enviado':solicitud,'id_paciente':id_paciente},context_instance=RequestContext(request))
 
 
         

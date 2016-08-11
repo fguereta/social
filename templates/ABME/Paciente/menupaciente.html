@@ -7,7 +7,11 @@
 {% block contenido %} 
 	
 
- 
+
+
+
+
+
 {% if exitopaciente %}<script >alertify.success("Se registro correctamente");</script>{% endif %}
 {% if exito_modificar_paciente %}<script >alertify.success("Se modificaron los datos correctamente");</script>{% endif %}
 
@@ -32,11 +36,14 @@
   	<div class="container-fluid ">
       <div class="navbar-header">
         	<ul class="nav navbar-nav navbar-right">
-  				<li><a href="/aplicacion/fichapaciente/{{elemento.id}}">Ficha</a></li>
-  				<li><a href="/aplicacion/solicitudes/{{elemento.id}}">Solicitudes</a></li>
+  				<li id='ficha'><a href="/aplicacion/fichapaciente/{{elemento.id}}">Ficha</a></li>
+  				<li id='solicitudes'><a href="/aplicacion/solicitudes/{{elemento.id}}">Solicitudes</a></li>
   				<li id='derivaciones'><a href="/aplicacion/derivaciones/{{elemento.id}}">Derivaciones</a></li>
   				<li id='modificar'><a href="/aplicacion/modificarpaciente/{{elemento.id}}">Modificar</a></li>
   				<li id='eliminar' ><a  id="confirmacion">Eliminar</a></li>
+          <li id='nueva_solicitud' style="display:none;" ><a href="/aplicacion/registrarsolicitud/{{elemento.persona_ptr_id}}">
+            + Nueva Solicitud
+            </a></li>
 			</ul>
       </div>
   	</div>

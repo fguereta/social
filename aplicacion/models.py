@@ -115,6 +115,8 @@ class Solicitud(models.Model):
     farmacia = models.ForeignKey(Farmacia, db_column='farmacia_id', blank=True, null=True)
     fecha = models.CharField(max_length=15)
     dosis = models.CharField(max_length=20)
+    com_cancelado=models.CharField(max_length=125)
+    com_parcial=models.CharField(max_length=125)
     observaciones = models.TextField(blank=True)
     estado_aprobacion=models.CharField(max_length=10)
     estado = models.CharField(max_length=6)
