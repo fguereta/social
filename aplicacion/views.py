@@ -506,8 +506,8 @@ def registrarsolicitud(request,id_paciente):
             fecha=fecha_registro,
             dosis=request.POST["dosis"].upper(),
             observaciones=request.POST["observaciones"].upper(),
-            com_cancelado='-',
-            com_parcial='-',
+            comcancelado='-',
+            comparcial='-',
             estado='ACTIVO',
             estado_aprobacion='ENPROGRESO'
             )
@@ -601,13 +601,16 @@ def solicitudcancelada(request,id_solicitud):
         id_paciente=Paciente.objects.filter(persona_ptr_id=paciente_id)
 
     if request.method=="POST":
-            comcan=str(request.POST['comcancelado'].upper())
-            soli.com_cancelado=comcan,
-            soli.estado_aprobacion='CANCELADO'
+        
+        soli.estado_aprobacion='CANCELADO'
+        soli.comcancelado=request.POST['comcancelado']
             
-            soli.save()
-            refrescar=id_solicitud
-            return render_to_response('ABME/Solicitudes/solicitudcancelada.html',{'refrescar':refrescar},context_instance=RequestContext(request))
+        soli.save()
+
+    
+
+        refrescar=id_solicitud
+        return render_to_response('ABME/Solicitudes/solicitudcancelada.html',{'refrescar':refrescar},context_instance=RequestContext(request))
 
 
 

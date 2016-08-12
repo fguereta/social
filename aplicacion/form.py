@@ -51,4 +51,5 @@ class SolicitudForm(forms.Form):
         medico=forms.CharField()
         remedio=forms.CharField()
         dosis=forms.CharField()
-        exclude=('id',)    
+        exclude=('id',)
+

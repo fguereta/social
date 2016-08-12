@@ -66,7 +66,7 @@ urlpatterns = [
     url(r'^solicitudespaciente/(?P<id_paciente>\w+)/$', views.solicitudespaciente, name='solicitudespaciente'),
     url(r'^fichasolicitud/(?P<id_solicitud>\w+)/$', views.fichasolicitud, name='fichasolicitud'),
     url(r'^cambiarestado/(?P<id_solicitud>\w+)/(?P<nuevo_estado>\w+)/$', views.cambiarestado, name='fichasolicitud'),
-    url(r'^solicitudcancelada/(?P<id_solicitud>\w+)/$', views.solicitudcancelada, name='fichasolicitud'),
+    url(r'^solicitudcancelada/(?P<id_solicitud>\w+)/', views.solicitudcancelada, name='fichasolicitud'),
 
 
     #******************DERIVACIONES********************************
