@@ -40,9 +40,11 @@ urlpatterns = [
     url(r'^medico/', views.medico, name='medico'),
     url(r'^registrarmedico/', views.registrarmedico, name='registrarmedico'),
     url(r'^fichamedico/(?P<id_medico>\w+)/$', views.fichamedico, name='fichamedico'),
+    url(r'^intervenidos/(?P<id_medico>\w+)/$', views.intervenidos, name='intervenidos'),
     url(r'^modificarmedico/(?P<id_medico>\w+)/$', views.modificarmedico, name='modificarmedico'),
-    url(r'^eliminarmedico/', views.eliminarmedico, name='eliminarmedico'),
-    url(r'^listadomedico/', views.listadomedico, name='eliminarmedico'),
+    url(r'^eliminarmedico/(?P<id_medico>\w+)/$', views.eliminarmedico, name='eliminarmedico'),
+
+    url(r'^listadomedico/', views.listadomedico, name='listadomedico'),
     
   
     

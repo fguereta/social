@@ -340,7 +340,7 @@ def modificarmedico(request,id_medico):
 def listadomedico(resquest):
     medico=Medico.objects.all()
     return render_to_response("ABME/Medico/listadomedico.html", {'medico':medico})
-
+'''
 def eliminarmedico(request):
     errors = []
      
@@ -366,9 +366,40 @@ def eliminarmedico(request):
             return render(request, 'ABME/Medico/eliminarmedico.html',{'medicos': medicos, 'query': q})
     
     return render(request, 'ABME/Medico/eliminarmedico.html', {'errors': errors}) 
+'''
+
+def eliminarmedico(request, id_medico):
+    
+    medico=Medico.objects.filter(estado='ACTIVO')
+    
+    medico_actualizar_estado=Medico.objects.get(persona_ptr_id=id_medico)
+
+    if medico_actualizar_estado.estado=='INACTIVO':
+        
+        medico_activado=Medico.objects.get(persona_ptr_id=id_medico)
+        medico_activado.estado="ACTIVO"
+        medico_activado.save()
+        medico_enviar=Medico.objects.filter(persona_ptr_id=id_medico)
+        return render_to_response("ABME/Medico/fichamedico.html",{'id_medico':medico_enviar},  context_instance = RequestContext(request))
+        
+
+    if medico_actualizar_estado.estado=='ACTIVO':
+        medico_eliminado=Medico.objects.get(persona_ptr_id=id_medico)
+        medico_eliminado.estado="INACTIVO"
+        medico_eliminado.save()
+        
+        return render_to_response("ABME/Medico/medico.html",{'medico':medico},  context_instance = RequestContext(request))
+        
+        
+        
+        
+    return render_to_response("ABME/Medico/medico.html",{'medico':medico},  context_instance = RequestContext(request))
 
 
-
+def intervenidos(request, id_medico):
+    solicitudes=Solicitud.objects.filter(medico_id=id_medico, estado='ACTIVO')
+    medico_enviar=Medico.objects.filter(id=id_medico, estado='ACTIVO')
+    return render(request, 'ABME/Medico/intervenidos.html',{'intervenidos': solicitudes,'id_medico':medico_enviar})
 
 #######################FARMACIA###########################################
 
@@ -456,6 +487,8 @@ def entregados(request, id_farmacia):
     medicamentos=Solicitud.objects.filter(farmacia_id=id_farmacia, estado='ACTIVO')
     farmacia_enviar=Farmacia.objects.filter(id=id_farmacia, estado='ACTIVO')
     return render(request, 'ABME/Farmacia/entregados.html',{'entregados': medicamentos,'id_farmacia':farmacia_enviar})
+
+
 
 
 

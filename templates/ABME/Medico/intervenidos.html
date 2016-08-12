@@ -1,0 +1,177 @@
+{% extends "ABME/Medico/menumedico.html" %}
+
+
+
+
+{% block contenido_medico %}
+
+ 
+
+{% if intervenidos   %}
+
+
+<div class="">
+
+
+
+<br>
+<script type="text/javascript" charset="utf-8" async defer>
+
+$('#modificar').hide(); 
+$('#eliminar').hide();
+$('#derivaciones').hide();
+
+</script>
+
+<style type="text/css">
+  .tachado{text-decoration:line-through;}
+ 
+  .rojocolor{background:#FA5858;}
+  .amarillocolor{background:#F3F781;}
+  .entregadocolor{background:#01A9DB}
+  .aprobadocolor{background: #81F781;}
+  .parcial{background: #FAAC58 }
+
+  .headertabla{background:#A9E2F3;}
+
+
+tr.resaltar {
+    
+    cursor: pointer;
+   
+}
+
+</style>
+ 
+
+
+
+
+<br> 
+
+
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed  table-hover " cellspacing="0" width="100%">
+    <thead>
+      <tr class=''>
+        
+        <th class="text-center">Paciente</th>
+        <th class="text-center">Fecha</th>
+        <th class="text-center">Nombre Generico</th>
+        <th class="text-center">Dosis Diaria</th>
+        <th class="text-center">Estado de aprobacion</th>
+        <th class=" text-center"></th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in intervenidos %}
+      
+    {% ifequal elemento.estado_aprobacion "APROBADO" %}
+    
+
+      <tr class='aprobadocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
+        
+        <td class="col-md-2 text-center">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}} </td>
+        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
+        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-1 text-center"><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/">Exportar PDF</a>
+      </td>
+    </tr>
+      {% endifequal %}
+
+    {% ifequal elemento.estado_aprobacion "ENTREGADO" %}
+    
+
+      <tr class='entregadocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
+                
+        <td class="col-md-2 text-center">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}} </td>
+        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
+        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-1 text-center"><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/">Exportar PDF</a>
+        
+      </td>
+    </tr>
+      {% endifequal %}
+
+      {% ifequal elemento.estado_aprobacion "EN PROCESO" %}
+    
+
+      <tr class='amarillocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
+        
+        
+        <td class="col-md-2 text-center">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}} </td>
+        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
+        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-1 text-center"><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/">Exportar PDF</a>
+        
+      </td>
+    </tr>
+      {% endifequal %}
+
+
+      {% ifequal elemento.estado_aprobacion "CANCELADO" %}
+    
+
+      <tr class='tachado rojocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
+        
+        <td class="col-md-2 text-center">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}} </td>
+        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
+        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-1 text-center"><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/">Exportar PDF</a>
+        
+      </td>
+    </tr>
+      {% endifequal %}
+ 
+
+      {% ifequal elemento.estado_aprobacion "PARCIAL" %}
+    
+
+      <tr class='parcial' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
+       
+        
+        <td class="col-md-2 text-center">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}} </td>
+        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
+        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-1 text-center"><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/">Exportar PDF</a>
+        
+        </td>
+    </tr>
+      {% endifequal %}
+ 
+
+     {% endfor %} 
+      <tr>
+        
+        <td class="col-md-2 text-center"></td>
+        <td class="col-md-2 text-center"></td>
+        <td class="col-md-2 text-center"></td>
+        <td class="col-md-2 text-center"></td>
+        <td class="col-md-1 text-center"></a>
+        <td class="col-md-2 text-center">
+        
+
+            </div></a>
+      </tr>
+    
+    </tbody>
+  </table>
+</div>
+  
+</div>
+</div>
+{%endif%}
+
+{% endblock contenido_medico %}
+

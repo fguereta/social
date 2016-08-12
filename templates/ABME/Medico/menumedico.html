@@ -27,9 +27,9 @@
       <div class="navbar-header">
         	<ul class="nav navbar-nav navbar-right">
   				<li><a href="/aplicacion/fichamedico/{{elemento.id}}">Ficha</a></li>
-  				<li><a href="">Pacientes intervenidos</a></li>
-  				<li><a href="/aplicacion/modificarmedico/{{elemento.id}}">Modificar</a></li>
-  				<li><a  id="confirmacion">Eliminar</a></li>
+  				<li><a href="/aplicacion/intervenidos/{{elemento.id}}">Pacientes intervenidos</a></li>
+  				
+  				
 			</ul>
       </div>
   	</div>
@@ -59,23 +59,26 @@ var id_medico='{{elemento.id}}'
     $("#confirmacion").click(function() {
 
     	
-	alertify.defaults.glossary.title = '';
 
-    	alertify.confirm("Confirmar eliminacion  "+apellidonombre,
-            function (e) {
-                if (e) {
-                   window.location = "/aplicacion/eliminarpaciente/"+id_paciente;
-                } else {
-                    alertify.error("Has pulsado <strong>"
-                             + alertify.labels.cancel
-                             + "</strong>");
-                }
-        }).setting('labels',{'ok':'Confirmar', 'cancel': 'Cancelar'});
-    });
+   
 
 
+    alertify.set({ labels: {
+            ok     : "Confirmar",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("Este medico pasara a NO ACTIVO, ¿Esta de acuerdo?", function (e) {
+
+
+          if (e) {
+          window.location.href = "/aplicacion/eliminarmedico/"+id_medico;
+          } else {
+        window.location.href = "/aplicacion/fichamedico/"+id_medico;
+         }
+          });
   
- 
+  });
    
 
     
