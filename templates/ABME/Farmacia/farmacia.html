@@ -3,6 +3,14 @@
 
 {% block contenido%}
 
+{% if refrescar %}
+
+<script  type="text/javascript" charset="utf-8" async defer>
+window.location.href = "/aplicacion/farmacia/";
+</script>
+
+{% endif %}
+
  <div class='' >
       <div class='panel panel-primary dialog-panel'>
           <div class='panel-body'>
@@ -10,7 +18,7 @@
               <fieldset>
                  <legend>Farmacias</legend>
                  <div class="col-md-offset-10"> 
-                  <a href="/aplicacion/registrarfarmacia">
+                  <a href="/aplicacion/registrarfarmacia/">
                     <button class="btn btn-success ">Nueva Farmacia</button>
                   </a>
               </div>
@@ -18,10 +26,10 @@
               <div class="row">
                 <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
                     <div class="col-md-4 text-left">
-                      <select name="id_paciente" id="id_paciente" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                      <select name="id_farmacia" id="id_farmacia" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
                           {% for elemento in busqueda_farmacia %}
-                          <option value="{{elemento.razon_Social}}" >{{elemento.razon_social}}</option>
+                          <option value="{{elemento.id}}" >{{elemento.razon_social}} --CUIT:{{elemento.cuit}} </option>
                           {% endfor %}
                       </select>
                     </div>
@@ -42,26 +50,37 @@
   
 <br> 
 <div class="table-responsive">             
-  <table id="example" class="table table-condensed  table-hover " cellspacing="0" width="100%">
+  <table id="example" class="table table-condensed table table-bordered table-hover " cellspacing="0" width="100%">
     <thead>
-      <tr>
-        <th class="text-center"></th>
-        <th class="text-center">Razon Social</th>
+      
+      <tr class="success">
+        
         <th class="text-center">CUIT</th>
+        <th class="text-center">Razon Social</th>
+        <th class="text-center">Direccion</th>
+        <th class=" text-center">Telefono</th>
         
         
       </tr>
     </thead>
     <tbody>
     {% for elemento in id_farmacia %}
-      <tr>
-        <td class="col-md-1 text-center"><a href="/aplicacion/fichafarmacia/{{elemento.id}}/"><button class=" btn btn-success btn-sm"  >Ver ficha</button></a>
-        <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
-        <td class="col-md-2 text-center">{{elemento.dni}}</td>
-        <td class="col-md-2 text-center">{{elemento.cuil}}</td>
+      <tr  >
         
-         
-      </tr>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.cuit}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.razon_social}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.direccion}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.telefono}}</td>
+
+        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.id}},"{{elemento.razon_social}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
+     </tr>
+
+<script  type="text/javascript" charset="utf-8" async defer>
+  
+var razonsocial = $("#razonsocial").val();
+  
+</script>
+
      {% endfor %} 
       
     </tbody>
@@ -80,31 +99,38 @@
   
 <br> 
 <div class="table-responsive">             
-  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+  <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
     <thead>
-      <tr>
-        <th class=" text-center"></th>
-        <th class="text-center">Nombre</th>
-        <th class="text-center">Dirección</th>
-        <th class="text-center">Teléfono</th>
-        <th class="text-center">Correo Electrónico</th>
+      <tr class="success">
         
+        <th class="text-center">CUIT</th>
+        <th class="text-center">Razon Social</th>
+        <th class="text-center">Direccion</th>
+        <th class=" text-center">Telefono</th>
         
         
       </tr>
     </thead>
     <tbody>
     {% for elemento in farmacia %}
-      <tr>
-        <td class="col-md-1 text-center"><a href="/aplicacion/fichafarmacia/{{elemento.id}}/"><button class=" btn btn-success btn-sm">Ver ficha</button></a>
-        <td class="col-md-2 text-center">{{elemento.razon_social}}</td>
-        <td class="col-md-2 text-center">{{elemento.direccion}}</td>
-        <td class="col-md-2 text-center">{{elemento.telefono}}</td>
-        <td class="col-md-2 text-center">{{elemento.email}}</td>
+      <tr  >
+       
+
+        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.cuit}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.razon_social}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.direccion}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.telefono}}</td>
         
-         
+
+
+        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.id}},"{{elemento.razon_social}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
+
       </tr>
+
      {% endfor %} 
+
+
+
       
     </tbody>
   </table>
@@ -122,6 +148,32 @@
 <script type="text/javascript" charset="utf-8" async defer>
     
     $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+    
+    function eliminar(id,razonsocial)
+{
+  
+    alertify.set({ labels: {
+            ok     : "Confirmar",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("La farmacia: <b>"+razonsocial+"</b> pasara a NO ACTIVA, ¿Esta de acuerdo?", function (e) {
+
+
+          if (e) {
+            
+            window.location.href = "/aplicacion/eliminarfarmacia/"+id;
+          
+          } else {
+            
+            window.location.href = "/aplicacion/farmacia/";
+        }
+        
+      });
+
+
+ }
 
 
  

@@ -1,168 +1,42 @@
 {% extends "index.html" %} 
 {% block htitle %}<title>Registrar Farmacia</title>{% endblock %} 
 {% block contenido %} 
-{% if id_farmacia %}
-{% for elemento in id_farmacia %}
-  
+
+
+
+
   <div class='container'>
     <div class='panel panel-primary dialog-panel'>
       <div class='panel-heading'>
         <h5>Agregar farmacia</h5>
       </div>
       <div class='panel-body'>
-        <form id='miForm' method='post' action="/aplicacion/registrarfarmacia/" enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='cuit'>Cuit*</label>
-          <div class='col-md-3'>
-            <input class='form-control' id='cuit' name='cuit' type='text' value='{{elemento.cuit}}'></input>
-          </div>
-          <div class='col-md-2'>
-            <div class='btn btn-primary' id='comprobar'>Comprobar</div>
-          </div>
-          <script  type="text/javascript" charset="utf-8" async defer>
-  
-            $("div[id=comprobar]").click(function () {
-      
-               var cuit = $("#cuit").val();
-               window.location.href = "/aplicacion/comprobarfarmacia/"+cuit;
-            });
-          </script>
-        </div>
-
-        {% if error %}
-          {% for elemento in error %}
-            <div class='form-group'>
-              <font color="red" class='control-label col-md-5 col-md-offset-3' >{{elemento}}</font>
-            </div>
-          {% endfor %}
-        {% endif %}
-          
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='razon_social'>Razon social*</label>
-          <div class='col-md-4'>
-            <input class='form-control' id='razon_social' name='razon_social' type='text' value='{{elemento.razon_social}}'></input>
-          </div>
-        </div>
-          
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Direccion*</label>
-          <div class='col-md-4'>
-            <input class='form-control' id='direccion' name='direccion' type='text' value='{{elemento.direccion}}'></input>
-          </div>
-        </div>
-
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='telefono'>Telefono</label>
-          <div class='col-md-4'>
-            <input class='form-control' id='telefono' name='telefono' type='text' value='{{elemento.telefono}}'></input>
-          </div>
-        </div>
-
-        <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='email'>E-mail</label>
-          <div class='col-md-6'>
-            <div class='form-group'>
-              <div class='col-md-11'>
-                <input class='form-control' id='email' name='email' placeholder='E-mail' type='email' value='{{elemento.email}}'>
-              </div>
-            </div>
-          </div>
-        </div>
-          
-       
-
-          <div class='form-group'>
-            <div class='col-md-offset-7 col-md-3'>
-              <br>
-              <button class='btn-lg btn-danger' style='float:right' type='submit'>Cancelar</button>
-              <button class='btn-lg btn-primary' style='float:right' type='submit'>Guardar</button>
-            </div>
-          </div>
-        
-        </form>
-      </div>
-    </div>
-  </div>
-{% endfor %}
-
-{% else %}
-  <div class='container'>
-    <div class='panel panel-primary dialog-panel'>
-      <div class='panel-heading'>
-        <h5>Agregar farmacia</h5>
-      </div>
-      <div class='panel-body'>
-        <form id='miForm' method='post' enctype='multipart/form-data' action='/aplicacion/registrarfarmacia/' class='form-horizontal'>{% csrf_token %}
+        <form id='miForm' method='post' enctype='multipart/form-data' action='/aplicacion/farmacia/' autocomplete="off" class='form-horizontal'>{% csrf_token %}
         
           <div class='form-group'>
             
-            <label class='control-label col-md-2 col-md-offset-2' for='cuit'>Cuit*</label>
-            <div class='col-md-3'>
-              {% if id_farmacia_inactiva %}
-                {% for elemento in id_farmacia_inactiva %}
-                  <input class='form-control' id='cuit' name='cuit' type='text' value='{{elemento.cuit}}'></input>
-                {% endfor %}
-             
-              {% else %}
-                <input class='form-control' id='cuit' name='cuit' type='text'></input>
-              {% endif %}  
+            <label class='control-label col-md-2 col-md-offset-2' for='cuit' value=''>Cuit*</label>
+            
+            <div class='col-md-4'>
+              <input class='form-control' id='cuit' name='cuit' type='text' autocomplete="off"></input>
+            </div>
+        </div>
+        
+         <div class='form-group'>
+            
+            <label class='control-label col-md-2 col-md-offset-2' for='cuit'>Contraseña*</label>
+            
+            
+
+            <div class='col-md-4'>
+              <input class='form-control' id='password' name='password' type='text' autocomplete="off"></input>
             </div>
               
-          
-            <script  type="text/javascript" charset="utf-8" async defer>
-              $("div[id=comprobar]").click(function () {
-                var dni = $("#cuit").val();
-                window.location.href = "/aplicacion/comprobarfarmacia/"+cuit;
-              });
-            </script>
+      
           </div>
-        
-          {% if farmacia_enviar %}
-            {% for elemento in farmacia_enviar %}
-              <div class='form-group'>
-                <label class='control-label col-md-7 col-md-offset-1'>Este CUIT pertenece a una farmacia que se encuentra inactiva. ¿Desea activarla?</label>
-                <div type="button" class="btn btn-success btn-xs" id="activar">Si</div>
-                <div type="button" class="btn btn-danger btn-xs" id='no_activar'>No</div>
-              </div>
-            
-                <script  type="text/javascript" charset="utf-8" async defer>
-                  $("div[id=activar]").click(function () {
-                    
-                    window.location.href = "/aplicacion/eliminarfarmacia/{{elemento.id}}";
-                  });
-                </script>
 
-                <script  type="text/javascript" charset="utf-8" async defer>
-                  $("div[id=no_activar]").click(function () {
-                    window.location.href = "/aplicacion/registrarfarmacia/";
-                  });
-                </script>
-              {% endfor %}
-          {% endif %}
           
-          {% if id_farmacia_inactiva %}
-            {% for elemento in id_farmacia_inactiva %}
-              <div class='form-group'>
-                <label class='control-label col-md-5 col-md-offset-2'>¿Esta farmacia se encuentra inactiva desea activarla?</label>
-                <div type="button" class="btn btn-success btn-xs" id="activar">Si</div>
-                <div type="button" class="btn btn-danger btn-xs" id='no_activar'>No</div>
-              </div>
-            
-                <script  type="text/javascript" charset="utf-8" async defer>
-                  $("div[id=activar]").click(function () {
-                    
-                    window.location.href = "/aplicacion/eliminarfarmacia/{{elemento.id}}";
-                  });
-                </script>
-
-                <script  type="text/javascript" charset="utf-8" async defer>
-                  $("div[id=no_activar]").click(function () {
-                    window.location.href = "/aplicacion/registrarfarmacia/";
-                  });
-                </script>
-            {% endfor %}
-          {% endif %}
-         
+        
          <div class='form-group'>
           <label class='control-label col-md-2 col-md-offset-2' for='razon_social'>Razon social*</label>
           <div class='col-md-4'>
@@ -189,33 +63,61 @@
             <label class='control-label col-md-2 col-md-offset-2' for='email'>E-mail</label>
             <div class='col-md-6'>
               <div class='form-group'>
-                <div class='col-md-11'>
+                <div class='col-md-8'>
                   <input class='form-control' id='email' name='email' placeholder='E-mail' type='email'>
                 </div>
               </div>
             </div>
           </div>
           
-          
+        </form> 
           <div class='form-group'>
             
-            <div class='col-md-offset-7 col-md-3'>
-              <button class='btn-lg btn-primary' style='float:right' type='submit'>Guardar</button>
+            <div class='col-md-offset-9 col-md-3'>
+              <button class='btn-lg btn-primary' style='float:right' id='guardar' >Guardar</button>
             </div>
           
-            <div>
-              <button class='btn-lg btn-danger' style='float:right' type='submit'>Cancelar</button>
-            </div>
-            
+            <script type="text/javascript" charset="utf-8" async defer>
+              
+            $("button[id=guardar]").click(function () {
+      
+              var cuit = $("#cuit").val();
+              
+
+            '{% for elemento in farmacia %}'
+
+                 if(cuit=='{{elemento.cuit}}'){
+
+                  alert('Este cuit ya se encuentra registrado- Razon social:{{elemento.razon_social}}');
+
+                 }else if(cuit!='{{elemento.cuit}}'){
+
+                  $("#miForm").submit();
+
+                 }
+
+                 '{% endfor %}'
+
+
+
+        
+
+
+              
+            });
+
+
+           </script>
+           
           </div>
         </div>
         
-        </form>
+       
       </div>
     </div>
   </div>
 
-{% endif %}
+
 <script>
 
 $('#datepicker').datepicker({

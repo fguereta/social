@@ -42,24 +42,27 @@
   
 <br> 
 <div class="table-responsive">             
-  <table id="example" class="table table-condensed  table-hover " cellspacing="0" width="100%">
+  <table id="example" class="table table-condensed table table-bordered table-hover " cellspacing="0" width="100%">
     <thead>
-      <tr>
-        <th class=" text-center"></th>
+      
+      <tr class="success">
+        
         <th class="text-center">Apellido y Nombre</th>
         <th class="text-center">Dni</th>
         <th class="text-center">Cuil</th>
+        <th class=" text-center">Historia Clinica</th>
         
         
       </tr>
     </thead>
     <tbody>
     {% for elemento in id_paciente %}
-      <tr>
-        <td class="col-md-1 text-center"><a href="/aplicacion/fichapaciente/{{elemento.id}}/"><button class=" btn btn-success btn-sm"  >Ver ficha</button></a>
+      <tr onclick="document.location='/aplicacion/fichapaciente/{{elemento.id}}'"  style="cursor:pointer" >
+        
         <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
         <td class="col-md-2 text-center">{{elemento.dni}}</td>
         <td class="col-md-2 text-center">{{elemento.cuil}}</td>
+        <td class="col-md-2 text-center">{{elemento.historiaclinica}}</td>
         
          
       </tr>
@@ -81,24 +84,26 @@
   
 <br> 
 <div class="table-responsive">             
-  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+  <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
     <thead>
-      <tr>
-        <th class=" text-center"></th>
+      <tr class="success">
+        
         <th class="text-center">Apellido y Nombre</th>
         <th class="text-center">Dni</th>
         <th class="text-center">Cuil</th>
+        <th class=" text-center">Historia Clinica</th>
         
         
       </tr>
     </thead>
     <tbody>
     {% for elemento in paciente %}
-      <tr>
-        <td class="col-md-1 text-center"><a href="/aplicacion/fichapaciente/{{elemento.id}}/"><button class=" btn btn-success btn-sm">Ver ficha</button></a>
+      <tr onclick="document.location='/aplicacion/fichapaciente/{{elemento.id}}'"  style="cursor:pointer" >
+        
         <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
         <td class="col-md-2 text-center">{{elemento.dni}}</td>
         <td class="col-md-2 text-center">{{elemento.cuil}}</td>
+        <td class="col-md-2 text-center">{{elemento.historiaclinica}}</td>
         
          
       </tr>
@@ -141,13 +146,6 @@
         }).setting('labels',{'ok':'Confirmar', 'cancel': 'Cancelar'});
     });
  
-   
-
-
-
-
-
-
 </script>
 
 

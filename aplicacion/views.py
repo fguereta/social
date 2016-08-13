@@ -409,7 +409,7 @@ def farmacia(request):
     
     if 'id_farmacia' in request.POST:
 
-        farmacia_recibido = request.POST['id_farmacia'],
+        farmacia_recibido = request.POST['id_farmacia']
 
         farmacia_enviar = Farmacia.objects.filter(id=farmacia_recibido, estado='ACTIVO') 
         
@@ -423,6 +423,8 @@ def farmacia(request):
     return render_to_response('ABME/Farmacia/farmacia.html')
 
 def registrarfarmacia(request):
+
+    farmacia=Farmacia.objects.all()
 
     if request.method=="POST":
 
@@ -438,6 +440,7 @@ def registrarfarmacia(request):
             direccion=request.POST['direccion'].upper(),
             telefono=request.POST['telefono'],
             email=request.POST["email"].upper(),
+            password=request.POST["password"].upper(),
             estado='ACTIVO'
             )
 
@@ -446,7 +449,7 @@ def registrarfarmacia(request):
 
     
 
-    return render_to_response("ABME/Farmacia/registrarfarmacia.html", context_instance = RequestContext(request))
+    return render_to_response("ABME/Farmacia/registrarfarmacia.html",{'farmacia':farmacia}, context_instance = RequestContext(request))
 
 def modificarfarmacia(request, id_farmacia):
     
@@ -489,7 +492,33 @@ def entregados(request, id_farmacia):
     return render(request, 'ABME/Farmacia/entregados.html',{'entregados': medicamentos,'id_farmacia':farmacia_enviar})
 
 
+def eliminarfarmacia(request, id_farmacia):
+    
+    farmacia=Farmacia.objects.filter(estado='ACTIVO')
+    
+    farmacia_actualizar_estado=Farmacia.objects.get(id=id_farmacia)
 
+    if farmacia_actualizar_estado.estado=='INACTIVO':
+        
+        farmacia_activado=Farmacia.objects.get(id=id_farmacia)
+        farmacia_activado.estado="ACTIVO"
+        farmacia_activado.save()
+        farmacia_enviar=Farmacia.objects.filter(id=id_farmacia)
+        refrescar=1
+        return render_to_response("ABME/Farmacia/fichafarmacia.html",{'id_farmacia':farmacia_enviar,'refrescar':refrescar},  context_instance = RequestContext(request))
+        
+
+    if farmacia_actualizar_estado.estado=='ACTIVO':
+        farmacia_eliminado=Farmacia.objects.get(id=id_farmacia)
+        farmacia_eliminado.estado="INACTIVO"
+        farmacia_eliminado.save()
+        refrescar=1
+        return render_to_response("ABME/Farmacia/farmacia.html",{'farmacia':farmacia,'refrescar':refrescar},  context_instance = RequestContext(request))
+        
+        
+        
+        
+    return render_to_response("ABME/Farmacia/farmacia.html",{'farmacia':farmacia},  context_instance = RequestContext(request))
 
 
 #######################SOLICITUD###########################################

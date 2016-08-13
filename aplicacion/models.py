@@ -56,6 +56,7 @@ class Farmacia(models.Model):
     direccion = models.CharField(max_length=25)
     telefono = models.CharField(max_length=20)
     email = models.EmailField(null=True)
+    password = models.CharField(null=True,max_length=30)
     estado=models.CharField(max_length=20, blank=True, null=True)
     
     def __unicode__(self):

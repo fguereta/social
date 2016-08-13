@@ -55,7 +55,7 @@ urlpatterns = [
     url(r'^entregados/(?P<id_farmacia>\w+)/$', views.entregados, name='entregados'),
     url(r'^modificarfarmacia/(?P<id_farmacia>\w+)/$', views.modificarfarmacia, name='modificarfarmacia'),
     url(r'^registrarfarmacia/', views.registrarfarmacia, name='registrarfarmacia'),
-    
+    url(r'^eliminarfarmacia/(?P<id_farmacia>\w+)/$', views.eliminarfarmacia, name='eliminarfarmacia'),
    
     
   
