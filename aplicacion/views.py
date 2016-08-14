@@ -453,7 +453,7 @@ def registrarfarmacia(request):
 
 def modificarfarmacia(request, id_farmacia):
     
-
+    refrescar=id_farmacia
     farmacia=Farmacia.objects.get(id=id_farmacia)
     if request.method=="POST":
 
@@ -462,17 +462,19 @@ def modificarfarmacia(request, id_farmacia):
         if form.is_valid():
             
 
-            farmacia.razon_social=request.POST['razon_social'].upper(),
-            farmacia.cuit=request.POST['cuit'],
-            farmacia.direccion=request.POST['direccion'].upper(),
-            farmacia.telefono=request.POST['telefono'],
-            farmacia.email=request.POST["email"].upper(),
+            farmacia.razon_social=request.POST['razon_social'].upper()
+            farmacia.cuit=request.POST['cuit']
+            farmacia.direccion=request.POST['direccion'].upper()
+            farmacia.telefono=request.POST['telefono']
+            farmacia.email=request.POST["email"].upper()
+            farmacia.password=request.POST["password"].upper()
             farmacia.estado='ACTIVO'
             farmacia.save()
 
             id_farmacia=Farmacia.objects.filter(id=id_farmacia)
             ban='exito_modificar_farmacia'
-            return render_to_response('ABME/Farmacia/fichafarmacia.html',{'id_farmacia':id_farmacia,'exito_modificar_farmacia':ban},context_instance=RequestContext(request))
+            
+            return render_to_response('ABME/Farmacia/fichafarmacia.html',{'id_farmacia':id_farmacia,'exito_modificar_farmacia':ban,'refrescar':refrescar},context_instance=RequestContext(request))
     else:
         farmacia_enviar=Farmacia.objects.filter(id=id_farmacia, estado='ACTIVO')
         return render_to_response("ABME/Farmacia/modificarfarmacia.html",  {'id_farmacia': farmacia_enviar }, context_instance = RequestContext(request))

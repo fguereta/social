@@ -9,7 +9,7 @@
 
  
 {% if exitofarmacia %}<script >alertify.success("Se registro correctamente");</script>{% endif %}
-{% if exito_modificar_farmacia %}<script >alertify.success("Se modificaron los datos correctamente");</script>{% endif %}
+<!--{% if exito_modificar_farmacia %}<script >alertify.success("Se modificaron los datos correctamente");</script>{% endif %} -->
 
 
 {% if id_farmacia %}
@@ -21,13 +21,14 @@
 <div class='container'>
     <div class='panel panel-primary dialog-panel'>
     <div class='panel-heading'>
-        <h5 id='farmacia_nombre' >{{elemento.razon_social}}</h5>
+        <h5 id='farmacia_nombre' >CUIT:{{elemento.cuit}}, {{elemento.razon_social}}</h5>
     </div>
     <div class="navbar navbar-inverse navbar-fixed ">
   	<div class="container-fluid ">
       <div class="navbar-header">
         	<ul class="nav navbar-nav navbar-right">
   				<li id='ficha'><a href="/aplicacion/fichafarmacia/{{elemento.id}}">Ficha</a></li>
+          <li id='ficha'><a href="/aplicacion/modificarfarmacia/{{elemento.id}}">Modificar datos</a></li>
   				<li id='entregados'><a href="/aplicacion/entregados/{{elemento.id}}">Medicamentos entregados</a></li>
   			</ul>
       </div>
@@ -43,35 +44,4 @@
 {% endif %}
 
 
-<script type="text/javascript" charset="utf-8" async defer>
-
-
-
-    $("#confirmacion").click(function() {
-
-    	
-
-   
-
-
-    alertify.set({ labels: {
-            ok     : "Confirmar",
-            cancel : "Cancelar"
-          } });
-          // confirm dialog
-          alertify.confirm("Este paciente pasara a NO ACTIVO, ¿Esta de acuerdo?", function (e) {
-
-
-          if (e) {
-          window.location.href = "/aplicacion/eliminarpaciente/"+id_paciente;
-          } else {
-        window.location.href = "/aplicacion/fichapaciente/"+id_paciente;
-         }
-          });
-  
-  });
-   
-
-    
-</script>
 {% endblock %} 

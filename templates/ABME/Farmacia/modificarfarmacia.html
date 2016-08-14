@@ -1,64 +1,123 @@
 {% extends "ABME/Farmacia/menufarmacia.html" %}
 {% block contenido_farmacia %}
-	
+
+{% if id_farmacia %}
 
 {% for elemento in id_farmacia %}
-<div class="container">
-    <form  id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
 
- 	<div class="form-group">
-		<label for="razon_social"  class="control-label col-md-2">Razon social:</label>
-		
-		<div class="col-md-4"> 
-		<input class="form-control" id="razon_social" maxlength="25" name="razon_social" type="text" value="{{elemento.razon_social}}" />
-		</div>
-		
-	</div>
-	
-	<div class="form-group">
-		<label for="cuit" class="control-label col-md-2">Cuit:</label>
-		
-		<div class="col-md-4"> 
-		<input class="form-control"  id="cuit" name="cuit" type="text" value="{{elemento.cuit}}" />
-		</div>
-		
-	</div>
 
-	<div class="form-group">
-		<label for="direccion" class="control-label col-md-2">Direccion:</label>
-		
-		<div class="col-md-4"> 
-		<input class="form-control" id="direccion" maxlength="25" name="direccion" type="text" value="{{elemento.direccion}}"/>
-		</div>
-	</div>
 
-	<div class="form-group">
-		<label for="telefono" class="control-label col-md-2">Telefono:</label>
-		
-		<div class="col-md-1"> 
-		<input class="form-control" id="telefono" name="telefono" type="text" placeholder="" value="{{elemento.telefono}}"/>
-		</div>
 
-		
-	</div>
+<div class='panel-body'>
+        <form id='miForm' method='post' enctype='multipart/form-data' action='' autocomplete="off" class='form-horizontal'>
+        {% csrf_token %}
 
-	<div class="form-group">
-		<label for="email" class="control-label col-md-2">Email:</label>
-		<div class="col-md-4">
-		<input class="form-control" id="email" maxlength="254" name="email" type="email" value="{{elemento.email}}" />
-		</div>
-	</div>
 
-	
-	<div class="form-group">
-		<div class="col-md-2 col-md-offset-2">
-	<input class="form-control" type="submit" name="submit" value="Modificar Farmacia">
-		</div>
-	</div>
-	
-  
-  </form>
-  
-  </div>
- {%endfor%}
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='dni'>CUIT</label>
+            <div class='col-md-4'>
+              <input class='form-control' id='cuit' name='cuit' value="{{elemento.cuit}}" ></input>
+            </div>
+        </div>
+       
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Contraseña</label>
+            <div class='col-md-4'>
+              <input class='form-control' id='password' name='password' value="{{elemento.password}}" ></input>
+            </div>
+        </div>
+
+
+
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Razon Social</label>
+            <div class='col-md-4'>
+              <input class='form-control' id='razon_social' name='razon_social' value="{{elemento.razon_social}}" ></input>
+            </div>
+        </div>
+
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion</label>
+            <div class='col-md-4'>
+              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" value="{{elemento.direccion}}" ></input>
+            </div>
+          </div>
+
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='telefono'>Telefono</label>
+            <div class='col-md-4'>
+            
+            		
+             <input class='form-control' id='telefono' name="telefono" placeholder='Telefono' type='text' value="{{elemento.telefono}}" ></input>
+             		
+            	</div>
+           		
+         </div>
+          
+         
+          <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='correo'>E-mail</label>
+            <div class='col-md-4 '>
+                  <input class='form-control' id='email' name='email' placeholder='E-mail' type='text' value="{{elemento.email}}" ></input>
+               </div> 
+            	
+           
+          </div>
+      
+
+        <div class='col-md-offset-9 col-md-3'>
+              <button class='btn-lg btn-primary' style='float:right' id='guardar' >Guardar</button>
+            </div>
+        
+        
+       </form> 
+     </div>
+    
+
+  <br><br>
+
+
+        
+{% endfor %}
+
+{% endif %}
+
+
+ <script type="text/javascript" charset="utf-8" async defer>
+              
+            $("button[id=guardar]").click(function () {
+      	
+      		var cuit1=$("cuit").val()
+              var cuit = $("#cuit").val();
+              
+
+            '{% for elemento in id_farmacia %}'
+
+                 if(cuit=='{{elemento.cuit}}'){
+
+                  alert('Este cuit ya se encuentra registrado- Razon social:{{elemento.razon_social}}');
+
+                 }else if(cuit!='{{elemento.cuit}}'){
+
+
+                 	$("#miForm").submit();
+                  
+
+                 }
+
+                 '{% endfor %}'
+
+
+
+        
+
+
+              
+            });
+
+
+           </script>
+
+
+
 {% endblock contenido_farmacia %}

@@ -82,23 +82,32 @@
             $("button[id=guardar]").click(function () {
       
               var cuit = $("#cuit").val();
-              
+              var ban=0;
 
             '{% for elemento in farmacia %}'
+              if(cuit=='{{elemento.cuit}}'){
+                 
+                 ban=ban+1;
 
-                 if(cuit=='{{elemento.cuit}}'){
+                 
+                }
+            '{% endfor %}'
+                
+                if(ban>0){
 
                   alert('Este cuit ya se encuentra registrado- Razon social:{{elemento.razon_social}}');
 
-                 }else if(cuit!='{{elemento.cuit}}'){
+                }else{
+
+                  
 
                   $("#miForm").submit();
 
-                 }
+                }
 
-                 '{% endfor %}'
+                  
 
-
+                
 
         
 

@@ -2,6 +2,21 @@
 
 {% block contenido_farmacia %}
 
+
+{% if refrescar %}
+
+{% for elemento in refrescar %}
+<script  type="text/javascript" charset="utf-8" async defer>
+window.location.href = "/aplicacion/fichafarmacia/{{refrescar}}";
+</script>
+
+{% endfor %}
+
+{% endif %}
+
+
+
+
 {% if id_farmacia %}
 
 {% for elemento in id_farmacia %}
@@ -9,32 +24,39 @@
         <form  class="form-horizontal">
         <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='dni'>CUIT</label>
-            <div class='col-md-2'>
+            <div class='col-md-4'>
               <input class='form-control' id='cuit' name='cuit' value="{{elemento.cuit}}" readonly></input>
+            </div>
+        </div>
+       
+       <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Contraseña</label>
+            <div class='col-md-4'>
+              <input class='form-control' id='password' name='password' value="{{elemento.password}}" readonly></input>
             </div>
         </div>
        
         <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Razon Social</label>
-            <div class='col-md-2'>
+            <div class='col-md-4'>
               <input class='form-control' id='razon_social' name='razon_social' value="{{elemento.razon_social}}" readonly></input>
             </div>
         </div>
 
          <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion</label>
-            <div class='col-md-3'>
+            <div class='col-md-4'>
               <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" value="{{elemento.direccion}}" readonly></input>
             </div>
           </div>
 
          <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='telefono'>Telefono</label>
-            <div class='col-md-8'>
-            	<div class='col-md-3 indent-small'>
-            		<div class='form-group internal'>
+            <div class='col-md-4'>
+            
+            		
              			<input class='form-control' id='telefono' name="telefono" placeholder='Telefono' type='text' value="{{elemento.telefono}}" readonly></input>
-             		</div>	
+             		
             	</div>
            		
          </div>
@@ -42,41 +64,27 @@
          
           <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='correo'>E-mail</label>
-            <div class='col-md-6'>
-              <div class='form-group'>
-                <div class='col-md-11'>
+            <div class='col-md-4 '>
                   <input class='form-control' id='correo' name='correo' placeholder='E-mail' type='text' value="{{elemento.email}}" readonly></input>
-                </div>
-            	</div>
-           	</div>
+               </div> 
+            	
+           
           </div>
-        <!--  
-        <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='id_comments'>Observaciones</label>
-            <div class='col-md-6'>
-              <textarea class='form-control' id='observaciones' name='observaciones' placeholder='Escribe aqui...' rows='3' readonly>{{elemento.observaciones}}</textarea>
-            </div>
-          </div>
-        -->
-        </form>
+        
+       
         
         
-        
+        <br><br><br>
       </div>
     </div>
   </div>
+
+
+
+  </form>
+        
 {% endfor %}
-<div class='form-group'>
-            
-            <div class='col-md-offset-7 col-md-3'>
-             <a href="/aplicacion/modificarfarmacia/{{elemento.id}}"> <button class='btn-lg btn-primary' style='float:right' type='submit'>Modificar</button></a>
-            </div>
-            
-            <div>
-              <button class='btn-lg btn-danger' style='float:right' type='submit'>Eliminar</button>
-            </div>
-            
-          </div>
+
 {% endif %}
 
 
