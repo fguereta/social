@@ -11,11 +11,11 @@
         <h5>Agregar farmacia</h5>
       </div>
       <div class='panel-body'>
-        <form id='miForm' method='post' enctype='multipart/form-data' action='/aplicacion/farmacia/' autocomplete="off" class='form-horizontal'>{% csrf_token %}
+        <form id='miForm' method='post' enctype='multipart/form-data'  autocomplete="off" class='form-horizontal'>{% csrf_token %}
         
           <div class='form-group'>
             
-            <label class='control-label col-md-2 col-md-offset-2' for='cuit' value=''>Cuit*</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='cuit' value=''>Cuit<font color="red"> *</font></label>
             
             <div class='col-md-4'>
               <input class='form-control' id='cuit' name='cuit' type='text' autocomplete="off"></input>
@@ -24,7 +24,7 @@
         
          <div class='form-group'>
             
-            <label class='control-label col-md-2 col-md-offset-2' for='cuit'>Contraseña*</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='cuit'>Contraseña<font color="red"><font color="red"> *</font></font></label>
             
             
 
@@ -38,14 +38,14 @@
           
         
          <div class='form-group'>
-          <label class='control-label col-md-2 col-md-offset-2' for='razon_social'>Razon social*</label>
+          <label class='control-label col-md-2 col-md-offset-2' for='razon_social'>Razon social<font color="red"> *</font></label>
           <div class='col-md-4'>
             <input class='form-control' id='razon_social' name='razon_social' type='text' placeholder="Razon social"></input>
           </div>
         </div>
 
          <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion*</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion<font color="red"> *</font></label>
             <div class='col-md-4'>
               <input class='form-control' id='direccion' name='direccion' type='text' placeholder="Direccion"></input>
             </div>
@@ -82,42 +82,89 @@
             $("button[id=guardar]").click(function () {
       
               var cuit = $("#cuit").val();
-              var ban=0;
+              var password = $("#password").val();
+              var razon_social = $("#razon_social").val();
+              var direccion = $("#direccion").val();
+              
 
-            '{% for elemento in farmacia %}'
-              if(cuit=='{{elemento.cuit}}'){
+           
+             if(cuit=='' || password=='' || razon_social=='' || direccion=='') 
+               
+             {  
+
+              alertify.alert('No se puede registrar, complete los campos obligatorios <font color="red">*</font>');
+  
+            }
+
+             if(cuit!='' && password!='' && razon_social!='' && direccion!='') 
+               
+             {  
+               var ban=0;
+               var ban2=0;
+
+                '{% for elemento in farmacia %}'
+                      
+                      if(cuit=='{{elemento.cuit}}'){
                  
-                 ban=ban+1;
+                        ban=ban+1;
+                        razon_social2='{{elemento.razon_social}}';
 
-                 
-                }
-            '{% endfor %}'
-                
-                if(ban>0){
 
-                  alert('Este cuit ya se encuentra registrado- Razon social:{{elemento.razon_social}}');
+                          if(ban>0)
+                          {
 
-                }else{
 
+                              if('{{elemento.estado}}'=='INACTIVO'){
+
+                      
+                                  alertify.set({ labels: {
+                                  ok     : "Confirmar",
+                                  cancel : "Cancelar"
+                                   } });
+                                  // confirm dialog
+                                 alertify.confirm("Este registro no puede completarse por que el de <b>CUIT: "+cuit+"</b> ya pertecene a una <b>RAZON SOCIAL: "+razon_social2+"</b> que se encuentra INACTIVO, ¿Desea activarlo?", function (e) {
+    
+                                  if (e) {
+                                  window.location.href = "/aplicacion/eliminarfarmacia/{{elemento.id}}";
+                                  } else {
+                          
+                                }});
+
+                              ban2=1;
+
+                              }else{
+
+                                alertify.alert('No puede registrar esta farmacia. Por que este <b>CUIT: '+cuit+' </b> ya se encuentra registrado.- <b>Razon social:'+razon_social2+'</b>');
+
+                              ban2=1;
+                                
                   
-
-                  $("#miForm").submit();
-
-                }
-
-                  
-
+                              }
                 
-
-        
-
+                              
+                          }
 
               
+              }
+                  '{% endfor %}'
+
+
+                  
+            if(ban2==0){
+
+              $("#miForm").submit();
+            }
+
+                
+                
+            }
+  
             });
 
 
            </script>
            
+
           </div>
         </div>
         

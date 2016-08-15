@@ -3,13 +3,50 @@
 
 {% block contenido%}
 
-{% if refrescar %}
+{% if refrescar_registro %}
+
 
 <script  type="text/javascript" charset="utf-8" async defer>
-window.location.href = "/aplicacion/farmacia/";
+window.location.href = "/aplicacion/fichafarmacia/{{refrescar_registro}}";
 </script>
 
+
 {% endif %}
+
+{% if refrescar_eliminacion %}
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+
+alertify.set({ labels: {
+                          ok     : "Aceptar",
+                          cancel : "Cancelar"
+                         } });
+
+
+alertify.alert('Se elimino correctamente.', function(){ 
+  
+  window.location.href = "/aplicacion/farmacia/";
+  
+
+  alertify.success('ok'); }
+  );
+
+</script>
+
+
+{% endif %}
+
+{% if refrescar_activacion %}
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+window.location.href = "/aplicacion/fichafarmacia/{{refrescar_activacion}}";
+</script>
+
+
+{% endif %}
+
 
  <div class='' >
       <div class='panel panel-primary dialog-panel'>

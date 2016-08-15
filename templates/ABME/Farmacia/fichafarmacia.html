@@ -5,16 +5,11 @@
 
 {% if refrescar %}
 
-{% for elemento in refrescar %}
 <script  type="text/javascript" charset="utf-8" async defer>
 window.location.href = "/aplicacion/fichafarmacia/{{refrescar}}";
 </script>
 
-{% endfor %}
-
 {% endif %}
-
-
 
 
 {% if id_farmacia %}
