@@ -36,12 +36,17 @@ INSTALLED_APPS = (
     
     ##'django_admin_bootstrapped',
     'django.contrib.admin',
+    
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+
     'aplicacion',
+    'usuarios',
 )
 
 #AUTH_USER_MODEL = 'aplicacion.CustomUser'
@@ -123,3 +128,11 @@ STATICFILES_DIRS=(
 )
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(os.path.dirname(BASE_DIR),"static_in_env", "media_roor")
+
+'''
+# Redirect when login is correct.
+LOGIN_REDIRECT_URL = "/index"
+# Redirect when login is not correct.
+LOGIN_URL = '/iniciar_sesion/'
+
+'''

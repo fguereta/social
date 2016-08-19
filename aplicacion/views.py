@@ -1,26 +1,33 @@
 # -*- coding: utf-8 -*-
-
+from __future__ import unicode_literals
 #LIBRERIAS REPORTLAB (pip install reportlab)
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, cm
 from io import BytesIO
-#from __future__ import unicode_literals
+
 from django.shortcuts import render_to_response, render, RequestContext
+
 from aplicacion.models import *
+
+from usuarios.models import *
+
+
 from aplicacion.form import *
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 
+from django.contrib.auth.decorators import login_required, permission_required
 
 
-
+#@login_required
 def index(request):
     return render_to_response("index.html")
 
 
 #######################PACIENTE###########################################
+
 
 def paciente(request):
     paciente=Paciente.objects.filter(estado='ACTIVO')
@@ -37,6 +44,7 @@ def paciente(request):
     
     
         return render_to_response("ABME/Paciente/paciente.html",  {'paciente': paciente, 'busqueda_paciente':paciente  }, context_instance = RequestContext(request))
+
 
 def comprobar_paciente(request,cuil_paciente='0'):
     
@@ -405,23 +413,106 @@ def intervenidos(request, id_medico):
 
 
 def farmacia(request):
-    farmacia=Farmacia.objects.filter(estado='ACTIVO')
-    
+
     if 'id_farmacia' in request.POST:
+        user=User.objects.filter(id=request.POST['id_farmacia'])
+    
+        far=UserFarmacia.objects.filter(estado='ACTIVO')
+        farmacia=[]
+        for elemento1 in user:
 
-        farmacia_recibido = request.POST['id_farmacia']
+            for elemento2 in far:
+            
+                if elemento1.id==elemento2.user_id:
 
-        farmacia_enviar = Farmacia.objects.filter(id=farmacia_recibido, estado='ACTIVO') 
+
+                    far2={
+
+                    'id':elemento1.id,
+                    'username' : elemento1.username,
+                    'razon_social' : elemento2.razon_social,
+                    'direccion':elemento2.direccion,
+                    'telefono':elemento2.telefono
         
-        return render_to_response("ABME/Farmacia/farmacia.html",  {'id_farmacia': farmacia_enviar, 'busqueda_farmacia':farmacia  }, context_instance = RequestContext(request))
+                    }
 
-    else:
+                    farmacia=farmacia+[far2]
+
+        user2=User.objects.all()
+        far3=UserFarmacia.objects.filter(estado='ACTIVO')
+        busqueda_farmacia=[]
+    
+        for elemento1 in user2:
+
+            for elemento2 in far3:
+            
+                if elemento1.id==elemento2.user_id:
+
+
+                    far2={
+
+                    'id':elemento1.id,
+                    'username' : elemento1.username,
+                    'razon_social' : elemento2.razon_social,
+                    'direccion':elemento2.direccion,
+                    'telefono':elemento2.telefono
+        
+                    }
+
+                    busqueda_farmacia=busqueda_farmacia+[far2]            
+
+
+
+        farmacia_enviar=farmacia
+        
+        return render_to_response("ABME/Farmacia/farmacia.html",  {'id_farmacia': farmacia_enviar, 'busqueda_farmacia':busqueda_farmacia  }, context_instance = RequestContext(request))
+
+    else :
+
+        user=User.objects.all()
+        far=UserFarmacia.objects.filter(estado='ACTIVO')
+        farmacia=[]
+    
+        for elemento1 in user:
+
+            for elemento2 in far:
+            
+                if elemento1.id==elemento2.user_id:
+
+
+                    far2={
+
+                    'id':elemento1.id,
+                    'username' : elemento1.username,
+                    'razon_social' : elemento2.razon_social,
+                    'direccion':elemento2.direccion,
+                    'telefono':elemento2.telefono
+        
+                    }
+
+                    farmacia=farmacia+[far2]
+
     
     
         return render_to_response("ABME/Farmacia/farmacia.html",  {'farmacia': farmacia, 'busqueda_farmacia':farmacia  }, context_instance = RequestContext(request))
 
-    return render_to_response('ABME/Farmacia/farmacia.html')
+        
 
+        #farmacia_enviar = farmacia.filter(id=farmacia_recibido, estado='ACTIVO') 
+        
+       
+          
+
+        
+
+  
+    
+    
+        
+
+    
+
+'''
 def registrarfarmacia(request):
 
     farmacia=Farmacia.objects.all()
@@ -460,6 +551,8 @@ def registrarfarmacia(request):
 
     return render_to_response("ABME/Farmacia/registrarfarmacia.html",{'farmacia':farmacia}, context_instance = RequestContext(request))
 
+'''
+
 def modificarfarmacia(request, id_farmacia):
     
     refrescar=id_farmacia
@@ -488,13 +581,39 @@ def modificarfarmacia(request, id_farmacia):
         farmacia_enviar=Farmacia.objects.filter(id=id_farmacia, estado='ACTIVO')
         return render_to_response("ABME/Farmacia/modificarfarmacia.html",  {'id_farmacia': farmacia_enviar }, context_instance = RequestContext(request))
 
+
 def menufarmacia(request):
    
     return render_to_response("ABME/Farmacia/menufarmacia.html", context_instance = RequestContext(request))
 
+
 def fichafarmacia(request, id_farmacia):
     
-    farmacia_enviar=Farmacia.objects.filter(id=id_farmacia, estado='ACTIVO')
+    user=User.objects.filter(id=id_farmacia)
+    far=UserFarmacia.objects.filter(estado='ACTIVO')
+    farmacia=[]
+        
+    for elemento1 in user:
+
+        for elemento2 in far:
+            
+            if elemento1.id==elemento2.user_id:
+
+
+                far2={
+
+                'id':elemento1.id,
+                'username' : elemento1.username,
+                'password' : elemento1.password,
+                'razon_social' : elemento2.razon_social,
+                'direccion':elemento2.direccion,
+                'telefono':elemento2.telefono
+        
+                }
+
+                farmacia_enviar=farmacia+[far2]
+    
+    
     return render_to_response("ABME/Farmacia/fichafarmacia.html",  {'id_farmacia': farmacia_enviar }, context_instance = RequestContext(request))
 
 def entregados(request, id_farmacia):
@@ -502,7 +621,7 @@ def entregados(request, id_farmacia):
     farmacia_enviar=Farmacia.objects.filter(id=id_farmacia, estado='ACTIVO')
     return render(request, 'ABME/Farmacia/entregados.html',{'entregados': medicamentos,'id_farmacia':farmacia_enviar})
 
-
+@permission_required('aplicacion.add_farmacia', login_url='/index/' )
 def eliminarfarmacia(request, id_farmacia):
     
     farmacia=Farmacia.objects.filter(estado='ACTIVO')
@@ -1102,8 +1221,15 @@ def detallederivacion(request, paciente_id):
 
 #######################USUARIO###########################################
 
-def usuario_inicio(request):
-    return render_to_response("ABME/Usuario/inicio_usuario.html")
+
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, authenticate
+
+from django.contrib.auth import login, authenticate, logout
+
+
+
+
+
 
 def usuario(request):
     return render_to_response('ABME/Usuario/usuario.html')
@@ -1116,3 +1242,11 @@ def modificarusuario(request):
 
 def eliminarusuario(request):
     return render_to_response('ABME/Usuario/eliminarusuario.html')
+
+
+
+
+
+
+
+    return render_to_response("ABME/Farmacia/entregafarmacia.html", context_instance=RequestContext(request))

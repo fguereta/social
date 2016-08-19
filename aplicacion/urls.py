@@ -54,9 +54,11 @@ urlpatterns = [
     url(r'^fichafarmacia/(?P<id_farmacia>\w+)/$', views.fichafarmacia, name='fichafarmacia'),
     url(r'^entregados/(?P<id_farmacia>\w+)/$', views.entregados, name='entregados'),
     url(r'^modificarfarmacia/(?P<id_farmacia>\w+)/$', views.modificarfarmacia, name='modificarfarmacia'),
-    url(r'^registrarfarmacia/', views.registrarfarmacia, name='registrarfarmacia'),
+    #url(r'^registrarfarmacia/', views.registrarfarmacia, name='registrarfarmacia'),
     url(r'^eliminarfarmacia/(?P<id_farmacia>\w+)/$', views.eliminarfarmacia, name='eliminarfarmacia'),
-   
+    
+
+    #url(r'^farmacia_entrega/$', views.farmacia_entrega, name='farmacia_entregados'),
     
   
    #****************SOLICITUDES********************************
@@ -80,9 +82,5 @@ urlpatterns = [
     
     
     
-    #*****************USUARIO***************************************+
-    url(r'^usuario/', views.usuario, name='usuario'),
-    url(r'^registrarusuario/', views.registrarusuario, name='registrarusuario'),
-    url(r'^modificarusuario/', views.modificarusuario, name='modificarusuario'),
-    url(r'^eliminarusuario/', views.eliminarusuario, name='eliminarusuario'),
+    
 ]

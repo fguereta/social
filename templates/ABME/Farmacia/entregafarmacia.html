@@ -1,64 +1,16 @@
 {% extends 'index.html'%}
-{% block htitle %}<title>Farmacias</title>{% endblock %} 
+{% block htitle %}<title>MGD</title>{% endblock %} 
 
 {% block contenido%}
 
-{% if refrescar_registro %}
 
-
-<script  type="text/javascript" charset="utf-8" async defer>
-window.location.href = "/aplicacion/fichafarmacia/{{refrescar_registro}}";
-</script>
-
-
-{% endif %}
-
-{% if refrescar_eliminacion %}
-
-
-<script  type="text/javascript" charset="utf-8" async defer>
-
-alertify.set({ labels: {
-                          ok     : "Aceptar",
-                          cancel : "Cancelar"
-                         } });
-
-
-alertify.alert('Se elimino correctamente.', function(){ 
-  
-  window.location.href = "/aplicacion/farmacia/";
-  
-
-  alertify.success('ok'); }
-  );
-
-</script>
-
-
-{% endif %}
-
-{% if refrescar_activacion %}
-
-
-<script  type="text/javascript" charset="utf-8" async defer>
-window.location.href = "/aplicacion/fichafarmacia/{{refrescar_activacion}}";
-</script>
-
-
-{% endif %}
-
-
- <div class='' >
+<div class='' >
       <div class='panel panel-primary dialog-panel'>
           <div class='panel-body'>
 
               <fieldset>
-                 <legend>Farmacias</legend>
-                 <div class="col-md-offset-10"> 
-                  <a href="/usuario/registrarfarmacia/">
-                    <button class="btn btn-success ">Nueva Farmacia</button>
-                  </a>
-              </div>
+                 <legend>En entrega</legend>
+                 
             
               <div class="row">
                 <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
@@ -66,7 +18,7 @@ window.location.href = "/aplicacion/fichafarmacia/{{refrescar_activacion}}";
                       <select name="id_farmacia" id="id_farmacia" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
                           {% for elemento in busqueda_farmacia %}
-                          <option value="{{elemento.id}}" >{{elemento.id}} --CUIT:{{elemento.username}} </option>
+                          <option value="{{elemento.id}}" >{{elemento.nombre}} --CUIT:{{elemento.username}} </option>
                           {% endfor %}
                       </select>
                     </div>
@@ -92,10 +44,12 @@ window.location.href = "/aplicacion/fichafarmacia/{{refrescar_activacion}}";
       
       <tr class="success">
         
-        <th class="text-center">CUIT</th>
-        <th class="text-center">Razon Social</th>
-        <th class="text-center">Direccion</th>
-        <th class=" text-center">Telefono</th>
+
+        <th class="text-center">N° Solicitud</th>
+        <th class="text-center">Fecha</th>
+        <th class="text-center">Paciente</th>
+        
+        
         
         
       </tr>
@@ -104,7 +58,7 @@ window.location.href = "/aplicacion/fichafarmacia/{{refrescar_activacion}}";
     {% for elemento in id_farmacia %}
       <tr  >
         
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.username}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.cuit}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.razon_social}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.direccion}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.telefono}}</td>
@@ -140,10 +94,9 @@ var razonsocial = $("#razonsocial").val();
     <thead>
       <tr class="success">
         
-        <th class="text-center">CUIT</th>
-        <th class="text-center">Razon Social</th>
-        <th class="text-center">Direccion</th>
-        <th class=" text-center">Telefono</th>
+       <th class="text-center">N° Solicitud</th>
+        <th class="text-center">Fecha</th>
+        <th class="text-center">Paciente</th>
         
         
       </tr>
@@ -153,7 +106,7 @@ var razonsocial = $("#razonsocial").val();
       <tr  >
        
 
-        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.username}}</td>
+        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.cuit}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.razon_social}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.direccion}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.telefono}}</td>

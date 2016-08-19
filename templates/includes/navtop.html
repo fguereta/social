@@ -11,10 +11,10 @@
           <a class="navbar-brand" href="/index/">Servicio social</a>
 
           <ul class="nav navbar-nav navbar-right">
-          <li> <a href="/aplicacion/paciente">Pacientes</a></li>
-          <li><a href="/aplicacion/medico">Medicos</a></li>
-          <li><a href="/aplicacion/farmacia">Farmacia</a></li>
-          <li> <a href="/aplicacion/usuario">Usuarios</a></li>
+          <li id='paciente' "> <a href="/aplicacion/paciente">Pacientes</a></li>
+          <li id='medico'"><a href="/aplicacion/medico">Medicos</a></li>
+          <li id='farmacia'"><a href="/aplicacion/farmacia">Farmacia</a></li>
+          <li id='usuario' "> <a href="/aplicacion/usuario">Usuarios</a></li>
 
         </ul>
 
@@ -31,21 +31,42 @@
           <a class="navbar-brand" href="/index/">Servicio social</a>
 
           <ul class="nav navbar-nav navbar-right">
-          <li> <a href="/aplicacion/paciente">Pacientes</a></li>
-          <li><a href="/aplicacion/medico">Medicos</a></li>
-          <li><a href="/aplicacion/farmacia">Farmacia</a></li>
-          <li> <a href="/aplicacion/usuario">Usuarios</a></li>
+          <li id='paciente' style="display:none;"> <a href="/aplicacion/paciente">Pacientes</a></li>
+          <li id='medico' style="display:none;"><a href="/aplicacion/medico">Medicos</a></li>
+          <li id='farmacia' style="display:none;"><a href="/aplicacion/farmacia">Farmacia</a></li>
+          <li id='usuario' style="display:none;"> <a href="/aplicacion/usuario">Usuarios</a></li>
 
         </ul>
 
 
         </div>
+
+
+
+
         
         <div id="navbar" class="navbar-collapse collapse">
         
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Iniciar Sesion</a></li>
-            <li><a href="#">Ayuda</a></li>
+          
+            
+
+            {% if user.is_authenticated %}
+              
+              <li><a>Usuario: {{ user.username }}</a></li>
+              <li><a href="/cerrar_sesion/">Cerra Sesion</a></li>
+            {% else %}
+              <li><a>Welcome, new user. Please log in.</a></p><li>
+            {% endif %}
+
+
+
+            
+            
+            
+
+
+            <li><a href="">Ayuda</a></li>
           </ul>
           
         </div>

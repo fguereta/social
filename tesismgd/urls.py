@@ -19,9 +19,15 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from aplicacion import views
 
+from django.contrib.auth.views import login
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^aplicacion/',include('aplicacion.urls')),
+    url(r'^usuario/',include('usuarios.urls')),
     url(r'^index/', views.index, name='index'),
-    url(r'^usuario_inicio/', views.usuario_inicio, name='usuario'),
+    
+    
+
+
 ]

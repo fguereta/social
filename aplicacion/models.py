@@ -12,14 +12,23 @@ class Usuario(models.Model):
     direccion=models.CharField(max_length=50)
     correo=models.EmailField()
     telefono=models.IntegerField(blank=True, null=True)
+
+    estado =(
+          ('ACTIVO', 'ACTIVO'), 
+          ('INACTIVO', 'INACTIVO'), 
+          
+                     
+        ) 
+
+    estado=models.CharField(max_length=20, choices=estado, null=True)
     cate =(
           ('Supervisor', 'Supervisor'), 
           ('Operador', 'Operador'), 
-          ('Farmaceutico', 'Farmaceutico'), 
+          ('Farmacia', 'Farmacia'), 
                      
         ) 
     
-    categoria=models.CharField(max_length=20, choices=cate)
+    categoria=models.CharField(max_length=20, choices=cate, null=True)
     
 
 
@@ -48,20 +57,7 @@ class Persona(models.Model):
         return "%s - %s" %(self.apellido, self.nombre)
      
     
-    
-    
-class Farmacia(models.Model):    
-    razon_social = models.CharField(max_length=25)
-    cuit = models.CharField(max_length=20)
-    direccion = models.CharField(max_length=25)
-    telefono = models.CharField(max_length=20)
-    email = models.EmailField(null=True)
-    password = models.CharField(null=True,max_length=30)
-    estado=models.CharField(max_length=20, blank=True, null=True)
-    
-    def __unicode__(self):
-        return self.razon_social
-     
+   
 
 class Medico(Persona):
     especialidad=models.CharField(max_length=20)
@@ -92,11 +88,7 @@ class AccionSocial(Persona):
     def __unicode__(self):
         return "%s - %s" %(self.apellido, self.nombre)
     
-class Farmaceutico(Persona):
-    farmacia = models.ForeignKey(Farmacia)
-    
-    def __unicode__(self):
-        return "%s - %s" %(self.apellido, self.nombre)
+
      
 class Remedio(models.Model):
     generico=models.CharField(max_length=20)
@@ -113,7 +105,7 @@ class Solicitud(models.Model):
     paciente = models.ForeignKey(Paciente, db_column='paciente_id')
     medico = models.ForeignKey(Medico, db_column='medico_id')
     remedio = models.ForeignKey(Remedio, db_column='remedio_id')
-    farmacia = models.ForeignKey(Farmacia, db_column='farmacia_id', blank=True, null=True)
+    #farmacia = models.ForeignKey(Farmacia, db_column='farmacia_id', blank=True, null=True)
     fecha = models.CharField(max_length=15)
     dosis = models.CharField(max_length=20)
     comcancelado=models.TextField(blank=True, null=True)
