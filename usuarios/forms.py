@@ -11,5 +11,7 @@ class RegistroUserFarmaciaForm(forms.Form):
 	razon_social = forms.CharField()
 
 
+
+
     	
 

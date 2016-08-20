@@ -81,7 +81,7 @@
               
             $("button[id=guardar]").click(function () {
       
-              var cuit = $("#cuit").val();
+              var cuit = $("#username").val();
               var password = $("#password").val();
               var razon_social = $("#razon_social").val();
               var direccion = $("#direccion").val();
@@ -104,7 +104,7 @@
 
                 '{% for elemento in farmacia %}'
                       
-                      if(cuit=='{{elemento.cuit}}'){
+                      if(cuit=='{{elemento.username}}'){
                  
                         ban=ban+1;
                         razon_social2='{{elemento.razon_social}}';

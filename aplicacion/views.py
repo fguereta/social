@@ -555,30 +555,78 @@ def registrarfarmacia(request):
 
 def modificarfarmacia(request, id_farmacia):
     
-    refrescar=id_farmacia
-    farmacia=Farmacia.objects.get(id=id_farmacia)
+    
+    
     if request.method=="POST":
 
-        form=PacienteForm(request.POST)
+        user=User.objects.get(id=id_farmacia)
+        user.email=request.POST["email"].upper()
+        user.save()
         
-        if form.is_valid():
-            
 
-            farmacia.razon_social=request.POST['razon_social'].upper()
-            farmacia.cuit=request.POST['cuit']
-            farmacia.direccion=request.POST['direccion'].upper()
-            farmacia.telefono=request.POST['telefono']
-            farmacia.email=request.POST["email"].upper()
-            farmacia.password=request.POST["password"]
-            farmacia.estado='ACTIVO'
-            farmacia.save()
+        far=UserFarmacia.objects.get(estado='ACTIVO',user_id=id_farmacia)
+        far.razon_social=request.POST['razon_social'].upper()
+        far.direccion=request.POST['direccion'].upper()
+        far.telefono=request.POST['telefono']
+        far.estado='ACTIVO'
+        far.save()
 
-            id_farmacia=Farmacia.objects.filter(id=id_farmacia)
-            ban='exito_modificar_farmacia'
+        user=User.objects.filter(id=id_farmacia)
+        far=UserFarmacia.objects.filter(estado='ACTIVO')
+
+        farmacia=[]
+        
+        for elemento1 in user:
+
+            for elemento2 in far:
             
-            return render_to_response('ABME/Farmacia/fichafarmacia.html',{'id_farmacia':id_farmacia,'exito_modificar_farmacia':ban,'refrescar':refrescar},context_instance=RequestContext(request))
+                if elemento1.id==elemento2.user_id:
+
+
+                    far2={
+
+                    'id':elemento1.id,
+                    'username' : elemento1.username,
+                    'password' : elemento1.password,
+                    'razon_social' : elemento2.razon_social,
+                    'direccion':elemento2.direccion,
+                    'telefono':elemento2.telefono,
+                    'email':elemento1.email
+        
+                    }
+
+                    farmacia_enviar=farmacia+[far2]
+                    ban=1
+        return render_to_response('ABME/Farmacia/fichafarmacia.html',{'id_farmacia':farmacia_enviar,'exito_modificar_farmacia':ban},context_instance=RequestContext(request))
     else:
-        farmacia_enviar=Farmacia.objects.filter(id=id_farmacia, estado='ACTIVO')
+
+        user=User.objects.filter(id=id_farmacia)
+        far=UserFarmacia.objects.filter(estado='ACTIVO')
+        farmacia=[]
+        
+        for elemento1 in user:
+
+            for elemento2 in far:
+            
+                if elemento1.id==elemento2.user_id:
+
+
+                    far2={
+
+                    'id':elemento1.id,
+                    'username' : elemento1.username,
+                    'password' : elemento1.password,
+                    'razon_social' : elemento2.razon_social,
+                    'direccion':elemento2.direccion,
+                    'telefono':elemento2.telefono,
+                    'email':elemento1.email
+        
+                    }
+
+                    farmacia_enviar=farmacia+[far2]
+
+
+       
         return render_to_response("ABME/Farmacia/modificarfarmacia.html",  {'id_farmacia': farmacia_enviar }, context_instance = RequestContext(request))
 
 
@@ -607,7 +655,8 @@ def fichafarmacia(request, id_farmacia):
                 'password' : elemento1.password,
                 'razon_social' : elemento2.razon_social,
                 'direccion':elemento2.direccion,
-                'telefono':elemento2.telefono
+                'telefono':elemento2.telefono,
+                'email':elemento1.email
         
                 }
 
@@ -621,29 +670,50 @@ def entregados(request, id_farmacia):
     farmacia_enviar=Farmacia.objects.filter(id=id_farmacia, estado='ACTIVO')
     return render(request, 'ABME/Farmacia/entregados.html',{'entregados': medicamentos,'id_farmacia':farmacia_enviar})
 
-@permission_required('aplicacion.add_farmacia', login_url='/index/' )
+#@permission_required('aplicacion.add_farmacia', login_url='/index/' )
 def eliminarfarmacia(request, id_farmacia):
     
-    farmacia=Farmacia.objects.filter(estado='ACTIVO')
+    user=User.objects.filter(id=id_farmacia)
+    far=UserFarmacia.objects.filter(estado='ACTIVO')
+    farmacia=[]
+        
+    for elemento1 in user:
+
+        for elemento2 in far:
+            
+            if elemento1.id==elemento2.user_id:
+                far2={
+                'id':elemento1.id,
+                'username' : elemento1.username,
+                'password' : elemento1.password,
+                'razon_social' : elemento2.razon_social,
+                'direccion':elemento2.direccion,
+                'telefono':elemento2.telefono,
+                'email':elemento1.email
+        
+                }
+                farmacia=farmacia+[far2]
+
     
-    farmacia_actualizar_estado=Farmacia.objects.get(id=id_farmacia)
+    
+    farmacia_actualizar_estado=UserFarmacia.objects.get(user_id=id_farmacia)
 
     if farmacia_actualizar_estado.estado=='INACTIVO':
         
-        farmacia_activado=Farmacia.objects.get(id=id_farmacia)
+        farmacia_activado=UserFarmacia.objects.get(user_id=id_farmacia)
         farmacia_activado.estado="ACTIVO"
         farmacia_activado.save()
-        farmacia_enviar=Farmacia.objects.filter(id=id_farmacia)
+        farmacia_enviar=UserFarmacia.objects.filter(user_id=id_farmacia)
         refrescar_activacion=id_farmacia
         return render_to_response("ABME/Farmacia/farmacia.html",{'id_farmacia':farmacia_enviar,'refrescar_activacion':refrescar_activacion},  context_instance = RequestContext(request))
         
 
     if farmacia_actualizar_estado.estado=='ACTIVO':
-        farmacia_eliminado=Farmacia.objects.get(id=id_farmacia)
+        farmacia_eliminado=UserFarmacia.objects.get(user_id=id_farmacia)
         farmacia_eliminado.estado="INACTIVO"
         farmacia_eliminado.save()
         refrescar_eliminacion=id_farmacia
-        return render_to_response("ABME/Farmacia/farmacia.html",{'farmacia':farmacia,'refrescar_eliminacion':refrescar_eliminacion},  context_instance = RequestContext(request))
+        return render_to_response("ABME/Farmacia/farmacia.html",{'refrescar_eliminacion':refrescar_eliminacion},  context_instance = RequestContext(request))
         
         
         

@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.contrib import admin
 
+'''
 class Usuario(models.Model):
     user= models.OneToOneField(User)
     nombre=models.CharField(max_length=20)
@@ -29,7 +30,7 @@ class Usuario(models.Model):
         ) 
     
     categoria=models.CharField(max_length=20, choices=cate, null=True)
-    
+'''
 
 
 class Persona(models.Model):
