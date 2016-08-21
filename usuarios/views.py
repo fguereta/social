@@ -7,13 +7,20 @@ from django.core.context_processors import csrf
 from django.shortcuts import render_to_response, render, RequestContext
 from django.contrib.auth.models import User, Group
 from aplicacion.models import *
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required, permission_required
+
+
+from django.contrib.auth import authenticate, login, logout
+
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 def iniciar_sesion(request):
 
     if not request.user.is_anonymous():
         return HttpResponseRedirect('/index/')
-
+	
     if request.method == 'POST':
         formulario =  AuthenticationForm(request.POST)
 
@@ -26,14 +33,14 @@ def iniciar_sesion(request):
                 if acceso.is_active:
                     login(request, acceso)
                     u=User.objects.get(username=request.POST['username'])
-                    categoria=u.usuario.categoria
+                    categoria=u.userfarmacia.categoria
                     
-                    if categoria=='Farmacia':
+                    if categoria=='FARMACIA':
 
                         return HttpResponseRedirect('/aplicacion/farmacia_entrega/')
 
                 
-                    if categoria=='Operador':
+                    if categoria=='OPERADOR':
                         return HttpResponseRedirect('/aplicacion/paciente/')
 
                 else:
@@ -46,14 +53,14 @@ def iniciar_sesion(request):
 
         formulario =  AuthenticationForm()
 
-
+        
 
 
     return render_to_response("ABME/Usuario/inicio_usuario.html", context_instance=RequestContext(request))
 
 def cerrar_sesion(request):
     logout(request)
-    return HttpResponseRedirect('/iniciar_sesion/')
+    return HttpResponseRedirect('/usuario/iniciar_sesion/')
 
 def registrar_farmacia(request):
 

@@ -18,7 +18,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 
-from django.contrib.auth.decorators import login_required, permission_required
 
 
 #@login_required
@@ -501,57 +500,7 @@ def farmacia(request):
         #farmacia_enviar = farmacia.filter(id=farmacia_recibido, estado='ACTIVO') 
         
        
-          
 
-        
-
-  
-    
-    
-        
-
-    
-
-'''
-def registrarfarmacia(request):
-
-    farmacia=Farmacia.objects.all()
-
-    if request.method=="POST":
-
-        form=FarmaciaForm(request.POST)
-
-        if form.is_valid():
-
-
-            newdoc = Farmacia(
-
-            razon_social=request.POST['razon_social'].upper(),
-            cuit=request.POST['cuit'],
-            direccion=request.POST['direccion'].upper(),
-            telefono=request.POST['telefono'],
-            email=request.POST["email"].upper(),
-            password=request.POST["password"],
-            estado='ACTIVO'
-            )
-
-            newdoc.save(form)
-
-            cont=0
-            farmacias=Farmacia.objects.all()
-
-            for elemento in farmacias:
-                if elemento.razon_social==request.POST['razon_social'].upper():
-                    cont=elemento.id
-            
-            refrescar_registro=cont
-
-            return render_to_response("ABME/Farmacia/farmacia.html",{'refrescar_registro':refrescar_registro}, context_instance = RequestContext(request)) 
-    
-
-    return render_to_response("ABME/Farmacia/registrarfarmacia.html",{'farmacia':farmacia}, context_instance = RequestContext(request))
-
-'''
 
 def modificarfarmacia(request, id_farmacia):
     
@@ -719,6 +668,13 @@ def eliminarfarmacia(request, id_farmacia):
         
         
     return render_to_response("ABME/Farmacia/farmacia.html",{'farmacia':farmacia},  context_instance = RequestContext(request))
+
+
+def farmacia_entrega(request):
+
+    return render_to_response("ABME/Farmacia/entregafarmacia.html", context_instance = RequestContext(request))
+
+
 
 
 #######################SOLICITUD###########################################
