@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.contrib import admin
 
+from usuarios.models import *
+
 '''
 class Usuario(models.Model):
     user= models.OneToOneField(User)
@@ -106,7 +108,7 @@ class Solicitud(models.Model):
     paciente = models.ForeignKey(Paciente, db_column='paciente_id')
     medico = models.ForeignKey(Medico, db_column='medico_id')
     remedio = models.ForeignKey(Remedio, db_column='remedio_id')
-    #farmacia = models.ForeignKey(Farmacia, db_column='farmacia_id', blank=True, null=True)
+    farmacia = models.ForeignKey(UserFarmacia, db_column='farmacia_id', blank=True, null=True)
     fecha = models.CharField(max_length=15)
     dosis = models.CharField(max_length=20)
     comcancelado=models.TextField(blank=True, null=True)
@@ -114,7 +116,8 @@ class Solicitud(models.Model):
     observaciones = models.TextField(blank=True, null=True)
     estado_aprobacion=models.CharField(max_length=10)
     estado = models.CharField(max_length=6)
-    
+    fecha_entrega = models.CharField(max_length=15,blank=True, null=True)
+    fecha_parcial = models.CharField(max_length=15,blank=True, null=True)
     def __unicode__(self):
         return self.dosis  
 

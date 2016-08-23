@@ -16,6 +16,11 @@
           <li id='farmacia' style="display:none;"><a href="/aplicacion/farmacia">Farmacia</a></li>
           <li id='usuario' style="display:none;"> <a href="/aplicacion/usuario">Usuarios</a></li>
 
+
+          <li id='pendiente_entrega' style="display:none;"><a href="/aplicacion/farmacia_entrega">Pendientes</a></li>
+          <li id='parcial_entrega' style="display:none;"><a href="/aplicacion/farmacia_parciales">Entregas parciales</a></li>
+          <li id='entregado' style="display:none;"> <a href="/aplicacion/farmacia_entregados">Entregados</a></li>
+
         </ul>
 
 
@@ -54,16 +59,14 @@
           <script  type="text/javascript" charset="utf-8" async defer>
   
         
-        $('#farmacia').show();
-
+          $('#pendiente_entrega').show();
+          $('#entregado').show();
+          $('#parcial_entrega').show();
 
 
         </script>
 
-        {% else %}
-
-        <p>no</p>
-
+       
 
         {% endif %}
 
@@ -72,13 +75,7 @@
               <li><a>Usuario: {{ user.username }}</a></li>
               <li><a href="/usuario/cerrar_sesion/">Cerra Sesion</a></li>
             
-
-            {% else %}
               
-
-
-              <li><a>Welcome, new user. Please log in.</a></p><li>
-            
 
             {% endif %}
 

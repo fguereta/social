@@ -3,23 +3,66 @@
 
 {% block contenido%}
 
+{% if refrescar_registro %}
 
 
-<div class='' >
+<script  type="text/javascript" charset="utf-8" async defer>
+window.location.href = "/aplicacion/fichafarmacia/{{refrescar_registro}}";
+</script>
+
+
+{% endif %}
+
+{% if refrescar_eliminacion %}
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+
+alertify.set({ labels: {
+                          ok     : "Aceptar",
+                          cancel : "Cancelar"
+                         } });
+
+
+alertify.alert('Se elimino correctamente.', function(){ 
+  
+  window.location.href = "/aplicacion/farmacia/";
+  
+
+  alertify.success('ok'); }
+  );
+
+</script>
+
+
+{% endif %}
+
+{% if refrescar_activacion %}
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+window.location.href = "/aplicacion/fichafarmacia/{{refrescar_activacion}}";
+</script>
+
+
+{% endif %}
+
+
+ <div class='' >
       <div class='panel panel-primary dialog-panel'>
           <div class='panel-body'>
 
               <fieldset>
-                 <legend>En entrega</legend>
+                 <legend>PENDIENTE DE ENTREGA</legend>
                  
             
               <div class="row">
                 <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
                     <div class="col-md-4 text-left">
-                      <select name="id_farmacia" id="id_farmacia" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                      <select name="id_solicitud" id="id_solicitud" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
-                          {% for elemento in busqueda_farmacia %}
-                          <option value="{{elemento.id}}" >{{elemento.nombre}} --CUIT:{{elemento.username}} </option>
+                          {% for elemento in busqueda_solicitud %}
+                          <option value="{{elemento.id}}" >SOLICITUD: {{elemento.id}} --DNI: {{elemento.paciente.dni}} </option>
                           {% endfor %}
                       </select>
                     </div>
@@ -32,58 +75,7 @@
         
             </fieldset>
  
- {% if id_farmacia %}
-<div class="row">
-<br>
-
-<div class=".container">
-  
-<br> 
-<div class="table-responsive">             
-  <table id="example" class="table table-condensed table table-bordered table-hover " cellspacing="0" width="100%">
-    <thead>
-      
-      <tr class="success">
-        
-
-        <th class="text-center">N° Solicitud</th>
-        <th class="text-center">Fecha</th>
-        <th class="text-center">Paciente</th>
-        
-        
-        
-        
-      </tr>
-    </thead>
-    <tbody>
-    {% for elemento in id_farmacia %}
-      <tr  >
-        
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.cuit}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.razon_social}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.direccion}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.telefono}}</td>
-
-        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.id}},"{{elemento.razon_social}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
-     </tr>
-
-<script  type="text/javascript" charset="utf-8" async defer>
-  
-var razonsocial = $("#razonsocial").val();
-  
-</script>
-
-     {% endfor %} 
-      
-    </tbody>
-  </table>
-</div>
-  
-</div>
-</div>
- {% endif %}
-
- {% if farmacia %}
+ {% if solicitud_id%}
 <div class="row">
 <br>
 
@@ -95,28 +87,132 @@ var razonsocial = $("#razonsocial").val();
     <thead>
       <tr class="success">
         
-       <th class="text-center">N° Solicitud</th>
-        <th class="text-center">Fecha</th>
-        <th class="text-center">Paciente</th>
+        <th class="text-center">N° de solicitud</th>
+        <th class="text-center">Dni</th>
+        <th class="text-center">Nombre</th>
+        <th class="text-center">Medicamento</th>
+        <th class="text-center">Dosis</th>
+        
         
         
       </tr>
     </thead>
     <tbody>
-    {% for elemento in farmacia %}
-      <tr  >
+    {% for elemento in  solicitud_id %}
+     {% ifequal elemento.estado_aprobacion "APROBADO"  %}
+      
+      <tr>
        
 
-        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.cuit}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.razon_social}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.direccion}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.telefono}}</td>
+        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.remedio.generico}}</td>
         
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.dosis}}</td>
 
 
-        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.id}},"{{elemento.razon_social}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
+        <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
+      </tr>
+
+      {% endifequal %}
+
+        {% ifequal elemento.estado_aprobacion "PARCIAL"  %}
+
+        <tr bgcolor="#F7BE81"> 
+       
+
+        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.remedio.generico}}</td>
+        
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.dosis}}</td>
+
+
+        <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
 
       </tr>
+
+
+        {% endifequal %}
+     {% endfor %} 
+
+
+
+      
+    </tbody>
+  </table>
+</div>
+  
+</div>
+</div>
+ {% endif %}
+
+ {% if solicitudes %}
+<div class="row">
+<br>
+
+<div class=".container">
+  
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+    <thead>
+      <tr class="success">
+        
+        <th class="text-center">N° de solicitud</th>
+        <th class="text-center">Dni</th>
+        <th class="text-center">Nombre</th>
+        <th class="text-center">Medicamento</th>
+        <th class="text-center">Dosis</th>
+        
+        
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in solicitudes %}
+
+
+      {% ifequal elemento.estado_aprobacion "APROBADO"  %}
+      
+      <tr>
+       
+
+        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.remedio.generico}}</td>
+        
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.dosis}}</td>
+
+
+        <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
+
+      </tr>
+
+      {% endifequal %}
+
+        {% ifequal elemento.estado_aprobacion "PARCIAL"  %}
+
+        <tr bgcolor="#F7BE81"> 
+       
+
+        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.remedio.generico}}</td>
+        
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.dosis}}</td>
+
+
+        <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
+
+      </tr>
+
+
+        {% endifequal %}
 
      {% endfor %} 
 
@@ -138,34 +234,145 @@ var razonsocial = $("#razonsocial").val();
 
 <script type="text/javascript" charset="utf-8" async defer>
     
+  
+var razonsocial = $("#razonsocial").val();
+
     $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
 
     
-    function eliminar(id,razonsocial)
-{
+    function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
+ 
+ if(estado_aprobacion=='APROBADO')
+ {
   
     alertify.set({ labels: {
-            ok     : "Confirmar",
+            ok     : "Siguiente",
             cancel : "Cancelar"
           } });
           // confirm dialog
-          alertify.confirm("La farmacia: <b>"+razonsocial+"</b> pasara a NO ACTIVA, ¿Esta de acuerdo?", function (e) {
+          alertify.confirm("Seleccionó la <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>. Seleccione tipo de entrega", function (e) {
 
 
           if (e) {
+
+                   
             
-            window.location.href = "/aplicacion/eliminarfarmacia/"+id;
+                        alertify.set({ labels: {
+                        ok     : "Confirmar",
+                        cancel : "Cancelar"
+                        } });
+                        // confirm dialog
+                        alertify.confirm("<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'>SELECCIONE TIPO DE ENTREGA <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div> "
+
+
+                          , function (l) {
+
+
+                          if (l) {
+
+                            nuevo_estado=$('select[name=nuevoestado]').val();
+                            
+                                if(nuevo_estado=='PARCIAL'){
+
+                                    
+                                    alertify.prompt('<FONT COLOR=#FF8000>DETALLE DE ENTREGA PARCIAL</FONT>', function(e,value){
+
+
+                                    $( "#comparcial" ).val(value)
+                                    $( "#idsolicitudd" ).val(id);
+                                    $("#entrega_parcial").submit();
+                                });
+                            
+
+
+
+
+
+                            }else{
+
+
+                              
+                             $( "#idsolicitud" ).val(id);
+
+                             $( "#nuevo_estado").val(nuevo_estado);
+
+                            
+                             $("#entrega_entregado").submit();
+
+                          }
           
+
+
+
+
+
+                        } else {
+            
+                         window.location.href = "/aplicacion/farmacia_entrega/";
+                        }
+        
+          });
+
+
+
+
+
+
+          
+          
+
+
+
+
+
           } else {
             
-            window.location.href = "/aplicacion/farmacia/";
+            window.location.href = "/aplicacion/farmacia_entrega/";
         }
         
       });
 
 
- }
+  }
 
+  if(estado_aprobacion=='PARCIAL')
+ {
+  
+    alertify.set({ labels: {
+            ok     : "Aceptar",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("La <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b> ya tuvo una entrega parcial. ¿Desea confirmar la entrega completa?", function (e) {
+
+
+          if (e) {
+
+                   
+            
+                            $( "#idsolicitud" ).val(id);
+
+                             var nuevo_estado='ENTREGADO'
+
+                            
+                             $("#entrega_entregado").submit();
+                
+          
+
+
+
+
+
+          } else {
+            
+            window.location.href = "/aplicacion/farmacia_entrega/";
+        }
+        
+      });
+
+
+  }
+}
 
  
 
@@ -195,11 +402,34 @@ var razonsocial = $("#razonsocial").val();
 
 </script>
 
+<form  id='entrega_entregado' method='POST' action='/aplicacion/farmacia_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
+<input class='form-control' id='idsolicitud' name='idsolicitud'  type="hidden" value=''/>
+<input class='form-control' id='nuevo_estado' name='nuevo_estado' type="hidden" value=''/>
+<input class='form-control' id='user_id_farmacia1' name='user_id_farmacia1' type="hidden" value=''/>
+</form>
 
+<form  id='entrega_parcial' method='POST' action='/aplicacion/farmacia_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
+<input class='form-control' id='idsolicitudd' name='idsolicitudd'  type="hidden" value=''/>
+<input class='form-control' id='comparcial' name='comparcial' type="hidden" value=''/>
+<input class='form-control' id='user_id_farmacia2' name='user_id_farmacia2' type="hidden" value=''/>
+</form>
+
+        {% if user.is_authenticated %}
+              
+              
+            
+              <script  type="text/javascript" charset="utf-8" async defer>
+                
+              var user_id="{{user.userfarmacia.id}}";
+              var user_id_farmacia=parseInt(user_id);
+              
+              $( "#user_id_farmacia1" ).val(user_id_farmacia);
+              $( "#user_id_farmacia2" ).val(user_id_farmacia);
+
+              </script>
+            
+
+            {% endif %}
 
 
 {% endblock %}
-
-
-
-

@@ -29,13 +29,13 @@ def index(request):
 
 
 def paciente(request):
-    paciente=Paciente.objects.filter(estado='ACTIVO')
+    paciente=Paciente.objects.filter(estado='ACTIVO').order_by('-id')
     
     if 'id_paciente' in request.POST:
 
         paciente_recibido = request.POST['id_paciente'],
 
-        paciente_enviar = Paciente.objects.filter(persona_ptr_id=paciente_recibido, estado='ACTIVO') 
+        paciente_enviar = Paciente.objects.filter(persona_ptr_id=paciente_recibido, estado='ACTIVO').order_by('-id')
         
         return render_to_response("ABME/Paciente/paciente.html",  {'id_paciente': paciente_enviar, 'busqueda_paciente':paciente  }, context_instance = RequestContext(request))
 
@@ -672,9 +672,55 @@ def eliminarfarmacia(request, id_farmacia):
 
 def farmacia_entrega(request):
 
-    return render_to_response("ABME/Farmacia/entregafarmacia.html", context_instance = RequestContext(request))
+    import datetime
+    d= datetime.date.today()
+    fecha_registro= d.strftime("%d/%m/%Y")
+
+    if 'nuevo_estado' and 'idsolicitud' and 'user_id_farmacia1' in request.POST:
+
+        idsolicitud=request.POST['idsolicitud']
+        
+
+        s=Solicitud.objects.get(id=idsolicitud)
+        s.fecha_entrega=fecha_entrega=fecha_registro
+        s.farmacia_id=request.POST['user_id_farmacia1']
+        s.estado_aprobacion="ENTREGADO"
+        s.save()
+
+        solicitudes=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').order_by('-id')
+        busqueda_solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO')
+        return render_to_response("ABME/Farmacia/entregafarmacia.html",{'solicitudes':solicitudes, 'busqueda_solicitud':busqueda_solicitud}, context_instance = RequestContext(request))
+
+    elif 'comparcial' and 'idsolicitudd'  and 'user_id_farmacia2' in request.POST:
+        user_id_farmacia2=request.POST['user_id_farmacia2']
+        idsolicitud=request.POST['idsolicitudd']
+        comparcial=request.POST['comparcial']
+        s=Solicitud.objects.get(id=idsolicitud)
+        s.comparcial=comparcial
+        s.farmacia_id=user_id_farmacia2
+        s.fecha_parcial=fecha_registro
+        s.estado_aprobacion="PARCIAL"
+        s.save()
+
+        solicitudes=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').order_by('-id')
+        busqueda_solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO')
+        return render_to_response("ABME/Farmacia/entregafarmacia.html",{'solicitudes':solicitudes, 'busqueda_solicitud':busqueda_solicitud}, context_instance = RequestContext(request))
 
 
+    elif 'id_solicitud' in request.POST:
+        id_solicitud=request.POST['id_solicitud']
+        busqueda_solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').order_by('-id')
+        solicitud_id=Solicitud.objects.filter(id=id_solicitud).exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO')
+        return render_to_response("ABME/Farmacia/entregafarmacia.html",{'busqueda_solicitud':busqueda_solicitud, 'solicitud_id':solicitud_id}, context_instance = RequestContext(request))
+
+    else:
+        solicitudes=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').order_by('-id')
+        busqueda_solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO')
+        return render_to_response("ABME/Farmacia/entregafarmacia.html",{'solicitudes':solicitudes, 'busqueda_solicitud':busqueda_solicitud}, context_instance = RequestContext(request))
+
+def farmacia_entregados(request):
+
+    return render_to_response("ABME/Farmacia/entregadosfarmacia.html",{'solicitudes':solicitudes}, context_instance = RequestContext(request))
 
 
 #######################SOLICITUD###########################################
@@ -702,7 +748,7 @@ def solicitudes(request, id_paciente):#aca llega la id del paciente para obtener
 def registrarsolicitud(request,id_paciente):
     paciente_enviado=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO') 
     medico_enviado=Medico.objects.filter(estado='ACTIVO') 
-    farmacia_enviado=Farmacia.objects.filter(estado='ACTIVO')
+    #farmacia_enviado=Farmacia.objects.filter(estado='ACTIVO')
     remedio_enviado=Remedio.objects.all()
 
     import datetime
@@ -751,7 +797,7 @@ def registrarsolicitud(request,id_paciente):
             
             return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'refrescar':refrescar,'solicitud_enviado':solicitud,'id_paciente':id_paciente,'exitosolicitud':exitosolicitud}, context_instance = RequestContext(request))
 
-    return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'id_paciente':paciente_enviado,'medico_enviado':medico_enviado, 'remedio_enviado':remedio_enviado, 'farmacia_enviado':farmacia_enviado}, context_instance = RequestContext(request))
+    return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'id_paciente':paciente_enviado,'medico_enviado':medico_enviado, 'remedio_enviado':remedio_enviado}, context_instance = RequestContext(request))
 
 def solicitudespaciente(request,id_paciente):
     
