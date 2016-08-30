@@ -109,17 +109,23 @@ class Solicitud(models.Model):
     medico = models.ForeignKey(Medico, db_column='medico_id')
     remedio = models.ForeignKey(Remedio, db_column='remedio_id')
     farmacia = models.ForeignKey(UserFarmacia, db_column='farmacia_id', blank=True, null=True)
-    fecha = models.CharField(max_length=15)
+    fecha = models.CharField(max_length=30)
     dosis = models.CharField(max_length=20)
-    comcancelado=models.TextField(blank=True, null=True)
-    comparcial=models.TextField(blank=True, null=True)
     observaciones = models.TextField(blank=True, null=True)
-    estado_aprobacion=models.CharField(max_length=10)
-    estado = models.CharField(max_length=6)
-    fecha_entrega = models.CharField(max_length=15,blank=True, null=True)
-    fecha_parcial = models.CharField(max_length=15,blank=True, null=True)
+    estado_aprobacion=models.CharField(max_length=15)
+    precio_solicitud=models.CharField(max_length=15)
+    
     def __unicode__(self):
-        return self.dosis  
+        return self.dosis 
+
+class Registro_estados(models.Model):
+
+
+    solicitud = models.ForeignKey(Solicitud, db_column='solicitud_id')
+    fecha = models.CharField(max_length=30)
+    estado=models.CharField(max_length=10)
+    comentario=models.TextField(blank=True, null=True)
+    farmacia = models.ForeignKey(UserFarmacia, db_column='farmacia_id', blank=True, null=True)
 
 '''  
 class Solicitud(models.Model):

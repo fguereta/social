@@ -31,7 +31,7 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
 					<label for="paciente" class="control-label col-md-2 col-md-2 col-md-offset-2">Solicitud N°</label> 
 					<div class="col-md-5">
 						{% for elemento in solicitud_enviado %}
-						<input class="form-control" id="id_paciente" name="id_paciente" type="hidden" value="{{elemento.id}}"/>
+						<input class="form-control" id="idsolicitud" name="idsolicitud" type="hidden" value="{{elemento.id}}"/>
 						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.id}}"/>
 						{% endfor %}
 					</div>

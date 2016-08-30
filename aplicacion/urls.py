@@ -59,7 +59,9 @@ urlpatterns = [
     
 
     url(r'^farmacia_entrega/$', views.farmacia_entrega, name='farmacia_entrega'),
-     url(r'^farmacia_entregados/$', views.farmacia_entregados, name='farmacia_entregados'),
+    url(r'^farmacia_entregados/$', views.farmacia_entregados, name='farmacia_entregados'),
+    url(r'^farmacia_parciales/$', views.farmacia_parciales, name='farmacia_entregados'),
+    url(r'^solicitud_movimientos/(?P<id_solicitud>\w+)$', views.solicitud_movimientos, name='farmacia_entregados'),
   
    #****************SOLICITUDES********************************
 
@@ -69,7 +71,7 @@ urlpatterns = [
     url(r'^pdf_solicitud/(?P<nro_solicitud>(\w+))/$', views.pdf_solicitud, name='report'),
     url(r'^solicitudespaciente/(?P<id_paciente>\w+)/$', views.solicitudespaciente, name='solicitudespaciente'),
     url(r'^fichasolicitud/(?P<id_solicitud>\w+)/$', views.fichasolicitud, name='fichasolicitud'),
-    url(r'^cambiarestado/(?P<id_solicitud>\w+)/(?P<nuevo_estado>\w+)/$', views.cambiarestado, name='fichasolicitud'),
+    url(r'^cambiarestado/$', views.cambiarestado, name='fichasolicitud'),
     url(r'^solicitudcancelada/(?P<id_solicitud>\w+)/', views.solicitudcancelada, name='fichasolicitud'),
 
 

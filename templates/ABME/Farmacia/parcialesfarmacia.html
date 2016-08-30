@@ -10,7 +10,7 @@
           <div class='panel-body'>
 
               <fieldset>
-                 <legend>PENDIENTE DE ENTREGA</legend>
+                 <legend>ENTREGAS PARCIALES</legend>
                  
             
               <div class="row">
@@ -32,9 +32,7 @@
         
             </fieldset>
  
-
-
- {% if solicitud_id %}
+ {% if solicitud_id%}
 <div class="row">
 <br>
 
@@ -58,9 +56,11 @@
     </thead>
     <tbody>
     {% for elemento in  solicitud_id %}
-     {% ifequal elemento.estado_aprobacion "APROBADO"  %}
-      
-      <tr>
+     
+
+        {% ifequal elemento.estado_aprobacion "PARCIAL"  %}
+
+        <tr bgcolor="#F7BE81"> 
        
 
         <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
@@ -72,11 +72,11 @@
 
 
         <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
+
       </tr>
 
-      {% endifequal %}
 
-        
+        {% endifequal %}
      {% endfor %} 
 
 
@@ -88,48 +88,47 @@
   
 </div>
 </div>
- 
-
-{% endif %}
+ {% endif %}
 
  {% if solicitudes %}
+<div class="row">
+<br>
 
-      {% for elemento in solicitudes %}
-
-      
-
-      <div class="row">
-      <br>
-
-      <div class=".container">
+<div class=".container">
   
-      <br> 
-      <div class="table-responsive">             
-        <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
-          <thead>
-          <tr class="success">
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+    <thead>
+      <tr class="success">
         
-          <th class="text-center">N° de solicitud</th>
-          <th class="text-center">Dni</th>
-          <th class="text-center">Nombre</th>
-          <th class="text-center">Medicamento</th>
-          <th class="text-center">Dosis</th>
-        </tr>
+        <th class="text-center">N° de solicitud</th>
+        <th class="text-center">Dni</th>
+        <th class="text-center">Nombre</th>
+        <th class="text-center">Medicamento</th>
+        <th class="text-center">Dosis</th>
+        
+        
+        
+      </tr>
     </thead>
     <tbody>
-    
-{% ifequal elemento.estado_aprobacion "APROBADO"  %}
+    {% for elemento in solicitudes %}
 
-      
-      <tr>
+
+     
+
+        {% ifequal elemento.estado_aprobacion "PARCIAL"  %}
+
+        <tr bgcolor="#F7BE81"> 
        
 
-        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/entregas_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/entragas_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.dni}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/entregas_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/entregas_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.remedio.generico}}</td>
+        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.remedio.generico}}</td>
         
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/entregas_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.dosis}}</td>
 
 
         <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
@@ -137,12 +136,11 @@
       </tr>
 
 
-    {% endifequal %}
+        {% endifequal %}
 
-    {% endfor %} 
+     {% endfor %} 
 
 
-      
 
       
     </tbody>
@@ -152,14 +150,7 @@
 </div>
 </div>
 </div>
-
-
-{% endif %}
-
-
-
-
-
+ {% endif %}
 
 </div>
 </div>
@@ -173,126 +164,138 @@ var razonsocial = $("#razonsocial").val();
     $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
 
     
-function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
+    function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
  
-    if(estado_aprobacion=='APROBADO'){
+ if(estado_aprobacion=='APROBADO')
+ {
   
-        alertify.set({ labels: {
-        ok     : "Siguiente",
-        cancel : "Cancelar"
-    } });
-          // confirm dialog
-          
-    alertify.confirm("Seleccionó la <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>. Seleccione tipo de entrega", function (e) {
-
-            if (e) {
-
-            alertify.set({ labels: {
-            ok     : "Confirmar",
+    alertify.set({ labels: {
+            ok     : "Siguiente",
             cancel : "Cancelar"
-            } });
-            // confirm dialog
-                        
-            alertify.confirm("<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'>SELECCIONE TIPO DE ENTREGA <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div> ", function (l) {
+          } });
+          // confirm dialog
+          alertify.confirm("Seleccionó la <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>. Seleccione tipo de entrega", function (e) {
 
-                    if (l) {
 
-                        nuevo_estado=$('select[name=nuevoestado]').val();
+          if (e) {
+
+                   
+            
+                        alertify.set({ labels: {
+                        ok     : "Confirmar",
+                        cancel : "Cancelar"
+                        } });
+                        // confirm dialog
+                        alertify.confirm("<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'>SELECCIONE TIPO DE ENTREGA <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div> "
+
+
+                          , function (l) {
+
+
+                          if (l) {
+
+                            nuevo_estado=$('select[name=nuevoestado]').val();
                             
-                        if(nuevo_estado=='PARCIAL'){
+                                if(nuevo_estado=='PARCIAL'){
 
-                              alertify.prompt('<FONT COLOR=#FF8000>DETALLE DE ENTREGA PARCIAL</FONT>', function(e,value){
+                                    
+                                    alertify.prompt('<FONT COLOR=#FF8000>DETALLE DE ENTREGA PARCIAL</FONT>', function(e,value){
+
+
                                     $( "#comparcial" ).val(value)
                                     $( "#idsolicitudd" ).val(id);
                                     $("#entrega_parcial").submit();
-                        });
-                  
-                    }else{
-
-                          alertify.set({ labels: {
-                          ok     : "Confirmar",
-                          cancel : "Cancelar"
-                          } });
-            // confirm dialog
-
-                  
-
-                          do{
-                         
-                             
-                             alertify.prompt('<FONT COLOR=#FF8000>INGRESE EL MONTO TOTAL DE LA SOLICITUD</FONT>', function(e,precio_final)
-
-                             {
-
-
-
-
-
-
-
-                             });
-
-
-                            }
-                            while (precio_final.match(/[-+]?([0-9]*\.[0-9]+|[0-9]+)/));
-                                                                
-                                
-                              /*
-                                 {
-
-
-
-                                      if (precio_final.match(/[-+]?([0-9]*\.[0-9]+|[0-9]+)/)) {
-                     
-                                        $( "#idsolicitud" ).val(id);
-
-                                        $( "#nuevoestado" ).val('ENTREGADO');
-                                        
-                                        $( "#preciofinal" ).val(precio_final);
-                                        
-                                      
-                                        $("#entrega_entregado").submit();
-
-                                      }
-
-
-                                  }
-
-                              });
+                                });
                             
-                            */
-                     
-                        
 
 
 
 
 
+                            }else{
+
+
+                              
+                             $( "#idsolicitud" ).val(id);
+
+                             $( "#nuevo_estado").val(nuevo_estado);
+
+                            
+                             $("#entrega_entregado").submit();
+
+                          }
+          
 
 
 
 
 
-                       
-                    }
-            } else {
+                        } else {
             
-              window.location.href = "/aplicacion/farmacia_entrega/";
-            }
+                         window.location.href = "/aplicacion/farmacia_entrega/";
+                        }
         
-        });
+          });
 
-    } else {
+
+
+
+
+
+          
+          
+
+
+
+
+
+          } else {
             
-      window.location.href = "/aplicacion/farmacia_entrega/";
-    }
+            window.location.href = "/aplicacion/farmacia_entrega/";
+        }
         
-  });
+      });
 
 
   }
 
+  if(estado_aprobacion=='PARCIAL')
+ {
   
+    alertify.set({ labels: {
+            ok     : "Aceptar",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("La <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b> ya tuvo una entrega parcial. ¿Desea confirmar la entrega completa?", function (e) {
+
+
+          if (e) {
+
+                   
+            
+                            $( "#idsolicitud" ).val(id);
+
+                             var nuevo_estado='ENTREGADO'
+
+                            
+                             $("#entrega_entregado").submit();
+                
+          
+
+
+
+
+
+          } else {
+            
+            window.location.href = "/aplicacion/farmacia_entrega/";
+        }
+        
+      });
+
+
+  }
 }
 
  
@@ -327,7 +330,6 @@ function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
 <input class='form-control' id='idsolicitud' name='idsolicitud'  type="hidden" value=''/>
 <input class='form-control' id='nuevo_estado' name='nuevo_estado' type="hidden" value=''/>
 <input class='form-control' id='user_id_farmacia1' name='user_id_farmacia1' type="hidden" value=''/>
-<input class='form-control' id='precio_final' name='precio_final' type="hidden" value=''/>
 </form>
 
 <form  id='entrega_parcial' method='POST' action='/aplicacion/farmacia_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
@@ -352,7 +354,6 @@ function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
             
 
             {% endif %}
-
 
 
 {% endblock %}

@@ -3,9 +3,21 @@
 {% block contenido_paciente %}
 
 
+
+
 {% if solicitud_enviado %}
 {% for elemento in solicitud_enviado %}
 
+{% if refrescar %}
+
+<script type="text/javascript" charset="utf-8" async defer>
+
+window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
+
+
+</script>
+
+{% endif %}
 
 
 
@@ -215,85 +227,77 @@ $('#derivaciones').hide();
 
 
 
+
 <div class='panel-body'>
 				
 				
 	<div class="form-group">
 					
-		<div class="row">
 
-			<div class="col-xs-6 col-md-4 col-md-offset-9" style='font-size:30px;'>Fecha: {{elemento.fecha}}</div>
-			<br><br><br>
-  			
-		</div>			
+  <fieldset>
+    <legend>Detalle de la solicitud N° {{elemento.id}}</legend>
 
-		<div class="row">
-			<div class="col-xs-6 col-md-4" style=' font-size:30px;'>N° de solicitud: {{elemento.id}}</div>
-			<br><br><br>
+    <script  type="text/javascript" charset="utf-8" async defer>
+    	
+    var id="{{elemento.id}}"
+
+
+    </script>
+
+    <br>
+    	<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-12" style=' '>{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</div>
   			
 		</div>
-			<br>
-		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-12" style=' font-size:25px;'>Paciente:  {{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</div>
-  			
-		</div>	
-			<br>
-			<br>
-		<div class="row">
-		<div class="col-xs-6 col-md-3" style=' font-size:25px;'>Dni: {{elemento.paciente.dni}}</div>
+		<br>	
 		
-		<div class="col-xs-6 col-md-5" style=' font-size:25px;'>Historia Clinica: {{elemento.paciente.historiaclinica}}</div>
+		<div class="row">
+		<br>
+			<div class="col-xs-6 col-md-2" style=' '>DNI: {{elemento.paciente.dni}}</div>
+			<div class="col-xs-2 col-md-3" '>Historia Clinica: {{elemento.paciente.historiaclinica}}</div>
+			<div class="col-xs-6 col-md-5" '>Obra Social: {{elemento.paciente.osocial}}</div>
+		</div>
+		
+		<br>
+		
+		<div class="row">
+		<br>
+			<div class="col-xs-6 col-md-12" >Nombre del Generico: {{elemento.remedio}}</div>
+		</div>
+		
+		<br>
+		
+		<div class="row">
+		<br>
+			<div class="col-xs-6 col-md-4" >Dosis: {{elemento.dosis}}</div>
 		</div>
 
 		<br>
-			<br>
+
 		<div class="row">
-		<div class="col-xs-6 col-md-12" style=' font-size:25px;'>Obra Social: {{elemento.paciente.osocial}}</div>
-		
-		
-		</div>
-
-
-
-
 		<br>
-			<br>
-		<div class="row">
-		<div class="col-xs-6 col-md-12" style=' font-size:25px;'>Nombre del Generico: {{elemento.remedio}}</div>
-		
+			<div class="col-xs-6 col-md-12" >Medico: {{elemento.medico.apellido}}, {{elemento.medico.nombre}}</div>
 		
 		</div>
 
 		<br>
+		
+		<div class="row">
+		<br>
+			<div class="col-xs-6 col-md-4" >Observaciones <br><br>
 			<br>
-
-		<div class="row">
-		
-		<div class="col-xs-6 col-md-4" style=' font-size:25px;'>Dosis: {{elemento.dosis}}</div>
-		
-		</div>
-		<br><br>
-
-		<div class="row">
-		
-		<div class="col-xs-6 col-md-12" style=' font-size:25px;'>Medico: {{elemento.medico.apellido}}, {{elemento.medico.nombre}}</div>
-		
-		</div>
-		<br><br>
-
-		
-
-		<div class="row">
-		
-			<div class="col-xs-6 col-md-4" style=' font-size:25px;'>Observaciones <br><br>
 				<textarea class="form-control" cols="200" style="width:816px; height:109px;" h name="observaciones" rows="5" readonly>{{elemento.observaciones}}</textarea>
 			</div>
 		</div>
 
-			<br>
-			<br>
-			<br>
-			<br>
+
+  </fieldset>
+  <br>
+ 
+
+
+<br>
+
 
 
 		{% ifequal elemento.estado_aprobacion "CANCELADO"  %}	
@@ -339,13 +343,19 @@ $('#derivaciones').hide();
 		
 		
 		{% endifequal %}
-
-
-		
-
-
-
 </div>
+</div>
+
+<br><br>
+
+
+
+					
+
+	
+
+
+
 
 
 <script type="text/javascript" charset="utf-8" async defer>
@@ -358,7 +368,7 @@ $('#derivaciones').hide();
             } });
         // confirm dialog
         
-        alertify.confirm("{% ifequal elemento.estado_aprobacion 'ENPROGRESO' %}<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'> SELECCIONE NUEVO ESTADO <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='CANCELADO'>CANCELAR</option><option value='APROBADO'>APROBADO</option></select></div></div></div></div>{% endifequal %}{% ifequal elemento.estado_aprobacion 'APROBADO' %}<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'> SELECCIONE NUEVO ESTADO <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='CANCELADO'>CANCELAR</option><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div>{% endifequal %}{% ifequal elemento.estado_aprobacion 'PARCIAL' %}<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'> SELECCIONE NUEVO ESTADO <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='CANCELADO'>CANCELAR</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div>{% endifequal %}", function (e) {
+        alertify.confirm("{% ifequal elemento.estado_aprobacion 'ENPROGRESO' %}<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'> SELECCIONE NUEVO ESTADO <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='CANCELADO'>CANCELAR</option><option value='APROBADO'>APROBADO</option></select></div></div></div></div>{% endifequal %}{% ifequal elemento.estado_aprobacion 'APROBADO' %}<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'> SELECCIONE NUEVO ESTADO <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='CANCELADO'>CANCELAR</option></select></div></div></div></div>{% endifequal %}{% ifequal elemento.estado_aprobacion 'PARCIAL' %}<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'> SELECCIONE NUEVO ESTADO <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='CANCELADO'>CANCELAR</option></select></div></div></div></div>{% endifequal %}", function (e) {
     
             if (e) {
             	nuevo_estado=$('select[name=nuevoestado]').val();
@@ -376,16 +386,20 @@ $('#derivaciones').hide();
 
             		}else{
 
-            			window.location.href = "/aplicacion/cambiarestado/{{elemento.id}}/"+nuevo_estado;
+            				$( "#idsolicitud" ).val(id);
+
+                             var nuevoestado = $("#nuevoestado").val();
+
+                             $( "#nuevo_estado" ).val(nuevoestado);
+                            
+                             $("#aprobado").submit();
 
 
             		}
             	
 
 
-                
-                
-                	} else {
+            } else {
                 
                 
                 
@@ -397,7 +411,11 @@ $('#derivaciones').hide();
 
 {% endfor %}
 
+<form  id='aprobado' method='POST' action='/aplicacion/cambiarestado/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
+<input class='form-control' id='idsolicitud' name='idsolicitud'  type="hidden" value=''/>
+<input class='form-control' id='nuevo_estado' name='nuevo_estado' type="hidden" value=''/>
 
+</form>
 
 
 {% endif %}

@@ -136,3 +136,7 @@ LOGIN_REDIRECT_URL = "/index"
 LOGIN_URL = '/iniciar_sesion/'
 
 '''
+
+
+
+USE_L10N = False

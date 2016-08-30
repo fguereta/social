@@ -12,7 +12,6 @@
 
 
 <script type="text/javascript" charset="utf-8" async defer>
-
 $('#modificar').hide(); 
 $('#eliminar').hide();
 $('#derivaciones').hide();
@@ -27,16 +26,12 @@ $('#nueva_solicitud').show();
   .entregadocolor{background:#01A9DB}
   .aprobadocolor{background: #81F781;}
   .parcial{background: #FAAC58 }
-
   .headertabla{background:#A9E2F3;}
-
-
 tr.resaltar {
     
     cursor: pointer;
    
 }
-
 </style>
  
 
@@ -45,7 +40,7 @@ tr.resaltar {
   <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
     <thead>
       <tr  class="success">
-        <th class="text-center">Fecha</th>
+        <th class="text-center">Fecha de inicio</th>
         <th class="text-center">Nombre Generico</th>
         <th class="text-center">Dosis Diaria</th>
         <th class="text-center">Medico</th>
@@ -163,11 +158,9 @@ tr.resaltar {
                         } else {
                           window.location.href = "/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}";
                         }});
-
                       </script>
 
  {% endif %}
 
 
 {% endblock contenido_paciente %}
-

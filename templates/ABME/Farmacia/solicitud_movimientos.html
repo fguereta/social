@@ -1,0 +1,89 @@
+{% extends 'index.html'%}
+{% block htitle %}<title>MGD</title>{% endblock %} 
+
+{% block contenido%}
+
+
+
+ <div class='' >
+      <div class='panel panel-primary dialog-panel'>
+          <div class='panel-body'>
+{% if estado_actual %}
+              
+              <fieldset>
+                 <legend>Movimientos de la solicitud: {{estado_actual.id}} </legend>
+              
+          <h3>Estado "ACTUAL" </h3>
+          <br>
+
+
+          <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+          <thead>
+          <tr class="success">
+        
+          <th class="text-center">Estado actual</th>
+          <th class="text-center">Fecha de inicio</th>
+          <th class="text-center">Nombre</th>
+          <th class="text-center">Medicamento</th>
+          <th class="text-center">Dosis</th>
+        </tr>
+    </thead>
+    <tbody>
+    
+
+
+      
+      <tr>
+       
+
+        <td class="col-md-2 text-center " ></td>
+      
+
+      </tr>
+
+      </tbody>
+      </table>
+
+
+
+    
+
+        {% for i in estado_actual %}
+
+          <li>{{i.estado}}</li>
+
+        {% endfor %}
+
+
+             {% endif %}
+
+
+
+               <th>estados anteriores</th>  
+            
+             {% if estados_anteriores %}
+
+                {% for i in estados_anteriores %}
+
+                <li>{{i.estado}}</li>
+
+                {% endfor %}
+
+
+             {% endif %}
+
+             
+        
+            </fieldset>
+ 
+ 
+
+</div>
+</div>
+
+
+
+
+
+
+{% endblock %}

@@ -672,9 +672,9 @@ def eliminarfarmacia(request, id_farmacia):
 
 def farmacia_entrega(request):
 
-    import datetime
-    d= datetime.date.today()
-    fecha_registro= d.strftime("%d/%m/%Y")
+    import datetime, time
+    d= datetime.datetime.now()
+    fecha_registro= str(d.strftime("%d-%m-%Y %H:%M:%S"))
 
     if 'nuevo_estado' and 'idsolicitud' and 'user_id_farmacia1' in request.POST:
 
@@ -683,9 +683,23 @@ def farmacia_entrega(request):
 
         s=Solicitud.objects.get(id=idsolicitud)
         s.fecha_entrega=fecha_entrega=fecha_registro
-        s.farmacia_id=request.POST['user_id_farmacia1']
+        
         s.estado_aprobacion="ENTREGADO"
         s.save()
+
+
+        newdo = Registro_estados(
+
+                solicitud_id=request.POST['idsolicitud'],
+                fecha=fecha_registro,
+                estado='ENTREGADO',
+                comentario='',
+                farmacia_id=request.POST['user_id_farmacia1'],
+
+
+        )
+
+        newdo.save()
 
         solicitudes=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').order_by('-id')
         busqueda_solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO')
@@ -694,13 +708,23 @@ def farmacia_entrega(request):
     elif 'comparcial' and 'idsolicitudd'  and 'user_id_farmacia2' in request.POST:
         user_id_farmacia2=request.POST['user_id_farmacia2']
         idsolicitud=request.POST['idsolicitudd']
-        comparcial=request.POST['comparcial']
+        
         s=Solicitud.objects.get(id=idsolicitud)
-        s.comparcial=comparcial
-        s.farmacia_id=user_id_farmacia2
-        s.fecha_parcial=fecha_registro
         s.estado_aprobacion="PARCIAL"
         s.save()
+
+        newdo = Registro_estados(
+
+                solicitud_id=request.POST['idsolicitudd'],
+                fecha=fecha_registro,
+                estado='PARCIAL',
+                comentario=request.POST['comparcial'],
+                farmacia_id=request.POST['user_id_farmacia2'],
+
+
+        )
+
+        newdo.save()
 
         solicitudes=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').order_by('-id')
         busqueda_solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO')
@@ -720,14 +744,101 @@ def farmacia_entrega(request):
 
 def farmacia_entregados(request):
 
-    return render_to_response("ABME/Farmacia/entregadosfarmacia.html",{'solicitudes':solicitudes}, context_instance = RequestContext(request))
+    soli=Solicitud.objects.filter(estado_aprobacion='ENTREGADO')
+    busqueda_solicitud=Solicitud.objects.filter(estado_aprobacion='ENTREGADO')
 
+    estado=Registro_estados.objects.all()
+
+    if 'id_solicitud' in request.POST:
+        id_solicitud=request.POST['id_solicitud']
+        soli=Solicitud.objects.filter(estado_aprobacion='ENTREGADO',id=id_solicitud)
+        busqueda_solicitud=Solicitud.objects.filter(estado_aprobacion='ENTREGADO')
+        
+        solicitud_id=[]
+        
+        for i in soli:
+            for j in estado:
+                if i.id==j.solicitud_id and i.estado_aprobacion==j.estado:
+                    sol= {
+
+                    'id':i.id,
+                    'fecha_inicio':i.fecha,
+                    'estado_aprobacion':i.estado_aprobacion,
+                    'fecha_entrega':j.fecha,
+                    'farmacia':j.farmacia,
+                    'paciente':i.paciente,
+
+
+                    }
+                    solicitud_id=solicitud_id+[sol]
+
+        return render_to_response("ABME/Farmacia/entregadosfarmacia.html",{'busqueda_solicitud':busqueda_solicitud, 'solicitud_id':solicitud_id}, context_instance = RequestContext(request))
+
+    else:
+
+        solicitudes=[]
+
+        for i in soli:
+            for j in estado:
+                if i.id==j.solicitud_id and i.estado_aprobacion==j.estado:
+                    sol= {
+
+                    'id':i.id,
+                    'fecha_inicio':i.fecha,
+                    'estado_aprobacion':i.estado_aprobacion,
+                    'fecha_entrega':j.fecha,
+                    'farmacia':j.farmacia,
+                    'paciente':i.paciente,
+
+
+                    }
+                    solicitudes=solicitudes+[sol]
+
+    return render_to_response("ABME/Farmacia/entregadosfarmacia.html",{'solicitudes':solicitudes, 'busqueda_solicitud':busqueda_solicitud}, context_instance = RequestContext(request))
+def farmacia_parciales(request):
+    solicitudes=Solicitud.objects.filter(estado_aprobacion='PARCIAL')
+
+    
+
+    return render_to_response("ABME/Farmacia/parcialesfarmacia.html",{'solicitudes':solicitudes}, context_instance = RequestContext(request))
+
+
+def solicitud_movimientos(request,id_solicitud):
+
+    solicitudes=Solicitud.objects.filter(id=id_solicitud)
+    estados=Registro_estados.objects.filter(solicitud_id=id_solicitud)
+    estados_anteriores=[]
+    estado_actual=[]
+    for i in solicitudes:
+        for j in estados:
+            if i.estado_aprobacion!=j.estado:
+                sol= {
+
+                    'estado':j.estado
+
+
+                    }
+                estados_anteriores=estados_anteriores+[sol]
+            elif i.estado_aprobacion==j.estado:
+                soli= {
+
+                    'estado':j.estado
+
+
+                    }
+                estado_actual=estado_actual+[soli]
+
+
+
+
+
+    return render_to_response("ABME/Farmacia/solicitud_movimientos.html",{'estados_anteriores':estados_anteriores,'estado_actual':estado_actual},context_instance = RequestContext(request))
+    
 
 #######################SOLICITUD###########################################
 
 
 def solicitudes(request, id_paciente):#aca llega la id del paciente para obtener el listado y mostrar las solicitudes
-    
     paciente=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
     solicitudes=Solicitud.objects.filter(paciente_id=id_paciente)   
     try:
@@ -745,15 +856,21 @@ def solicitudes(request, id_paciente):#aca llega la id del paciente para obtener
         a=None
         return render(request, 'ABME/Solicitudes/solicitudes.html',{'query': id_paciente,'id_paciente':paciente, 'detalle': detalle, 'persona':id_paciente, 'solicitudes':solicitudes})
 
+
+
+
 def registrarsolicitud(request,id_paciente):
     paciente_enviado=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO') 
     medico_enviado=Medico.objects.filter(estado='ACTIVO') 
     #farmacia_enviado=Farmacia.objects.filter(estado='ACTIVO')
     remedio_enviado=Remedio.objects.all()
 
-    import datetime
-    d= datetime.date.today()
-    fecha_registro= d.strftime("%d/%m/%Y")
+    import datetime, time
+    d= datetime.datetime.now()
+    fecha_registro= str(d.strftime("%d-%m-%Y %H:%M:%S"))
+    
+    
+   
     if request.method=="POST":
 
         form=SolicitudForm(request.POST)
@@ -766,17 +883,33 @@ def registrarsolicitud(request,id_paciente):
             paciente_id=request.POST['id_paciente'],
             medico_id=request.POST['id_medico'],
             remedio_id=request.POST['id_remedio'],
-            #farmacia_id=request.POST['id_farmacia'],
-            fecha=fecha_registro,
             dosis=request.POST["dosis"].upper(),
             observaciones=request.POST["observaciones"].upper(),
-            comcancelado='-',
-            comparcial='-',
-            estado='ACTIVO',
-            estado_aprobacion='ENPROGRESO'
+            fecha=fecha_registro,
+            estado_aprobacion='ENPROGRESO',
+            farmacia_id=''
+            
             )
 
             newdoc.save(form)
+
+            solicitud_registrada=Solicitud.objects.latest('id')
+
+
+           
+
+            newdo = Registro_estados(
+
+                solicitud_id=solicitud_registrada.id,
+                fecha=fecha_registro,
+                estado='ENPROGRESO',
+                comentario='',
+                farmacia_id='',
+
+
+            )
+
+            newdo.save()
 
             cont=0
             solicitudes=Solicitud.objects.all()
@@ -827,6 +960,8 @@ def fichasolicitud(request,id_solicitud):
     
         id_paciente=Paciente.objects.filter(persona_ptr_id=paciente_id)
 
+        #estado=Estado_aprobacion.objects.filter(solicitud_id=id_solicitud).order_by('-id')
+
 
         return render_to_response('ABME/Solicitudes/fichasolicitud.html',{'solicitud_enviado':solicitud,'id_paciente':id_paciente},context_instance=RequestContext(request))
 
@@ -846,12 +981,16 @@ def fichasolicitud(request,id_solicitud):
     
         id_paciente=Paciente.objects.filter(persona_ptr_id=paciente_id)
 
+        estado=Estado_aprobacion.objects.filter(solicitud_id=id_solicitud).order_by('-id')
 
-        return render_to_response('ABME/Solicitudes/fichasolicitud.html',{'solicitud_enviado':solicitud,'id_paciente':id_paciente},context_instance=RequestContext(request))
+
+        return render_to_response('ABME/Solicitudes/fichasolicitud.html',{'solicitud_enviado':solicitud,'id_paciente':id_paciente, 'estado':estado},context_instance=RequestContext(request))
 
 def solicitudcancelada(request,id_solicitud):
     
-    
+    import datetime, time
+    d= datetime.datetime.now()
+    fecha_registro= str(d.strftime("%d-%m-%Y %H:%M:%S"))
 
 
     if id_solicitud>0:
@@ -870,7 +1009,20 @@ def solicitudcancelada(request,id_solicitud):
             
         soli.save()
 
-    
+        newdo = Registro_estados(
+
+                solicitud_id=request.POST['idsolicitud'],
+                fecha=fecha_registro,
+                estado='CANCELADO',
+                comentario=request.POST['comcancelado'],
+                farmacia_id='',
+
+
+        )
+
+        newdo.save()
+
+        
 
         refrescar=id_solicitud
         return render_to_response('ABME/Solicitudes/solicitudcancelada.html',{'refrescar':refrescar},context_instance=RequestContext(request))
@@ -886,35 +1038,62 @@ def solicitudcancelada(request,id_solicitud):
 
     
 
-def cambiarestado(request, id_solicitud, nuevo_estado):
+def cambiarestado(request):
 
-    solicitud=Solicitud.objects.filter(id=id_solicitud)
+    import datetime, time
+    d= datetime.datetime.now()
+    fecha_registro= str(d.strftime("%d-%m-%Y %H:%M:%S"))
 
-    for elemento in solicitud:
-        paciente_id=elemento.paciente_id
+
+    if request.method=="POST":
+
+        if request.POST['idsolicitud'] and request.POST['nuevo_estado']:
+
+            solicitud=Solicitud.objects.filter(id=request.POST['idsolicitud'])
+
+            for elemento in solicitud:
+                paciente_id=elemento.paciente_id
     
-    id_paciente=Paciente.objects.filter(persona_ptr_id=paciente_id)
+            id_paciente=Paciente.objects.filter(persona_ptr_id=paciente_id)
 
 
     #
 
-    soli=Solicitud.objects.get(id=id_solicitud)
+            soli=Solicitud.objects.get(id=request.POST['idsolicitud'])
 
-    soli.estado_aprobacion=nuevo_estado
-    soli.save()
+            soli.estado_aprobacion=request.POST['nuevo_estado']
+            soli.save()
 
-    solicitud_enviar=Solicitud.objects.filter(id=id_solicitud)
+            newdo = Registro_estados(
 
-    return render_to_response('ABME/Solicitudes/fichasolicitud.html',{'solicitud_enviado':solicitud_enviar,'id_paciente':id_paciente},context_instance=RequestContext(request))    
+                solicitud_id=request.POST['idsolicitud'],
+                fecha=fecha_registro,
+                estado=request.POST['nuevo_estado'],
+                comentario='',
+                farmacia_id='',
+
+
+            )
+
+            newdo.save()
+
+
+
+            id_solicitud=request.POST['idsolicitud']
+            solicitud_enviar=Solicitud.objects.filter(id=id_solicitud)
+            refrescar=request.POST['idsolicitud']
+
+        return render_to_response('ABME/Solicitudes/fichasolicitud.html',{'solicitud_enviado':solicitud_enviar,'id_paciente':id_paciente,'refrescar':refrescar},context_instance=RequestContext(request))    
 
 def pdf_solicitud(request, nro_solicitud):
 
     solicitud=Solicitud.objects.filter(id=nro_solicitud)
    
+    
+
 
     for elemento in solicitud:
         nro_solicitud=elemento.id
-        fecha=elemento.fecha
         dosis=elemento.dosis
         observaciones=elemento.observaciones
         id_medico=elemento.medico_id
@@ -943,6 +1122,17 @@ def pdf_solicitud(request, nro_solicitud):
         medico_nombre=elemento.nombre
         medico_apellido=elemento.apellido
 
+    for elemento in solicitud:
+        fecha_=elemento.fecha
+
+
+    fecha=fecha_.split(' ')[0]
+
+
+
+    
+       
+
 
 
     response =  HttpResponse(content_type='application/pdf')
@@ -954,7 +1144,7 @@ def pdf_solicitud(request, nro_solicitud):
     c.setLineWidth(.3)
     
     c.setFont('Helvetica-Bold', 12)
-    c.drawString(460,800,'Fecha: '+str(fecha))
+    c.drawString(460,800,'Fecha: '+str(fecha) )
     c.line(460,795,565,795)
 
     c.setFont('Helvetica-Bold', 15)
