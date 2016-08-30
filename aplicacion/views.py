@@ -1569,4 +1569,34 @@ def registrarmedicamento(request):
     return render_to_response('ABME/Medicamento/registrar.html', context_instance=RequestContext(request))
     #return render_to_response('ABME/Medicamento/registrarmedicamento.html',{'remedio':remedio},context_instance=RequestContext(request))
 
- 
+
+def modificarmedicamento(request,id_remedio):
+     
+    remedio=Remedio.objects.get(id=id_remedio)
+    if request.method=="POST":
+
+        form=RemedioForm(request.POST)
+        
+        
+        if form.is_valid():
+            
+            
+                    
+                    remedio.generico=request.POST['generico'].upper(),
+                    remedio.precio=request.POST['precio'].upper(),
+                    remedio.presentacion=request.POST['presentacion'].upper(),
+                    remedio.observaciones=request.POST['observaciones'].upper(),
+                    
+                    remedio.save()
+                    
+                    id_remedio=Remedio.objects.filter(generico__icontains=request.POST['generico'])
+                    ban='exito_modificar_remedio'
+                    
+                    return render_to_response('ABME/Medicamento/fichamedicamento.html',{'id_remedio':id_remedio,'exito_modificar_remedio':ban},context_instance=RequestContext(request))
+
+    else:
+        
+        remedio_enviar=Remedio.objects.filter(id=id_remedio, estado='ACTIVO')
+        return render_to_response("ABME/Medicamento/modificar.html",  {'id_remedio': remedio_enviar }, context_instance = RequestContext(request))                
+                    
+          
