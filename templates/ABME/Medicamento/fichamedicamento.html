@@ -1,0 +1,77 @@
+{% extends "ABME/Medicamento/menumedicamento.html" %}
+{% block contenido_remedio %}
+
+{% if id_remedio %}
+
+{% for elemento in id_remedio %}
+<div class='panel-body'>
+        <form  class="form-horizontal">
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='generico'>Nombre genérico*</label>
+            <div class='col-md-8'>
+              
+              <div class='col-md-4 indent-small'>
+                <div class='form-group internal'>
+                  <input class='form-control' id='generico' name="generico" placeholder='Nombre genérico' value="{{elemento.generico}}" readonly type='text'>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        
+                
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='precio'>Precio*</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='precio' name='precio' value="{{elemento.precio}}" readonly ></input>
+            </div>
+
+            
+        </div>
+
+          {% if error %}
+          {% for elemento in error %}
+          <div class='form-group'>
+
+       
+             <label class='control-label col-md-5 col-md-offset-3' >{{elemento}}</label>
+          
+             
+            
+          </div>
+          {% endfor %}
+        {% endif %}
+          
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='presentacion'>Presentacion</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='presentacion' name='presentacion' value="{{elemento.presentacion}}" readonly ></input>
+            </div>
+        </div>
+         
+          
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='id_comments'>Observaciones</label>
+            <div class='col-md-6'>
+              <textarea class='form-control' id='observaciones' name='observaciones' placeholder='Escribe aqui...' rows='3' value="{{elemento.observaciones}}" readonly ></textarea>
+            </div>
+          </div>
+         
+        </form>
+       
+       		 <div class='col-md-offset-7 col-md-3'>
+       		 
+             <a href="/aplicacion/modificarmedico/{{elemento.id}}"> <button class='btn-lg btn-primary' style='float:right' type='submit'>Modificar</button></a>
+            </div>
+            
+            <div>
+              <button id="confirmacion" class='btn-lg btn-danger' style='float:right' type='submit'>Eliminar</button>
+            </div>
+       
+        
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% endif %}
+  {% endblock contenido_remedio  %}

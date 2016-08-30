@@ -1512,3 +1512,61 @@ def eliminarusuario(request):
 
 
     return render_to_response("ABME/Farmacia/entregafarmacia.html", context_instance=RequestContext(request))
+
+
+#######################M###########################################
+
+
+def medicamento(request):
+    remedio=Remedio.objects.filter(estado='ACTIVO')
+    
+    if 'id_remedio' in request.POST:
+
+        remedio_recibido = request.POST['id_remedio'],
+
+        remedio_enviar = Remedio.objects.filter(id=remedio_recibido, estado='ACTIVO') 
+        
+        return render_to_response("ABME/Medicamento/medicamento.html",  {'id_remedio': remedio_enviar, 'busqueda_remedio':remedio  }, context_instance = RequestContext(request))
+
+    else:
+    
+    
+        return render_to_response("ABME/Medicamento/medicamento.html",  {'remedio': remedio, 'busqueda_remedio':remedio  }, context_instance = RequestContext(request))
+
+def fichamedicamento(request,id_remedio):
+    
+    remedio_enviar=Remedio.objects.filter(id=id_remedio, estado='ACTIVO')
+    return render_to_response("ABME/Medicamento/fichamedicamento.html",  {'id_remedio': remedio_enviar }, context_instance = RequestContext(request))
+
+def registrarmedicamento(request):
+    
+    if request.method=="POST":
+
+        form=RemedioForm(request.POST)
+        
+        
+        if form.is_valid():
+            
+            newdoc = Remedio(
+                    
+                    generico=request.POST['generico'].upper(),
+                    precio=request.POST['precio'].upper(),
+                    presentacion=request.POST['presentacion'].upper(),
+                    observaciones=request.POST['observaciones'].upper(),
+                    estado='ACTIVO',
+                    
+          
+                    )
+            newdoc.save(form)
+            
+            id_remedio=Remedio.objects.filter(generico__icontains=request.POST['generico'])
+            
+            
+                
+            ban='exitoremedio'
+            return render_to_response('ABME/Medicamento/fichamedicamento.html',{'id_remedio':id_remedio,'exitoremedio':ban},context_instance=RequestContext(request))
+
+    return render_to_response('ABME/Medicamento/registrar.html', context_instance=RequestContext(request))
+    #return render_to_response('ABME/Medicamento/registrarmedicamento.html',{'remedio':remedio},context_instance=RequestContext(request))
+
+ 

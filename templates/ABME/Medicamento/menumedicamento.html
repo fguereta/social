@@ -1,0 +1,85 @@
+{% extends "index.html" %} 
+
+{% block htitle %}<title>Ficha de medicamento</title>{% endblock %} 
+ 
+
+
+{% block contenido %} 
+	
+
+ 
+{% if exitomedico %}<script >alertify.success("Se registro correctamente");</script>{% endif %}
+{% if exito_modificar_remedio %}<script >alertify.success("Se modificaron los datos correctamente");</script>{% endif %}
+
+{% if id_remedio %}
+
+{% for elemento in id_remedio %}
+
+
+
+<div class='container'>
+    <div class='panel panel-primary dialog-panel'>
+      <div class='panel-heading'>
+        <h5>{{elemento.generico}}</h5>
+      </div>
+      <div class="navbar navbar-inverse navbar-fixed ">
+  	<div class="container-fluid ">
+      <div class="navbar-header">
+        	<ul class="nav navbar-nav navbar-right">
+  				<li><a href="/aplicacion/fichamedicamento/{{elemento.id}}">Ficha</a></li>
+  				
+  				
+			</ul>
+      </div>
+  	</div>
+</div>
+      
+<script type="text/javascript" charset="utf-8" async defer>
+	
+var apellidonombre ='{{elemento.apellido}}, {{elemento.nombre}} <strong>Cuil:{{elemento.cuil}}';
+var id_medico='{{elemento.id}}'
+
+</script>
+
+
+	{% block contenido_remedio %}	        	
+
+	{% endblock contenido_remedio %}
+
+
+{% endfor %}
+{% endif %}
+
+
+<script type="text/javascript" charset="utf-8" async defer>
+
+
+
+    $("#confirmacion").click(function() {
+
+    	
+
+   
+
+
+    alertify.set({ labels: {
+            ok     : "Confirmar",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("Este medicamento pasara a NO ACTIVO, ¿Esta de acuerdo?", function (e) {
+
+
+          if (e) {
+          window.location.href = "/aplicacion/eliminarmedicamento/"+id_remedio;
+          } else {
+        window.location.href = "/aplicacion/fichamedicamento/"+id_remedio;
+         }
+          });
+  
+  });
+   
+
+    
+</script>
+{% endblock %} 

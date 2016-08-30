@@ -1,0 +1,153 @@
+{% extends "index.html" %} 
+{% block htitle %}<title>Registrar Medicamento</title>{% endblock %} 
+
+ 
+{% block contenido %} 
+    
+<div class='container'>
+    <div class='panel panel-primary dialog-panel'>
+      <div class='panel-heading'>
+        <h5>Nuevo medicamento</h5>
+      </div>
+      <div class='panel-body'>
+        <form  id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+        
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='generico'>Nombre genérico*VALIDAR</label>
+            <div class='col-md-8'>
+              
+              <div class='col-md-4 indent-small'>
+                <div class='form-group internal'>
+                  <input class='form-control' id='generico' name="generico" placeholder='Nombre genérico' type='text'>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        
+                
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='precio'>Precio*</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='precio' name='precio'></input>
+            </div>
+
+            
+        </div>
+
+          {% if error %}
+          {% for elemento in error %}
+          <div class='form-group'>
+
+       
+             <label class='control-label col-md-5 col-md-offset-3' >{{elemento}}</label>
+          
+             
+            
+          </div>
+          {% endfor %}
+        {% endif %}
+          
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='presentacion'>Presentacion</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='presentacion' name='presentacion'></input>
+            </div>
+        </div>
+         
+          
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='id_comments'>Observaciones</label>
+            <div class='col-md-6'>
+              <textarea class='form-control' id='observaciones' name='observaciones' placeholder='Escribe aqui...' rows='3'></textarea>
+            </div>
+          </div>
+         <div class='form-group'>
+            <div class='col-md-offset-9 col-md-3'>
+            <br>
+              <button class='btn-lg btn-danger' style='float:right' type='submit'>Cancelar</button>
+              <button class='btn-lg btn-primary' style='float:right' type='submit'>Guardar</button>
+            </div>
+          </div>
+        
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script>
+
+
+$('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
+    $.datepicker.regional[ "es" ]
+    
+    $("#miForm").validate({
+        rules: {
+            nombre: {
+                required: true,
+                lettersonly: true
+            },
+            apellido: {
+                required: true,
+                lettersonly: true
+            },
+            dni: {
+                required: true,
+                digits: true,
+                minlength: "8",
+                maxlength: "8"
+            },
+            cuil: {
+                required: true,
+                digits: true,
+                minlength: "10",
+                maxlength: "11"
+            },
+            nacimiento: {
+                required: true,
+                date: true
+            },
+            correo: {
+                email: true
+            },
+            direccion: {
+                required: true
+            },
+            telefono: {
+                required: true,
+                digits: true
+            },
+            celular: {
+                digits: true
+            },
+            sexo: {
+                required: true
+            },
+            historiaclinica: {
+                required: true
+            },
+            osocial: {
+                lettersonly: true
+            }
+        },
+    messages: {
+        nombre: {
+            lettersonly: "Escribe sólo letras"
+        },
+        apellido: {
+            lettersonly: "Escribe sólo letras"      
+        },
+        osocial: {
+            lettersonly: "Escribe sólo letras"      
+        }
+        },
+    highlight: function (element) {
+            $(element).closest('.miForm').addClass('has-error');
+        },
+    unhighlight: function (element) {
+            $(element).closest('.miForm').removeClass('has-error');
+        },
+    });
+</script>
+
+{% endblock %} 
