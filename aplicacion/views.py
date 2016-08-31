@@ -1549,11 +1549,11 @@ def registrarmedicamento(request):
             
             newdoc = Remedio(
                     
-                    generico=request.POST['generico'].upper(),
-                    precio=request.POST['precio'].upper(),
-                    presentacion=request.POST['presentacion'].upper(),
-                    observaciones=request.POST['observaciones'].upper(),
-                    estado='ACTIVO',
+                    generico=request.POST["generico"].upper(),
+                    precio=request.POST["precio"].upper(),
+                    presentacion=request.POST["presentacion"].upper(),
+                    observaciones=request.POST["observaciones"].upper(),
+                    estado='ACTIVO'
                     
           
                     )
@@ -1582,10 +1582,10 @@ def modificarmedicamento(request,id_remedio):
             
             
                     
-                    remedio.generico=request.POST['generico'].upper(),
-                    remedio.precio=request.POST['precio'].upper(),
-                    remedio.presentacion=request.POST['presentacion'].upper(),
-                    remedio.observaciones=request.POST['observaciones'].upper(),
+                    remedio.generico=request.POST['generico'].upper()
+                    remedio.precio=request.POST['precio'].upper()
+                    remedio.presentacion=request.POST['presentacion'].upper()
+                    remedio.observaciones=request.POST['observaciones'].upper()
                     
                     remedio.save()
                     
