@@ -175,122 +175,97 @@ var razonsocial = $("#razonsocial").val();
     
 function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
  
-    if(estado_aprobacion=='APROBADO'){
+          if(estado_aprobacion=='APROBADO'){
   
-        alertify.set({ labels: {
-        ok     : "Siguiente",
-        cancel : "Cancelar"
-    } });
+          alertify.set({ labels: {
+          ok     : "Siguiente",
+          cancel : "Cancelar"
+          } });
           // confirm dialog
           
-    alertify.confirm("Seleccionó la <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>. Seleccione tipo de entrega", function (e) {
+            alertify.confirm("Seleccionó la <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>. Seleccione tipo de entrega", function (e) {
 
-            if (e) {
+              if (e) {
 
-            alertify.set({ labels: {
-            ok     : "Confirmar",
-            cancel : "Cancelar"
-            } });
-            // confirm dialog
+                  alertify.set({ labels: {
+                  ok     : "Siguiente",
+                  cancel : "Cancelar"
+                  } });
+                  // confirm dialog
                         
-            alertify.confirm("<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'>SELECCIONE TIPO DE ENTREGA <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div> ", function (l) {
+                  alertify.confirm("<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'>SELECCIONE TIPO DE ENTREGA <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div> ", function (l) {
 
-                    if (l) {
+                        if (l) {
 
-                        nuevo_estado=$('select[name=nuevoestado]').val();
+                            nuevo_estado=$('select[name=nuevoestado]').val();
                             
-                        if(nuevo_estado=='PARCIAL'){
+                                  if(nuevo_estado=='PARCIAL'){
 
-                              alertify.prompt('<FONT COLOR=#FF8000>DETALLE DE ENTREGA PARCIAL</FONT>', function(e,value){
-                                    $( "#comparcial" ).val(value)
-                                    $( "#idsolicitudd" ).val(id);
-                                    $("#entrega_parcial").submit();
-                        });
+                                          alertify.prompt('<FONT COLOR=#FF8000>DETALLE DE ENTREGA PARCIAL</FONT>', function(e,value){
+                                          $( "#comparcial" ).val(value)
+                                          $( "#idsolicitudd" ).val(id);
+                                          $("#entrega_parcial").submit();
+                                      });
                   
-                    }else{
+                                  }else if(nuevo_estado=='ENTREGADO'){
 
-                          alertify.set({ labels: {
-                          ok     : "Confirmar",
-                          cancel : "Cancelar"
-                          } });
-            // confirm dialog
+                                          alertify.set({ labels: {
+                                          ok     : "Confirmar",
+                                          cancel : "Cancelar"
+                                          } });
 
-                  
+                                          alertify.confirm("<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'>SELECCIONE TIPO DE ENTREGA <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div> ", function (a) {
 
-                          do{
-                         
-                             
-                             alertify.prompt('<FONT COLOR=#FF8000>INGRESE EL MONTO TOTAL DE LA SOLICITUD</FONT>', function(e,precio_final)
 
-                             {
+                                                if (a) {
 
 
 
 
+                                            
+                                                    
 
 
 
-                             });
 
-
-                            }
-                            while (precio_final.match(/[-+]?([0-9]*\.[0-9]+|[0-9]+)/));
-                                                                
-                                
-                              /*
-                                 {
+                                                }else{
 
 
 
-                                      if (precio_final.match(/[-+]?([0-9]*\.[0-9]+|[0-9]+)/)) {
-                     
-                                        $( "#idsolicitud" ).val(id);
+                                                  window.location.href = "/aplicacion/farmacia_entrega/";
 
-                                        $( "#nuevoestado" ).val('ENTREGADO');
-                                        
-                                        $( "#preciofinal" ).val(precio_final);
-                                        
-                                      
-                                        $("#entrega_entregado").submit();
+                                                }
 
-                                      }
+
+
+                                            });
+
+
 
 
                                   }
+                                   
 
-                              });
-                            
-                            */
-                     
+                                  
                         
 
+                        } else {
+            
+                            window.location.href = "/aplicacion/farmacia_entrega/";
+          
+                        }
+        
+                    });
 
-
-
-
-
-
-
-
-
-                       
-                    }
             } else {
             
-              window.location.href = "/aplicacion/farmacia_entrega/";
+                 window.location.href = "/aplicacion/farmacia_entrega/";
             }
         
         });
 
-    } else {
-            
-      window.location.href = "/aplicacion/farmacia_entrega/";
-    }
-        
-  });
 
-
-  }
+      }
 
   
 }

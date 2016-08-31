@@ -8,73 +8,140 @@
  <div class='' >
       <div class='panel panel-primary dialog-panel'>
           <div class='panel-body'>
-{% if estado_actual %}
+            
+            {% if estado_actual %}
+              {% for i in estado_actual %}
               
               <fieldset>
-                 <legend>Movimientos de la solicitud: {{estado_actual.id}} </legend>
+                 <legend>Movimientos de la SOLICITUD N°: {{i.solicitud_id}}, Solicitante: {{i.paciente.apellido}}, {{i.paciente.nombre}} con DNI: {{i.paciente.dni}} </legend>
               
-          <h3>Estado "ACTUAL" </h3>
-          <br>
-
-
-          <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
-          <thead>
-          <tr class="success">
+              {% endfor %}
+            {% endif %}
+              <br>
+              <br>
+            {% if estado_actual %}
+              <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                  <tr class="success">
         
-          <th class="text-center">Estado actual</th>
-          <th class="text-center">Fecha de inicio</th>
-          <th class="text-center">Nombre</th>
-          <th class="text-center">Medicamento</th>
-          <th class="text-center">Dosis</th>
-        </tr>
-    </thead>
-    <tbody>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Fecha de estado</th>
+                    <th class="text-center">Comentario</th>
+                   
+                  </tr>
     
 
+                  </thead>
+                  
+                  {% for i in estado_actual %}
 
-      
-      <tr>
+                  <tbody>
+                    <tr>
+                      <td class="col-md-2 text-center "><br>
+                      {% ifequal i.estado_ultimo "PARCIAL" %}
+                          ENTREGA PARCIAL
+                        {% endifequal %}
+                        {% ifequal i.estado_ultimo "ENPROGRESO" %}
+                          EN PROCESO
+                        {% endifequal %}
+                        {% ifequal i.estado_ultimo "APROBADO" %}
+                          APROBADO
+                        {% endifequal %}
+                        {% ifequal i.estado_ultimo "ENTREGADO" %}
+                          ENTREGADO
+                        {% endifequal %}
+                        {% ifequal i.estado_ultimo "CANCELADO" %}
+                          CANCELADO
+                        {% endifequal %}
+                      </td>
+                      <td class="col-md-2 text-center "><br>{{i.fecha_estado}}</td>
+                      <td class="col-md-2 text-center ">
+                        <textarea class='form-control'  rows='3' readonly>{{i.comentario}}</textarea>
+                      </td>
+                    </tr>
+
+                  </tbody>
+
+                </table>
+                <div class="col-md-6 text-right" align="right"><img  class="profile-img" src="{{ MEDIA_URL }} /static/media/fecha.png" alt=""></div>
+              {% endfor %}
+
+            {% endif %}
+
+
+            <br>
+            <br>
+            <br>
+            {% if estados_anteriores %}
+
+              {% for i in estados_anteriores %}
+              <br>
+            <br>
+            <br>
+              <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                  <tr class="success">
+        
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Fecha de estado</th>
+                    <th class="text-center">Comentario</th>
+                   
+                  </tr>
+    
+
+                  </thead>
+                  
+                  
+
+                  <tbody>
+                    <tr>
        
 
-        <td class="col-md-2 text-center " ></td>
-      
+                      <td class="col-md-2 text-center " ><br>
+                        {% ifequal i.estado_anterior "PARCIAL" %}
+                          ENTREGA PARCIAL
+                        {% endifequal %}
+                        {% ifequal i.estado_anterior "ENPROGRESO" %}
+                          EN PROCESO
+                        {% endifequal %}
+                        {% ifequal i.estado_anterior "APROBADO" %}
+                          APROBADO
+                        {% endifequal %}
+                        {% ifequal i.estado_anterior "ENTREGADO" %}
+                          ENTREGADO
+                        {% endifequal %}
+                        {% ifequal i.estado_anterior "CANCELADO" %}
+                          CANCELADO
+                        {% endifequal %}
+                        </td>
+                      <td class="col-md-2 text-center " ><br>{{i.fecha_estado}}</td>
 
-      </tr>
+                       <td class="col-md-2 text-center " >
+                      
+                           <textarea class='form-control'  rows='3' readonly>{{i.comentario}}</textarea>
+                      </td>
+                    </tr>
 
-      </tbody>
-      </table>
+                  </tbody>
 
-
-
-    
-
-        {% for i in estado_actual %}
-
-          <li>{{i.estado}}</li>
-
-        {% endfor %}
-
-
-             {% endif %}
-
-
-
-               <th>estados anteriores</th>  
-            
-             {% if estados_anteriores %}
-
-                {% for i in estados_anteriores %}
-
-                <li>{{i.estado}}</li>
-
+                </table>
+                <div class="col-md-6 text-right" align="right"><img  class="profile-img" src="{{ MEDIA_URL }} /static/media/fecha.png" alt=""></div>
+                
+                <br><br>
                 {% endfor %}
 
+            {% endif %}
 
-             {% endif %}
+
+
+               
 
              
         
             </fieldset>
+
+
+
  
  
 

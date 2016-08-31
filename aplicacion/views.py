@@ -805,8 +805,8 @@ def farmacia_parciales(request):
 
 def solicitud_movimientos(request,id_solicitud):
 
-    solicitudes=Solicitud.objects.filter(id=id_solicitud)
-    estados=Registro_estados.objects.filter(solicitud_id=id_solicitud)
+    solicitudes=Solicitud.objects.filter(id=id_solicitud).order_by('-id')
+    estados=Registro_estados.objects.filter(solicitud_id=id_solicitud).order_by('-id')
     estados_anteriores=[]
     estado_actual=[]
     for i in solicitudes:
@@ -814,15 +814,24 @@ def solicitud_movimientos(request,id_solicitud):
             if i.estado_aprobacion!=j.estado:
                 sol= {
 
-                    'estado':j.estado
+                    'estado_anterior':j.estado,
+                    'fecha_estado':j.fecha,
+                    'comentario':j.comentario,
+                    'paciente':i.paciente
+                    
 
 
                     }
                 estados_anteriores=estados_anteriores+[sol]
+            
             elif i.estado_aprobacion==j.estado:
                 soli= {
 
-                    'estado':j.estado
+                    'solicitud_id':j.solicitud_id,
+                    'estado_ultimo':j.estado,
+                    'fecha_estado':j.fecha,
+                    'comentario':j.comentario,
+                    'paciente':i.paciente
 
 
                     }

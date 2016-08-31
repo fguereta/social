@@ -63,12 +63,12 @@
         <tr bgcolor="#F7BE81"> 
        
 
-        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.dni}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.remedio.generico}}</td>
+        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.remedio.generico}}</td>
         
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.dosis}}</td>
 
 
         <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
@@ -123,12 +123,12 @@
         <tr bgcolor="#F7BE81"> 
        
 
-        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.dni}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.remedio.generico}}</td>
+        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.remedio.generico}}</td>
         
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.dosis}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.dosis}}</td>
 
 
         <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
