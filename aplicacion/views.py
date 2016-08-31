@@ -404,9 +404,9 @@ def eliminarmedico(request, id_medico):
 
 
 def intervenidos(request, id_medico):
-    solicitudes=Solicitud.objects.filter(medico_id=id_medico, estado='ACTIVO')
+    solicitudes=Solicitud.objects.filter(medico_id=id_medico)
     medico_enviar=Medico.objects.filter(id=id_medico, estado='ACTIVO')
-    return render(request, 'ABME/Medico/intervenidos.html',{'intervenidos': solicitudes,'id_medico':medico_enviar})
+    return render(request, 'ABME/Medico/intervenidos.html',{'intervenidos':solicitudes,'id_medico':medico_enviar})
 
 #######################FARMACIA###########################################
 
