@@ -95,10 +95,10 @@ class AccionSocial(Persona):
      
 class Remedio(models.Model):
     generico=models.CharField(max_length=20)
-    precio=models.CharField(max_length=20)
+    precio=models.CharField(max_length=20, blank=True, null=True)
     presentacion=models.CharField(max_length=20)
     observaciones=models.TextField(blank=True)
-    estado=models.CharField(max_length=6)
+    estado=models.CharField(max_length=20, blank=True, null=True)    
     
     def __unicode__(self):
         return self.generico

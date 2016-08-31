@@ -90,6 +90,9 @@ urlpatterns = [
         url(r'^fichamedicamento/(?P<id_remedio>\w+)/$', views.fichamedicamento, name='fichamedicamento'),
         url(r'^registrarmedicamento/', views.registrarmedicamento, name='registrarmedicamento'),
         url(r'^modificarmedicamento/(?P<id_remedio>\w+)/$', views.modificarmedicamento, name='modificarmedicamento'),
+        url(r'^eliminarmedicamento/(?P<id_remedio>\w+)/$', views.eliminarmedicamento, name='eliminarmedicamento'),
+
+        
 
     
     

@@ -1599,4 +1599,30 @@ def modificarmedicamento(request,id_remedio):
         remedio_enviar=Remedio.objects.filter(id=id_remedio, estado='ACTIVO')
         return render_to_response("ABME/Medicamento/modificar.html",  {'id_remedio': remedio_enviar }, context_instance = RequestContext(request))                
                     
-          
+
+def eliminarmedicamento(request, id_remedio):
+    
+    remedio=Remedio.objects.filter(estado='ACTIVO')
+    
+    remedio_actualizar_estado=Remedio.objects.get(id=id_remedio)
+
+    if remedio_actualizar_estado.estado=='INACTIVO':
+        
+        remedio_activado=Remedio.objects.get(id=id_remedio)
+        remedio_activado.estado="ACTIVO"
+        remedio_activado.save()
+        remedio_enviar=Remedio.objects.get(id=id_remedio)
+        return render_to_response("ABME/Medicamento/fichamedicamento.html",{'id_remedio':remedio_enviar},  context_instance = RequestContext(request))
+        
+
+    if remedio_actualizar_estado.estado=='ACTIVO':
+        remedio_eliminado=Remedio.objects.get(id=id_remedio)
+        remedio_eliminado.estado="INACTIVO"
+        remedio_eliminado.save()
+        
+        return render_to_response("ABME/Medicamento/medicamento.html",{'remedio':remedio},  context_instance = RequestContext(request))
+        
+        
+        
+        
+    return render_to_response("ABME/Medicamento/medicamento.html",{'remedio':remedio},  context_instance = RequestContext(request))
