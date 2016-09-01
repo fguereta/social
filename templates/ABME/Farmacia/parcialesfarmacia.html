@@ -166,7 +166,9 @@ var razonsocial = $("#razonsocial").val();
     
     function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
  
- if(estado_aprobacion=='APROBADO')
+
+
+  if(estado_aprobacion=='PARCIAL')
  {
   
     alertify.set({ labels: {
@@ -174,112 +176,19 @@ var razonsocial = $("#razonsocial").val();
             cancel : "Cancelar"
           } });
           // confirm dialog
-          alertify.confirm("Seleccionó la <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>. Seleccione tipo de entrega", function (e) {
+          alertify.confirm("La <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b> ya tuvo una entrega parcial. ¿Desea continuar?", function (e) {
 
 
           if (e) {
 
                    
             
-                        alertify.set({ labels: {
-                        ok     : "Confirmar",
-                        cancel : "Cancelar"
-                        } });
-                        // confirm dialog
-                        alertify.confirm("<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'>SELECCIONE TIPO DE ENTREGA <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGADO</option></select></div></div></div></div> "
-
-
-                          , function (l) {
-
-
-                          if (l) {
-
-                            nuevo_estado=$('select[name=nuevoestado]').val();
-                            
-                                if(nuevo_estado=='PARCIAL'){
-
-                                    
-                                    alertify.prompt('<FONT COLOR=#FF8000>DETALLE DE ENTREGA PARCIAL</FONT>', function(e,value){
-
-
-                                    $( "#comparcial" ).val(value)
-                                    $( "#idsolicitudd" ).val(id);
-                                    $("#entrega_parcial").submit();
-                                });
-                            
-
-
-
-
-
-                            }else{
-
-
-                              
-                             $( "#idsolicitud" ).val(id);
-
-                             $( "#nuevo_estado").val(nuevo_estado);
+                            $( "#idsolicitud3" ).val(id);
 
                             
-                             $("#entrega_entregado").submit();
-
-                          }
-          
-
-
-
-
-
-                        } else {
-            
-                         window.location.href = "/aplicacion/farmacia_entrega/";
-                        }
-        
-          });
-
-
-
-
-
-
-          
-          
-
-
-
-
-
-          } else {
-            
-            window.location.href = "/aplicacion/farmacia_entrega/";
-        }
-        
-      });
-
-
-  }
-
-  if(estado_aprobacion=='PARCIAL')
- {
-  
-    alertify.set({ labels: {
-            ok     : "Aceptar",
-            cancel : "Cancelar"
-          } });
-          // confirm dialog
-          alertify.confirm("La <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b> ya tuvo una entrega parcial. ¿Desea confirmar la entrega completa?", function (e) {
-
-
-          if (e) {
-
-                   
-            
-                            $( "#idsolicitud" ).val(id);
-
-                             var nuevo_estado='ENTREGADO'
 
                             
-                             $("#entrega_entregado").submit();
+                             $("#confirmar_parcial").submit();
                 
           
 
@@ -290,9 +199,9 @@ var razonsocial = $("#razonsocial").val();
           } else {
             
             window.location.href = "/aplicacion/farmacia_entrega/";
-        }
+          }
         
-      });
+        });
 
 
   }
@@ -326,16 +235,11 @@ var razonsocial = $("#razonsocial").val();
 
 </script>
 
-<form  id='entrega_entregado' method='POST' action='/aplicacion/farmacia_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
-<input class='form-control' id='idsolicitud' name='idsolicitud'  type="hidden" value=''/>
-<input class='form-control' id='nuevo_estado' name='nuevo_estado' type="hidden" value=''/>
-<input class='form-control' id='user_id_farmacia1' name='user_id_farmacia1' type="hidden" value=''/>
-</form>
 
-<form  id='entrega_parcial' method='POST' action='/aplicacion/farmacia_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
-<input class='form-control' id='idsolicitudd' name='idsolicitudd'  type="hidden" value=''/>
-<input class='form-control' id='comparcial' name='comparcial' type="hidden" value=''/>
-<input class='form-control' id='user_id_farmacia2' name='user_id_farmacia2' type="hidden" value=''/>
+
+<form  id='confirmar_parcial' method='POST' action='/aplicacion/farmacia_parciales/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
+<input class='form-control' id='idsolicitud3' name='idsolicitud3'  type="hidden" value=''/>
+
 </form>
 
         {% if user.is_authenticated %}

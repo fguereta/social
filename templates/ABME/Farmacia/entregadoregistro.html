@@ -1,0 +1,87 @@
+{% extends "index.html" %}
+
+{% block contenido %}
+
+
+
+<div class="container">
+<div class='panel  panel-success dialog-panel  '>
+      <div class='panel-heading'>
+
+        <h5><b>Entrega</b></h5>
+      </div>
+      		<div class='panel-body'>
+      		
+				<form  method="POST" enctype="multipart/form-data" class="form-horizontal">
+
+				{% csrf_token %}
+				<br>
+				<br>
+				<br>
+
+				
+					<input class="form-control" id="nuevoestado" name="nuevoestado" type="hidden" value="{{nuevo_estado}}"/>	
+					<input class="form-control" id="farmacia_id" name="farmacia_id" type="hidden" value="{{farmacia_id}}"/>
+						
+				
+
+				<div class="form-group">
+					<label for="paciente" class="control-label col-md-2 col-md-2 col-md-offset-2">Solicitud N°</label> 
+					<div class="col-md-5">
+
+						{% for elemento in solicitud %}
+						<input class="form-control" id="idsolicitud" name="idsolicitud" type="hidden" value="{{elemento.id}}"/>
+						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.id}}"/>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="paciente" class="control-label col-md-2 col-md-2 col-md-offset-2">Solicitante:</label> 
+					<div class="col-md-5">
+						{% for elemento in solicitud %}
+						<input class="form-control" id="id_paciente" name="id_paciente" type="hidden" value="{{elemento.paciente.id}}"/>
+						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}. DNI: {{elemento.paciente.dni}}"/>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="paciente" class="control-label  col-md-4 ">Nombre del medicamento de entrega:</label> 
+					<div class="col-md-5">
+						
+						<input class="form-control" id="medicamento" name="medicamento" type="text" value="" placeholder="Escriba aqui..." />
+						
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Precio final:</label> 
+					<div class="col-md-5">
+						
+						<input class="form-control" id="precio_final" name="precio_final" type="text" value="" placeholder="Escriba aqui..." />
+						
+					</div>
+				</div>
+				<br>
+				<div class="form-group">
+					<label for="comcancelado" class="control-label col-md-3 col-md-offset-1">Comentario*:</label> 
+					<div class="col-md-5">
+					<textarea class="form-control" type='text' cols="40" id="comentregado" name="comentregado" rows="10" placeholder="Detalle observaciones que crea necesarias..."></textarea>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class='col-md-offset-8 col-md-3'>
+             	 <br>
+             
+              		<button class='btn-lg btn-primary' style='float:right' type='submit'>Confirmar</button>
+            		</div>
+				</div>
+
+
+
+				</form>
+				</div>
+				</div>
+			</div>
+
+{% endblock %}

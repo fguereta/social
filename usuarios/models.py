@@ -11,7 +11,7 @@ from django.db import models
 class UserFarmacia(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL)
 	#USER EL CUIT
-	cue= models.CharField(max_length=20)
+	cuit= models.CharField(max_length=20)
 	razon_social = models.CharField(max_length=25)
 	direccion = models.CharField(max_length=25)
    	telefono = models.CharField(max_length = 20)
