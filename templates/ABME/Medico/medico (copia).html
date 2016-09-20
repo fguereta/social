@@ -1,0 +1,123 @@
+{% extends 'index.html'%}
+{% block htitle %}<title>Profesionales</title>{% endblock %} 
+
+{% block contenido%}
+
+<div class="container">
+  <div class='panel panel-primary dialog-panel'>
+          <div class='panel-body'>
+          
+    <fieldset>
+        <legend>Profesionales</legend>
+            <div class="col-md-offset-10"> <a  href="/aplicacion/registrarmedico"><button class="btn btn-success ">Agregar profesional</button></a>
+            </div>
+
+            <div class="row">
+                <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+                    <div class="col-md-4 text-left">
+                    <select name="id_medico" id="id_medico" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                        <option value=""></option>
+                        {% for elemento in busqueda_medico %}
+                        <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
+                        {% endfor %}
+                    </select>
+                    </div>
+    
+                    <div>
+                    <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                </form> 
+            </div>
+        
+  </fieldset>
+ 
+ {% if id_medico %}
+<div class="row">
+<br>
+
+<div class=".container">
+  
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th class=" text-center"></th>
+        <th class="text-center">Apellido y Nombre</th>
+        <th class="text-center">Dni</th>
+        <th class="text-center">Cuil</th>
+        
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in id_medico %}
+      <tr>
+        <td class="col-md-1 text-center"><a href="/aplicacion/fichamedico/{{elemento.id}}/"><button class=" btn btn-success btn-sm"  >Ver ficha</button></a>
+        <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
+        <td class="col-md-2 text-center">{{elemento.dni}}</td>
+        <td class="col-md-2 text-center">{{elemento.cuil}}</td>
+        
+         
+      </tr>
+     {% endfor %} 
+      
+    </tbody>
+  </table>
+</div>
+   
+</div>
+</div>
+ {% endif %}
+
+ {% if medico %}
+<div class="row">
+<br>
+
+<div class=".container">
+  
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th class=" text-center"></th>
+        <th class="text-center">Apellido y Nombre</th>
+        <th class="text-center">Dni</th>
+        <th class="text-center">Cuil</th>
+        
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in medico %}
+      <tr>
+        <td class="col-md-1 text-center"><a href="/aplicacion/fichamedico/{{elemento.id}}/"><button class=" btn btn-success btn-sm">Ver ficha</button></a>
+        <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
+        <td class="col-md-2 text-center">{{elemento.dni}}</td>
+        <td class="col-md-2 text-center">{{elemento.cuil}}</td>
+        
+         
+      </tr>
+     {% endfor %} 
+      
+    </tbody>
+  </table>
+</div>
+            
+</div>
+</div>
+</div>
+ {% endif %}
+
+
+<script type="text/javascript" charset="utf-8" async defer>
+    
+    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+</script>
+
+
+
+
+{% endblock %}

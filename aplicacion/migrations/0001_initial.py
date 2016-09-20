@@ -2,13 +2,12 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('usuarios', '__first__'),
     ]
 
     operations = [
@@ -19,42 +18,20 @@ class Migration(migrations.Migration):
                 ('diagnostico', models.CharField(max_length=20)),
                 ('prestacion', models.TextField(blank=True)),
                 ('proposito', models.TextField(blank=True)),
-                ('tipopaciente', models.CharField(max_length=12, choices=[(b'Internado', b'Internado'), (b'Ambulatorio', b'Ambulatorio')])),
-                ('caracter', models.CharField(max_length=12, choices=[(b'Urgente', b'Urgente'), (b'A la brevedad', b'A la brevedad'), (b'Programado', b'Programado')])),
-                ('fecha', models.DateField()),
-                ('hora', models.TimeField()),
+                ('tipopaciente', models.CharField(max_length=12, choices=[('Internado', 'Internado'), ('Ambulatorio', 'Ambulatorio')])),
+                ('caracter', models.CharField(max_length=12, choices=[('Urgente', 'Urgente'), ('A la brevedad', 'A la brevedad'), ('Programado', 'Programado')])),
+                ('fecha', models.CharField(max_length=20)),
+                ('hora', models.CharField(max_length=10)),
                 ('hospital', models.CharField(max_length=20)),
                 ('servicio', models.CharField(max_length=20)),
                 ('contacto', models.CharField(max_length=20)),
-                ('acompananate', models.CharField(max_length=2, choices=[(b'Si', b'Si'), (b'No', b'No')])),
+                ('acompanante', models.CharField(max_length=2, choices=[('Si', 'Si'), ('No', 'No')])),
                 ('motivo', models.CharField(max_length=20)),
-                ('tipotraslado', models.CharField(max_length=20, choices=[(b'Aereo', b'Aereo'), (b'Terrestre', b'Terrestre')])),
-                ('transporteregular', models.CharField(max_length=20, choices=[(b'Si', b'Si'), (b'No', b'No')])),
-                ('trasladosanitario', models.CharField(max_length=20, choices=[(b'Si', b'Si'), (b'No', b'No')])),
+                ('tipotraslado', models.CharField(max_length=20, choices=[('Aereo', 'Aereo'), ('Terrestre', 'Terrestre')])),
+                ('transporteregular', models.CharField(max_length=20, choices=[('Si', 'Si'), ('No', 'No')])),
+                ('trasladosanitario', models.CharField(max_length=20, choices=[('Si', 'Si'), ('No', 'No')])),
                 ('condiciones', models.TextField()),
                 ('observaciones', models.TextField(blank=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='DetalleSolicitud',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('fecha', models.DateField()),
-                ('dosis', models.CharField(max_length=20)),
-                ('observaciones', models.TextField(blank=True)),
-                ('estado', models.CharField(max_length=20, null=True, blank=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Farmacia',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('razon_social', models.CharField(max_length=25)),
-                ('cuit', models.IntegerField()),
-                ('direccion', models.CharField(max_length=25)),
-                ('telefono', models.IntegerField()),
-                ('email', models.EmailField(max_length=254)),
-                ('estado', models.CharField(max_length=20, null=True, blank=True)),
             ],
         ),
         migrations.CreateModel(
@@ -65,14 +42,25 @@ class Migration(migrations.Migration):
                 ('apellido', models.CharField(max_length=20)),
                 ('dni', models.CharField(max_length=9)),
                 ('cuil', models.CharField(max_length=15, null=True)),
-                ('nacimiento', models.DateField(null=True)),
+                ('nacimiento', models.CharField(max_length=10, null=True)),
+                ('nacionalidad', models.CharField(max_length=20, null=True)),
                 ('correo', models.EmailField(max_length=254, null=True)),
                 ('direccion', models.CharField(max_length=25, null=True)),
                 ('observaciones', models.TextField(null=True, blank=True)),
                 ('telefono', models.CharField(max_length=20, null=True, blank=True)),
                 ('celular', models.CharField(max_length=20, null=True, blank=True)),
                 ('estado', models.CharField(max_length=20, null=True, blank=True)),
-                ('sexo', models.CharField(max_length=10, choices=[(b'Masculino', b'Masculino'), (b'Femenino', b'Femenino')])),
+                ('sexo', models.CharField(max_length=10, choices=[('Masculino', 'Masculino'), ('Femenino', 'Femenino')])),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Registro_estados',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('fecha', models.CharField(max_length=30)),
+                ('estado', models.CharField(max_length=10)),
+                ('comentario', models.TextField(null=True, blank=True)),
+                ('farmacia', models.ForeignKey(db_column='farmacia_id', blank=True, to='usuarios.UserFarmacia', null=True)),
             ],
         ),
         migrations.CreateModel(
@@ -83,18 +71,20 @@ class Migration(migrations.Migration):
                 ('precio', models.CharField(max_length=20)),
                 ('presentacion', models.CharField(max_length=20)),
                 ('observaciones', models.TextField(blank=True)),
+                ('estado', models.CharField(max_length=6)),
             ],
         ),
         migrations.CreateModel(
-            name='Usuario',
+            name='Solicitud',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('nombre', models.CharField(max_length=20)),
-                ('direccion', models.CharField(max_length=50)),
-                ('correo', models.EmailField(max_length=254)),
-                ('telefono', models.IntegerField(null=True, blank=True)),
-                ('categoria', models.CharField(max_length=20, choices=[(b'Supervisor', b'Supervisor'), (b'Operador', b'Operador'), (b'Farmaceutico', b'Farmaceutico')])),
-                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
+                ('fecha', models.CharField(max_length=30)),
+                ('dosis', models.CharField(max_length=20)),
+                ('observaciones', models.TextField(null=True, blank=True)),
+                ('estado_aprobacion', models.CharField(max_length=15)),
+                ('precio_solicitud', models.CharField(max_length=15)),
+                ('farmacia', models.ForeignKey(db_column='farmacia_id', blank=True, to='usuarios.UserFarmacia', null=True)),
+                ('remedio', models.ForeignKey(to='aplicacion.Remedio', db_column='remedio_id')),
             ],
         ),
         migrations.CreateModel(
@@ -102,15 +92,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('persona_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='aplicacion.Persona')),
                 ('legajo', models.CharField(max_length=20)),
-                ('categoria', models.CharField(max_length=20, choices=[(b'Supervisor', b'Supervisor'), (b'Operador', b'Operador')])),
-            ],
-            bases=('aplicacion.persona',),
-        ),
-        migrations.CreateModel(
-            name='Farmaceutico',
-            fields=[
-                ('persona_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='aplicacion.Persona')),
-                ('farmacia', models.ForeignKey(to='aplicacion.Farmacia')),
+                ('categoria', models.CharField(max_length=20, choices=[('Supervisor', 'Supervisor'), ('Operador', 'Operador')])),
             ],
             bases=('aplicacion.persona',),
         ),
@@ -134,19 +116,19 @@ class Migration(migrations.Migration):
             bases=('aplicacion.persona',),
         ),
         migrations.AddField(
-            model_name='detallesolicitud',
-            name='remedio',
-            field=models.ForeignKey(to='aplicacion.Remedio', db_column=b'remedio_id'),
+            model_name='registro_estados',
+            name='solicitud',
+            field=models.ForeignKey(to='aplicacion.Solicitud', db_column='solicitud_id'),
         ),
         migrations.AddField(
-            model_name='detallesolicitud',
+            model_name='solicitud',
             name='medico',
-            field=models.ForeignKey(to='aplicacion.Medico', db_column=b'medico_id'),
+            field=models.ForeignKey(to='aplicacion.Medico', db_column='medico_id'),
         ),
         migrations.AddField(
-            model_name='detallesolicitud',
+            model_name='solicitud',
             name='paciente',
-            field=models.ForeignKey(to='aplicacion.Paciente', db_column=b'paciente_id'),
+            field=models.ForeignKey(to='aplicacion.Paciente', db_column='paciente_id'),
         ),
         migrations.AddField(
             model_name='derivacion',

@@ -1,0 +1,103 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        
+        
+      <div class="navbar-header">
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Desplegar navegación</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" id="titulo" href="">Servicio social</a>
+      </div>
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      {% if user.is_authenticated %}
+              
+      <li><a>Usuario: {{ user.username }}</a>
+      <li><a href="/usuario/cerrar_sesion/">Cerra Sesion</a></li>
+         
+    {% endif %}
+      <li id='paciente' style="display:none; "> <a href="/aplicacion/paciente">Pacientes</a></li>
+      
+      <li id='medico'  style="display:none;"><a href="/aplicacion/medico">Medicos</a></li>
+      
+      <li id='farmacia' style="display:none;" ><a href="/aplicacion/farmacia">Farmacia</a></li>
+      
+      <li id='usuario' style="display:none;" > <a href="/aplicacion/usuario">Usuarios</a></li>
+      
+      <li id='pendiente_entrega' style="display:none;"><a href="/aplicacion/farmacia_entrega">Pendientes</a></li>
+      
+      <li id='parciales' style="display:none;"> <a href="/aplicacion/farmacia_parciales">Parciales</a></li>
+      
+      <li id='entregado' style="display:none;"> <a href="/aplicacion/farmacia_entregados">Entregados</a></li>
+       
+
+    <li><a href="">Ayuda</a></li>
+
+      <li class="dropdown">
+        <ul class="dropdown-menu">
+        <ul class="nav navbar-nav navbar-right">
+         
+          <li id='paciente' style="display:none;"> <a href="/aplicacion/paciente">Pacientes</a></li>
+          
+          <li id='medico' style="display:none;"><a href="/aplicacion/medico">Medicos</a></li>
+          
+          <li id='farmacia' style="display:none;"><a href="/aplicacion/farmacia">Farmacia</a></li>
+          
+          <li id='usuario' style="display:none;"> <a href="/aplicacion/usuario">Usuarios</a></li>
+
+          <li id='pendiente_entrega' style="display:none;"><a href="/aplicacion/farmacia_entrega">Pendientes</a></li>
+          
+          <li id='parciales' style="display:none;"> <a href="/aplicacion/farmacia_parciales">Parciales</a></li>
+          
+          <li id='entregado' style="display:none;"> <a href="/aplicacion/farmacia_entregados">Entregados</a></li>
+        </ul>
+      </li>
+      
+    </ul>
+
+ 
+ 
+    
+    </ul>
+  </div>
+
+
+        
+          
+            
+    {% if user.userfarmacia.categoria == 'FARMACIA' %}
+          <script  type="text/javascript" charset="utf-8" async defer>
+  
+        
+          $('#pendiente_entrega').show();
+          $('#entregado').show();
+          $('#parciales').show();
+
+    {% endif %}
+        </script>
+		
+		{% if user.userfarmacia.categoria == 'OPERADOR' %}
+          <script  type="text/javascript" charset="utf-8" async defer>
+  
+        
+          $('#paciente').show();
+          $('#medico').show();
+          $('#farmacia').show();
+
+
+
+        </script>
+  
+
+    {% endif %}
+   
+        
+       </ul>
+      </div>
+      
+      </div>
+    </nav>

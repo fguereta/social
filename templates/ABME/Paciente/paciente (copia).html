@@ -1,0 +1,174 @@
+{% extends 'index.html'%}
+{% block htitle %}<title>Pacientes</title>{% endblock %} 
+
+{% block contenido%}
+{% if refrescar_registro %}
+
+
+
+
+
+{% endif %}
+
+ <div class='container' >
+      <div class='panel panel-primary dialog-panel'>
+          <div class='panel-body'>
+
+              <fieldset>
+                 <legend>Pacientes</legend>
+                 <div class="col-md-offset-10"> 
+                  <a href="/aplicacion/comprobar_paciente/0">
+                    <button class="btn btn-success ">Nuevo Paciente</button>
+                  </a>
+              </div>
+            
+              <div class="row">
+              <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Buscar">
+      </div>
+      <button type="submit" class="btn btn-default">Enviar</button>
+    </form>
+                
+
+                <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+                    <div class="col-md-4 text-left">
+                      <select name="id_paciente" id="id_paciente" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                          <option value=""></option>
+                          {% for elemento in busqueda_paciente %}
+                          <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
+                          {% endfor %}
+                      </select>
+                    </div>
+    
+                    <div>
+                      <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                </form> 
+                </div>
+              </div>
+        
+            </fieldset>
+ 
+ {% if id_paciente %}
+<div class="row">
+<br>
+
+<div class="container">
+  
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed table table-bordered table-hover " cellspacing="0" width="100%">
+    <thead>
+      
+      <tr class="success">
+        
+        <th class="text-center">Apellido y Nombre</th>
+        <th class="text-center">Dni</th>
+        <th class="text-center">Cuil</th>
+        <th class=" text-center">Historia Clinica</th>
+        
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in id_paciente %}
+      <tr onclick="document.location='/aplicacion/fichapaciente/{{elemento.id}}'"  style="cursor:pointer" >
+        
+        <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
+        <td class="col-md-2 text-center">{{elemento.dni}}</td>
+        <td class="col-md-2 text-center">{{elemento.cuil}}</td>
+        <td class="col-md-2 text-center">{{elemento.historiaclinica}}</td>
+        
+         
+      </tr>
+     {% endfor %} 
+      
+    </tbody>
+  </table>
+</div>
+  
+</div>
+</div>
+ {% endif %}
+
+ {% if paciente %}
+<div class="row">
+<br>
+
+<div class="container">
+  
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+    <thead>
+      <tr class="success">
+        
+        <th class="text-center">Apellido y Nombre</th>
+        <th class="text-center">Dni</th>
+        <th class="text-center">Cuil</th>
+        <th class=" text-center">Historia Clinica</th>
+        
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in paciente %}
+      <tr onclick="document.location='/aplicacion/fichapaciente/{{elemento.id}}'"  style="cursor:pointer" >
+        
+        <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
+        <td class="col-md-2 text-center">{{elemento.dni}}</td>
+        <td class="col-md-2 text-center">{{elemento.cuil}}</td>
+        <td class="col-md-2 text-center">{{elemento.historiaclinica}}</td>
+        
+         
+      </tr>
+     {% endfor %} 
+      
+    </tbody>
+  </table>
+</div>
+            
+</div>
+</div>
+</div>
+ {% endif %}
+
+</div>
+</div>
+
+
+<script type="text/javascript" charset="utf-8" async defer>
+    
+    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+
+ 
+
+   $("button[id=btn_nuevo_paciente]").click(function() {
+
+      
+  alertify.defaults.glossary.title = '';
+
+      alertify.confirm("Confirmar eliminacion  "+apellidonombre,
+            function (e) {
+                if (e) {
+                   window.location = "/aplicacion/eliminarpaciente/"+id_paciente;
+                } else {
+                    alertify.error("Has pulsado <strong>"
+                             + alertify.labels.cancel
+                             + "</strong>");
+                }
+        }).setting('labels',{'ok':'Confirmar', 'cancel': 'Cancelar'});
+    });
+ 
+</script>
+
+
+
+
+{% endblock %}
+
+
+
+

@@ -11,7 +11,7 @@ from django.db import models
 class UserFarmacia(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL)
 	#USER EL CUIT
-	cuit= models.CharField(max_length=20)
+	cuit = models.CharField(max_length=20)
 	razon_social = models.CharField(max_length=25)
 	direccion = models.CharField(max_length=25)
    	telefono = models.CharField(max_length = 20)
@@ -22,15 +22,17 @@ class UserFarmacia(models.Model):
 		return self.razon_social
 
 class UserOperador(models.Model):
-	
 	user = models.OneToOneField(settings.AUTH_USER_MODEL)
 	#USER EL CUIT
-	operador = models.CharField(max_length=25)
-	
-	
+	cuit = models.CharField(max_length=20)
+	razon_social = models.CharField(max_length=25)
+	direccion = models.CharField(max_length=25)
+   	telefono = models.CharField(max_length = 20)
+	estado=models.CharField(max_length=10)
+	categoria=models.CharField(max_length=10)
 
 	def __str__ (self):
-		return self.operador
+		return self.razon_social
     
     
     

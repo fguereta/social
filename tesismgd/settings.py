@@ -14,7 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from django.conf.global_settings import STATIC_ROOT
+from django.conf.global_settings import STATIC_ROOT, TEMPLATE_DEBUG
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -25,7 +25,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'zv)y&jmjn-r8rmsskog21!slqfb8%jbgzb^8wi9eh_(s2da_3q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG=True
+
+
+
 
 ALLOWED_HOSTS = []
 
@@ -67,8 +70,8 @@ ROOT_URLCONF = 'tesismgd.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        #'DIRS': ['/home/franco/git/social/templates'],
-        'DIRS': ['/home/leandro/git/social/templates'],
+        'DIRS': ['/home/franco/git/social/templates'],
+        #'DIRS': ['/home/leandro/git/social/templates'],
         
         'APP_DIRS': True,
         'OPTIONS': {

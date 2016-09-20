@@ -9,28 +9,70 @@
           
     <fieldset>
         <legend>Profesionales</legend>
-            <div class="col-md-offset-10"> <a  href="/aplicacion/registrarmedico"><button class="btn btn-success ">Agregar profesional</button></a>
-            </div>
 
-            <div class="row">
-                <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
-                    <div class="col-md-4 text-left">
-                    <select name="id_medico" id="id_medico" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+
+        
+<nav class="navbar navbar-default" role="navigation">
+  <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse"
+            data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Desplegar navegación</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    
+  </div>
+ 
+  <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      
+      
+    </ul>
+ 
+    <!--BUSQUEDA PACIENTE-->
+
+
+
+     <form  method="POST"  enctype="multipart/form-data" class="navbar-form navbar-left" role="search">{% csrf_token %}
+              
+              <div class="form-group">
+                
+<select name="id_medico" id="id_medico" class="form-control chosen-select " data-placeholder="Busqueda..." required>             
                         <option value=""></option>
                         {% for elemento in busqueda_medico %}
                         <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
                         {% endfor %}
                     </select>
-                    </div>
-    
-                    <div>
-                    <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
-                    </div>
-                </form> 
+              </div>
+
+              <button type="submit" class="btn btn-primary">Buscar</button>
+
+              </form>
+
+ <!-- REGISTRAR NUEVO PACIENTE -->
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+  
+    <a href="/aplicacion/registrarmedico">
+Registrar Profesional</a></li>
+      
+    </ul>
+  </div>
+</nav>
+
+            <div class="row">
+                 
             </div>
         
   </fieldset>
  
+
+
  {% if id_medico %}
 <div class="row">
 <br>
@@ -39,33 +81,42 @@
   
 <br> 
 <div class="table-responsive">             
-  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+  <table id="example" class="table table-condensed table table-bordered table-hover " cellspacing="0" width="100%">
     <thead>
-      <tr>
-        <th class=" text-center"></th>
-        <th class="text-center">Apellido y Nombre</th>
-        <th class="text-center">Dni</th>
-        <th class="text-center">Cuil</th>
+      
+      <tr class="success">
+        
+        <th class="text-center">Apellido y nombre</th>
+        
+        <th class="text-center">Especialidad</th>
+        
+        <th class=" text-center">Eliminar</th>
         
         
       </tr>
     </thead>
     <tbody>
     {% for elemento in id_medico %}
-      <tr>
-        <td class="col-md-1 text-center"><a href="/aplicacion/fichamedico/{{elemento.id}}/"><button class=" btn btn-success btn-sm"  >Ver ficha</button></a>
-        <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
-        <td class="col-md-2 text-center">{{elemento.dni}}</td>
-        <td class="col-md-2 text-center">{{elemento.cuil}}</td>
+      <!--NOMBRE-->
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichamedico/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.apellido}}, {{elemento.nombre}}</td>
+        <!--ESPECIALIDAD-->
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichamedico/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.especialidad}}</td>
         
-         
-      </tr>
+        <!--ELIMINAR-->
+        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.persona_ptr_id}}, "{{elemento.especialidad}}", "{{elemento.apellido}}");'style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
+
+<script  type="text/javascript" charset="utf-8" async defer>
+  
+var persona_ptr_id = $("#persona_ptr_id").val();
+  
+</script>
+
      {% endfor %} 
       
     </tbody>
   </table>
 </div>
-   
+  
 </div>
 </div>
  {% endif %}
@@ -78,28 +129,43 @@
   
 <br> 
 <div class="table-responsive">             
-  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
+  <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
     <thead>
-      <tr>
-        <th class=" text-center"></th>
-        <th class="text-center">Apellido y Nombre</th>
-        <th class="text-center">Dni</th>
-        <th class="text-center">Cuil</th>
+      <tr class="success">
+        
+
+        <th class="text-center">Apellido y nombre</th>
+        
+        <th class="text-center">Especialidad</th>
+        
+        <th class=" text-center">Eliminar</th>
+        
         
         
       </tr>
     </thead>
     <tbody>
-    {% for elemento in medico %}
+  {% for elemento in medico %}
       <tr>
-        <td class="col-md-1 text-center"><a href="/aplicacion/fichamedico/{{elemento.id}}/"><button class=" btn btn-success btn-sm">Ver ficha</button></a>
-        <td class="col-md-2 text-center">{{elemento.apellido}}, {{elemento.nombre}}</td>
-        <td class="col-md-2 text-center">{{elemento.dni}}</td>
-        <td class="col-md-2 text-center">{{elemento.cuil}}</td>
+        <!--NOMBRE-->
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichamedico/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.apellido}}, {{elemento.nombre}}</td>
+        <!--ESPECIALIDAD-->
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichamedico/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.especialidad}}</td>
         
-         
-      </tr>
+        <!--ELIMINAR-->
+        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.persona_ptr_id}},"{{elemento.especialidad}}" ,"{{elemento.apellido}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
+     </tr>
+
+<script  type="text/javascript" charset="utf-8" async defer>
+  
+var persona_ptr_id = $("#persona_ptr_id").val();
+  
+</script>
+
      {% endfor %} 
+
+
+
       
     </tbody>
   </table>
@@ -110,14 +176,61 @@
 </div>
  {% endif %}
 
+</div>
+</div>
+
 
 <script type="text/javascript" charset="utf-8" async defer>
     
-    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+    $(".chosen-select").chosen({no_results_text: "No se ha encontrado"});
+
+    
+    function eliminar(persona_ptr_id, especialidad, apellido)
+{
+  
+    alertify.set({ labels: {
+            ok     : "Confirmar",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("El <b>"+especialidad+", "+apellido+" </b>  será eliminado del sistema, ¿Esta de acuerdo?", function (e) {
+
+
+          if (e) {
+            
+            window.location.href = "/aplicacion/eliminarmedico/"+persona_ptr_id;
+          
+          } else {
+            
+            window.location.href = "/aplicacion/medico/";
+        }
+        
+      });
+
+
+ }
+
+
+ 
+
+   
+
+      
+
+
+
+
+
 
 </script>
 
 
 
-
 {% endblock %}
+
+
+
+
+
+
+
