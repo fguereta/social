@@ -1,0 +1,317 @@
+{% extends "index.html" %} 
+{% block htitle %}<title>Solicitar derivación</title>{% endblock %} 
+{% block contenido %} 
+
+{% if paciente %}
+
+
+  <div class='container' >
+    <div class='panel panel-primary dialog-panel'>
+      <div class='panel-heading'>
+        <h5>Solicitar derivacion</h5>
+      </div>
+      <div class="panel-body">
+        <form id='miForm' action="/aplicacion/registrarderivacion/" method="post" enctype="multipart/form-data" action="/aplicacion/registrarderivacion/" class="form-horizontal">{% csrf_token %}
+        
+              <div class="form-group">
+                <label class="control-label col-md-2 col-md-offset-2">Paciente</label>
+                  <div class="col-md-2">
+                	 <input class="form-control" id="paciente" name="paciente" type="hidden" value="{{paciente.persona_ptr_id}}" />
+					 <input class="form-control" id="apellido" name="apellido" type="text" readonly="readonly" value="{{paciente.apellido}} {{paciente.nombre}}" />
+                  </div>
+                  
+                  <div class="col-md-3 indent-small">
+                    <div class="btn-group btn-group-justifiedl">
+                        <font color="green" SIZE=5 >✓</font>
+                    </div>  
+              	  </div> 
+                
+            </div>
+        
+          <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="diagnostico">Diágnostico</label>
+            <div class="col-md-2">
+              <input class="form-control" id="diagnostico" name="diagnostico" type="text" placeholder="Diagnostico"></input>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="prestacion">Prestación</label>
+            <div class="col-md-5">
+              <textarea class="form-control" required="required" id="prestacion" name="prestacion" rows="7"> </textarea></li>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="proposito">Propósito</label>
+            <div class="col-md-5">
+              <textarea class="form-control" required="required" id="proposito" name="proposito" rows="7"></textarea></li>
+            </div>
+          </div>
+
+           <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="tipopaciente">Tipo de paciente</label>
+            <div class="col-md-2">
+              	<select class="form-control" required="required" id="tipopaciente" name="tipopaciente">
+					<option value="" selected="selected">---------</option>
+					<option value="Internado">Internado</option>
+					<option value="Ambulatorio">Ambulatorio</option>
+				</select>
+            </div>
+          </div>
+          
+           <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="caracter">Carácter</label>
+            <div class="col-md-2">
+              	<select class="form-control" required="required"  id="caracter" name="caracter">
+					         <option value="" selected="selected">---------</option>
+					         <option value="Urgente">Urgente</option>
+					         <option value="A la brevedad">A la brevedad</option>
+					         <option value="Programado">Programado</option>
+				        </select>
+            </div>
+          </div>
+          
+                    
+          <div class="form-group">
+            <label class="control-label col-md-3 col-md-offset-1" for="fecha">Fecha*</label>
+            <div class="col-md-8">
+              <div class="col-md-3">
+                <div class="form-group internal input-group">
+                  <input class="form-control datepicker" name="fecha" type="text" id="datepicker"
+                  placeholder="dd/mm/yyyy" readonly></input>
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+		 <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="my_timepicker_input">Hora</label>
+            <div class="col-md-2">
+              <input class="form-control" id="my_timepicker_input" name="my_timepicker_input" type="text" placeholder="Hora" readonly></input>
+            </div>
+          </div>
+          
+           <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="hospital">Hospital</label>
+            <div class="col-md-2">
+              <input class="form-control" id="hospital" name="hospital" placeholder="Hospital"></input>
+            </div>
+          </div>
+          
+           <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="servicio">Servicio</label>
+            <div class="col-md-2">
+              <input class="form-control" id="servicio" name="servicio" type="text" placeholder="Servicio"></input>
+            </div>
+          </div>
+
+         <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="contacto">Contacto</label>
+            <div class="col-md-2">
+              <input class="form-control" id="contacto" name="contacto" type="text" placeholder="Contacto"></input>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="acompanante">Acompañante</label>
+            <div class="col-md-2">
+                <select class="form-control" required="required"  id="acompananate" name="acompananate">
+                   <option value="" selected="selected">---------</option>
+                   <option value="Si">si</option>
+                   <option value="No">no</option>
+                   
+                </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="motivo">Motivo</label>
+            <div class="col-md-2">
+              <input class="form-control" id="motivo" name="motivo" type="text" placeholder="Motivo"></input>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="tipotraslado">Tipo de traslado</label>
+            <div class="col-md-2">
+                <select class="form-control" required="required"  id="tipotraslado" name="tipotraslado">
+                   <option value="" selected="selected">---------</option>
+                   <option value="Aereo">Aereo</option>
+                   <option value="Terrestre">Terrestre</option>
+                   
+                </select>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="transporteregular">¿Puede viajar por empresa de transporte regular?</label>
+            <div class="col-md-2">
+                <select class="form-control" required="required"  id="transporteregular" name="transporteregular">
+                   <option value="" selected="selected">---------</option>
+                   <option value="Si">Si</option>
+                   <option value="No">No</option>
+                   
+                </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="trasladosanitario">¿Requiere traslado sanitario?</label>
+            <div class="col-md-2">
+                <select class="form-control" required="required"  id="trasladosanitario" name="trasladosanitario">
+                   <option value="" selected="selected">---------</option>
+                   <option value="Si">Si</option>
+                   <option value="No">No</option>
+                   
+                </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="id_comments">Condiciones</label>
+            <div class="col-md-6">
+              <textarea class="form-control" id="condiciones" name="condiciones" placeholder="Escribe aqui..." rows="3"></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-2 col-md-offset-2" for="id_comments">Observaciones</label>
+            <div class="col-md-6">
+              <textarea class="form-control" id="observaciones" name="observaciones" placeholder="Escribe aqui..." rows="3"></textarea>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-md-offset-8 col-md-3">
+              <br>
+             
+             <!--button class="btn-lg btn-primary" style="float:right" type="submit">Guardar</button-->
+             	<input class="form-control" type="submit" name="submit" value="Solicitar">
+            </div>
+            
+          </div>
+        
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+
+
+<script>
+ng.ready( function() {
+    var tp = new ng.TimePicker({
+        input: 'my_timepicker_input',
+        placement:'brtl'
+    });
+});
+
+
+jQuery.validator.addMethod("direc", function(value, element) {
+    var reg1 = /^[a.,-zA-Z0-9-\/] ?([a.,-zA-Z0-9-\/]|[a.,-zA-Z0-9-\/] )*[a.,-zA-Z0-9-\/]$/;
+    if (reg1.test(value)) {
+        return true;
+    } else {
+        return false;
+    };
+}, "Ingrese una direccion valida");
+
+$('#datepicker').datepicker({
+  dateFormat: 'dd/mm/yy',
+  changeYear: true,
+  changeMonth: true,
+  yearRange: "1900:2100"
+  });
+$.datepicker.regional[ "es" ]
+
+$("#miForm").validate({
+  errorClass: "claserror",
+    validClass: "clasevalida",
+    errorElement: 'erele',
+    rules: {
+          diagnostico: {
+          },
+      	  prestacion: {
+          },
+          proposito: {
+          },
+          tipopaciente: {
+        	  required: true
+          },
+          caracter: {
+        	  required: true
+          },
+          fecha: {
+        	  required: true,
+              date: true
+          },
+          hora: {
+        	  
+          },
+          hospital: {
+        	  required: true
+          },
+          servicio: {
+          },
+          contacto: {
+        	  required: true
+          },
+          acompanante: {
+        	  required: true
+          },
+          motivo: {
+          },
+          tipotraslado: {
+        	  required: true
+          },
+          transporteregular: {
+        	  required: true
+          },
+          trasladosanitario: {
+        	  required: true
+          },
+          condiciones: {
+          },
+          observaciones: {
+          }
+    },
+  messages: {
+    nombre: {
+        lettersonly: "Escribe sólo letras"
+      },
+      apellido: {
+        lettersonly: "Escribe sólo letras"      
+      },
+      osocial: {
+        lettersonly: "Escribe sólo letras"      
+      },
+    historiaclinica: {
+        nowhitespace: "No se permiten espacios en blanco"
+      },
+    observaciones: {
+          direc: "Ingrese algo coherente"
+        }
+    },
+  highlight: function (element, errorClass, validClass) {
+        $(element).parent('.miForm').addClass('error');
+        $(element).addClass(errorClass).removeClass(validClass);
+        },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).parent('.miForm').removeClass('error');
+        $(element).addClass(validClass).removeClass(errorClass);
+        }
+  });
+ 
+</script>
+
+<style>
+.ng-input-button-container .ng-button {display:none !important;}
+</style>
+
+{% endblock %} 

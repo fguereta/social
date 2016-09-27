@@ -55,7 +55,7 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
                       
                    
                     </div>
-                     <a class="related-widget-wrapper-link add-related" id="add_id_medico" href="/aplicacion/registrarmedico/" title="Agregar otro/a medico">
+                     <a class="related-widget-wrapper-link add-related" id="add_id_medico" href="/aplicacion/registrarmedico/" target="_blank" title="Agregar otro/a medico">
             <img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
         </a>
 			</div>
@@ -77,15 +77,22 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
 			</div>
 			-->
 
+		<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/my_ajax.js"></script>
+<table class="myTable">
+        <thead>        
+        </thead>
+        <tbody>
 
+        </tbody>
+</table>
 
-		<div class="form-group">
+		<div   class="form-group">
 				<label for="remedio" class="control-label col-md-2 col-md-2 col-md-offset-2">Remedio:</label> 
-					<div class="col-md-4 text-left">
+					<div id="contenido" class="col-md-4 text-left">
                       <select name="id_remedio" id="id_remedio" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-                          <option value=""></option>
+                          <option  value=""></option>
                           
-                          {% for elemento in remedio_enviado %}
+                         {% for elemento in remedio_enviado %}
                           <option value="{{elemento.id}}" >{{elemento.generico}}</option>
                           {% endfor %}
                       
@@ -93,10 +100,12 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
                       </select>
                                         
                     </div>
-                      <a class="related-widget-wrapper-link add-related" id="add_id_remedio" href="/aplicacion/registrarmedicamento" title="Agregar otro/a remedio">
+                      <a class="related-widget-wrapper-link add-related" id="add_id_remedio" target="_blank" href="/aplicacion/registrarmedicamento" title="Agregar otro/a remedio">
           				  <img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
         			  </a>
-			</div>
+		</div>
+		
+		
 
 
 <div class="form-group">
@@ -130,5 +139,7 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
     $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
 
  </script>
+
+
 
 {% endblock %}

@@ -13,9 +13,9 @@
         <form  id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
         
         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='nombre'>Nombre*</label>
+            <label class='control-label col-md-3 col-md-offset-1' for='nombre'>Nombre y Apellido<font color="red"> *</font></label>
             <div class='col-md-8'>
-              
+         
               <div class='col-md-4 indent-small'>
                 <div class='form-group internal'>
                   <input class='form-control' id='nombre' name="nombre" placeholder='Nombre' type='text'>
@@ -32,9 +32,9 @@
         
                 
         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni*</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni<font color="red"> *</font></label>
             <div class='col-md-2'>
-              <input class='form-control' id='dni' name='dni'></input>
+              <input class='form-control' id='dni' name='dni' type="text"></input>
             </div>
 
             
@@ -54,30 +54,30 @@
         {% endif %}
           
          <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil<font color="red"> *</font></label>
             <div class='col-md-2'>
-              <input class='form-control' id='cuil' name='cuil'></input>
+              <input class='form-control' id='cuil' name='cuil' type="text"></input>
             </div>
         </div>
           
         <div class='form-group'>
-            <label class='control-label col-md-3 col-md-offset-1' for='matriculanacional'>Matricula nacional*</label>
+            <label class='control-label col-md-3 col-md-offset-1' for='matriculanacional'>Matricula nacional<font color="red"> *</font></label>
             <div class='col-md-2'>
-              <input class='form-control' id='matriculanacional' name='matriculanacional'></input>
+              <input class='form-control' id='matriculanacional' name='matriculanacional' type="text"></input>
             </div>
 
         </div>
 
         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='matriculaprovincial'>Matricula provincial*</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='matriculaprovincial'>Matricula provincial<font color="red"> *</font></label>
             <div class='col-md-2'>
-              <input class='form-control' id='matriculaprovincial' name='matriculaprovincial'></input>
+              <input class='form-control' id='matriculaprovincial' name='matriculaprovincial' type="text"></input>
             </div>
 
 
         </div>
         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='especialidad'>Especialidad*</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='especialidad'>Especialidad<font color="red"> *</font></label>
             <div class="col-md-3 especialidad ">
                 <select class="form-control" id="especialidad" name="especialidad">
                     <option value="">----Especialidad----</option>
@@ -87,24 +87,19 @@
                     
                 </select>
             </div>
-            
-             <div class='col-md-3 indent-small'>
-                    <div class='btn-group btn-group-justifiedl'>
-                      <font color="green" SIZE=5 >+</font>
-                    </div>  
-            </div> 
+      
         </div>
         
           
         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion*</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Direccion<font color="red"> *</font></label>
             <div class='col-md-3'>
-              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion"></input>
+              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" type="text"></input>
             </div>
           </div>
 
          <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='telefono'>Telefono</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='telefono'>Telefono<font color="red"> *</font></label>
             <div class='col-md-8'>
                 <div class='col-md-3 indent-small'>
                     <div class='form-group internal'>
@@ -120,12 +115,12 @@
          </div>
           
           <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='nacimineto'>Fecha de nacimiento*</label>
+            <label class='control-label col-md-3 col-md-offset-1' for='nacimineto'>Fecha de nacimiento<font color="red"> *</font></label>
             <div class='col-md-8'>
               
               <div class='col-md-3'>
                 <div class='form-group internal input-group'>
-                  <input class='form-control datepicker' name="nacimiento "id='datepicker'>
+                  <input class='form-control datepicker' name="nacimiento" id='datepicker' placeholder='dd/mm/yyyy' readonly>
                   <span class='input-group-addon'>
                     <i class='glyphicon glyphicon-calendar'></i>
                   </span>
@@ -133,7 +128,7 @@
               </div>
              <div class="col-md-3 sexo">
                 <select class="form-control" id="sexo" name="sexo">
-                    <option value="">---sexo---</option>
+                    <option value="">---Sexo---</option>
                     <option value="MASCULINO">Masculino</option>
                     <option value="FEMENINO">Femenino</option>
                 </select>
@@ -174,77 +169,117 @@
 
 <script>
 
+jQuery.validator.addMethod("direc", function(value, element) {
+    var reg1 = /^[a.,-zA-Z0-9-\/] ?([a.,-zA-Z0-9-\/]|[a.,-zA-Z0-9-\/] )*[a.,-zA-Z0-9-\/]$/;
+    if (reg1.test(value)) {
+        return true;
+    } else {
+        return false;
+    };
+}, "Ingrese una direccion valida");
 
-$('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
-    $.datepicker.regional[ "es" ]
-    
-    $("#miForm").validate({
-        rules: {
-            nombre: {
-                required: true,
-                lettersonly: true
-            },
-            apellido: {
-                required: true,
-                lettersonly: true
-            },
-            dni: {
-                required: true,
-                digits: true,
-                minlength: "8",
-                maxlength: "8"
-            },
-            cuil: {
-                required: true,
-                digits: true,
-                minlength: "10",
-                maxlength: "11"
-            },
-            nacimiento: {
-                required: true,
-                date: true
-            },
-            correo: {
-                email: true
-            },
-            direccion: {
-                required: true
-            },
-            telefono: {
-                required: true,
-                digits: true
-            },
-            celular: {
-                digits: true
-            },
-            sexo: {
-                required: true
-            },
-            historiaclinica: {
-                required: true
-            },
-            osocial: {
-                lettersonly: true
-            }
+$('#datepicker').datepicker({
+  dateFormat: 'dd/mm/yy',
+  changeYear: true,
+  changeMonth: true,
+  yearRange: "1900:2100"
+  });
+$.datepicker.regional[ "es" ]
+
+
+$("#miForm").validate({
+  errorClass: "claserror",
+    validClass: "clasevalida",
+    errorElement: 'erele',
+    rules: {
+          nombre: {
+            required: true,
+        	maxlength: "20",
+        	nomb: "[a-zA-Z. ]+"
+          },
+      razon_social: {
+            required: true,
+        	maxlength: "25",
+        	nomb: "[a-zA-Z. ]+"
+          },
+      especialidad: {
+            required: true
+          },
+      matriculaprovincial: {
+            required: true,
+        	maxlength: "20"
+          },
+      matriculanacional: {
+            required: true,
+        	maxlength: "20"
+          },
+          apellido: {
+            required: true,
+            nomb: "[a-zA-Z. ]+",
+        	maxlength: "20"
+          },
+          dni: {
+            required: true,
+            digits: true,
+            minlength: "8",
+            maxlength: "8"
+          },
+          cuil: {
+            required: true,
+            digits: true,
+            minlength: "10",
+            maxlength: "11"
+          },
+          nacimiento: {
+            required: true,
+            date: true
+          },
+          correo: {
+            email: true
+          },
+          direccion: {
+            required: true,
+        	maxlength: "25",
+        	direc: true
+          },
+          telefono: {
+            required: true,
+            digits: true,
+        	maxlength: "20"
+          },
+          celular: {
+            digits: true,
+        	maxlength: "20"
+          },
+          sexo: {
+            required: true
+          }
+    },
+  messages: {
+    nombre: {
+        lettersonly: "Escribe sólo letras",
+        nomb: "Ingrese un nombre valido"
+      },
+      apellido: {
+        nomb: "Ingrese un apellido valido"      
+      }
+    },
+  highlight: function (element, errorClass, validClass) {
+        $(element).parent('.miForm').addClass('error');
+        $(element).addClass(errorClass).removeClass(validClass);
         },
-    messages: {
-        nombre: {
-            lettersonly: "Escribe sólo letras"
-        },
-        apellido: {
-            lettersonly: "Escribe sólo letras"      
-        },
-        osocial: {
-            lettersonly: "Escribe sólo letras"      
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).parent('.miForm').removeClass('error');
+        $(element).addClass(validClass).removeClass(errorClass);
         }
-        },
-    highlight: function (element) {
-            $(element).closest('.miForm').addClass('has-error');
-        },
-    unhighlight: function (element) {
-            $(element).closest('.miForm').removeClass('has-error');
-        },
-    });
+  });
+
+jQuery.validator.addMethod("nomb", function(value, element, param) {
+
+	   return jQuery.trim(value).match(new RegExp("^(?:" + param + ")$"));
+
+	});
+
 </script>
 
 {% endblock %} 

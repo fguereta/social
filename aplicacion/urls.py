@@ -93,8 +93,9 @@ urlpatterns = [
         url(r'^eliminarmedicamento/(?P<id_remedio>\w+)/$', views.eliminarmedicamento, name='eliminarmedicamento'),
 
         
-
+        url(r'^actualizar/', views.actualizar, name='actualizar'),
     
+        url(r'^ajax/$', views.ajax_view, name='temp'), # Function calls ajax
     
     
 ]

@@ -17,7 +17,10 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
+from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
 
+import json
 
 
 #@login_required
@@ -1649,6 +1652,9 @@ def eliminarusuario(request):
 
 
 #######################M###########################################
+def actualizar(request):
+    remedio_enviado=Remedio.objects.filter(estado='ACTIVO')
+    return HttpResponse(remedio_enviado)
 
 
 def medicamento(request):
@@ -1667,6 +1673,10 @@ def medicamento(request):
     
         return render_to_response("ABME/Medicamento/medicamento.html",  {'remedio': remedio, 'busqueda_remedio':remedio  }, context_instance = RequestContext(request))
 
+
+
+
+
 def fichamedicamento(request,id_remedio):
     
     remedio_enviar=Remedio.objects.filter(id=id_remedio, estado='ACTIVO')
@@ -1684,7 +1694,6 @@ def registrarmedicamento(request):
             newdoc = Remedio(
                     
                     generico=request.POST["generico"].upper(),
-                    precio=request.POST["precio"].upper(),
                     presentacion=request.POST["presentacion"].upper(),
                     observaciones=request.POST["observaciones"].upper(),
                     estado='ACTIVO'
@@ -1717,16 +1726,18 @@ def modificarmedicamento(request,id_remedio):
             
                     
                     remedio.generico=request.POST['generico'].upper()
-                    remedio.precio=request.POST['precio'].upper()
                     remedio.presentacion=request.POST['presentacion'].upper()
                     remedio.observaciones=request.POST['observaciones'].upper()
                     
+
                     remedio.save()
                     
-                    id_remedio=Remedio.objects.filter(generico__icontains=request.POST['generico'])
+                    id_remedio=Remedio.objects.filter(id=request.POST['idmedicamento'])
+                    
                     ban='exito_modificar_remedio'
                     
                     return render_to_response('ABME/Medicamento/fichamedicamento.html',{'id_remedio':id_remedio,'exito_modificar_remedio':ban},context_instance=RequestContext(request))
+                    #return render_to_response('ABME/Medicamento/medicamento.html',context_instance=RequestContext(request))
 
     else:
         
@@ -1760,3 +1771,38 @@ def eliminarmedicamento(request, id_remedio):
         
         
     return render_to_response("ABME/Medicamento/medicamento.html",{'remedio':remedio},  context_instance = RequestContext(request))
+
+'''
+class MedicamentoView(ListView):
+    model=Remedio
+    template_name='/aplicacion/registrarsolicitud'
+    context_object_name='remedio_enviado'
+
+
+from django.core import serializers
+from django.http import HttpResponse
+
+
+class ActualizarMedicamento(TemplateView):
+    data GET(self, request, *args, *kwargs):
+    id_remedio =request.GET['id']
+    medicamentos=Remedio.objects.filter(remedio__id=id_remedio)
+    data=serializers.serialize('json', libros, fields =('generico', 'presentacion'))
+    return HttpResponse(data, mimetype='application/json')
+'''
+
+def ajax_view(request):
+    result = dict()
+    data_list = []
+    result['status'] = "success"
+    for u in Remedio.objects.all():
+        list_of_user = {'generico': u.generico, 'presentacion': u.presentacion}
+        data_list.append(list_of_user)
+    result['data'] = data_list
+
+    return HttpResponse(json.dumps(result), content_type='application/x-json')
+
+
+
+
+
