@@ -1708,7 +1708,10 @@ def registrarmedicamento(request):
                 
             ban='exitoremedio'
             return render_to_response('ABME/Medicamento/fichamedicamento.html',{'id_remedio':id_remedio,'exitoremedio':ban},context_instance=RequestContext(request))
+            #return HttpResponseRedirect('includes/actualizar.html',{'id_remedio':id_remedio})
+            #return render_to_response('ABME/Medicamento/registrar.html', context_instance=RequestContext(request))
 
+    #return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'id_remedio':id_remedio}, context_instance = RequestContext(request))
     return render_to_response('ABME/Medicamento/registrar.html', context_instance=RequestContext(request))
     #return render_to_response('ABME/Medicamento/registrarmedicamento.html',{'remedio':remedio},context_instance=RequestContext(request))
 

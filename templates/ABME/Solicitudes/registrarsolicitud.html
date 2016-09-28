@@ -86,16 +86,18 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
         </tbody>
 </table>
 
+
 		<div   class="form-group">
 				<label for="remedio" class="control-label col-md-2 col-md-2 col-md-offset-2">Remedio:</label> 
 					<div id="contenido" class="col-md-4 text-left">
                       <select name="id_remedio" id="id_remedio" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option  value=""></option>
                           
-                         {% for elemento in remedio_enviado %}
-                          <option value="{{elemento.id}}" >{{elemento.generico}}</option>
-                          {% endfor %}
-                      
+  						 {% include "includes/actualizar.html" %}
+  						 
+                      	
+  
+                      	 
 
                       </select>
                                         
