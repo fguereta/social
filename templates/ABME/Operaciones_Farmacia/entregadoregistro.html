@@ -30,7 +30,7 @@
 					<div class="col-md-5">
 
 						{% for elemento in solicitud %}
-						<input class="form-control" id="idsolicitud" name="idsolicitud" type="hidden" value="{{elemento.id}}"/>
+						<input class="form-control" id="idsolicitud5" name="idsolicitud5" type="hidden" value="{{elemento.id}}"/>
 						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.id}}"/>
 						{% endfor %}
 					</div>
@@ -52,6 +52,16 @@
 						
 					</div>
 				</div>
+
+				<div class="form-group">
+					<label for="paciente" class="control-label  col-md-4 ">Dosis entregada:</label> 
+					<div class="col-md-5">
+						
+						<input class="form-control" id="dosis_registro" name="dosis_registro" type="text" value="" placeholder="Escriba aqui..." />
+						
+					</div>
+				</div>
+
 
 				<div class="form-group">
 					<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Precio final:</label> 

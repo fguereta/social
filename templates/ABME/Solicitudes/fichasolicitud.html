@@ -229,111 +229,176 @@ $('#derivaciones').hide();
 
 
 <div class='panel-body'>
-				
-				
-	<div class="form-group">
-					
-
-  <fieldset>
-    <legend>Detalle de la solicitud N° {{elemento.id}}</legend>
-
-    <script  type="text/javascript" charset="utf-8" async defer>
-    	
-    var id="{{elemento.id}}"
+          
+        <form  method="POST" enctype="multipart/form-data" class="form-horizontal">
 
 
-    </script>
-
-    <br>
-    	<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-12" style=' '>{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</div>
-  			
-		</div>
-		<br>	
-		
-		<div class="row">
-		<br>
-			<div class="col-xs-6 col-md-2" style=' '>DNI: {{elemento.paciente.dni}}</div>
-			<div class="col-xs-2 col-md-3" '>Historia Clinica: {{elemento.paciente.historiaclinica}}</div>
-			<div class="col-xs-6 col-md-5" '>Obra Social: {{elemento.paciente.osocial}}</div>
-		</div>
-		
-		<br>
-		
-		<div class="row">
-		<br>
-			<div class="col-xs-6 col-md-12" >Nombre del Generico: {{elemento.remedio}}</div>
-		</div>
-		
-		<br>
-		
-		<div class="row">
-		<br>
-			<div class="col-xs-6 col-md-4" >Dosis: {{elemento.dosis}}</div>
-		</div>
-
-		<br>
-
-		<div class="row">
-		<br>
-			<div class="col-xs-6 col-md-12" >Medico: {{elemento.medico.apellido}}, {{elemento.medico.nombre}}</div>
-		
-		</div>
-
-		<br>
-		
-		<div class="row">
-		<br>
-			<div class="col-xs-6 col-md-4" >Observaciones <br><br>
-			<br>
-				<textarea class="form-control" cols="200" style="width:816px; height:109px;" h name="observaciones" rows="5" readonly>{{elemento.observaciones}}</textarea>
-			</div>
-		</div>
+            
 
 
-  </fieldset>
-  <br>
- 
+        <div class="form-group">
+          <label for="paciente" class="control-label col-md-2  ">Solicitud N°</label> 
+          <div class="col-md-5">
+
+            {% for elemento in solicitud_enviado %}
+            <input class="form-control" id="idsolicitud4" name="idsolicitud4" type="hidden" value="{{elemento.solicitud_id}}"/>
+            <input class="form-control"  type="text" readonly="readonly" value="{{elemento.id}}"/>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="paciente" class="control-label col-md-2 ">Solicitante:</label> 
+          <div class="col-md-5">
+            {% for elemento in solicitud_enviado %}
+            <input class="form-control" id="id_paciente" name="id_paciente" type="hidden" value="{{elemento.paciente.id}}"/>
+            <input class="form-control"  type="text" readonly="readonly" value="{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}. DNI: {{elemento.paciente.dni}}"/>
+            {% endfor %}
+          </div>
+        </div>
+       
+
+        <div class="form-group">
+          <label for="paciente" class="control-label  col-md-2 ">Historia Clinica:</label> 
+          <div class="col-md-5">
+            
+            {% for elemento in solicitud_enviado %}
+            
+            <input class="form-control"  type="text" readonly="readonly" value="{{elemento.paciente.historiaclinica}} " readonly />
+            {% endfor %}
+            
+          </div>
+        </div>
 
 
-<br>
+        
 
 
+        <div class="form-group">
+          <label for="paciente" class="control-label  col-md-2 ">Obra Social:</label> 
+          <div class="col-md-5">
+            
+            {% for elemento in solicitud_enviado %}
+            
+            <input class="form-control"  type="text" readonly="readonly" value="{{elemento.paciente.osocial}}" readonly />
+            {% endfor %}
+            
+          </div>
+        </div>
+        <br>
+      
+          <legend ><div class=" col-md-offset-4">Detalles de la solicitud</div></legend>
+        
+        
+        <br>
 
-		{% ifequal elemento.estado_aprobacion "CANCELADO"  %}	
-		
-		<div class="row">
-		
-			<div class="col-xs-6 col-md-4" style=' font-size:25px;'><font color="red" SIZE=5 >Motivo de Cancelacion</font> <br><br>
-				<textarea class="form-control" cols="200" style="width:816px; height:109px;"  name="observaciones" rows="5" readonly>{{elemento.comcancelado}}</textarea>
-			</div>
-		</div>
-		
-		<br>
-			<br>
-			<br>
-			<br>
-
-		{% else %}
+        <div class="form-group">
+          <label for="paciente" class="control-label  col-md-3 ">Medico:</label> 
+          <div class="col-md-5">
+            
+            {% for elemento in solicitud_enviado %}
+            
+            <input class="form-control"  type="text" readonly="readonly" value="{{elemento.medico.apellido}}, {{elemento.medico.nombre}}" readonly />
+            {% endfor %}
+            
+          </div>
+        </div>
 
 
-			{% ifequal elemento.estado_aprobacion "ENTREGADO"  %}	
-		
-			
+        <div class="form-group">
+          <label for="paciente" class="control-label  col-md-3 ">Nombre de generico:</label> 
+          <div class="col-md-5">
+            
+            {% for elemento in solicitud_enviado %}
+            
+            <input class="form-control"  type="text" readonly="readonly" value="{{elemento.remedio.generico}}" readonly />
+            {% endfor %}
+            
+          </div>
+        </div>
+
+        
+
+        <div class="form-group">
+          <label for="paciente" class="control-label  col-md-3 ">Dosis:</label> 
+          <div class="col-md-5">
+            {% for elemento in solicitud_enviado %}
+            <input class="form-control" readonly="readonly" type="text" value="{{elemento.dosis}}" " />
+            {% endfor %}
+          </div>
+        </div>
 
 
-			{% else %}
+        
+        
 
-					<p id='a' name='a'>
-						<div class="row" >
-			
-							<div id='exportarpdf' class="col-xs-6 col-md-4 col-md-offset-2" style=' font-size:25px;'  ><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/"><input  class='btn-lg btn-primary' type="button" value='Exportar PDF'/></a></div>
-							<div class="col-xs-6 col-md-4" style=' font-size:25px;' ><input class='btn-lg btn-primary' name='cambiar_estado' id='cambiar_estado' type="button"  value='Cambiar Estado'/></div>
-						</div>
+   
 
-					</p>
-		
-			{% endifequal %}
+		{% ifequal elemento.estado_aprobacion "CANCELADO"  %} 
+      <div class="form-group">
+
+         <legend ><div class=" col-md-offset-4"  style=' font-size:25px;'><font color="red" SIZE=5 >Motivo de Cancelación</div></legend>
+          <div class="form-group">
+          <div class="col-md-offset-3">
+          {% for elemento in solicitud_enviado %}
+            
+          <textarea class="form-control" type='text' cols="40" id="comparcial" style='width:468px;height: 126px;' name="comparcial" rows="10" readonly>{{elemento.observaciones}}</textarea>
+          {% endfor %}
+          </div>
+          </div>
+        </div>
+
+      <br>
+      <br>
+      <br>
+
+    {% else %}
+
+
+      
+
+
+      {% ifequal elemento.estado_aprobacion "ENTREGADO"  %} 
+    
+      
+      <div class="form-group">
+          <label for="comcancelado" class="control-label col-md-2 col-md-offset-1">Observaciones:</label> 
+          <div class="col-md-5">
+          {% for elemento in solicitud_enviado %}
+            
+          <textarea class="form-control" type='text' cols="40" id="comparcial" style='width:427px;height: 102px;' name="comparcial" rows="10" readonly>{{elemento.observaciones}}</textarea>
+          {% endfor %}
+          </div>
+        </div>
+
+      
+
+
+      {% else %}
+
+
+      <div class="form-group">
+          <label for="comcancelado" class="control-label col-md-2 col-md-offset-1">Observaciones:</label> 
+          <div class="col-md-5">
+          {% for elemento in solicitud_enviado %}
+            
+          <textarea class="form-control" type='text' cols="40" id="comparcial" style='width:427px;height: 102px;' name="comparcial" rows="10" readonly>{{elemento.observaciones}}</textarea>
+          {% endfor %}
+          </div>
+        </div>
+
+        <br>
+        <br>
+
+          <p id='a' name='a'>
+            <div class="row" >
+      
+              <div id='exportarpdf' class="col-xs-6 col-md-4 col-md-offset-2" style=' font-size:25px;'  ><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/"><input  class='btn-lg btn-primary' type="button" value='Exportar PDF'/></a></div>
+              <div class="col-xs-6 col-md-4" style=' font-size:25px;' ><input class='btn-lg btn-primary' name='cambiar_estado' id='cambiar_estado' type="button"  value='Cambiar Estado'/></div>
+            </div>
+
+          </p>
+    
+      {% endifequal %}
 
 
 
@@ -343,6 +408,25 @@ $('#derivaciones').hide();
 		
 		
 		{% endifequal %}
+
+    
+        
+       
+
+
+       
+
+
+
+        
+        </form>
+        </div>
+  <br>
+ 
+
+
+<br>
+
 </div>
 </div>
 
@@ -375,18 +459,22 @@ $('#derivaciones').hide();
 
             		if(nuevo_estado=="CANCELADO"){
 
-            			alertify.confirm("Una vez CANCELADA esta solicitud quedara anulada, ¿Desea cancelar la solicitud?", function (e) {
-    					if (e) {
-    						window.location.href = "/aplicacion/solicitudcancelada/{{elemento.id}}/";
+            			 alertify.confirm("Una vez CANCELADA esta solicitud quedara anulada, ¿Desea cancelar la solicitud?", function (e) {
+    					     if (e) {
+    						          window.location.href = "/aplicacion/solicitudcancelada/{{elemento.id}}/";
         					
-    					} else {
-        					// user clicked "cancel"
-    					}
-						});
+    					       } else {
+        					   // user clicked "cancel"
+    					     }
+						      });
 
             		}else{
 
-            				$( "#idsolicitud" ).val(id);
+                  
+
+                    
+
+            				$( "#idsolicitud" ).val('{{elemento.id}}');
 
                              var nuevoestado = $("#nuevoestado").val();
 

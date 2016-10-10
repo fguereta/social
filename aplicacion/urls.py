@@ -58,10 +58,13 @@ urlpatterns = [
     url(r'^eliminarfarmacia/(?P<id_farmacia>\w+)/$', views.eliminarfarmacia, name='eliminarfarmacia'),
     
 
+    ####**************OPERACIONES DE LA FARMACIA******************######
+
     url(r'^farmacia_entrega/$', views.farmacia_entrega, name='farmacia_entrega'),
     url(r'^farmacia_entregados/$', views.farmacia_entregados, name='farmacia_entregados'),
     url(r'^farmacia_parciales/$', views.farmacia_parciales, name='farmacia_entregados'),
-    url(r'^solicitud_movimientos/(?P<id_solicitud>\w+)$', views.solicitud_movimientos, name='farmacia_entregados'),
+    url(r'^parcial_informacion/(?P<id_solicitud>\w+)/$', views.parcial_informacion, name='parcial_informacion'),
+    
   
    #****************SOLICITUDES********************************
 
@@ -73,7 +76,8 @@ urlpatterns = [
     url(r'^fichasolicitud/(?P<id_solicitud>\w+)/$', views.fichasolicitud, name='fichasolicitud'),
     url(r'^cambiarestado/$', views.cambiarestado, name='fichasolicitud'),
     url(r'^solicitudcancelada/(?P<id_solicitud>\w+)/', views.solicitudcancelada, name='fichasolicitud'),
-
+    url(r'^solicitud_consultas/', views.solicitud_consultas, name='solicitud_consultas'),
+    url(r'^solicitud_movimientos/(?P<id_solicitud>\w+)$', views.solicitud_movimientos, name='farmacia_entregados'),
 
     #******************DERIVACIONES********************************
     url(r'^registrarderivacion/(?P<id_paciente>(\w+))/$', views.registrarderivacion, name='registrarderivacion'),

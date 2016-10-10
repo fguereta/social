@@ -1,0 +1,219 @@
+{% extends 'index.html'%}
+{% block htitle %}<title>MGD</title>{% endblock %} 
+
+{% block contenido%}
+ 
+
+<div class='panel panel-primary dialog-panel'>
+    <div class='panel-body'>
+
+<div class="container">
+<div class='panel  panel-success dialog-panel  '>
+      <div class='panel-heading'>
+
+        <h5><b>Datos de entrega parcial</b></h5>
+      </div>
+      		<div class='panel-body'>
+      		
+				<form  method="POST" enctype="multipart/form-data" class="form-horizontal">
+
+
+            
+
+
+				<div class="form-group">
+					<label for="paciente" class="control-label col-md-2 col-md-2 ">Solicitud N°</label> 
+					<div class="col-md-5">
+
+						{% for elemento in parcial %}
+						<input class="form-control" id="idsolicitud4" name="idsolicitud4" type="hidden" value="{{elemento.solicitud_id}}"/>
+						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.id}}"/>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="paciente" class="control-label col-md-2 col-md-2 ">Solicitante:</label> 
+					<div class="col-md-5">
+						{% for elemento in parcial %}
+						<input class="form-control" id="id_paciente" name="id_paciente" type="hidden" value="{{elemento.paciente.id}}"/>
+						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}. DNI: {{elemento.paciente.dni}}"/>
+						{% endfor %}
+					</div>
+				</div>
+				<br>
+				<br>
+				<fieldset>
+					<legend><div class='col-md-offset-3'>Detalles de entrega parcial realizada</div></legend>
+				<br>
+				<br>
+
+				<div class="form-group">
+					<label for="paciente" class="control-label  col-md-4 ">Fecha y horario de la entrega parcial:</label> 
+					<div class="col-md-5">
+						
+						{% for elemento in parcial %}
+						
+						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.fecha_parcial}}" readonly />
+						{% endfor %}
+						
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="paciente" class="control-label  col-md-4 ">Farmacia que hizo la entrega parcial:</label> 
+					<div class="col-md-5">
+						
+						{% for elemento in parcial %}
+						
+						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.farmacia.razon_social}}, CUIT: {{elemento.farmacia.cuit}} " readonly />
+						{% endfor %}
+						
+					</div>
+				</div>
+
+
+				
+
+
+				<div class="form-group">
+					<label for="paciente" class="control-label  col-md-4 ">Nombre del medicamento de entrega parcial:</label> 
+					<div class="col-md-5">
+						
+						{% for elemento in parcial %}
+						
+						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.medicamento_parcial}}" readonly />
+						{% endfor %}
+						
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="paciente" class="control-label  col-md-4 ">Dosis entregada:</label> 
+					<div class="col-md-5">
+						{% for elemento in parcial %}
+						<input class="form-control" readonly="readonly" type="text" value="{{elemento.dosis_parcial}}" " />
+						{% endfor %}
+					</div>
+				</div>
+
+
+
+				<div class="form-group">
+					<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Precio de entrega parcial:</label> 
+					<div class="col-md-5">
+						
+						{% for elemento in parcial %}
+						
+						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.precio_parcial}}" readonly />
+						{% endfor %}
+						
+					</div>
+				</div>
+				<br>
+				<div class="form-group">
+					<label for="comcancelado" class="control-label col-md-3 col-md-offset-1">Motivo y detalle de entrega parcial:</label> 
+					<div class="col-md-5">
+					{% for elemento in parcial %}
+						
+					<textarea class="form-control" type='text' cols="40" id="comparcial" name="comparcial" rows="10" readonly>{{elemento.comentario_parcial}}</textarea>
+					{% endfor %}
+					</div>
+				</div>
+
+				
+				<br>
+				<br>
+
+
+				<div class="form-group">
+					
+					<div class="col-md-5  ">
+					<a href='/aplicacion/farmacia_parciales/'><img  style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/volver.png" title='Volver' alt=""></a>
+					</div>
+
+
+
+					<div class="col-md-2 col-md-offset-5">
+					{% for elemento in parcial %}
+					<img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","PARCIAL");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde_mediana.png" title='Siguiente' alt="">
+					{% endfor %}
+					</div>
+
+					
+				</div>
+
+
+
+				
+				</form>
+				</div>
+				</div>
+			</div>
+	<br>
+	<br>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8" async defer>
+    
+
+
+    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+    
+function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
+ 
+
+
+  if(estado_aprobacion=='PARCIAL')
+ {
+  
+    alertify.set({ labels: {
+            ok     : "Siguiente",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("Realizar le entrega faltante  de la  <b>SOLICITUD N° "+id+"</b> en estado parcial correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>. ¿Desea continuar?", function (e) {
+
+
+        if (e) {
+
+                   
+            
+                            $( "#idsolicitud3" ).val(id);
+
+                            
+
+                            
+                             $("#confirmar_parcial").submit();
+        } else {
+            
+            window.location.href = "/aplicacion/parcial_informacion/"+id;
+          }
+        
+        });
+
+
+  }
+}
+
+ 
+
+   
+
+
+
+
+
+
+</script>
+
+
+
+<form  id='confirmar_parcial' method='POST' action='/aplicacion/farmacia_parciales/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
+<input class='form-control' id='idsolicitud3' name='idsolicitud3'  type="hidden" value=''/>
+
+</form>
+
+
+{% endblock %}

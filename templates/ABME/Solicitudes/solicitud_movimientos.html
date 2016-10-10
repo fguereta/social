@@ -1,0 +1,438 @@
+{% extends 'index.html'%}
+{% block htitle %}<title>MGD</title>{% endblock %} 
+
+{% block contenido%}
+
+
+
+ <div class='' >
+      <div class='panel panel-primary dialog-panel'>
+          <div class='panel-body'>
+            
+            {% if estado_actual %}
+              {% for i in estado_actual %}
+              
+              <fieldset>
+                 <legend>Movimientos de la SOLICITUD N°: {{i.solicitud_id}}, Solicitante: {{i.paciente.apellido}}, {{i.paciente.nombre}} con DNI: {{i.paciente.dni}} </legend>
+              
+              {% endfor %}
+            {% endif %}
+              <br>
+              <br>
+
+              {% if estado_actual %}
+
+              {% for i in estado_actual %}
+
+
+              {% ifequal i.estado_ultimo "ENTREGADO" %}
+              <br>
+            <br>
+            <br>
+              <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                  <tr class="success">
+        
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Fecha de estado</th>
+                    <th class="text-center">Farmacia que intervino</th>
+                    <th class="text-center">Medicamento entregado</th>
+                    <th class="text-center">Dosis entregada</th>
+                    <th class="text-center">Observaciones</th>
+                    
+                   
+                  </tr>
+    
+
+                  </thead>
+                  
+                  
+
+                  <tbody>
+                    <tr>
+       
+
+                      <td class="col-md-2 text-center " ><br>ENTREGA COMPLETA</td>
+                      <td class="col-md-2 text-center " ><br>{{i.fecha_estado}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.farmacia.razon_social}}, CUIT:{{i.farmacia.cuit}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.medicamento_entregado}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.dosis_entregada}}</td>
+                      <td class="col-md-2 text-center " >
+                          <textarea class='form-control'  rows='3' readonly>{{i.observaciones}}</textarea>
+                      </td>
+                      
+                       
+                    </tr>
+
+                  </tbody>
+
+                </table>
+                <div class="col-md-6 text-right" align="right"><img  class="profile-img" src="{{ MEDIA_URL }} /static/media/fecha.png" alt=""></div>
+                
+                <br><br>
+
+                {% endifequal %}
+
+
+
+
+              {% ifequal i.estado_ultimo "CANCELADO" %}
+              <br>
+            <br>
+            <br>
+              <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                  <tr class="success">
+        
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Fecha de estado</th>
+                    <th class="text-center">Motivo de cancelacion</th>
+                    
+                   
+                  </tr>
+    
+
+                  </thead>
+                  
+                  
+
+                  <tbody>
+                    <tr>
+       
+
+                      <td class="col-md-2 text-center " ><br>CANCELADO</td>
+                      <td class="col-md-2 text-center " ><br>{{i.fecha_estado}}</td>
+                      <td class="col-md-2 text-center " >
+                          <textarea class='form-control'  rows='3' readonly>{{i.observaciones}}</textarea>
+                      </td>
+                      
+                       
+                    </tr>
+
+                  </tbody>
+
+                </table>
+                <div class="col-md-6 text-right" align="right"><img  class="profile-img" src="{{ MEDIA_URL }} /static/media/fecha.png" alt=""></div>
+                
+                <br><br>
+
+                {% endifequal %}
+
+
+
+              {% ifequal i.estado_ultimo "PARCIAL" %}
+              <br>
+            <br>
+            <br>
+              <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                  <tr class="success">
+        
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Fecha de estado</th>
+                    <th class="text-center">Farmacia que intervino</th>
+                    <th class="text-center">Medicamento entregado</th>
+                    <th class="text-center">Dosis entregada</th>
+                    <th class="text-center">Observaciones</th>
+                    
+                   
+                  </tr>
+    
+
+                  </thead>
+                  
+                  
+
+                  <tbody>
+                    <tr>
+       
+
+                      <td class="col-md-2 text-center " ><br>ENTREGA PARCIAL</td>
+                      <td class="col-md-2 text-center " ><br>{{i.fecha_estado}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.farmacia.razon_social}}, CUIT: {{i.farmacia.username}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.medicamento_entregado}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.dosis_entregada}}</td>
+                      <td class="col-md-2 text-center " >
+                      
+                           <textarea class='form-control'  rows='3' readonly>{{i.observaciones}}</textarea>
+                      </td>
+                      
+                       
+                    </tr>
+
+                  </tbody>
+
+                </table>
+                <div class="col-md-6 text-right" align="right"><img  class="profile-img" src="{{ MEDIA_URL }} /static/media/fecha.png" alt=""></div>
+                
+                <br><br>
+
+                {% endifequal %}
+
+
+              {% ifequal i.estado_ultimo "APROBADO" %}
+              <br>
+            <br>
+            <br>
+              <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                  <tr class="success">
+        
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Fecha de estado</th>
+                    <th class="text-center">Medicamento Solicitado</th>
+                    <th class="text-center">Dosis Solicitada</th>
+                    
+                   
+                  </tr>
+    
+
+                  </thead>
+                  
+                  
+
+                  <tbody>
+                    <tr>
+       
+
+                      <td class="col-md-2 text-center " ><br>APROBADO<br></td>
+                      <td class="col-md-2 text-center " ><br>{{i.fecha_estado}}<br></td>
+                      <td class="col-md-2 text-center " ><br>{{i.remedio.generico}}<br></td>
+                      <td class="col-md-2 text-center " ><br>{{i.dosis}}<br></td>
+                      
+                       
+                    </tr>
+
+                  </tbody>
+
+                </table>
+                <br>
+                <div class="col-md-6 text-right" align="right"><img  class="profile-img" src="{{ MEDIA_URL }} /static/media/fecha.png" alt=""></div>
+                
+                <br><br>
+
+                {% endifequal %}
+
+
+              {% ifequal i.estado_ultimo "ENPROGRESO" %}
+              <br>
+            <br>
+            <br>
+              <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                  <tr class="success">
+        
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Fecha de estado</th>
+                    <th class="text-center">Medicamento Solicitado</th>
+                    <th class="text-center">Dosis Solicitada</th>
+                    <th class="text-center">Observaciones</th>
+                   
+                  </tr>
+    
+
+                  </thead>
+                  
+                  
+
+                  <tbody>
+                    <tr>
+       
+
+                      <td class="col-md-2 text-center " ><br>EN PROCESO</td>
+                      <td class="col-md-2 text-center " ><br>{{i.fecha_estado}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.remedio.generico}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.dosis}}</td>
+                      
+                       <td class="col-md-2 text-center " >
+                      
+                           <textarea class='form-control'  rows='3' readonly>{{i.observaciones}}</textarea>
+                      </td>
+                    </tr>
+
+                  </tbody>
+
+                </table>
+                <div class="col-md-6 text-right" align="right"><img  class="profile-img" src="{{ MEDIA_URL }} /static/media/fecha.png" alt=""></div>
+                
+                <br><br>
+
+                {% endifequal %}
+                
+                {% endfor %}
+
+            {% endif %}
+            
+
+            <br>
+            <br>
+            <br>
+            {% if estados_anteriores %}
+
+              {% for i in estados_anteriores %}
+
+              {% ifequal i.estado_anterior "PARCIAL" %}
+              <br>
+            <br>
+            <br>
+              <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                  <tr class="success">
+        
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Fecha de estado</th>
+                    <th class="text-center">Farmacia que intervino</th>
+                    <th class="text-center">Medicamento entregado</th>
+                    <th class="text-center">Dosis  entregada</th>
+                    <th class="text-center">Observaciones</th>
+                    
+                   
+                  </tr>
+    
+
+                  </thead>
+                  
+                  
+
+                  <tbody>
+                    <tr>
+       
+
+                      <td class="col-md-2 text-center " ><br>ENTREGA PARCIAL</td>
+                      <td class="col-md-2 text-center " ><br>{{i.fecha_estado}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.farmacia.razon_social}}, CUIT: {{i.farmacia.cuit}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.medicamento_entregado}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.dosis_entregada}}</td>
+                      <td class="col-md-2 text-center " >
+                      
+                           <textarea class='form-control'  rows='3' readonly>{{i.observaciones}}</textarea>
+                      </td>
+                      
+                       
+                    </tr>
+
+                  </tbody>
+
+                </table>
+                <div class="col-md-6 text-right" align="right"><img  class="profile-img" src="{{ MEDIA_URL }} /static/media/fecha.png" alt=""></div>
+                
+                <br><br>
+
+                {% endifequal %}
+
+
+              {% ifequal i.estado_anterior "APROBADO" %}
+              <br>
+            <br>
+            <br>
+              <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                  <tr class="success">
+        
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Fecha de estado</th>
+                    <th class="text-center">Medicamento Solicitado</th>
+                    <th class="text-center">Dosis Solicitada</th>
+                    
+                   
+                  </tr>
+    
+
+                  </thead>
+                  
+                  
+
+                  <tbody>
+                    <tr>
+       
+
+                      <td class="col-md-2 text-center " ><br>APROBADO<br></td>
+                      <td class="col-md-2 text-center " ><br>{{i.fecha_estado}}<br></td>
+                      <td class="col-md-2 text-center " ><br>{{i.remedio.generico}}<br></td>
+                      <td class="col-md-2 text-center " ><br>{{i.dosis}}<br></td>
+                      
+                       
+                    </tr>
+
+                  </tbody>
+
+                </table>
+                <br>
+                <div class="col-md-6 text-right" align="right"><img  class="profile-img" src="{{ MEDIA_URL }} /static/media/fecha.png" alt=""></div>
+                
+                <br><br>
+
+                {% endifequal %}
+
+
+              {% ifequal i.estado_anterior "ENPROGRESO" %}
+              <br>
+            <br>
+            <br>
+              <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+                <thead>
+                  <tr class="success">
+        
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Fecha de estado</th>
+                    <th class="text-center">Medicamento Solicitado</th>
+                    <th class="text-center">Dosis Solicitada</th>
+                    <th class="text-center">Observaciones</th>
+                   
+                  </tr>
+    
+
+                  </thead>
+                  
+                  
+
+                  <tbody>
+                    <tr>
+       
+
+                      <td class="col-md-2 text-center " ><br>EN PROCESO</td>
+                      <td class="col-md-2 text-center " ><br>{{i.fecha_estado}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.remedio.generico}}</td>
+                      <td class="col-md-2 text-center " ><br>{{i.dosis}}</td>
+                      
+                       <td class="col-md-2 text-center " >
+                      
+                           <textarea class='form-control'  rows='3' readonly>{{i.observaciones}}</textarea>
+                      </td>
+                    </tr>
+
+                  </tbody>
+
+                </table>
+                <div class="col-md-6 text-right" align="right"><img  class="profile-img" src="{{ MEDIA_URL }} /static/media/fecha.png" alt=""></div>
+                
+                <br><br>
+
+                {% endifequal %}
+                
+                {% endfor %}
+
+            {% endif %}
+
+
+
+               
+
+             
+        
+            </fieldset>
+
+
+
+ 
+ 
+
+</div>
+</div>
+
+
+
+
+
+
+{% endblock %}

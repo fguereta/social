@@ -1,0 +1,118 @@
+{% extends 'index.html'%}
+{% block htitle %}<title>MGD</title>{% endblock %} 
+
+{% block contenido%}
+
+
+
+ <div class='' >
+      <div class='panel panel-primary dialog-panel'>
+          <div class='panel-body'>
+
+              <fieldset>
+                 <div>Realize la busqueda de consulta con el numero de dni o el apellido y nombre del solicitante.</div>
+                 <br>
+                 <br>
+                 
+            
+              <div class="row">
+                <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+                    <div class="col-md-3 text-left">
+                      <select name="id_paciente_busqueda" id="id_paciente_busqueda" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                          <option value=""></option>
+                          {% for elemento in busqueda_paciente %}
+                          <option value="{{elemento.id}}" >DNI: {{elemento.paciente.dni}}, {{elemento.apellido}} {{elemento.nombre}} </option>
+                          {% endfor %}
+                      </select>
+                    </div>
+    
+                    <div>
+                      <button class="col-md-1 btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                </form> 
+              </div>
+        
+            </fieldset>
+ 
+
+
+    {% if solicitudes %}
+
+    <br>
+    <br>
+    <br>
+    <table id="example" class="table table-condensed table table-bordered table-hover" >
+                  <thead>
+
+    {% for elemento in  solicitudes %}
+
+            {% ifequal elemento.estado_aprobacion "ENTREGADO" %}
+    
+                
+                      <tr class="success" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">
+                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Solicitud N° {{elemento.id}}</th>
+                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Estado Actual: ENTREGADO</th>
+                        <th class="text-left" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Costo Total: $ {{elemento.precio_final}}</th>
+                      </tr>
+                     
+
+                 
+
+            {% endifequal %}
+
+            
+
+    {% endfor %} 
+
+
+     </thead>
+               </table>
+    {% endif %}
+
+
+</div>
+</div>
+
+
+
+
+
+<form  id='confirmar_parcial' method='POST' action='/aplicacion/farmacia_parciales/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
+<input class='form-control' id='idsolicitud3' name='idsolicitud3'  type="hidden" value=''/>
+
+</form>
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+  
+  $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+
+
+</script>
+
+
+        {% if user.is_authenticated %}
+              
+              
+            
+              <script  type="text/javascript" charset="utf-8" async defer>
+                
+
+
+
+
+
+              var user_id="{{user.userfarmacia.id}}";
+              var user_id_farmacia=parseInt(user_id);
+              
+              $( "#user_id_farmacia1" ).val(user_id_farmacia);
+              $( "#user_id_farmacia2" ).val(user_id_farmacia);
+
+              </script>
+            
+
+            {% endif %}
+
+
+{% endblock %}

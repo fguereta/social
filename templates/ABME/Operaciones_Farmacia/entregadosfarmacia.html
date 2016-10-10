@@ -19,7 +19,7 @@
                       <select name="id_solicitud" id="id_solicitud" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
                           {% for elemento in busqueda_solicitud %}
-                          <option value="{{elemento.id}}" >SOLICITUD: {{elemento.id}} --DNI: {{elemento.paciente.dni}} </option>
+                          <option value="{{elemento.id}}" >SOLICITUD {{elemento.id}} --DNI: {{elemento.paciente.dni}} </option>
                           {% endfor %}
                       </select>
                     </div>
@@ -53,9 +53,8 @@ $(".chosen-select").chosen({no_results_text: "No se encontro solicitud"});
         <th class="text-center">N° de solicitud</th>
         <th class="text-center">Fecha inicio</th>
         <th class="text-center">Fecha de entrega</th>
-        <th class="text-center">Farmacia</th>
-        <th class="text-center">Nombre</th>
-        <th class="text-center">Dni</th>
+        <th class="text-center">Solicitante</th>
+       
         
         
         
@@ -73,9 +72,8 @@ $(".chosen-select").chosen({no_results_text: "No se encontro solicitud"});
         <td class="col-md-2 text-center " onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.fecha_inicio}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.fecha_entrega}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.farmacia.razon_social}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">DNI:{{elemento.paciente.dni}}, {{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+       
 
 
         
@@ -119,9 +117,8 @@ $(".chosen-select").chosen({no_results_text: "No se encontro solicitud"});
         <th class="text-center">N° de solicitud</th>
         <th class="text-center">Fecha inicio</th>
         <th class="text-center">Fecha de entrega</th>
-        <th class="text-center">Farmacia</th>
-        <th class="text-center">Nombre</th>
-        <th class="text-center">Dni</th>
+        <th class="text-center">Solicitante</th>
+       
         
         
         
@@ -133,20 +130,20 @@ $(".chosen-select").chosen({no_results_text: "No se encontro solicitud"});
 
       {% ifequal elemento.estado_aprobacion "ENTREGADO"  %}
       
-      <tr>
+       <tr>
        
 
         <td class="col-md-2 text-center " onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.fecha_inicio}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.fecha_entrega}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.farmacia.razon_social}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'"  style="cursor:pointer">DNI:{{elemento.paciente.dni}}, {{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+       
 
 
         
 
       </tr>
+
 
       {% endifequal %}
 
@@ -166,6 +163,7 @@ $(".chosen-select").chosen({no_results_text: "No se encontro solicitud"});
 </div>
  {% endif %}
 
+</div>
 </div>
 </div>
 
