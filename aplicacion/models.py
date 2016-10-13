@@ -8,32 +8,11 @@ from django.contrib import admin
 
 from usuarios.models import *
 
-'''
-class Usuario(models.Model):
-    user= models.OneToOneField(User)
-    nombre=models.CharField(max_length=20)
-    direccion=models.CharField(max_length=50)
-    correo=models.EmailField()
-    telefono=models.IntegerField(blank=True, null=True)
 
-    estado =(
-          ('ACTIVO', 'ACTIVO'), 
-          ('INACTIVO', 'INACTIVO'), 
-          
-                     
-        ) 
-
-    estado=models.CharField(max_length=20, choices=estado, null=True)
-    cate =(
-          ('Supervisor', 'Supervisor'), 
-          ('Operador', 'Operador'), 
-          ('Farmacia', 'Farmacia'), 
-                     
-        ) 
-    
-    categoria=models.CharField(max_length=20, choices=cate, null=True)
-'''
-
+class Post(models.Model):
+    title = models.CharField(max_length=100, verbose_name='Titulo')
+    url = models.CharField(max_length=150, verbose_name='Url')
+    content = models.TextField(verbose_name='Post')
 
 class Persona(models.Model):
     nombre=models.CharField(max_length=20)
@@ -60,8 +39,6 @@ class Persona(models.Model):
         return "%s - %s" %(self.apellido, self.nombre)
      
     
-   
-
 class Medico(Persona):
     especialidad=models.CharField(max_length=20)
     matriculanacional=models.CharField(max_length=20)
@@ -94,23 +71,30 @@ class AccionSocial(Persona):
 
      
 class Remedio(models.Model):
-    generico=models.CharField(max_length=20)
-    presentacion=models.CharField(max_length=20)
-    observaciones=models.TextField(blank=True)
+    nombre=models.CharField(max_length=20)
     estado=models.CharField(max_length=20, blank=True, null=True)    
     
     def __unicode__(self):
-        return self.generico
+        return self.nombre
 
 class Solicitud(models.Model):
     
     paciente = models.ForeignKey(Paciente, db_column='paciente_id')
     medico = models.ForeignKey(Medico, db_column='medico_id')
-    remedio = models.ForeignKey(Remedio, db_column='remedio_id')
+    
     fecha = models.CharField(max_length=30)
-    dosis = models.CharField(max_length=20)
     estado_aprobacion=models.CharField(max_length=15)
     
+    remedio1 = models.ManyToManyField(Remedio)
+    remedio2 = models.ManyToManyField(Remedio)
+    remedio3 = models.ManyToManyField(Remedio)
+    
+    dosis1 = models.CharField(max_length=50)
+    dosis2 = models.CharField(max_length=50,  blank=True, null=True)
+    dosis3 = models.CharField(max_length=50,  blank=True, null=True)
+    
+    diagnostico=models.TextField(blank=True, null=True)
+
     
     def __unicode__(self):
         return self.dosis 
@@ -123,19 +107,79 @@ class Registro_estados(models.Model):
     estado=models.CharField(max_length=10)
     observaciones=models.TextField(blank=True, null=True)
     farmacia = models.ForeignKey(UserFarmacia, db_column='farmacia_id', blank=True, null=True)
-    medicamento_entregado=models.CharField(max_length=30, blank=True, null=True)
-    dosis_registro=models.CharField(max_length=20)
-    precio=models.CharField(max_length=15, blank=True, null=True)
+    
+    comercial1=models.CharField(max_length=30)
+    comercial2=models.CharField(max_length=30, blank=True, null=True)
+    comercial3=models.CharField(max_length=30, blank=True, null=True)
+    
+    precio1=models.CharField(max_length=15, blank=True, null=True)
+    precio2=models.CharField(max_length=15, blank=True, null=True)
+    precio3=models.CharField(max_length=15, blank=True, null=True)
+    
+    preciototal=models.CharField(max_length=15, blank=True, null=True)
+
+
+    
+class Derivacion(models.Model):
+    paciente = models.ForeignKey(Paciente)
+    diagnostico = models.CharField(max_length=20)
+    prestacion = models.TextField(blank=True)
+    proposito = models.TextField(blank=True)
+    
+    tipopa =(
+           ('Internado', 'Internado'), 
+           ('Ambulatorio', 'Ambulatorio'), 
+                     
+        ) 
+       
+    tipopaciente = models.CharField(max_length=12, choices=tipopa)
+    
+    tipocarac =(
+           ('Urgente', 'Urgente'), 
+           ('A la brevedad', 'A la brevedad'),
+           ('Programado', 'Programado'), 
+                     
+        ) 
+       
+    caracter = models.CharField(max_length=12, choices=tipocarac)
+    
+    fecha = models.CharField(max_length=20)
+    hora = models.CharField(max_length=10)
+    hospital = models.CharField(max_length=20)
+    servicio = models.CharField(max_length=20)
+    contacto = models.CharField(max_length=20)
+    
+    sino =(
+           ('Si', 'Si'), 
+           ('No', 'No'),
+           ) 
+    
+    acompanante = models.CharField(max_length=2, choices=sino)
+    
+    motivo = models.CharField(max_length=20)
+    
+    tipotras =(
+           ('Aereo', 'Aereo'), 
+           ('Terrestre', 'Terrestre'), 
+                     
+        ) 
+    tipotraslado = models.CharField(max_length=20, choices=tipotras)
+    
+    transporteregular = models.CharField(max_length=20, choices=sino)
+    trasladosanitario = models.CharField(max_length=20, choices=sino)
+  
+    condiciones = models.TextField()
+    
+    observaciones = models.TextField(blank=True)
+     
+    
+# Create your models here.
 
 '''  
 class Solicitud(models.Model):
     paciente = models.ForeignKey(Paciente)
     '''
 
-
-
-  
-        
 '''       
 class DetalleSolicitudInline(admin.TabularInline):
     model = DetalleSolicitud
@@ -192,58 +236,3 @@ class Entregas(models.Model):
         return self.solicitud
 ''' 
     
-    
-class Derivacion(models.Model):
-    paciente = models.ForeignKey(Paciente)
-    diagnostico = models.CharField(max_length=20)
-    prestacion = models.TextField(blank=True)
-    proposito = models.TextField(blank=True)
-    
-    tipopa =(
-           ('Internado', 'Internado'), 
-           ('Ambulatorio', 'Ambulatorio'), 
-                     
-        ) 
-       
-    tipopaciente = models.CharField(max_length=12, choices=tipopa)
-    
-    tipocarac =(
-           ('Urgente', 'Urgente'), 
-           ('A la brevedad', 'A la brevedad'),
-           ('Programado', 'Programado'), 
-                     
-        ) 
-       
-    caracter = models.CharField(max_length=12, choices=tipocarac)
-    
-    fecha = models.CharField(max_length=20)
-    hora = models.CharField(max_length=10)
-    hospital = models.CharField(max_length=20)
-    servicio = models.CharField(max_length=20)
-    contacto = models.CharField(max_length=20)
-    
-    sino =(
-           ('Si', 'Si'), 
-           ('No', 'No'),
-           ) 
-    
-    acompanante = models.CharField(max_length=2, choices=sino)
-    
-    motivo = models.CharField(max_length=20)
-    
-    tipotras =(
-           ('Aereo', 'Aereo'), 
-           ('Terrestre', 'Terrestre'), 
-                     
-        ) 
-    tipotraslado = models.CharField(max_length=20, choices=tipotras)
-    
-    transporteregular = models.CharField(max_length=20, choices=sino)
-    trasladosanitario = models.CharField(max_length=20, choices=sino)
-  
-    condiciones = models.TextField()
-    
-    observaciones = models.TextField(blank=True)
-     
-    
-# Create your models here.
