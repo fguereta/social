@@ -17,7 +17,7 @@
             
               <div class="row">
                 <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
-                    <div class="col-md-3 text-left">
+                    <div class="col-md-4 text-left paciente">
                       <select name="id_paciente_busqueda" id="id_paciente_busqueda" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
                           {% for elemento in busqueda_paciente %}
@@ -46,6 +46,15 @@
 
     {% for elemento in  solicitudes %}
 
+    <script  type="text/javascript" charset="utf-8" async defer>
+
+      $("div.paciente select").val('{{elemento.paciente.id}}');
+        
+
+        
+
+    </script>
+
             {% ifequal elemento.estado_aprobacion "ENTREGADO" %}
     
                 
@@ -53,6 +62,63 @@
                         <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Solicitud N° {{elemento.id}}</th>
                         <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Estado Actual: ENTREGADO</th>
                         <th class="text-left" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Costo Total: $ {{elemento.precio_final}}</th>
+                      </tr>
+                     
+
+                 
+
+            {% endifequal %}
+
+            {% ifequal elemento.estado_aprobacion "PARCIAL" %}
+    
+                
+                      <tr class="success" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">
+                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Solicitud N° {{elemento.id}}</th>
+                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Estado Actual: PARCIAL</th>
+                        <th class="text-left" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Costo Parcial: $ {{elemento.precio_final}}</th>
+                      </tr>
+                     
+
+                 
+
+            {% endifequal %}
+
+            {% ifequal elemento.estado_aprobacion "APROBADO" %}
+    
+                
+                      <tr class="success" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">
+                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Solicitud N° {{elemento.id}}</th>
+                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Estado Actual: APROBADO</th>
+                        <th class="text-left" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">-------</th>
+                      </tr>
+                     
+
+                 
+
+            {% endifequal %}
+
+            {% ifequal elemento.estado_aprobacion "ENPROCESO" %}
+    
+                
+                      <tr class="success" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">
+                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Solicitud N° {{elemento.id}}</th>
+                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Estado Actual: EN PROCESO</th>
+                        <th class="text-left" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">-------</th>
+                      </tr>
+                     
+
+                 
+
+            {% endifequal %}
+
+
+            {% ifequal elemento.estado_aprobacion "CANCELADO" %}
+    
+                
+                      <tr class="success" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">
+                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Solicitud N° {{elemento.id}}</th>
+                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Estado Actual: CANCELADO</th>
+                        <th class="text-left" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">-------</th>
                       </tr>
                      
 
@@ -69,8 +135,10 @@
                </table>
     {% endif %}
 
-
+<br><br><br>
 </div>
+
+
 </div>
 
 

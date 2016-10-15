@@ -20,7 +20,7 @@
             <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
             <div class='col-md-2'>
-              <input class='form-control' id='cuil' name='cuil' type='text' value='{{cuil.cuil1}}{{cuil.dni}}{{cuil.cuil2}}' readonly="readonly"></input>
+              <input class='form-control' id='cuil' name='cuil' type='text' value='{{cuil.cuil}}' readonly="readonly"></input>
             </div>
 
             <div class='col-md-3 indent-small'>
@@ -102,7 +102,7 @@
               <div class='col-md-3'>
                 <div class='form-group internal input-group'>
                   <input class='form-control datepicker' name='nacimiento' type='text' id='datepicker'
-                  placeholder='dd/mm/yyyy' readonly>
+                  placeholder='dd/mm/yyyy' >
                   <span class='input-group-addon'>
                     <i class='glyphicon glyphicon-calendar'></i>
                   </span>
@@ -114,9 +114,11 @@
                 <option value="MASCULINO">Masculino</option>
                 <option value="FEMENINO">Femenino</option>
                 </select>
+                <script>$("div.sexo select").val("{{cuil.sexo}}");</script>
               </div>
             </div>
           </div>
+
 
           <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='correo'>E-mail</label>

@@ -70,8 +70,8 @@ class AccionSocial(Persona):
     
 
      
-class Remedio(models.Model):
-    nombre=models.CharField(max_length=20)
+class Medicamento(models.Model):
+    generico=models.CharField(max_length=20)
     estado=models.CharField(max_length=20, blank=True, null=True)    
     
     def __unicode__(self):
@@ -85,9 +85,9 @@ class Solicitud(models.Model):
     fecha = models.CharField(max_length=30)
     estado_aprobacion=models.CharField(max_length=15)
     
-    remedio1 = models.ManyToManyField(Remedio)
-    remedio2 = models.ManyToManyField(Remedio)
-    remedio3 = models.ManyToManyField(Remedio)
+    medicamento1 = models.ForeignKey(Medicamento, related_name='medicamento_1')
+    medicamento2 = models.ForeignKey(Medicamento, related_name='medicamento_2',  blank=True, null=True)
+    medicamento3 = models.ForeignKey(Medicamento, related_name='medicamento_3',  blank=True, null=True)
     
     dosis1 = models.CharField(max_length=50)
     dosis2 = models.CharField(max_length=50,  blank=True, null=True)
@@ -183,10 +183,8 @@ class Solicitud(models.Model):
 '''       
 class DetalleSolicitudInline(admin.TabularInline):
     model = DetalleSolicitud
-
 class SolicitudAdmin(admin.ModelAdmin):
     inlines = (DetalleSolicitudInline,)
-
 admin.site.register(Paciente, SolicitudAdmin) 
 '''
 '''    
@@ -197,7 +195,6 @@ class factura(models.Model):
     fecha = models.DateField(null=True)
     total = models.IntegerField(null=True, blank=True)
     
-
 class detalle_factura(models.Model):
     
     factura = models.ForeignKey(factura, db_column='factura_id')
@@ -214,14 +211,10 @@ class detalle_factura(models.Model):
     def __unicode__(self):
         return 'total: %d' % (self.a)
     
-
-
 class detalle_facturaInline(admin.TabularInline):
     model = detalle_factura
-
 class facturaAdmin(admin.ModelAdmin):
     inlines = (detalle_facturaInline,)
-
 admin.site.register(factura, facturaAdmin)    
 '''
    
@@ -235,4 +228,3 @@ class Entregas(models.Model):
     def __unicode__(self):
         return self.solicitud
 ''' 
-    

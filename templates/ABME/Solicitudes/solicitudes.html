@@ -40,9 +40,9 @@ tr.resaltar {
   <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
     <thead>
       <tr  class="success">
+
+        <th class="text-center">Solicitud</th>
         <th class="text-center">Fecha de inicio</th>
-        <th class="text-center">Nombre Generico</th>
-        <th class="text-center">Dosis Diaria</th>
         <th class="text-center">Medico</th>
         <th class="text-center">Estado de aprobacion</th>
        
@@ -56,9 +56,9 @@ tr.resaltar {
     
 
       <tr class='aprobadocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
+        
+        <td class="col-md-2 text-center">N° {{elemento.id}}</td>
         <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
-        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
-        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
         <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
         <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
        
@@ -70,9 +70,8 @@ tr.resaltar {
     
 
       <tr class='entregadocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
+        <td class="col-md-2 text-center">N° {{elemento.id}}</td>
         <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
-        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
-        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
         <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
         <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
         
@@ -80,15 +79,15 @@ tr.resaltar {
     </tr>
       {% endifequal %}
 
-      {% ifequal elemento.estado_aprobacion "ENPROGRESO" %}
+      {% ifequal elemento.estado_aprobacion "AUDITORIA" %}
     
 
       <tr class='amarillocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
+        <td class="col-md-2 text-center">N° {{elemento.id}}</td>
         <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
-        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
-        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
         <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
-        <td class="col-md-2 text-center">EN PROGRESO</td>
+        
+        <td class="col-md-2 text-center">REQUIERE AUDITORIA</td>
         
       </td>
     </tr>
@@ -98,14 +97,10 @@ tr.resaltar {
       {% ifequal elemento.estado_aprobacion "CANCELADO" %}
     
 
-      <tr class='tachado rojocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
+      <td class="col-md-2 text-center">N° {{elemento.id}}</td>
         <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
-        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
-        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
         <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
         <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
-       
-      </td>
     </tr>
       {% endifequal %}
  
@@ -113,14 +108,10 @@ tr.resaltar {
       {% ifequal elemento.estado_aprobacion "PARCIAL" %}
     
 
-      <tr class='parcial' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
+      <td class="col-md-2 text-center">N° {{elemento.id}}</td>
         <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
-        <td class="col-md-2 text-center">{{elemento.remedio}}</td>
-        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
         <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
-        <td class="col-md-2 text-center">ENTREGA PARCIAL</td>
-        
-      </td>
+        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
     </tr>
       {% endifequal %}
  

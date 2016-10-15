@@ -20,7 +20,7 @@
             
               <div class="row">
                 <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
-                    <div class="col-md-4 text-left">
+                    <div class="col-md-4 text-left id_solicitud">
                       <select name="id_solicitud" id="id_solicitud" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
                           {% for elemento in busqueda_solicitud %}
@@ -65,7 +65,14 @@
     </thead>
     <tbody>
     {% for elemento in  solicitud %}
+
+
+
      {% ifequal elemento.estado_aprobacion "APROBADO"  %}
+
+
+
+     
       
       <tr>
        
@@ -107,6 +114,13 @@
 
 
       
+    <script  type="text/javascript" charset="utf-8" async defer>
+
+        $("div.id_solicitud select").val("{{elemento.id}}");
+        
+
+      </script>
+      
 
       <div class="row">
       <br>
@@ -117,21 +131,20 @@
       <div class="table-responsive">             
         <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
           <thead>
-          <tr class="success">
-        
-          <th class="text-center">N° de solicitud</th>
-          <th class="text-center">Dni</th>
-          <th class="text-center">Nombre</th>
-          <th class="text-center">Medicamento</th>
-          <th class="text-center">Dosis</th>
-        </tr>
-    </thead>
-    <tbody>
+            <tr class="success">
+              <th class="text-center">N° de solicitud</th>
+              <th class="text-center">Dni</th>
+              <th class="text-center">Nombre</th>
+              <th class="text-center">Medicamento</th>
+              <th class="text-center">Dosis</th>
+            </tr>
+          </thead>
+        <tbody>
     
       {% ifequal elemento.estado_aprobacion "APROBADO"  %}
 
     
-      
+       
       <tr>
        
 

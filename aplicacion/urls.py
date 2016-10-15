@@ -27,23 +27,25 @@ urlpatterns = [
     #************PACIENTE*************************
 
     url(r'^paciente/', views.paciente, name='paciente'),
-    url(r'^comprobar_paciente/(?P<cuil_paciente>\w+)/$', views.comprobar_paciente, name='comprobar'),
+    url(r'^comprobar_paciente/', views.comprobar_paciente, name='comprobar_medico'),
     url(r'^registrarpaciente/', views.registrarpaciente, name='registrarpaciente'),
     url(r'^fichapaciente/(?P<id_paciente>\w+)/$', views.fichapaciente, name='modificarpaciente'),
     url(r'^modificarpaciente/(?P<id_paciente>\w+)/$', views.modificarpaciente, name='modificarpaciente'),
     url(r'^eliminarpaciente/(?P<id_paciente>\w+)/$', views.eliminarpaciente, name='eliminarpaciente'),
+
+    url(r'^pdf_listado_paciente/$', views.pdf_listado_paciente, name='report'),
     
     
     
     #*****************MEDICO***************************************
     
     url(r'^medico/', views.medico, name='medico'),
+    url(r'^comprobar_medico/', views.comprobar_medico, name='comprobar_medico'),
     url(r'^registrarmedico/', views.registrarmedico, name='registrarmedico'),
     url(r'^fichamedico/(?P<id_medico>\w+)/$', views.fichamedico, name='fichamedico'),
     url(r'^intervenidos/(?P<id_medico>\w+)/$', views.intervenidos, name='intervenidos'),
     url(r'^modificarmedico/(?P<id_medico>\w+)/$', views.modificarmedico, name='modificarmedico'),
     url(r'^eliminarmedico/(?P<id_medico>\w+)/$', views.eliminarmedico, name='eliminarmedico'),
-
     url(r'^listadomedico/', views.listadomedico, name='listadomedico'),
     
   
@@ -68,7 +70,6 @@ urlpatterns = [
   
    #****************SOLICITUDES********************************
 
-   
     url(r'^solicitudes/(?P<id_paciente>\w+)/$', views.solicitudes, name='solicitudes'),
     url(r'^registrarsolicitud/(?P<id_paciente>\w+)/$', views.registrarsolicitud, name='registrarsolicitud'),
     url(r'^pdf_solicitud/(?P<nro_solicitud>(\w+))/$', views.pdf_solicitud, name='report'),
@@ -79,7 +80,9 @@ urlpatterns = [
     url(r'^solicitud_consultas/', views.solicitud_consultas, name='solicitud_consultas'),
     url(r'^solicitud_movimientos/(?P<id_solicitud>\w+)$', views.solicitud_movimientos, name='farmacia_entregados'),
 
+    
     #******************DERIVACIONES********************************
+    
     url(r'^registrarderivacion/(?P<id_paciente>(\w+))/$', views.registrarderivacion, name='registrarderivacion'),
     url(r'^detallederivacion/(?P<paciente_id>\w+)/$', views.detallederivacion, name='detallederivacion'),
     url(r'^pdf_derivacion/(?P<nro_derivacion>(\w+))/$', views.pdf_derivacion, name='report'),
@@ -89,17 +92,13 @@ urlpatterns = [
     
     #******************REMEDIOS********************************
     
-        
-        url(r'^medicamento/', views.medicamento, name='medicamento'),
-        url(r'^fichamedicamento/(?P<id_remedio>\w+)/$', views.fichamedicamento, name='fichamedicamento'),
-        url(r'^registrarmedicamento/', views.registrarmedicamento, name='registrarmedicamento'),
-        url(r'^modificarmedicamento/(?P<id_remedio>\w+)/$', views.modificarmedicamento, name='modificarmedicamento'),
-        url(r'^eliminarmedicamento/(?P<id_remedio>\w+)/$', views.eliminarmedicamento, name='eliminarmedicamento'),
-
-        
-        url(r'^actualizar/', views.actualizar, name='actualizar'),
-    
-        url(r'^ajax/$', views.ajax_view, name='temp'), # Function calls ajax
+    url(r'^medicamento/', views.medicamento, name='medicamento'),
+    url(r'^fichamedicamento/(?P<id_remedio>\w+)/$', views.fichamedicamento, name='fichamedicamento'),
+    url(r'^registrarmedicamento/', views.registrarmedicamento, name='registrarmedicamento'),
+    url(r'^modificarmedicamento/(?P<id_remedio>\w+)/$', views.modificarmedicamento, name='modificarmedicamento'),
+    url(r'^eliminarmedicamento/(?P<id_remedio>\w+)/$', views.eliminarmedicamento, name='eliminarmedicamento'),
+    url(r'^actualizar/', views.actualizar, name='actualizar'),
+    url(r'^ajax/$', views.ajax_view, name='temp'), # Function calls ajax
     
     
 ]

@@ -1,4 +1,3 @@
-
 {% extends 'index.html'%}
 
 {% block contenido%}
@@ -65,7 +64,7 @@
                           ok     : "Confirmar",
                           
                          } });
-                    alertify.alert('Este paciente ya se encuentra registrado.');
+                    alertify.alert('Este profesional ya se encuentra registrado.');
 
                   </script>
                   
@@ -75,6 +74,7 @@
                         <th class="text-center">CUIL</th>
                         <th class="text-center">APELLIDO </th>
                         <th class="text-center">NOMBRE </th>
+                        <th class="text-center">ESPECIALIDAD </th>
                         
                       </tr>
                     </thead>
@@ -92,9 +92,10 @@
 
             <tbody>
               <tr align="center">
-                <td class="warning" onclick="document.location='/aplicacion/fichapaciente/{{elemento.id}}'" style="cursor:pointer">{{elemento.cuil}}</td>
-                <td class="warning" onclick="document.location='/aplicacion/fichapaciente/{{elemento.id}}'" style="cursor:pointer">{{elemento.nombre}}</td>
-                <td class="warning" onclick="document.location='/aplicacion/fichapaciente/{{elemento.id}}'" style="cursor:pointer">{{elemento.apellido}}</td>
+                <td class="warning" onclick="document.location='/aplicacion/fichamedico/{{elemento.id}}'" style="cursor:pointer">{{elemento.cuil}}</td>
+                <td class="warning" onclick="document.location='/aplicacion/fichamedico/{{elemento.id}}'" style="cursor:pointer">{{elemento.nombre}}</td>
+                <td class="warning" onclick="document.location='/aplicacion/fichamedico/{{elemento.id}}'" style="cursor:pointer">{{elemento.apellido}}</td>
+                <td class="warning" onclick="document.location='/aplicacion/fichamedico/{{elemento.id}}'" style="cursor:pointer">{{elemento.especialidad}}</td>
               </tr>
                 {% endfor %}
             </tbody>
@@ -119,12 +120,12 @@
                           cancel : "Cancelar"
                          } });
                         // confirm dialog
-                        alertify.confirm("Este paciente ya se encuentra registrado, pero se encuentra inactivo, ¿Desea activarlo?", function (e) {
+                        alertify.confirm("Este profesional ya se encuentra registrado, pero se encuentra inactivo, ¿Desea activarlo?", function (e) {
     
                        if (e) {
-                          window.location.href = "/aplicacion/eliminarpaciente/{{elemento.persona_ptr_id}}";
+                          window.location.href = "/aplicacion/eliminarmedico/{{elemento.persona_ptr_id}}";
                         } else {
-                          window.location.href = "/aplicacion/comprobar_paciente/";
+                          window.location.href = "/aplicacion/medico_comprobar/";
                         }});
 
                       </script>
@@ -186,7 +187,7 @@ $("#miForm").validate({
           //Si a existe mostramos el mensaje
           if (reg.test($('#dni_g').val()) && $('#dni_g').val().length ==8){ 
         
-                var sexo = $("#sexo").val();
+              var sexo = $("#sexo").val();
                var dni_g = $("#dni_g").val();
                
                if (sexo=='MASCULINO')
@@ -271,7 +272,7 @@ $("#miForm").validate({
     </script>
 
 
-<form  id='confirmar_comprobar' method='POST' action='/aplicacion/comprobar_paciente/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
+<form  id='confirmar_comprobar' method='POST' action='/aplicacion/comprobar_medico/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
   
   <input class='form-control' id='cuil_generado' name='cuil_generado' type='hidden'   />
   <input class='form-control' id='dni_ge' name='dni_ge' type='hidden'  />

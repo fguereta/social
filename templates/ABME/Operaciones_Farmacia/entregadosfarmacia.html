@@ -15,7 +15,8 @@
             
               <div class="row">
                 <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
-                    <div class="col-md-4 text-left">
+                    <div class="col-md-4 text-left soli">
+                      
                       <select name="id_solicitud" id="id_solicitud" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
                           {% for elemento in busqueda_solicitud %}
@@ -31,6 +32,24 @@
               </div>
         
             </fieldset>
+
+
+    {% if solicitud %}
+    {% for elemento in solicitud %}
+  <script  type="text/javascript" charset="utf-8" async defer>
+
+      $("div.soli select").val('{{elemento.id}}');
+        
+
+        
+
+    </script>
+
+    {% endfor %}
+
+
+
+    {% endif %}        
  
  <script type="text/javascript" charset="utf-8" async defer>
     
@@ -38,7 +57,7 @@ $(".chosen-select").chosen({no_results_text: "No se encontro solicitud"});
 
 </script>
 
-{% if solicitud_id %}
+{% if solicitud %}
 <div class="row">
 <br>
 
@@ -61,10 +80,15 @@ $(".chosen-select").chosen({no_results_text: "No se encontro solicitud"});
       </tr>
     </thead>
     <tbody>
-    {% for elemento in solicitud_id %}
+    {% for elemento in solicitud %}
 
+
+    
 
       {% ifequal elemento.estado_aprobacion "ENTREGADO"  %}
+
+
+    
       
        <tr>
        
@@ -126,6 +150,8 @@ $(".chosen-select").chosen({no_results_text: "No se encontro solicitud"});
     </thead>
     <tbody>
     {% for elemento in solicitudes %}
+
+
 
 
       {% ifequal elemento.estado_aprobacion "ENTREGADO"  %}

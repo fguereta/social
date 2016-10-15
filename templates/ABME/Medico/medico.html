@@ -40,9 +40,9 @@
 
      <form  method="POST"  enctype="multipart/form-data" class="navbar-form navbar-left" role="search">{% csrf_token %}
               
-              <div class="form-group">
+              <div class="form-group id_medico">
                 
-<select name="id_medico" id="id_medico" class="form-control chosen-select " data-placeholder="Busqueda..." required>             
+              <select  name="id_medico" id="id_medico" class="form-control chosen-select " data-placeholder="Busqueda..." required>             
                         <option value=""></option>
                         {% for elemento in busqueda_medico %}
                         <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
@@ -58,7 +58,7 @@
     <ul class="nav navbar-nav navbar-right">
       <li>
   
-    <a href="/aplicacion/registrarmedico">
+    <a href="/aplicacion/comprobar_medico">
 Registrar Profesional</a></li>
       
     </ul>
@@ -74,6 +74,8 @@ Registrar Profesional</a></li>
 
 
  {% if id_medico %}
+
+
 <div class="row">
 <br>
 
@@ -85,6 +87,8 @@ Registrar Profesional</a></li>
     <thead>
       
       <tr class="success">
+
+        <th class="text-center">Dni</th>
         
         <th class="text-center">Apellido y nombre</th>
         
@@ -97,7 +101,14 @@ Registrar Profesional</a></li>
     </thead>
     <tbody>
     {% for elemento in id_medico %}
+
+    <script  type="text/javascript" charset="utf-8" async defer>
+
+        $("div.id_medico select").val("{{elemento.id}}");
+
+    </script>
       <!--NOMBRE-->
+        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichamedico/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.dni}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichamedico/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.apellido}}, {{elemento.nombre}}</td>
         <!--ESPECIALIDAD-->
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichamedico/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.especialidad}}</td>
@@ -133,7 +144,7 @@ var persona_ptr_id = $("#persona_ptr_id").val();
     <thead>
       <tr class="success">
         
-
+      <th class="text-center">Dni</th>
         <th class="text-center">Apellido y nombre</th>
         
         <th class="text-center">Especialidad</th>
@@ -147,6 +158,8 @@ var persona_ptr_id = $("#persona_ptr_id").val();
     <tbody>
   {% for elemento in medico %}
       <tr>
+      <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichamedico/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.dni}}</td>
+
         <!--NOMBRE-->
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichamedico/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.apellido}}, {{elemento.nombre}}</td>
         <!--ESPECIALIDAD-->

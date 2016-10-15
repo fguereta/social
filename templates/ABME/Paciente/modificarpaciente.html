@@ -4,14 +4,14 @@
 
 {% for elemento in id_paciente %}
 	
-<div class='container'>
+<div class=''>
     
       <div class='panel-body'>
         <form  id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
         <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='dni'>Dni</label>
             <div class='col-md-2'>
-              <input class='form-control' id='dni' name='dni' type="text" value="{{elemento.dni}}" ></input>
+              <input class='form-control' id='dni' name='dni' type="text" value="{{elemento.dni}}" readonly></input>
             </div>
         
         </div>
@@ -19,7 +19,7 @@
          <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='cuil'>Cuil</label>
             <div class='col-md-2'>
-              <input class='form-control' id='cuil' name='cuil' type="text" value="{{elemento.cuil}}" ></input>
+              <input class='form-control' id='cuil' name='cuil' type="text" value="{{elemento.cuil}}" readonly></input>
             </div>
         </div>
           
@@ -122,7 +122,7 @@
          <div class='form-group'>
            	<div class='col-md-offset-9 col-md-3'>
            	  <br>
-              <button class='btn-lg btn-danger' style='float:right' type='submit'>Cancelar</button>
+              
               <button class='btn-lg btn-primary' style='float:right' type='submit'>Guardar</button>
             </div>
   		</div>

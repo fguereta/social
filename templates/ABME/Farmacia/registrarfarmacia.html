@@ -175,14 +175,21 @@
 
 
 <script>
-
+jQuery.validator.addMethod("direc", function(value, element) {
+    var reg1 = /^[a.,-zA-Z0-9-\/] ?([a.,-zA-Z0-9-\/]|[a.,-zA-Z0-9-\/] )*[a.,-zA-Z0-9-\/]$/;
+    if (reg1.test(value)) {
+        return true;
+    } else {
+        return false;
+    };
+}, "Ingrese una direccion valida");
 $('#datepicker').datepicker({
   dateFormat: 'dd/mm/yy',
   changeYear: true,
+  changeMonth: true,
   yearRange: "1900:2100"
   });
 $.datepicker.regional[ "es" ]
-    
 $("#miForm").validate({
   errorClass: "claserror",
     validClass: "clasevalida",
@@ -190,29 +197,29 @@ $("#miForm").validate({
     rules: {
           nombre: {
             required: true,
-            lettersonly: true,
-        maxlength: "20"
+          maxlength: "20",
+          nomb: "[a-zA-Z. ]+"
           },
       razon_social: {
             required: true,
-            lettersonly: true,
-        maxlength: "25"
+          maxlength: "25",
+          nomb: "[a-zA-Z. ]+"
           },
       especialidad: {
             required: true
           },
       matriculaprovincial: {
             required: true,
-        maxlength: "20"
+          maxlength: "20"
           },
       matriculanacional: {
             required: true,
-        maxlength: "20"
+          maxlength: "20"
           },
           apellido: {
             required: true,
-            lettersonly: true,
-        maxlength: "20"
+            nomb: "[a-zA-Z. ]+",
+          maxlength: "20"
           },
           dni: {
             required: true,
@@ -220,7 +227,7 @@ $("#miForm").validate({
             minlength: "8",
             maxlength: "8"
           },
-          cuil: {
+          cuit: {
             required: true,
             digits: true,
             minlength: "10",
@@ -230,46 +237,48 @@ $("#miForm").validate({
             required: true,
             date: true
           },
-          correo: {
+          email: {
             email: true
           },
           direccion: {
             required: true,
-        maxlength: "25"
+          maxlength: "25",
+          direc: true
           },
           telefono: {
             required: true,
             digits: true,
-        maxlength: "20"
+          maxlength: "20"
           },
           celular: {
             digits: true,
-        maxlength: "20"
+          maxlength: "20"
           },
           sexo: {
             required: true
           },
           historiaclinica: {
             required: true,
-      maxlength: "20"
+          maxlength: "20",
+          direc: true
           },
           osocial: {
-            lettersonly: true,
-        maxlength: "20"
+          maxlength: "20",
+          nomb: "^[a-zA-Z]*$"
           }
     },
   messages: {
-    nombre: {
-        lettersonly: "Escribe sólo letras"
+      nombre: {
+        nomb: "Ingrese un nombre valido"
       },
       apellido: {
-        lettersonly: "Escribe sólo letras"      
+        nomb: "Ingrese un apellido valido"
       },
-      osocial: {
-        lettersonly: "Escribe sólo letras"      
+      razon_social: {
+      nomb: "Ingrese una razon social valida"
       },
-    razon_social: {
-        lettersonly: "Escribe sólo letras"
+      direccion: {
+      direc: "Ingrese una direccion valida"
       }
     },
   highlight: function (element, errorClass, validClass) {
@@ -280,6 +289,10 @@ $("#miForm").validate({
         $(element).parent('.miForm').removeClass('error');
         $(element).addClass(validClass).removeClass(errorClass);
         }
+  });
+jQuery.validator.addMethod("nomb", function(value, element, param)
+  {
+     return jQuery.trim(value).match(new RegExp("^(?:" + param + ")$"));
   });
 </script>
 

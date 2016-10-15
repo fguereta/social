@@ -1,5 +1,5 @@
 {% extends 'index.html'%}
-{% block htitle %}<title>Pacientes</title>{% endblock %} 
+{% block htitle %}<title>Gestión de Pacientes</title>{% endblock %} 
 
 {% block contenido%}
 {% if refrescar_registro %}
@@ -19,7 +19,7 @@
           <div class='panel-body'>
 
               <fieldset>
-                 <legend>Pacientes</legend>
+                 <legend> Gestión de Pacientes</legend>
                 
 <nav class="navbar navbar-default" role="navigation">
   <!-- El logotipo y el icono que despliega el menú se agrupan
@@ -46,8 +46,19 @@
     <!--BUSQUEDA PACIENTE-->
 
      <form  method="POST"  enctype="multipart/form-data" class="navbar-form navbar-left" role="search">{% csrf_token %}
+            
+        <div class="form-group">  
               
-              <div class="form-group">
+
+
+              <div  >Realize una busqueda con apellido y nombre, o el dni del paciente.</div>
+                <br>
+                
+
+
+              <div class="form-group id_paciente">
+
+
                 
                 <select name="id_paciente" id="id_paciente" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
@@ -57,17 +68,23 @@
                       </select>
               </div>
 
-              <button type="submit" class="btn btn-primary">Buscar</button>
+              <button type="submit" class="btn btn-primary">Buscar Paciente</button>
+              <a href='/aplicacion/pdf_listado_paciente/'><input value='PDF Listado Actual' class="btn btn-danger"/></a>
+              
 
               </form>
+        </div>
 
  <!-- REGISTRAR NUEVO PACIENTE -->
+ <div >
     <ul class="nav navbar-nav navbar-right">
       <li>
   
-      <a href="/aplicacion/comprobar_paciente/0">Registrar Paciente</a></li>
+      <a href="/aplicacion/comprobar_paciente/">Registrar Paciente</a></li>
       
     </ul>
+
+  </div>
   </div>
 </nav>
 
@@ -105,6 +122,13 @@
     </thead>
     <tbody>
     {% for elemento in id_paciente %}
+
+      <script  type="text/javascript" charset="utf-8" async defer>
+
+        $("div.id_paciente select").val("{{elemento.id}}");
+
+    </script>
+
       <tr>
 
       <!--NOMBRE-->

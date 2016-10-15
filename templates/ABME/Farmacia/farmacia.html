@@ -13,29 +13,7 @@ window.location.href = "/aplicacion/fichafarmacia/{{refrescar_registro}}";
 
 {% endif %}
 
-{% if refrescar_eliminacion %}
 
-
-<script  type="text/javascript" charset="utf-8" async defer>
-
-alertify.set({ labels: {
-                          ok     : "Aceptar",
-                          cancel : "Cancelar"
-                         } });
-
-
-alertify.alert('Se elimino correctamente.', function(){ 
-  
-  window.location.href = "/aplicacion/farmacia/";
-  
-
-  alertify.success('ok'); }
-  );
-
-</script>
-
-
-{% endif %}
 
 {% if refrescar_activacion %}
 
@@ -84,12 +62,12 @@ window.location.href = "/aplicacion/fichafarmacia/{{refrescar_activacion}}";
 
      <form  method="POST"  enctype="multipart/form-data" class="navbar-form navbar-left" role="search">{% csrf_token %}
               
-              <div class="form-group">
+              <div class="form-group id_farmacia">
                 
                <select name="id_farmacia" id="id_farmacia" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
                           {% for elemento in busqueda_farmacia %}
-                          <option value="{{elemento.id}}" >{{elemento.id}} {{elemento.username}} </option>
+                          <option value="{{elemento.id}}" >{{elemento.razon_social}}, --CUIT:{{elemento.username}}    </option>
                           {% endfor %}
                       </select>
               </div>
@@ -146,7 +124,15 @@ Nueva Farmacia</a></li>
     </thead>
     <tbody>
     {% for elemento in id_farmacia %}
-      <tr  >
+      
+      <script  type="text/javascript" charset="utf-8" async defer>
+
+        $("div.id_farmacia select").val("{{elemento.id}}");
+
+    </script>
+       
+
+      <tr >
         
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.username}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.razon_social}}</td>
@@ -197,7 +183,8 @@ var razonsocial = $("#razonsocial").val();
     <tbody>
     {% for elemento in farmacia %}
       <tr  >
-       
+
+      
 
         <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.username}}</td>
         <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.razon_social}}</td>

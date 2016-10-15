@@ -48,57 +48,75 @@ def paciente(request):
         return render_to_response("ABME/Paciente/paciente.html",  {'paciente': paciente, 'busqueda_paciente':paciente  }, context_instance = RequestContext(request))
 
 
-def comprobar_paciente(request,cuil_paciente='0'):
+def comprobar_paciente(request):
     
+   
 
-    cuil_recibido=cuil_paciente
-    
-    id_paciente=Paciente.objects.filter(cuil=cuil_paciente)
-    #id_paciente_inactivo=Paciente.objects.filter(cuil=cuil_paciente,estado="INACTIVO")
+    if 'cuil_generado' in request.POST:
 
-    if cuil_paciente=='0':
+        cuil_generado=request.POST['cuil_generado']
+        
+
+        paciente=Paciente.objects.filter(cuil=cuil_generado)
+        cont=0
+
+        for i in paciente:
+            cont=cont+1
+
+
+        if cont==0:
+
+            dni=request.POST['dni_ge']
+            sexo=request.POST['sexo_ge']
+
+            cuil={
+                'cuil':cuil_generado,
+                'dni':dni,
+                'sexo':sexo
+
+            }
+
+            return render_to_response("ABME/Paciente/registrarpaciente.html/",{'cuil':cuil}, context_instance = RequestContext(request)) 
+
+        else:
+            for i in paciente:
+
+                if i.estado=='INACTIVO':
+                    dni=request.POST['dni_ge']
+                    sexo=request.POST['sexo_ge']
+                    datos_enviados={
+
+                        'cuil':cuil_generado,
+                        'id_paciente_inactivo':paciente,
+                        'dni':dni,
+                        'sexo':sexo
+                    }
+
+
+                    return render_to_response("ABME/Paciente/comprobar.html",{'datos_recibidos':datos_enviados}, context_instance = RequestContext(request))  
+            
+                elif i.estado=='ACTIVO':
+
+                    dni=request.POST['dni_ge']
+                    sexo=request.POST['sexo_ge']
+
+                    datos_enviados={
+
+                        'cuil':cuil_generado,
+                        'id_paciente_activo':paciente,
+                        'dni':dni,
+                        'sexo':sexo
+                    }
+
+
+                    return render_to_response("ABME/Paciente/comprobar.html",{'datos_recibidos':datos_enviados }, context_instance = RequestContext(request)) 
+
+    else:
 
         return render_to_response("ABME/Paciente/comprobar.html", context_instance = RequestContext(request)) 
 
+        #return render_to_response("ABME/Paciente/registrarpaciente.html",  {'cuil':cuil}, context_instance = RequestContext(request))  
     
-
-    if cuil_recibido!=0:
-
-        cuil={
-            'cuil1':cuil_recibido[0:2],
-            'dni':cuil_recibido[2:10],
-            'cuil2':cuil_recibido[10]
-        }
-        
-        for elemento in id_paciente:
-
-            if elemento.estado=="INACTIVO":
-                
-                datos_enviados={
-
-                    'cuil':cuil,
-                    'id_paciente_inactivo':id_paciente
-                }
-
-
-                return render_to_response("ABME/Paciente/comprobar.html",  {'datos_recibidos':datos_enviados}, context_instance = RequestContext(request))   
-
-            elif elemento.estado=="ACTIVO":
-
-                datos_enviados={
-
-                    'cuil':cuil,
-                    'id_paciente_activo':id_paciente
-                }
-
-
-                return render_to_response("ABME/Paciente/comprobar.html",  {'datos_recibidos':datos_enviados }, context_instance = RequestContext(request))
-
-            
-        
-
-        return render_to_response("ABME/Paciente/registrarpaciente.html",  {'cuil':cuil}, context_instance = RequestContext(request))  
-
 def menupaciente(request):
     
     
@@ -224,8 +242,8 @@ def eliminarpaciente(request, id_paciente):
         paciente_eliminado=Paciente.objects.get(persona_ptr_id=id_paciente)
         paciente_eliminado.estado="INACTIVO"
         paciente_eliminado.save()
-        
-        return render_to_response("ABME/Paciente/paciente.html",{'paciente':paciente},  context_instance = RequestContext(request))
+        return HttpResponseRedirect("/aplicacion/paciente/")
+        #return render_to_response("ABME/Paciente/paciente.html",{'paciente':paciente},  context_instance = RequestContext(request))
         
         
         
@@ -254,6 +272,60 @@ def pacientesolicitud(request):
              
     return render(request, 'ABME/Paciente/buscarpaciente.html', {'errors': errors}) 
 
+def pdf_listado_paciente(request):
+
+
+    import datetime, time
+    d= datetime.datetime.now()
+    fecha=str(d.strftime("%d-%m-%Y %H:%M:%S"))
+    fecha_cortada=fecha.split(' ')
+    fecha_registro=fecha_cortada[0]+', Hora: '+fecha_cortada[1]
+    
+    fecha=fecha.split(' ')[0]
+
+    response =  HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment ; filename=Solicitud-N°.pdf'
+    buffer =BytesIO()
+    c = canvas.Canvas(buffer, pagesize=A4)
+
+    #Header
+    c.setLineWidth(.3)
+    
+    c.setFont('Helvetica-Bold', 10)
+    c.drawString(460,800,'Fecha: '+str(fecha) )
+    c.line(460,795,565,795)
+
+    c.setFont('Helvetica-Bold', 15)
+    c.drawString(190,770,'Nomina Actual de Pacientes')
+
+
+    c.line(50,730,565,730)
+
+    c.setFont('Helvetica-Bold', 8)
+    c.drawString(100,715,'APELLIDO Y NOMBRE ' )
+    c.drawString(335,715,'DNI ' )
+    c.drawString(450,715,'HISTORIA CLINICA ' )
+
+    c.line(50,730,50,710)
+    c.line(50,710,565,710)
+    
+    c.line(565,730,565,710)
+    c.line(290,730,290,710)
+
+    c.line(400,730,400,710)
+
+    #c.setFont('Helvetica', 12)
+    #c.drawString(30,735,'Fecha: '+str(fecha))
+    
+    
+    
+   
+    c.save()
+
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response
 
 #######################MEDICO###########################################
 
@@ -272,6 +344,76 @@ def medico(request):
     
     
         return render_to_response("ABME/Medico/medico.html",  {'medico': medico, 'busqueda_medico':medico  }, context_instance = RequestContext(request))
+
+
+def comprobar_medico(request):
+    
+   
+
+    if 'cuil_generado' in request.POST:
+
+        cuil_generado=request.POST['cuil_generado']
+        
+
+        medico=Medico.objects.filter(cuil=cuil_generado)
+        cont=0
+
+        for i in medico:
+            cont=cont+1
+
+
+        if cont==0:
+
+            dni=request.POST['dni_ge']
+            sexo=request.POST['sexo_ge']
+
+            cuil={
+                'cuil':cuil_generado,
+                'dni':dni,
+                'sexo':sexo
+
+            }
+
+            return render_to_response("ABME/Medico/registrarmedico.html",{'cuil':cuil}, context_instance = RequestContext(request)) 
+
+        else:
+            for i in medico:
+
+                if i.estado=='INACTIVO':
+                    dni=request.POST['dni_ge']
+                    sexo=request.POST['sexo_ge']
+                    datos_enviados={
+
+                        'cuil':cuil_generado,
+                        'id_paciente_inactivo':medico,
+                        'dni':dni,
+                        'sexo':sexo
+                    }
+
+
+                    return render_to_response("ABME/Medico/medico_comprobar.html",{'datos_recibidos':datos_enviados}, context_instance = RequestContext(request))  
+            
+                elif i.estado=='ACTIVO':
+
+                    dni=request.POST['dni_ge']
+                    sexo=request.POST['sexo_ge']
+
+                    datos_enviados={
+
+                        'cuil':cuil_generado,
+                        'id_paciente_activo':medico,
+                        'dni':dni,
+                        'sexo':sexo
+                    }
+
+
+                    return render_to_response("ABME/Medico/medico_comprobar.html",{'datos_recibidos':datos_enviados }, context_instance = RequestContext(request)) 
+
+    else:
+
+        return render_to_response("ABME/Medico/medico_comprobar.html", context_instance = RequestContext(request)) 
+
+        #return render_to_response("ABME/Paciente/registrarpaciente.html",  {'cuil':cuil}, context_instance = RequestContext(request))  
 
 def fichamedico(request,id_medico):
     
@@ -398,7 +540,7 @@ def eliminarmedico(request, id_medico):
         medico_eliminado.estado="INACTIVO"
         medico_eliminado.save()
         
-        return render_to_response("ABME/Medico/medico.html",{'medico':medico},  context_instance = RequestContext(request))
+        return HttpResponseRedirect("/aplicacion/medico/")
         
         
         
@@ -665,7 +807,7 @@ def eliminarfarmacia(request, id_farmacia):
         farmacia_eliminado.estado="INACTIVO"
         farmacia_eliminado.save()
         refrescar_eliminacion=id_farmacia
-        return render_to_response("ABME/Farmacia/farmacia.html",{'refrescar_eliminacion':refrescar_eliminacion},  context_instance = RequestContext(request))
+        return HttpResponseRedirect("/aplicacion/farmacia/")
         
         
         
@@ -803,7 +945,7 @@ def farmacia_entrega(request):
         id_solicitud=request.POST['id_solicitud']
         busqueda_solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').exclude(estado_aprobacion='PARCIAL').order_by('-id')
         solicitud_id=Solicitud.objects.filter(id=id_solicitud).exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').exclude(estado_aprobacion='PARCIAL')
-        return render_to_response("ABME/Operaciones_Farmacia/entregafarmacia.html",{'busqueda_solicitud':busqueda_solicitud, 'solicitud':solicitud_id}, context_instance = RequestContext(request))
+        return render_to_response("ABME/Operaciones_Farmacia/entregafarmacia.html",{'busqueda_solicitud':busqueda_solicitud, 'solicitudes':solicitud_id}, context_instance = RequestContext(request))
         
     else:
         solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').exclude(estado_aprobacion='PARCIAL').order_by('-id')
@@ -842,7 +984,7 @@ def farmacia_entregados(request):
                     }
                     solicitud_id=solicitud_id+[sol]
 
-        return render_to_response("ABME/Operaciones_Farmacia/entregadosfarmacia.html",{'busqueda_solicitud':busqueda_solicitud, 'solicitud_id':solicitud_id}, context_instance = RequestContext(request))
+        return render_to_response("ABME/Operaciones_Farmacia/entregadosfarmacia.html",{'busqueda_solicitud':busqueda_solicitud, 'solicitud':solicitud_id}, context_instance = RequestContext(request))
 
     else:
 
@@ -941,7 +1083,7 @@ def farmacia_parciales(request):
         id_solicitud=request.POST['id_solicitud']
         busqueda_solicitud=Solicitud.objects.filter(estado_aprobacion='PARCIAL')
         solicitudes=Solicitud.objects.filter(id=id_solicitud)
-        return render_to_response("ABME/Operaciones_Farmacia/parcialesfarmacia.html",{'busqueda_solicitud':busqueda_solicitud, 'solicitudes':solicitudes}, context_instance = RequestContext(request))  
+        return render_to_response("ABME/Operaciones_Farmacia/parcialesfarmacia.html",{'busqueda_solicitud':busqueda_solicitud, 'solicitud_id':solicitudes}, context_instance = RequestContext(request))  
     
     else:
         
@@ -1010,7 +1152,7 @@ def registrarsolicitud(request,id_paciente):
     paciente_enviado=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO') 
     medico_enviado=Medico.objects.filter(estado='ACTIVO') 
     #farmacia_enviado=Farmacia.objects.filter(estado='ACTIVO')
-    remedio_enviado=Remedio.objects.all()
+    medicamento_enviado=Medicamento.objects.filter(estado='ACTIVO')
 
     import datetime, time
     d= datetime.datetime.now()
@@ -1031,10 +1173,15 @@ def registrarsolicitud(request,id_paciente):
 
             paciente_id=request.POST['id_paciente'],
             medico_id=request.POST['id_medico'],
-            remedio_id=request.POST['id_remedio'].upper(),
-            dosis=request.POST["dosis"].upper(),
+            medicamento1_id=request.POST['medicamento1'].upper(),
+            dosis1=request.POST["dosis1"].upper(),
+            medicamento2_id=request.POST['medicamento2'].upper(),
+            dosis2=request.POST["dosis2"].upper(),
+            medicamento3_id=request.POST['medicamento3'].upper(),
+            dosis3=request.POST["dosis3"].upper(),
             fecha=fecha_registro,
-            estado_aprobacion='ENPROGRESO',
+            diagnostico=request.POST['diagnostico'].upper(),
+            estado_aprobacion=request.POST['estado']
             
             
             )
@@ -1050,9 +1197,11 @@ def registrarsolicitud(request,id_paciente):
 
                 solicitud_id=solicitud_registrada.id,
                 fecha=fecha_registro,
-                estado='ENPROGRESO',
-                observaciones=request.POST["observaciones"].upper(),
-                
+                estado=request.POST['estado'],
+                observaciones='',
+                precio1='',
+                precio2='',
+                precio3='',
 
 
             )
@@ -1078,7 +1227,7 @@ def registrarsolicitud(request,id_paciente):
             
             return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'refrescar':refrescar,'solicitud_enviado':solicitud,'id_paciente':id_paciente,'exitosolicitud':exitosolicitud}, context_instance = RequestContext(request))
 
-    return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'id_paciente':paciente_enviado,'medico_enviado':medico_enviado, 'remedio_enviado':remedio_enviado}, context_instance = RequestContext(request))
+    return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'id_paciente':paciente_enviado,'medico_enviado':medico_enviado, 'medicamento_enviado':medicamento_enviado}, context_instance = RequestContext(request))
 
 def solicitudespaciente(request,id_paciente):
     
@@ -1113,11 +1262,17 @@ def fichasolicitud(request,id_solicitud):
 
                     'id':i.id,
                     'paciente':i.paciente,
-                    'remedio':i.remedio,
                     'fecha_estado':j.fecha,
-                    'dosis':i.dosis,
                     'medico':i.medico,
-                    'observaciones':j.observaciones,
+                    'medicamento1':i.medicamento1,
+                    'dosis1':i.dosis1,
+                    'medicamento2':i.medicamento2,
+                    'dosis2':i.dosis2,
+                    'medicamento3':i.medicamento3,
+                    'dosis3':i.dosis3,
+                    
+                    
+                    'diagnostico':i.diagnostico,
                     'estado_aprobacion':i.estado_aprobacion
 
 
@@ -1189,6 +1344,7 @@ def solicitudcancelada(request,id_solicitud):
                 estado='CANCELADO',
                 observaciones=request.POST['comcancelado'].upper(),
                 farmacia_id='',
+                precio='',
 
 
         )
@@ -1241,6 +1397,7 @@ def cambiarestado(request):
                 estado=request.POST['nuevo_estado'],
                 observaciones='',
                 farmacia_id='',
+                precio='',
 
 
             )
@@ -1276,7 +1433,12 @@ def solicitud_consultas(request):
 
                 if i.id==j.solicitud_id:
 
-                    precio_final=float(precio_final)+float(j.precio)
+                    if j.precio=='':
+                        precio_final=0
+
+                    else:
+
+                        precio_final=float(precio_final)+float(j.precio)
 
                     if i.estado_aprobacion==j.estado:
 
@@ -1284,7 +1446,8 @@ def solicitud_consultas(request):
 
                         'id':i.id,
                         'estado_aprobacion':i.estado_aprobacion,
-                        'precio_final':precio_final
+                        'precio_final':precio_final,
+                        'paciente':i.paciente
 
 
 
@@ -1333,6 +1496,8 @@ def solicitud_movimientos(request,id_solicitud):
                     'solicitud_id':j.solicitud_id,
                     'estado_ultimo':j.estado,
                     'fecha_estado':j.fecha,
+                    'remedio':i.remedio,
+                    'dosis':i.dosis,
                     'observaciones':j.observaciones,
                     'medicamento_entregado':j.medicamento_entregado,
                     'dosis_entregada':j.dosis_registro,

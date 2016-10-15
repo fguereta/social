@@ -41,7 +41,7 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
 
 
 			<div class="form-group">
-				<label for="medico" class="control-label col-md-2 col-md-2 col-md-offset-2">Medico:</label> 
+				<label for="medico" class="control-label col-md-2 col-md-2 col-md-offset-2">Medico a cargo:<font color="red"> *</font></label> 
 					<div class="col-md-4 text-left">
                       <select name="id_medico" id="id_medico" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
@@ -78,14 +78,14 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
 			-->
 
 
-
+		<br>
 		<div class="form-group">
-				<label for="remedio" class="control-label col-md-2 col-md-2 col-md-offset-2">Remedio:</label> 
+				<label for="medicamento_1" class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(1):<font color="red"> *</font></label> 
 					<div class="col-md-4 text-left">
-                      <select name="id_remedio" id="id_remedio" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                      <select name="medicamento1" id="medicamento1" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
                           
-                          {% for elemento in remedio_enviado %}
+                          {% for elemento in medicamento_enviado %}
                           <option value="{{elemento.id}}" >{{elemento.generico}}</option>
                           {% endfor %}
                       
@@ -96,20 +96,97 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
                       <a class="related-widget-wrapper-link add-related" id="add_id_remedio" href="/aplicacion/registrarmedicamento" title="Agregar otro/a remedio">
           				  <img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
         			  </a>
+		</div>
+
+
+		<div class="form-group">
+			
+			<label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Dosis Diaria(1):<font color="red"> *</font></label>
+			<div class="col-md-5">
+				<input class="form-control" id="dosis1" maxlength="20" name="dosis1" type="text" />
 			</div>
+		</div>
+		
+		<br>
+		
+		<div class="form-group">
+				<label for="medicamento_2" class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(2):</label> 
+					<div class="col-md-4 text-left">
+                      <select name="medicamento2" id="medicamento2" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." >             
+                          <option value=""></option>
+                          
+                          {% for elemento in medicamento_enviado %}
+                          <option value="{{elemento.id}}" >{{elemento.generico}}</option>
+                          {% endfor %}
+                      
+
+                      </select>
+                                        
+                    </div>
+                      <a class="related-widget-wrapper-link add-related" id="add_id_remedio" href="/aplicacion/registrarmedicamento" title="Agregar otro/a remedio">
+          				  <img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
+        			  </a>
+		</div>
+
+		<div class="form-group">
+			
+			<label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Dosis Diaria(2):</label>
+			<div class="col-md-5">
+				<input class="form-control" id="dosis2" maxlength="20" name="dosis2" type="text" />
+			</div>
+		</div>
+		<br>
+		<div class="form-group">
+				<label for="medicamento_3" class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(3):</label> 
+					<div class="col-md-4 text-left">
+                      <select name="medicamento3" id="medicamento3" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." >             
+                          <option value=""></option>
+                          
+                          {% for elemento in medicamento_enviado %}
+                          <option value="{{elemento.id}}" >{{elemento.generico}}</option>
+                          {% endfor %}
+                      
+
+                      </select>
+                                        
+                    </div>
+                      <a class="related-widget-wrapper-link add-related" id="add_id_remedio" href="/aplicacion/registrarmedicamento" title="Agregar otro/a remedio">
+          				  <img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
+        			  </a>
+		</div>
+
+		<div class="form-group">
+			
+			<label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Dosis Diaria(3):</label>
+			<div class="col-md-5">
+				<input class="form-control" id="dosis3" maxlength="20" name="dosis3" type="text" />
+			</div>
+		</div>
+		<br>
+
+		<div class="form-group">
+			
+			<label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Requiere Auditoría:<font color="red"> *</font></label>
+			<div class="col-md-5">
+				<div class="col-md-2">
+				   No<input type="radio" name="estado" id='estado' value="APROBADO" checked>
+				</div>
+				
+				<div class="col-md-2">
+				Si<input type="radio" name="estado" id='estado' value="AUDITORIA">
+				</div>
+				
+				
+			</div>
+		</div>
 
 
+
+<br>
 <div class="form-group">
-<label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Dosis:</label>
+<label for="observaciones" class="control-label col-md-2 col-md-2 col-md-offset-2">Diagnostico:<font color="red"> *</font></label> 
 	<div class="col-md-5">
-	<input class="form-control" id="dosis" maxlength="20" name="dosis" type="text" />
-	</div>
-</div>
-
-<div class="form-group">
-<label for="observaciones" class="control-label col-md-2 col-md-2 col-md-offset-2">Observaciones:</label> 
-	<div class="col-md-5">
-	<textarea class="form-control" cols="40" id="observaciones" name="observaciones" rows="10"></textarea>
+	<textarea class="form-control" cols="40" id="diagnostico" name="diagnostico" rows="10"></textarea>
 	</div>
 </div>
 
