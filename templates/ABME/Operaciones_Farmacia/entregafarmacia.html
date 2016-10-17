@@ -15,12 +15,17 @@
           <div class='panel-body'>
 
               <fieldset>
-                 <legend>PENDIENTE DE ENTREGA</legend>
-                 
-            
+                 <legend>SOLICITUDES PENDIENTE DE ENTREGA</legend>
+                
+              
               <div class="row">
                 <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+                  
+                <div  class="col-md-6 " >Realize una busqueda por numero de solicitud o el dni del solicitante.</div>
+                <br><br>
                     <div class="col-md-4 text-left id_solicitud">
+
+
                       <select name="id_solicitud" id="id_solicitud" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
                           {% for elemento in busqueda_solicitud %}
@@ -40,10 +45,16 @@
             </fieldset>
  
 
+<br>
+<br>
+ <div class="col-md- ">Seleccione una solicitud para ver su informacion o realizar la entrega correspondiente.</div>
+
+ <br>
 
  {% if solicitud%}
 <div class="row">
-<br>
+
+
 
 <div class=".container">
   
@@ -54,10 +65,10 @@
       <tr class="success">
         
         <th class="text-center">N° de solicitud</th>
+        <th class="text-center">Fecha de inicio</th>
         <th class="text-center">Dni</th>
-        <th class="text-center">Nombre</th>
-        <th class="text-center">Medicamento</th>
-        <th class="text-center">Dosis</th>
+       <th class="text-center"> Solicitante</th>
+        
         
         
         
@@ -77,15 +88,12 @@
       <tr>
        
 
-        <td class="col-md-2 text-center ">{{elemento.id}}</td>
-        <td class="col-md-2 text-center" >{{elemento.paciente.dni}}</td>
-        <td class="col-md-2 text-center" >{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
-        <td class="col-md-2 text-center">{{elemento.remedio.generico}}</td>
+        <td class="col-md-2 text-center "onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.fecha}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
         
-        <td class="col-md-2 text-center">{{elemento.dosis}}</td>
-
-
-        <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
+ 
       </tr>
 
       {% endifequal %}
@@ -133,10 +141,9 @@
           <thead>
             <tr class="success">
               <th class="text-center">N° de solicitud</th>
+              <th class="text-center">Fecha de inicio</th>
               <th class="text-center">Dni</th>
-              <th class="text-center">Nombre</th>
-              <th class="text-center">Medicamento</th>
-              <th class="text-center">Dosis</th>
+              <th class="text-center">Solicitante</th>
             </tr>
           </thead>
         <tbody>
@@ -148,15 +155,10 @@
       <tr>
        
 
-        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/entregas_movimientos/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/entragas_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.dni}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/entregas_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/entregas_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.remedio.generico}}</td>
-        
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/entregas_movimientos/{{elemento.id}}'"  style="cursor:pointer">{{elemento.dosis}}</td>
-
-
-        <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
+        <td class="col-md-2 text-center "onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.fecha}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
 
       </tr>
 
@@ -218,111 +220,46 @@ function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
           if(estado_aprobacion=='APROBADO'){
   
           alertify.set({ labels: {
-          ok     : "Siguiente",
+          ok     : "Continuar",
           cancel : "Cancelar"
           } });
           // confirm dialog
           
-            alertify.confirm("Seleccionó la <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>. Seleccione tipo de entrega", function (e) {
+            alertify.confirm("Seleccionó la <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>.", function (e) {
 
               if (e) {
 
-                  alertify.set({ labels: {
-                  ok     : "Siguiente",
-                  cancel : "Cancelar"
-                  } });
-                  // confirm dialog
-                        
-                  alertify.confirm("<div class='container '><div class='form-group'><div class='col-xs-3 col-md-offset-1'><div class='form-group'>SELECCIONE TIPO DE ENTREGA <br></br> <select class='form-control smallselect' id='nuevoestado' name='nuevoestado' ><option value='PARCIAL'>ENTREGA PARCIAL</option><option value='ENTREGADO'>ENTREGA COMPLETA</option></select></div></div></div></div> ", function (l) {
-
-                        if (l) {
-
-                            nuevo_estado=$('select[name=nuevoestado]').val();
-                            
-                                  if(nuevo_estado=='PARCIAL'){
-
-                                    $( "#idsolicitud2" ).val(id);
-                                    $( "#user_id_farmacia2" ).val(user_id);
-                                    $( "#nuevo_estado2" ).val(nuevo_estado);
-                                    $("#entrega_parcial").submit();
+                  $( "#id_solicitud_informacion" ).val(id);
+                  $("#solicitud_informacion").submit();
                   
-                                  }else if(nuevo_estado=='ENTREGADO'){
-
-                                    
-                                    
-                                    $( "#idsolicitud" ).val(id);
-                                    $( "#user_id_farmacia1" ).val(user_id);
-                                    $( "#nuevo_estado" ).val(nuevo_estado);
-                                    $("#entrega_entregado").submit();
-
-                                  }
-                                   
-
-                                  
-                        
-
-                        } else {
+              } else {
             
-                            window.location.href = "/aplicacion/farmacia_entrega/";
+                  window.location.href = "/aplicacion/farmacia_entrega/";
           
-                        }
+              }
         
-                    });
+          });
 
-            } else {
-            
-                 window.location.href = "/aplicacion/farmacia_entrega/";
-            }
-        
-        });
-
+           
+      
 
       }
 
   
 }
 
- 
-
-   $("button[id=btn_nuevo_paciente]").click(function() {
-
-      
-  alertify.defaults.glossary.title = '';
-
-      alertify.confirm("Confirmar eliminacion  "+apellidonombre,
-            function (e) {
-                if (e) {
-                   window.location = "/aplicacion/eliminarpaciente/"+id_paciente;
-                } else {
-                    alertify.error("Has pulsado <strong>"
-                             + alertify.labels.cancel
-                             + "</strong>");
-                }
-        }).setting('labels',{'ok':'Confirmar', 'cancel': 'Cancelar'});
-    });
- 
-   
-
-
-
 
 
 
 </script>
 
-<form  id='entrega_entregado' method='POST' action='/aplicacion/farmacia_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
-<input class='form-control' id='idsolicitud' name='idsolicitud'  type="hidden" value=''/>
-<input class='form-control' id='nuevo_estado' name='nuevo_estado' type="hidden" value=''/>
-<input class='form-control' id='user_id_farmacia1' name='user_id_farmacia1' type="hidden" value=''/>
+<form  id='solicitud_informacion' method='POST' action='/aplicacion/farmacia_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
+  <input class='form-control' id='id_solicitud_informacion' name='id_solicitud_informacion'  type="hidden" value=''/>
+  
 
 </form>
 
-<form  id='entrega_parcial' method='POST' action='/aplicacion/farmacia_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
-<input class='form-control' id='idsolicitud2' name='idsolicitud2'  type="hidden" value=''/>
-<input class='form-control' id='nuevo_estado2' name='nuevo_estado' type="hidden" value=''/>
-<input class='form-control' id='user_id_farmacia2' name='user_id_farmacia2' type="hidden" value=''/>
 
-</form>
 
         
 

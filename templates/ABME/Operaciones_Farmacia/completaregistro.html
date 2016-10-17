@@ -8,7 +8,7 @@
 <div class='panel  panel-success dialog-panel  '>
       <div class='panel-heading'>
 
-        <h5><b>Registro de Entrega</b></h5>
+        <h5><b>Registro de Entrega de la Solicitud N° {% for i in solicitud%}{{i.id}}{% endfor %}</b></h5>
       </div>
       		<div class='panel-body'>
       		
@@ -18,12 +18,8 @@
 				<br>
 				<br>
 				<br>
-
-				
-					<input class="form-control" id="nuevoestado" name="nuevoestado" type="hidden" value="PARCIAL"/>	
-					<input class="form-control" id="farmacia_id" name="farmacia_id" type="hidden" value="{{farmacia_id}}"/>
-						
-				
+				<input class="form-control" id="farmacia_id" name="farmacia_id" type="hidden" value="{{farmacia_id}}"/>
+				<input class="form-control" id="nuevoestado" name="nuevoestado" type="hidden" value=""/>
 
 				<div class="form-group">
 					<label for="paciente" class="control-label col-md-2 col-md-2 col-md-offset-0">Solicitud N°</label> 
@@ -46,13 +42,64 @@
 				</div>
 				<br>
 				<br>
-				 <legend ><div class=" col-md-offset-4">Detalle de Entrega Parcial</div></legend>
+				 <legend ><div class=" col-md-offset-4">Detalle de Entrega de la Solicitud N° {% for i in solicitud %}{{i.id}}{% endfor %}</div></legend>
+				<br><br>
 				
+				<div class="col-md- col-md-offset-0 ">
+							
+					<div class="col-md- col-md-offset-1 " >Seleccione los medicamentos a entregar y presione el boton aceptar.</div>
+  
+						{% for elemento in solicitud %}
+							<div class="row col-md-offset-1 ">
+							<br>
+							<br>
+  								
+
+  								<div id='generico-1' style="display:none;">
+  									
+  										<label><input type="checkbox" id='generico1' name='generico1' value='{{elemento.medicamento1.generico}}' >{{elemento.medicamento1.generico}}</label>
+									
+  								
+  								<br>
+  								<br>
+  								</div>
+  								
+  								<div id='generico-2' style="display:none;">
+								
+  									<label><input type="checkbox" id='generico2' name='generico2' value='{{elemento.medicamento2.generico}}'>{{elemento.medicamento2.generico}}</label>
+								<br>
+								<br>
+								</div>
+								
+								
+
+								<div id='generico-3' style="display:none;">
+								
+  									<label><input type="checkbox" id='generico3' name='generico3' value='{{elemento.medicamento3.generico}}'  >{{elemento.medicamento3.generico}}</label>
+								
+								
+								</div>
+
+								
+								<div class='col-md-offset-3' > 
+									<input name="checkbox_comprobar" id="checkbox_comprobar" type="button" value="Aceptar" />
+								</div>
+						
+						
+							{% endfor %}
+
+						</div>
+
+
+
+
+						
+				</div>
 
 				<br>
 				<br>
 				
-				<div class="form-group">
+				<div class="form-group" id='generico-11' style="display:none; ">
 				<br>
 				<br>
 					<label for="paciente" class="control-label  col-md-2 col-md-offset-0">Generico #1:</label> 
@@ -81,7 +128,7 @@
 					
 				</div>
 
-				<div class="form-group " id='generico-2' style="display:none; ">
+				<div class="form-group " id='generico-22' style="display:none; ">
 				<br>
 				<br>
 					<label for="paciente" class="control-label  col-md-2 col-md-offset-0">Generico #2:</label> 
@@ -110,7 +157,7 @@
 					
 				</div>
 
-				<div class="form-group" id='generico-3' style="display:none; ">
+				<div class="form-group" id='generico-33' style="display:none; ">
 				<br>
 				<br>
 					<label for="paciente" class="control-label  col-md-2 col-md-offset-0">Generico #3:</label> 
@@ -139,27 +186,7 @@
 					
 				</div>
 
-				<script  type="text/javascript" charset="utf-8" async defer>
-          
-        	var generico2 = $("#generico2").val();
-        	var generico3 = $("#generico3").val()
-        
-
-        	if (generico2!=""){
-
-
-          		$('#generico-2').show();
-        	}
-
-
-
-        	if (generico3!=""){
-
-
-          		$('#generico-3').show();
-        	}
-
-		</script>
+		
 
 
 				
@@ -181,5 +208,100 @@
 				</div>
 				</div>
 			</div>
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+          	
+          	
+    var generico1 = $("#generico1").val();
+    var generico2 = $("#generico2").val();
+    var generico3 = $("#generico3").val();
+    var cont=0;
+        	
+        	
+    if (generico1!=""){
+
+        cont=cont+1;
+        $('#generico-1').show();
+        }
+
+
+    if (generico2!=""){
+
+        cont=cont+1;
+         $('#generico-2').show();
+       	}
+
+        
+    if (generico3!=""){
+        cont=cont+1;
+        $('#generico-3').show();
+     }
+
+        	
+    $("#checkbox_comprobar").click(function() {  
+        cont2=0;
+        				
+       	if($("#generico1").is(':checked')) {  
+            			
+            $('#generico-11').show();
+            cont2=cont2+1;
+            				
+
+        }else{
+
+       		$('#generico-11').hide();
+       		$("#comercial1").val("");
+       		$( "#precio1" ).val("");
+            				
+
+        }
+
+        if($("#generico2").is(':checked')) {  
+            			
+            $('#generico-22').show();
+            cont2=cont2+1;
+            				
+        } else{
+
+         	$('#generico-22').hide();
+         	$( "#comercial2" ).val("");
+         	$( "#precio2" ).val("");
+            				
+       	}
+
+
+      	if($("#generico3").is(':checked')) {  
+            			
+            $('#generico-33').show();
+        	cont2=cont2+1;
+            			
+            				
+        			
+
+        }else{
+
+            $('#generico-33').hide();
+            $( "#comercial3" ).val("");
+            $( "#precio3" ).val("");
+            				
+        }
+
+     	if(cont==cont2){
+
+        	estado='COMPLETO';
+        	$( "#nuevoestado" ).val(estado);
+
+        }else{
+
+        	estado='PARCIAL';
+        	$( "#nuevoestado" ).val(estado);
+
+        }	
+
+    });
+
+        			 
+</script>			
 
 {% endblock %}

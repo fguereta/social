@@ -10,11 +10,13 @@
           <div class='panel-body'>
 
               <fieldset>
-                 <legend>ENTREGAS PARCIALES</legend>
+                 <legend>SOLICITUDES CON ENTREGAS PARCIALES</legend>
                  
             
               <div class="row">
                 <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+                <div  class="col-md-6 " >Realize una busqueda por numero de solicitud o el dni del solicitante.</div>
+                <br><br>
                     <div class="col-md-4 text-left soli">
                       <select name="id_solicitud" id="id_solicitud" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
                           <option value=""></option>
@@ -31,6 +33,14 @@
               </div>
         
             </fieldset>
+
+<br>
+<br>
+ <div class="col-md- aling-center ">Seleccione una solicitud para ver su informacion o realizar la entrega faltante.</div>
+
+
+
+
  
  {% if solicitud_id%}
 <div class="row">
@@ -45,10 +55,10 @@
       <tr class="success">
         
         <th class="text-center">N° de solicitud</th>
+        <th class="text-center">Fecha de inicio</th>
         <th class="text-center">Dni</th>
-        <th class="text-center">Nombre</th>
-        <th class="text-center">Medicamento</th>
-        <th class="text-center">Dosis</th>
+        <th class="text-center">Solicitante</th>
+        
         
         
         
@@ -70,15 +80,10 @@
         <tr bgcolor="#F7BE81"> 
        
 
-        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/parcial_informacion/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/parcial_informacion/{{elemento.id}}'" style="cursor:pointer">{{elemento.paciente.dni}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/parcial_informacion/{{elemento.id}}'" style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/parcial_informacion/{{elemento.id}}'" style="cursor:pointer">{{elemento.remedio.generico}}</td>
-        
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/parcial_informacion/{{elemento.id}}'" style="cursor:pointer">{{elemento.dosis}}</td>
-
-
-        <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
+        <td class="col-md-2 text-center "onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.fecha}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
 
       </tr>
 
@@ -110,10 +115,9 @@
       <tr class="success">
         
         <th class="text-center">N° de solicitud</th>
+        <th class="text-center">Fecha de inicio</th>
         <th class="text-center">Dni</th>
-        <th class="text-center">Nombre</th>
-        <th class="text-center">Medicamento</th>
-        <th class="text-center">Dosis</th>
+        <th class="text-center">Solicitante</th>
         
         
         
@@ -130,15 +134,10 @@
         <tr bgcolor="#F7BE81"> 
        
 
-        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/parcial_informacion/{{elemento.id}}'" style="cursor:pointer">{{elemento.id}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/parcial_informacion/{{elemento.id}}'" style="cursor:pointer">{{elemento.paciente.dni}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/parcial_informacion/{{elemento.id}}'" style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/parcial_informacion/{{elemento.id}}'" style="cursor:pointer">{{elemento.remedio.generico}}</td>
-        
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/parcial_informacion/{{elemento.id}}'" style="cursor:pointer">{{elemento.dosis}}</td>
-
-
-        <td class="col-md-1 text-center"><img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde.png" alt=""></td>
+        <td class="col-md-2 text-center "onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.fecha}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
 
       </tr>
 
@@ -183,7 +182,7 @@ var razonsocial = $("#razonsocial").val();
             cancel : "Cancelar"
           } });
           // confirm dialog
-          alertify.confirm("La <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b> ya tuvo una entrega parcial. ¿Desea continuar?", function (e) {
+          alertify.confirm("Selecciono <b> SOLICITUD N° "+id+"</b> que posee una entrega parcial correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>. ¿Desea continuar?", function (e) {
 
 
           if (e) {
