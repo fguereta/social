@@ -13,7 +13,7 @@ class RegistroUserFarmaciaForm(forms.Form):
 class RegistroUserOperadorForm(forms.Form):
 	username = forms.CharField(min_length=5)
 	password = forms.CharField()
-	razon_social = forms.CharField()
+	
 
 
 

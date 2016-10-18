@@ -5,7 +5,7 @@ from usuarios.models import *
 from .forms import RegistroUserFarmaciaForm, RegistroUserOperadorForm
 from django.core.context_processors import csrf
 from django.shortcuts import render_to_response, render, RequestContext
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import *
 from aplicacion.models import *
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required, permission_required
@@ -99,7 +99,7 @@ def iniciar_sesion_operador(request):
         
 
 
-    return render_to_response("ABME/Usuario/inicio_usuario.html", context_instance=RequestContext(request))
+    return render_to_response("ABME/Usuario/inicio_operador.html", context_instance=RequestContext(request))
 
 
 def cerrar_sesion_operador(request):
@@ -164,12 +164,12 @@ def registrar_farmacia(request):
 
             #llamo al grupo farmacia, que posee lo permisos de farmacia
 
-            #grupo_farmacia = Group.objects.get(name='FARMACIA')
+            grupo_farmacia = Group.objects.get(name='FARMACIA')
 
             farmacia = User.objects.get(username=username)
 
             #agrego la nueva farmacia al grupo farmacia :')
-            #farmacia.groups.add(grupo_farmacia)
+            farmacia.groups.add(grupo_farmacia)
 
             farmacia.save()
 
@@ -209,21 +209,18 @@ def registrar_operador(request):
         form =  RegistroUserOperadorForm(request.POST)
 
         if form.is_valid():
-
             cleaned_data = form.cleaned_data
             username = cleaned_data.get('username')
-            cue = cleaned_data.get('username')
-            password = cleaned_data.get('password')    
-            
-            razon_social = cleaned_data.get('razon_social')
-            
+#            cue = cleaned_data.get('username')
+            password = cleaned_data.get('password')
             estado = 'ACTIVO'
-
-
             # e instanciamos un objeto user, con el username y password
             user_model = User.objects.create_user(username=username, password=password)
             # añadimos el email
+            user_model.first_name=request.POST['first_name'].upper()
+            user_model.last_name=request.POST['last_name'].upper()
             user_model.email=request.POST['email'].upper()
+            
              # y guardamos el objeto, esto se guardara en al base de datos.
             user_model.save()
 
@@ -237,40 +234,39 @@ def registrar_operador(request):
 
              # y le asignamos los campos.
 
-            user_farmacia.cue=cue
+            #user_farmacia.cue=cue
             
-            user_farmacia.razon_social=razon_social.upper()
+            #user_farmacia.razon_social=razon_social.upper()
 
             user_farmacia.direccion=request.POST['direccion'].upper()
-            
             user_farmacia.telefono=request.POST['telefono']
-            
             user_farmacia.estado=estado
-
             user_farmacia.categoria='OPERADOR'
              # por ultimo guardo el objeto UserFarmacia
-
-
-
             user_farmacia.save()
-
             #llamo al grupo farmacia, que posee lo permisos de farmacia
-
-            #grupo_farmacia = Group.objects.get(name='FARMACIA')
-
+            grupo_operador = Group.objects.get(name='OPERADOR')
             operador = User.objects.get(username=username)
-
-            #agrego la nueva farmacia al grupo farmacia :')
-            #farmacia.groups.add(grupo_farmacia)
-
+           
+            operador.groups.add(grupo_operador) #agrego al operador al grupo
             operador.save()
-
             refrescar_registro=user_farmacia.user_id
+            #return HttpResponseRedirect('ABME/Usuario/inicio_operador.html')
+            
+            #return HttpResponseRedirect('/usuario/iniciar_sesion_operador/')
+        
+            id_operador=User.objects.filter(username__icontains=request.POST['username'])
+            
+            return render_to_response('ABME/Operador/fichaoperador.html',{'id_operador':id_operador},context_instance=RequestContext(request))
 
-
-            return render_to_response("ABME/Paciente/paciente.html",{'refrescar_registro':refrescar_registro}, context_instance = RequestContext(request)) 
+#            return render_to_response('ABME/Usuario/inicio_operador.html', context_instance = RequestContext(request))
+        
+        else:
+            return render_to_response("ABME/Paciente/paciente.html", context_instance = RequestContext(request))
+     
 
     else:
+        
         form= RegistroUserOperadorForm()
         context = {'form':form}
         user=User.objects.all()
@@ -283,7 +279,7 @@ def registrar_operador(request):
                     far3={
                     'id':elemento1.id,
                     'username' : elemento1.username,
-                    'razon_social' : elemento2.razon_social,
+                    
                     'direccion':elemento2.direccion,
                     'telefono':elemento2.telefono,
                     'estado':elemento2.estado
@@ -293,3 +289,39 @@ def registrar_operador(request):
         return render_to_response("ABME/Operador/registraroperador.html",{'farmacia':farmacia}, context_instance = RequestContext(request))
 
 
+
+
+def menuoperador(request):
+   
+    return render_to_response("ABME/Operador/menuoperador.html", context_instance = RequestContext(request))
+
+def fichaoperador(request, id_operador):
+    
+    user=User.objects.filter(id=id_operador)
+    ope=UserOperador.objects.filter(estado='ACTIVO')
+    operador=[]
+        
+    for elemento1 in user:
+
+        for elemento2 in ope:
+            
+            if elemento1.id==elemento2.user_id:
+
+
+                ope2={
+
+                'id':elemento1.id,
+                'username' : elemento1.username,
+                'password' : elemento1.password,
+                'first_name': elemento1.first_name,
+                'last_name': elemento1.last_name,
+                'direccion':elemento2.direccion,
+                'telefono':elemento2.telefono,
+                'email':elemento1.email
+        
+                }
+
+                operador_enviar=operador+[ope2]
+    
+    
+    return render_to_response("ABME/Operador/fichaoperador.html",  {'id_operador': operador_enviar }, context_instance = RequestContext(request))

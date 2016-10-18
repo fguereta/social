@@ -1,0 +1,47 @@
+{% extends "index.html" %} 
+
+{% block htitle %}<title>Ficha de Operador</title>{% endblock %} 
+ 
+
+
+{% block contenido %} 
+	
+
+ 
+{% if exitooperador %}<script >alertify.success("Se registro correctamente");</script>{% endif %}
+<!--{% if exito_modificar_farmacia %}<script >alertify.success("Se modificaron los datos correctamente");</script>{% endif %} -->
+
+
+{% if id_operador %}
+
+{% for elemento in id_operador %}
+
+
+
+<div class='container'>
+    <div class='panel panel-primary dialog-panel'>
+    <div class='panel-heading'>
+        <h5 id='operador'>{{elemento.username}}</h5>
+    </div>
+    <div class="navbar navbar-inverse navbar-fixed ">
+  	<div class="container-fluid ">
+      <div class="navbar-header">
+        	<ul class="nav navbar-nav navbar-right">
+  				<li id='ficha'><a href="/aplicacion/fichaoperador/{{elemento.id}}">Ficha</a></li>
+          <li id='ficha'><a href="/aplicacion/modificaroperador/{{elemento.id}}">Modificar datos</a></li>
+  				<li id='gestionados'><a href="">Medicamentos gestionados</a></li>
+  			</ul>
+      </div>
+  	</div>
+</div>
+      
+	{% block contenido_operador %}	        	
+
+	{% endblock contenido_operador %}
+
+
+{% endfor %}
+{% endif %}
+
+
+{% endblock %} 

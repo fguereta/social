@@ -25,7 +25,7 @@ class UserOperador(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL)
 	#USER EL CUIT
 	cuit = models.CharField(max_length=20)
-	razon_social = models.CharField(max_length=25)
+	
 	direccion = models.CharField(max_length=25)
    	telefono = models.CharField(max_length = 20)
 	estado=models.CharField(max_length=10)

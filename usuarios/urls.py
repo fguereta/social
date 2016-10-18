@@ -15,5 +15,9 @@ urlpatterns = [
     url(r'^cerrar_sesion_farmacia/$', views.cerrar_sesion_farmacia, name='cerrar_sesion_farmacia'),
 	url(r'^iniciar_sesion_farmacia/$', views.iniciar_sesion_farmacia, name='iniciar_sesion_farmacia'),
     url(r'^iniciar_sesion_operador/$', views.iniciar_sesion_operador, name='iniciar_sesion_operador'),
+    
+    url(r'^fichaoperador/(?P<id_operador>\w+)/$', views.fichaoperador, name='fichaoperador'),
+    
+
 
 ]
