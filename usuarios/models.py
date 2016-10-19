@@ -24,15 +24,14 @@ class UserFarmacia(models.Model):
 class UserOperador(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL)
 	#USER EL CUIT
-	cuit = models.CharField(max_length=20)
-	
+	cuil = models.CharField(max_length=20)
 	direccion = models.CharField(max_length=25)
    	telefono = models.CharField(max_length = 20)
 	estado=models.CharField(max_length=10)
 	categoria=models.CharField(max_length=10)
 
 	def __str__ (self):
-		return self.razon_social
+		return self.user
     
     
     

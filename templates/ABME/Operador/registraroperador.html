@@ -3,6 +3,7 @@
 {% block contenido %} 
 
 
+        
 
 
   <div class='container'>
@@ -12,24 +13,43 @@
       </div>
       <div class='panel-body'>
         <form id='miForm' method='post' enctype='multipart/form-data'  autocomplete="off" class='form-horizontal'>{% csrf_token %}
-        
+
+
+
+      	<div class='form-group'>
+        	<label class='control-label col-md-2 col-md-offset-2' for='cuit' value=''>Seleccione Categoria<font color="red"> *</font></label>
+       	 		<div class=" col-md-2 col-md-offset-2' categoria ">
+                   <select class="form-control smallselect " id='categoria' name='categoria' >
+                        <option value="">--</option>
+                        <option value="OPERADOR">OPERADOR</option>
+                        <option value="SUPERVISOR">SUPERVISOR</option>
+                   </select>     
+                </div>
+        </div>
+         
+         
+         
+         
+         
           <div class='form-group'>
             
-            <label class='control-label col-md-2 col-md-offset-2' for='cuit' value=''>Usuario<font color="red"> *</font></label>
+           		  
+            
+            <label class='control-label col-md-2 col-md-offset-2' for='username' value=''>Nombre de Usuario<font color="red"> *</font></label>
             
             <div class='col-md-4'>
-              <input class='form-control' id='username' name='username' type='text' autocomplete="off"></input>
+              <input class='form-control' id='username' name='username' type='text' autocomplete="off" placeholder="Nombre de Usuario"></input>
             </div>
         </div>
         
          <div class='form-group'>
             
-            <label class='control-label col-md-2 col-md-offset-2' for='cuit'>Contraseña<font color="red"><font color="red"> *</font></font></label>
+            <label class='control-label col-md-2 col-md-offset-2' for='password'  >Contraseña<font color="red"><font color="red"> *</font></font></label>
             
             
 
             <div class='col-md-4'>
-              <input class='form-control' id='password' name='password' type='text' autocomplete="off"></input>
+              <input class='form-control' id='password' name='password' type='text' autocomplete="off" placeholder="Contraseña"></input>
             </div>
               
       
@@ -42,7 +62,7 @@
             
 
             <div class='col-md-4'>
-              <input class='form-control' id='first_name' name='first_name' type='text' autocomplete="off"></input>
+              <input class='form-control' id='first_name' name='first_name' type='text' autocomplete="off" placeholder="Nombre"></input>
             </div>
               
       
@@ -55,7 +75,7 @@
             
 
             <div class='col-md-4'>
-              <input class='form-control' id='last_name' name='last_name' type='text' autocomplete="off"></input>
+              <input class='form-control' id='last_name' name='last_name' type='text' autocomplete="off" placeholder="Apellido"></input>
             </div>
               
       
@@ -148,7 +168,7 @@
                                   cancel : "Cancelar"
                                    } });
                                   // confirm dialog
-                                 alertify.confirm("Este registro no puede completarse por que el de <b>CUIT: "+cuit+"</b> ya pertecene a una <b>RAZON SOCIAL: "+razon_social2+"</b> que se encuentra INACTIVO, ¿Desea activarlo?", function (e) {
+                                 alertify.confirm("EL USUARIO HA SIDO ELIMNADO, DESEA RESTAURARLO?", function (e) {
     
                                   if (e) {
                                   window.location.href = "/aplicacion/eliminarfarmacia/{{elemento.id}}";
@@ -160,7 +180,7 @@
 
                               }else{
 
-                                alertify.alert('No puede registrar esta farmacia. Por que este <b>CUIT: '+cuit+' </b> ya se encuentra registrado.- <b>Razon social:'+razon_social2+'</b>');
+                                alertify.alert('<b>EL NOMBRE DE USUARIO YA SE ENCUENTRA REGISTRADO</b>');
 
                               ban2=1;
                                 

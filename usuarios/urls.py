@@ -5,6 +5,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from usuarios import views
 
+from django.conf.urls import url
 
 urlpatterns = [
     
@@ -18,6 +19,11 @@ urlpatterns = [
     
     url(r'^fichaoperador/(?P<id_operador>\w+)/$', views.fichaoperador, name='fichaoperador'),
     
-
+   url(r'^signup/$', views.SignUpView.as_view(), name='signup'),
+   url(r'^ajax/validate_username/$', views.validate_username, name='validate_username'),
 
 ]
+
+
+
+    
