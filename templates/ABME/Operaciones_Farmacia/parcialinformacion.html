@@ -3,217 +3,417 @@
 
 {% block contenido%}
  
-
-<div class='panel panel-primary dialog-panel'>
-    <div class='panel-body'>
-
-<div class="container">
-<div class='panel  panel-success dialog-panel  '>
-      <div class='panel-heading'>
-
-        <h5><b>Datos de entrega parcial</b></h5>
-      </div>
-      		<div class='panel-body'>
+			<div class="panel panel-info">
+      			<div class="panel-heading"><div class='col-md-offset-5'>Datos de la solicitud N° {% for i in solicitud_enviado %}{{i.id}}{% endfor %}</div></div>
+			
+			
+      
+      			<div class='panel-body'>
       		
-				<form  method="POST" enctype="multipart/form-data" class="form-horizontal">
+					<form  id='entrega_completa' method='POST' action='/aplicacion/registro_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
 
-
+					<br>
+					<br>
+		
             
+      				<div class="form-group">
+         			<label for="paciente" class="control-label col-md-3 col-md-offset-1 ">Solicitud N°</label> 
+         				<div class="col-md-5">
 
-
-				<div class="form-group">
-					<label for="paciente" class="control-label col-md-2 col-md-2 ">Solicitud N°</label> 
-					<div class="col-md-5">
-
-						{% for elemento in parcial %}
-						<input class="form-control" id="idsolicitud4" name="idsolicitud4" type="hidden" value="{{elemento.solicitud_id}}"/>
-						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.id}}"/>
-						{% endfor %}
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="paciente" class="control-label col-md-2 col-md-2 ">Solicitante:</label> 
-					<div class="col-md-5">
-						{% for elemento in parcial %}
-						<input class="form-control" id="id_paciente" name="id_paciente" type="hidden" value="{{elemento.paciente.id}}"/>
-						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}. DNI: {{elemento.paciente.dni}}"/>
-						{% endfor %}
-					</div>
-				</div>
-				<br>
-				<br>
-				<fieldset>
-					<legend><div class='col-md-offset-3'>Detalles de entrega parcial realizada</div></legend>
-				<br>
-				<br>
-
-				<div class="form-group">
-					<label for="paciente" class="control-label  col-md-4 ">Fecha y horario de la entrega parcial:</label> 
-					<div class="col-md-5">
-						
-						{% for elemento in parcial %}
-						
-						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.fecha_parcial}}" readonly />
-						{% endfor %}
-						
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="paciente" class="control-label  col-md-4 ">Farmacia que hizo la entrega parcial:</label> 
-					<div class="col-md-5">
-						
-						{% for elemento in parcial %}
-						
-						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.farmacia.razon_social}}, CUIT: {{elemento.farmacia.cuit}} " readonly />
-						{% endfor %}
-						
-					</div>
-				</div>
-
-
-				
-
-
-				<div class="form-group">
-					<label for="paciente" class="control-label  col-md-4 ">Nombre del medicamento de entrega parcial:</label> 
-					<div class="col-md-5">
-						
-						{% for elemento in parcial %}
-						
-						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.medicamento_parcial}}" readonly />
-						{% endfor %}
-						
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="paciente" class="control-label  col-md-4 ">Dosis entregada:</label> 
-					<div class="col-md-5">
-						{% for elemento in parcial %}
-						<input class="form-control" readonly="readonly" type="text" value="{{elemento.dosis_parcial}}" " />
-						{% endfor %}
-					</div>
-				</div>
-
-
-
-				<div class="form-group">
-					<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Precio de entrega parcial:</label> 
-					<div class="col-md-5">
-						
-						{% for elemento in parcial %}
-						
-						<input class="form-control"  type="text" readonly="readonly" value="$ {{elemento.precio_parcial}}" readonly />
-						{% endfor %}
-						
-					</div>
-				</div>
-				<br>
-				<div class="form-group">
-					<label for="comcancelado" class="control-label col-md-3 col-md-offset-1">Motivo y detalle de entrega parcial:</label> 
-					<div class="col-md-5">
-					{% for elemento in parcial %}
-						
-					<textarea class="form-control" type='text' cols="40" id="comparcial" name="comparcial" rows="10" readonly>{{elemento.comentario_parcial}}</textarea>
-					{% endfor %}
-					</div>
-				</div>
-
-				
-				<br>
-				<br>
-
-
-				<div class="form-group">
-					
-					<div class="col-md-5  ">
-					<a href='/aplicacion/farmacia_parciales/'><img  style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/volver.png" title='Volver' alt=""></a>
-					</div>
-
-
-
-					<div class="col-md-2 col-md-offset-5">
-					{% for elemento in parcial %}
-					<img onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","PARCIAL");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/tilde_mediana.png" title='Siguiente' alt="">
-					{% endfor %}
-					</div>
-
-					
-				</div>
-
-
-
-				
-				</form>
-				</div>
-				</div>
-			</div>
-	<br>
-	<br>
-	</div>
-</div>
-
-<script type="text/javascript" charset="utf-8" async defer>
-    
-
-
-    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
-
-    
-function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
- 
-
-
-  if(estado_aprobacion=='PARCIAL')
- {
-  
-    alertify.set({ labels: {
-            ok     : "Siguiente",
-            cancel : "Cancelar"
-          } });
-          // confirm dialog
-          alertify.confirm("Realizar le entrega faltante  de la  <b>SOLICITUD N° "+id+"</b> en estado parcial correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>. ¿Desea continuar?", function (e) {
-
-
-        if (e) {
-
-                   
-            
-                            $( "#idsolicitud3" ).val(id);
-
-                            
-
-                            
-                             $("#confirmar_parcial").submit();
-        } else {
-            
-            window.location.href = "/aplicacion/parcial_informacion/"+id;
-          }
+            				{% for elemento in solicitud_enviado %}
+            	
+            					<input class="form-control" id="idsolicitud4" name="idsolicitud4" type="text" readonly="readonly" value="{{elemento.id}}"/>
+            				{% endfor %}
+          				</div>
+      				</div>
         
-        });
+        			<div class="form-group">
+          				<label for="paciente" class="control-label col-md-3 col-md-offset-1">Solicitante:</label> 
+          				<div class="col-md-5">
+            				{% for elemento in solicitud_enviado %}
+            					<input class="form-control" id="id_paciente" name="id_paciente" type="hidden" value="{{elemento.paciente.id}}"/>
+            					<input class="form-control"  type="text" readonly="readonly" value="{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}. DNI: {{elemento.paciente.dni}}"/>
+            				{% endfor %}
+          				</div>
+        			</div>
+       
+
+        			<div class="form-group">
+          				<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Historia Clinica:</label> 
+          				<div class="col-md-5">
+            
+            				{% for elemento in solicitud_enviado %}
+            
+            				<input class="form-control"  type="text" readonly="readonly" value="{{elemento.paciente.historiaclinica}} " readonly />
+            				{% endfor %}
+            
+          				</div>
+        			</div>
+
+       
+
+        			<div class="form-group">
+          				<label for="paciente" class="control-label  col-md-3  col-md-offset-1 ">Medico a cargo:</label> 
+          				<div class="col-md-5">
+            				{% for elemento in solicitud_enviado %}
+            				<input class="form-control"  type="text" readonly="readonly" value="{{elemento.medico.apellido}}, {{elemento.medico.nombre}}" readonly />
+            				{% endfor %}
+            
+          				</div>
+        			</div>
+
+				<br>
+				<br>
+      			
+      	<div class="panel panel-success">
+     			
+     			<div class='panel-heading'>
+					<div class='col-md-offset-5'>Detalles de la solicitud</div>
+     			 </div>
+     			 </div>
+     			 
+    
+      				<br><br>
+
+      				
 
 
-  }
-}
+      				<div id='generico-1' style="display:none; ">
+        
+						<div class="form-group">
+          					<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Nombre del generico(1):</label> 
+          					<div class="col-md-5">
+            					{% for elemento in solicitud_enviado %}
+            						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.medicamento1.generico}}" readonly />
+            					{% endfor %}
+            
+          					</div>
+        				</div>
+        			</div>
+        
 
- 
+        				<div class="form-group">
+          					<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Dosis Diaria(1):</label> 
+          						<div class="col-md-5">
+            						{% for elemento in solicitud_enviado %}
+            							<input class="form-control" readonly="readonly" type="text" value="{{elemento.dosis1}}" " />
+            						{% endfor %}
+         						</div>
+        				</div>
+        			<br>
+        
 
+        			<div id='generico-2' style="display:none; ">
+          	
+          				<div class="form-group">
+            				<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Nombre del generico(2):</label> 
+            				<div class="col-md-5">
+            					{% for elemento in solicitud_enviado %}
+            						<input class="form-control"  type="text" id='generico2' name='generico2' readonly="readonly" value="{{elemento.medicamento2.generico}}" readonly />
+              					{% endfor %}
+            
+            				</div>
+          				</div>
+						
+						<div class="form-group">
+            				<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Dosis Diaria(2):</label> 
+            				<div class="col-md-5">
+              					{% for elemento in solicitud_enviado %}
+              						<input class="form-control" readonly="readonly" id='dosis2' name='dosis2' type="text" value="{{elemento.dosis2}}" " />
+              					{% endfor %}
+            				</div>
+          				</div>
+        				<br>
+        
+        			</div>
+        
+
+        			<div id='generico-3' style="display:none; " >
+        				<div class="form-group ">
+          					<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Nombre del generico(3):</label> 
+          					<div class="col-md-5">
+            
+            					{% for elemento in solicitud_enviado %}
+            
+            						<input class="form-control"  type="text" readonly="readonly" id='generico3' name='generico3'  value="{{elemento.medicamento3.generico}}" readonly />
+            					{% endfor %}
+            
+          					</div>
+        				</div>
+
+        
+
+        				<div class="form-group">
+          					<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Dosis Diaria(3):</label> 
+          					<div class="col-md-5">
+            					{% for elemento in solicitud_enviado %}
+            						<input class="form-control" readonly="readonly" type="text" id='dosis3' name='dosis3' value="{{elemento.dosis3}}" " />
+            					{% endfor %}
+         					</div>
+        				</div>
+        				<br>
+      				
+        			</div>
+
+        			<script  type="text/javascript" charset="utf-8" async defer>
+          
+          				var generico1 = $("#generico1").val();
+        				var generico2 = $("#generico2").val();
+        				var generico3 = $("#generico3").val();
+        
+
+        				if (generico1!=""){
+
+
+          					$('#generico-1').show();
+        				}
+
+
+        				if (generico2!=""){
+
+
+          					$('#generico-2').show();
+        				}
+
+
+
+        				if (generico3!=""){
+
+
+          					$('#generico-3').show();
+        				}
+
+					</script>
+
+        			
+
+	        		
+        			<div class="form-group">
+	          			<label class="control-label  col-md-3 col-md-offset-1">Diagnostico:</label> 
+          				<div class="col-md-5">
+          					{% for elemento in solicitud_enviado %}
+            
+          						<textarea class="form-control" type='text' cols="40" id="comparcial" style='width:427px;height: 102px;' name="comparcial" rows="10" readonly>{{elemento.diagnostico}}</textarea>
+          					{% endfor %}
+          					<input class='form-control' type='hidden' id='user_id_farmacia' name='user_id_farmacia' value=''/>	
+          				</div>
+	     			</div>
+
+
+
+	     			
+	     			 
+
+					<br>
+					<br>
+		
+					{% if user.is_authenticated %}
+              
+              
+					<script  type="text/javascript" charset="utf-8" async defer>
+                
+    					var user_id="{{user.userfarmacia.id}}";
+    					$("#user_id" ).val(user_id);;
+    
+ 					</script>     
+
+ 					{% endif %}
+ 				
+ 				
+
+
+
+			<div class="panel panel-warning">
+     			
+     			<div class='panel-heading'>
+					<div class='col-md-offset-5'>Detalles de la entrega anterior</div>
+     			 </div>
+     			 
+     			</div>
+
+     			 
+    
+      				<br><br>
+
+      				
+
+
+
+        
+						<div class="form-group">
+          					<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Fecha y Horario:</label> 
+          					<div class="col-md-5">
+            					{% for elemento in estado_parcial %}
+            						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.fecha_estado}}" readonly />
+            					{% endfor %}
+            
+          					</div>
+        				</div>
+
+        
+
+        				<div class="form-group">
+          					<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Farmacia que realizo la entrega:</label> 
+          						<div class="col-md-5">
+            						{% for elemento in estado_parcial %}
+            							<input class="form-control" readonly="readonly" type="text" value="{{elemento.farmacia.razon_social}}" " />
+            						{% endfor %}
+         						</div>
+        				</div>
+        			<br>
+        			<br>
+
+
+			<div class="form-group" id='comercial-1' style="display:none; ">
+				<br>
+				<br>
+
+					<label for="generico1" class="control-label  col-md-2 ">Generico #1:</label> 
+					
+					<div class="col-md-3 col-md-offset-0">
+						{% for elemento in solicitud_enviado %}
+						<input class="form-control" id="generico1" name="generico1" type="text" value="{{elemento.medicamento1.generico}}" placeholder="Escriba aqui..." readonly />
+						{% endfor %}
+						
+					</div>
+
+					<label for="paciente" class="control-label  col-md-2 col-md-offset-0">Nombre Comercial: </label> 
+					
+					<div class="col-md-3 col-md-offset-0">
+						
+						{% for elemento in estado_parcial %}
+						<input class="form-control" id="comercial1" name="comercial1" type="text" value="{{elemento.comercial1}}" readonly />
+
+						{% endfor %}
+						
+					</div>
+
+					<div class="col-md-2 col-md-offset-0">
+						{% for elemento in estado_parcial %}
+						<input class="form-control" id="precio1" name="precio1" type="text" value="{{elemento.precio1}}" readonly " />
+						{% endfor %}
+					</div>
+
+					
+				</div>
+
+				<div class="form-group " id='comercial-2' style="display:none; " >
+				<br>
+				<br>
+					<label for="paciente" class="control-label  col-md-2 col-md-offset-0">Generico #2:</label> 
+					
+					<div class="col-md-3 col-md-offset-0">
+						{% for elemento in solicitud_enviado %}
+						<input class="form-control" id="generico2" name="generico2" type="text" value="{{elemento.medicamento2.generico}}" placeholder="Escriba aqui..." readonly />
+						{% endfor %}
+						
+					</div>
+
+					<label for="paciente" class="control-label  col-md-2 col-md-offset-0">Nombre Comercial:</label> 
+					
+					<div class="col-md-3 col-md-offset-0">
+						{% for elemento in estado_parcial %}
+						<input class="form-control" id="comercial2" name="comercial2" type="text" value="{{elemento.comercial2}}" readonly />
+
+						{% endfor %}
+						
+					</div>
+
+					<div class="col-md-2 col-md-offset-0">
+						
+						{% for elemento in estado_parcial %}
+						<input class="form-control" id="precio2" name="precio2" type="text" value="{{elemento.precio2}}" readonly " />
+						{% endfor %}
+						
+					</div>
+
+					
+				</div>
+
+				<div class="form-group" id='comercial-3' style="display:none; " >
+				<br>
+				<br>
+					<label for="paciente" class="control-label  col-md-2 col-md-offset-0">Generico #3:</label> 
+					
+					<div class="col-md-3 col-md-offset-0">
+						{% for elemento in solicitud_enviado %}
+						<input class="form-control" id="generico3" name="generico3" type="text" value="{{elemento.medicamento3.generico}}" placeholder="Escriba aqui..." readonly />
+						{% endfor %}
+						
+					</div>
+
+					<label for="paciente" class="control-label  col-md-2 col-md-offset-0">Nombre Comercial :</label> 
+					
+					<div class="col-md-3 col-md-offset-0">
+						
+						{% for elemento in estado_parcial %}
+						<input class="form-control" id="comercial3" name="comercial3" type="text" value="{{elemento.comercial3}}" readonly />
+
+						{% endfor %}
+						
+					</div>
+
+					<div class="col-md-2 col-md-offset-0">
+						
+						{% for elemento in estado_parcial %}
+						<input class="form-control" id="precio3" name="precio3" type="text" value="{{elemento.precio3}}" readonly " />
+						{% endfor %}
+						
+					</div>
+
+					
+				</div>
+				<br>
+				<br>
+
+        			<div class="form-group">
+						<div class='col-md-offset-9 col-md-3'>
+							<button class='btn-lg btn-primary' style='float:right' type='submit'>Siguiente</button>
+            			</div>
+					</div>
+
+			
+				</form>
+		</div>
+	</div>
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+          	
+          	
+    var comercial1 = $("#comercial1").val();
+    var comercial2 = $("#comercial2").val();
+    var comercial3 = $("#comercial3").val();
+   
+        	
+        	
+    if (comercial1!=""){
+
+       
+        $('#comercial-1').show();
+        }
+
+
+    if (comercial2!=""){
+
+        
+         $('#comercial-2').show();
+       	}
+
+        
+    if (comercial3!=""){
+       
+        $('#comercial-3').show();
+     }
+
+        	
    
 
-
-
-
-
-
+        			 
 </script>
 
 
 
-<form  id='confirmar_parcial' method='POST' action='/aplicacion/farmacia_parciales/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
-<input class='form-control' id='idsolicitud3' name='idsolicitud3'  type="hidden" value=''/>
-
-</form>
 
 
 {% endblock %}

@@ -824,19 +824,11 @@ def farmacia_entrega(request):
     fecha_registro=fecha_cortada[0]+', Hora: '+fecha_cortada[1]
 
 
-    if 'idsolicitud_completa' and 'user_id_farmacia_completa' in request.POST:
+    if 'idsolicitud_completa' and 'user_id_farmacia' in request.POST:
         solicitud=Solicitud.objects.filter(id=request.POST['idsolicitud_completa'])
-        farmacia_id=request.POST['user_id_farmacia_completa']
+        farmacia_id=request.POST['user_id_farmacia']
         
         return render_to_response("ABME/Operaciones_Farmacia/completaregistro.html",{'solicitud':solicitud,'farmacia_id':farmacia_id}, context_instance = RequestContext(request))
-
-   
-    elif 'idsolicitud_parcial' and 'user_id_farmacia_parcial' in request.POST:
-        solicitud=Solicitud.objects.filter(id=request.POST['idsolicitud_parcial'])
-        farmacia_id=request.POST['user_id_farmacia_parcial']
-        
-        return render_to_response("ABME/Operaciones_Farmacia/parcialregistro.html",{'solicitud':solicitud,'farmacia_id':farmacia_id}, context_instance = RequestContext(request))
-
 
     elif 'id_solicitud_informacion' in request.POST:
         id_solicitud=request.POST['id_solicitud_informacion']
@@ -859,7 +851,7 @@ def registro_entrega(request):
     fecha_cortada=fecha.split(' ')
     fecha_registro=fecha_cortada[0]+', Hora: '+fecha_cortada[1]
 
-    if 'nuevoestado' and 'idsolicitud' and 'farmacia_id'  in request.POST:
+    if 'nuevoestado' and 'idsolicitud' and 'user_id_farmacia'  in request.POST:
 
         estado=request.POST['nuevoestado']
         idsolicitud=request.POST['idsolicitud']
@@ -912,7 +904,7 @@ def registro_entrega(request):
                 precio2=request.POST['precio2'],
                 comercial3=request.POST['comercial3'].upper(),
                 precio3=request.POST['precio3'],
-                farmacia_id=request.POST['farmacia_id'],
+                farmacia_id=request.POST['user_id_farmacia'],
                 preciototal=precios
 
 
@@ -971,7 +963,7 @@ def registro_entrega(request):
                 precio2=request.POST['precio2'],
                 comercial3=request.POST['comercial3'].upper(),
                 precio3=request.POST['precio3'],
-                farmacia_id=request.POST['farmacia_id'],
+                farmacia_id=request.POST['user_id_farmacia'],
                 preciototal=precios
 
 
@@ -1058,15 +1050,29 @@ def farmacia_parciales(request):
         estado_actual=[]
         for i in solicitudes:
             for j in estados:
+
+
+
                 if i.estado_aprobacion==j.estado:
+
+
+
+
+
+
                     soli= {
 
-                    'solicitud_id':j.solicitud_id,
+                    'id':j.solicitud_id,
                     'estado_ultimo':j.estado,
                     'fecha_estado':j.fecha,
                     'paciente':i.paciente,
-                    
                     'farmacia':j.farmacia,
+                    'comercial1':j.comercial1,
+                    'precio1':j.precio1,
+                    'comercial2':j.comercial2,
+                    'precio2':j.precio2,
+                    'comercial3':j.comercial3,
+                    'precio3':j.precio3,
                     
                     
                     
@@ -1075,7 +1081,7 @@ def farmacia_parciales(request):
                     }
                     estado_actual=estado_actual+[soli]
 
-        return render_to_response("ABME/Operaciones_Farmacia/confirmarparcial.html",{'solicitud':estado_actual}, context_instance = RequestContext(request))
+        return render_to_response("ABME/Operaciones_Farmacia/parcialinformacion.html",{'solicitud_enviado':solicitudes,'estado_parcial':estado_actual}, context_instance = RequestContext(request))
 
 
     if 'idsolicitud4' in request.POST:
