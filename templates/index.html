@@ -25,16 +25,10 @@
     <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui-1.10.4.custom.css">
     <link rel="stylesheet" href="/static/bootstrap/css/estilo.css">
     <!-- Jquery -->
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/dataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/dataTables/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery-1.11.3.min.js"></script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery.validate.js"></script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/additional-methods.js"></script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/messages_es.js"></script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/chosen/chosen.jquery.js"></script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery-ui-1.10.4.custom.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/datepicker-es.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/alertifyjs/lib/alertify.min.js"></script>
+    
+
+    {% include "includes/scri.html" %}
+   
 
 
 
@@ -74,9 +68,14 @@ window.close()
         </div>
       
 
-    {% include "includes/scri.html" %}
+    
   </body>
 </html>
+
+<!-- se coloca este bootstrap.min.js aca en la parte inferior, por que no funciona arriba -->
+
+<script type="text/javascript"  src="{{ STATIC_URL }} /static/bootstrap/js/bootstrap.min.js"></script>
+
 <script type="text/javascript" charset="utf-8" async defer>
   
 function nobackbutton(){

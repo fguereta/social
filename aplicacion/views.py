@@ -20,7 +20,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 
-import json
+
 
 
 #@login_required
@@ -2010,8 +2010,54 @@ def fichamedicamento(request,id_remedio):
     remedio_enviar=Remedio.objects.filter(id=id_remedio, estado='ACTIVO')
     return render_to_response("ABME/Medicamento/fichamedicamento.html",  {'id_remedio': remedio_enviar }, context_instance = RequestContext(request))
 
+
+
+from django.core import serializers
+
 def registrarmedicamento(request):
     
+    
+    if request.is_ajax():
+        
+        generico=request.POST.get('generico').upper()
+
+        newdoc = Medicamento(
+
+
+        generico=generico,
+        estado='ACTIVO',
+        )
+        
+        newdoc.save()
+
+        import json
+
+        medicamentos=Medicamento.objects.filter(generico=generico)
+        
+        for i in medicamentos:
+            
+            datos={
+            
+            'id':i.id,
+            'generico':i.generico,
+            
+            }
+
+
+                    
+            
+            
+            
+
+
+        #datos= serializers.serialize('json',medicamentos)
+        
+        return HttpResponse(json.dumps(datos), content_type="application/json")
+
+            
+
+
+    '''
     if request.method=="POST":
 
         form=RemedioForm(request.POST)
@@ -2038,10 +2084,27 @@ def registrarmedicamento(request):
             return render_to_response('ABME/Medicamento/fichamedicamento.html',{'id_remedio':id_remedio,'exitoremedio':ban},context_instance=RequestContext(request))
             #return HttpResponseRedirect('includes/actualizar.html',{'id_remedio':id_remedio})
             #return render_to_response('ABME/Medicamento/registrar.html', context_instance=RequestContext(request))
-
+    '''
     #return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'id_remedio':id_remedio}, context_instance = RequestContext(request))
-    return render_to_response('ABME/Medicamento/registrar.html', context_instance=RequestContext(request))
+    medicamento_enviado=Medicamento.objects.filter(estado='ACTIVO')
+    return render_to_response('ABME/Medicamento/registrar.html',{'medicamento_enviado':medicamento_enviado}, context_instance=RequestContext(request))
     #return render_to_response('ABME/Medicamento/registrarmedicamento.html',{'remedio':remedio},context_instance=RequestContext(request))
+
+
+
+    
+
+
+        
+    
+
+
+  
+
+        
+        
+    
+
 
 
 def modificarmedicamento(request,id_remedio):

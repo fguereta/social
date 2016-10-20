@@ -71,6 +71,7 @@ class AccionSocial(Persona):
 
      
 class Medicamento(models.Model):
+    
     generico=models.CharField(max_length=20)
     estado=models.CharField(max_length=20, blank=True, null=True)    
     

@@ -53,12 +53,8 @@ class SolicitudForm(forms.Form):
         dosis1=forms.CharField()
         exclude=('id',)
         
-class RemedioForm(forms.Form):
+class MedicamentoForm(forms.Form):
     class Meta:
-        generico=models.CharField(max_length=20)
-        precio=models.CharField(max_length=20, blank=True, null=True)
-        presentacion=models.CharField(max_length=20)
-        observaciones=models.TextField(blank=True)
-        estado=models.CharField(max_length=6)
+        generico=models.CharField(max_length=50)
         exclude=('id',)
 
