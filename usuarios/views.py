@@ -82,6 +82,8 @@ def iniciar_sesion_operador(request):
                     
                     if categoria=='OPERADOR':
                         return HttpResponseRedirect('/aplicacion/paciente/')
+                    elif categoria=="SUPERVISOR":
+                        return HttpResponseRedirect('/aplicacion/paciente/')
                     else:
                         return HttpResponseRedirect('/index/')
                     
@@ -90,7 +92,9 @@ def iniciar_sesion_operador(request):
                     return HttpResponseRedirect('/index/')
 
             else:
-                return HttpResponseRedirect('/index/')
+                error=True
+                
+                return render_to_response("ABME/Usuario/inicio_operador.html", {'error':error}, context_instance=RequestContext(request))
 
     else:
 
@@ -258,7 +262,7 @@ def registrar_operador(request):
            
                 operador.groups.add(grupo_operador) #agrego al operador al grupo
                 operador.save()
-                refrescar_registro=user_farmacia.user_id
+                #refrescar_registro=user_farmacia.user_id
             #return HttpResponseRedirect('ABME/Usuario/inicio_operador.html')
             
             #return HttpResponseRedirect('/usuario/iniciar_sesion_operador/')
@@ -268,17 +272,13 @@ def registrar_operador(request):
                 return render_to_response('ABME/Operador/fichaoperador.html',{'id_operador':id_operador},context_instance=RequestContext(request))
             
             elif categoria == 'SUPERVISOR':
-                grupo_operador = Group.objects.get(name='SUPERVISOR')
+                grupo_supervisor = Group.objects.get(name='SUPERVISOR')
                 operador = User.objects.get(username=username)
-                operador.groups.add(grupo_operador) #agrego al operador al grupo
-                operador.save()
-                refrescar_registro=user_farmacia.user_id
-            #return HttpResponseRedirect('ABME/Usuario/inicio_operador.html')
-            
-            #return HttpResponseRedirect('/usuario/iniciar_sesion_operador/')
-        
+                operador.groups.add(grupo_supervisor) #agrego  usuario al grupo
+                operador.save() #guardo los datos
                 id_operador=User.objects.filter(username__icontains=request.POST['username'])
-            
+               
+           
                 return render_to_response('ABME/Operador/fichaoperador.html',{'id_operador':id_operador},context_instance=RequestContext(request))
             else:
                 return render_to_response("ABME/Paciente/paciente.html", context_instance = RequestContext(request))
@@ -339,6 +339,7 @@ def operador(request):
                 'last_name': elemento1.last_name,
                 'direccion':elemento2.direccion,
                 'telefono':elemento2.telefono,
+                'categoria':elemento2.categoria,
                 'email':elemento1.email
         
                     }
@@ -364,7 +365,9 @@ def operador(request):
                 'last_name': elemento1.last_name,
                 'direccion':elemento2.direccion,
                 'telefono':elemento2.telefono,
-                'email':elemento1.email
+                'email':elemento1.email,
+                                'categoria':elemento2.categoria,
+
         
                     }
 
@@ -398,7 +401,9 @@ def operador(request):
                 'last_name': elemento1.last_name,
                 'direccion':elemento2.direccion,
                 'telefono':elemento2.telefono,
-                'email':elemento1.email
+                'email':elemento1.email,
+                                'categoria':elemento2.categoria,
+
         
                     }
 

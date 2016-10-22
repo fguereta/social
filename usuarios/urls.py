@@ -18,6 +18,8 @@ urlpatterns = [
     url(r'^iniciar_sesion_operador/$', views.iniciar_sesion_operador, name='iniciar_sesion_operador'),
     
     url(r'^fichaoperador/(?P<id_operador>\w+)/$', views.fichaoperador, name='fichaoperador'),
+    url(r'^operador/$', views.operador, name='operador'),
+    url(r'^eliminaroperador/(?P<id_operador>\w+)/$', views.eliminaroperador, name='eliminaroperador'),
     
    url(r'^signup/$', views.SignUpView.as_view(), name='signup'),
    url(r'^ajax/validate_username/$', views.validate_username, name='validate_username'),

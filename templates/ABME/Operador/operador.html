@@ -1,0 +1,287 @@
+{% extends 'index.html'%}
+{% block htitle %}<title>Usuarios</title>{% endblock %} 
+
+{% block contenido%}
+
+
+{% if refrescar_registro %}
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+window.location.href = "/usuario/fichaoperador/{{refrescar_registro}}";
+</script>
+
+
+{% endif %}
+
+
+
+{% if refrescar_activacion %}
+
+
+<script  type="text/javascript" charset="utf-8" async defer>
+window.location.href = "/usuario/fichaoperador/{{refrescar_activacion}}";
+</script>
+
+
+{% endif %}
+
+
+ <div class='' >
+      <div class='panel panel-primary dialog-panel'>
+          <div class='panel-body'>
+
+              <fieldset>
+                 <legend>Usuarios</legend>
+
+        
+<nav class="navbar navbar-default" role="navigation">
+  <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse"
+            data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Desplegar navegación</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    
+  </div>
+ 
+  <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      
+      
+    </ul>
+ 
+    <!--BUSQUEDA PACIENTE-->
+
+
+
+     <form  method="POST"  enctype="multipart/form-data" class="navbar-form navbar-left" role="search">{% csrf_token %}
+              
+              <div class="form-group id_operador">
+                
+               <select name="id_operador" id="id_operador" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                          <option value=""></option>
+                          {% for elemento in busqueda_operador %}
+                          <option value="{{elemento.id}}" >{{elemento.username}}    </option>
+                          {% endfor %}
+                      </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Buscar</button>
+
+              </form>
+
+ <!-- REGISTRAR NUEVO PACIENTE -->
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+  
+ 
+      
+    </ul>
+  </div>
+</nav>
+
+
+
+
+
+
+                 
+            
+              <div class="row">
+                
+              </div>
+        
+            </fieldset>
+ 
+ {% if id_operador %}
+<div class="row">
+<br>
+
+<div class=".container">
+  
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed table table-bordered table-hover " cellspacing="0" width="100%"  >
+    <thead id="tabla">
+      
+      <tr class="success">
+        
+        <th class="text-center">Usuario</th>
+        <th class="text-center">Email</th>
+        <th class="text-center">Direccion</th>
+        <th class=" text-center">Telefono</th>
+        <th class=" text-center">Eliminar</th>
+        
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in id_operador %}
+      
+      <script  type="text/javascript" charset="utf-8" async defer>
+
+        $("div.id_operador select").val("{{elemento.id}}");
+
+    </script>
+       
+
+      <tr >
+        
+        <td class="col-md-2 text-center" onclick="document.location='/usuario/fichaoperador/{{elemento.id}}'"  style="cursor:pointer">{{elemento.username}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/usuario/fichaoperador/{{elemento.id}}'"  style="cursor:pointer">{{elemento.email}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/usuario/fichaoperador/{{elemento.id}}'"  style="cursor:pointer">{{elemento.direccion}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/usuario/fichaoperador/{{elemento.id}}'"  style="cursor:pointer">{{elemento.telefono}}</td>
+
+        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.id}},"{{elemento.username}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
+     </tr>
+
+<script  type="text/javascript" charset="utf-8" async defer>
+  
+var username = $("#username").val();
+  
+</script>
+
+     {% endfor %} 
+      
+    </tbody>
+  </table>
+</div>
+  
+</div>
+</div>
+ {% endif %}
+
+ {% if operador %}
+<div class="row">
+<br>
+
+<div class=".container">
+  
+<br> 
+<div class="table-responsive">             
+  <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+    <thead >
+      <tr class="success">
+        
+        <th class="text-center">Usuario</th>
+        <th class="text-center">Categoria</th>
+        <th class="text-center">Nombre y apellido</th>
+        <th class=" text-center">Telefono</th>
+        <th class=" text-center">Eliminar</th>
+
+        
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for elemento in operador %}
+      <tr  >
+
+      
+
+        <td class="col-md-2 text-center " onclick="document.location='/usuario/fichaoperador/{{elemento.id}}'" style="cursor:pointer">{{elemento.username}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/usuario/fichaoperador/{{elemento.id}}'"  style="cursor:pointer">{{elemento.categoria}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/usuario/fichaoperador/{{elemento.id}}'"  style="cursor:pointer">{{elemento.first_name}} {{elemento.last_name}}</td>
+        <td class="col-md-2 text-center" onclick="document.location='/usuario/fichaoperador/{{elemento.id}}'"  style="cursor:pointer">{{elemento.telefono}}</td>
+        
+
+
+        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.id}},"{{elemento.username}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
+
+      </tr>
+
+     {% endfor %} 
+
+
+
+      
+    </tbody>
+  </table>
+</div>
+            
+</div>
+</div>
+</div>
+ {% endif %}
+
+</div>
+</div>
+
+
+
+
+
+<script type="text/javascript" charset="utf-8" async defer>
+    
+    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+    
+    function eliminar(id,username)
+{
+  
+    alertify.set({ labels: {
+            ok     : "Confirmar",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("La farmacia: <b>"+username+"</b> pasara a NO ACTIVA, ¿Esta de acuerdo?", function (e) {
+
+
+          if (e) {
+            
+            window.location.href = "/usuario/eliminaroperador/"+id;
+          
+          } else {
+            
+            window.location.href = "/usuario/operador/";
+        }
+        
+      });
+
+
+ }
+
+
+ 
+
+   $("button[id=btn_nuevo_paciente]").click(function() {
+
+      
+  alertify.defaults.glossary.title = '';
+
+      alertify.confirm("Confirmar eliminacion  "+apellidonombre,
+            function (e) {
+                if (e) {
+                   window.location = "/aplicacion/eliminarpaciente/"+id_paciente;
+                } else {
+                    alertify.error("Has pulsado <strong>"
+                             + alertify.labels.cancel
+                             + "</strong>");
+                }
+        }).setting('labels',{'ok':'Confirmar', 'cancel': 'Cancelar'});
+    });
+ 
+   
+
+
+
+
+
+
+</script>
+
+
+
+
+{% endblock %}
+
+
+
+
