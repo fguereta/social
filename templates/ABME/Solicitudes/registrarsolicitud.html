@@ -2,31 +2,18 @@
 
 {% block contenido %}
 
-{% if refrescar %}
-
-<script type="text/javascript" charset="utf-8" async defer>
-
-window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
-
-</script>
-
-{% endif %}
 
 
 
-<div class="container">
 <div class='panel panel-primary dialog-panel  '>
-      <div class='panel-heading'>
-        <h5>Nueva solicitud</h5>
-      </div>
-      		<div class='panel-body'>
-				<form action='' method="post" enctype="multipart/form-data" class="form-horizontal">
+  <div class='panel-heading'><h5>Nueva solicitud</h5></div>
+    <div class='panel-body'>
+			
+      <form id='miForm'  method="post" enctype="multipart/form-data" class="form-horizontal">
 				{% csrf_token %}
 				<br>
 				<br>
 				<br>
-
-				
 
 				<div class="form-group">
 					<label for="paciente" class="control-label col-md-2 col-md-2 col-md-offset-2">Paciente:</label> 
@@ -38,314 +25,208 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
 					</div>
 				</div>
 
-
-
-			<div class="form-group">
-				<label for="medico" class="control-label col-md-2 col-md-2 col-md-offset-2">Medico a cargo:<font color="red"> *</font></label> 
-					<div class="col-md-4 text-left">
-                      <select name="id_medico" id="id_medico" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-                          <option value=""></option>
-                          
-                          {% for elemento in medico_enviado %}
-                          <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
-                          {% endfor %}
-                      
-
-                      </select>
-                      
-                   
-                    </div>
-                     <a class="related-widget-wrapper-link add-related" id="add_id_medico" href="/aplicacion/registrarmedico/" title="Agregar otro/a medico">
-            <img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
-        </a>
-			</div>
-			
-			<!--
-			<div class="form-group">
-				<label for="medico" class="control-label col-md-2 col-md-2 col-md-offset-2">Farmacia:</label> 
-					<div class="col-md-4 text-left">
-                      <select name="id_medico" id="id_medico" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-                          <option value=""></option>
-                          
-                          {% for elemento in farmacia_enviado %}
-                          <option value="{{elemento.id}}" >{{elemento.razon_social}}</option>
-                          {% endfor %}
-                      
-
-                      </select>
-                    </div>
-			</div>
-			-->
-
-
-		<br>
-		<div class="form-group">
-				<label for="medicamento_1" class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(1):<font color="red"> *</font></label> 
-					<div class="col-md-4 text-left">
-                      <select name="medicamento1" id="medicamento1" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-                          <option value=""></option>
-                          
-                          {% for elemento in medicamento_enviado %}
-                          <option value="{{elemento.id}}" >{{elemento.generico}}</option>
-                          {% endfor %}
-                      
-
-                      </select>
-                                        
-                    </div>
-                      <a  data-toggle="modal" data-target="#myModal1">
-          				  <img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
-        			  </a>
-		</div>
-
-				
-
-
-
-		<div class="form-group">
-			
-			<label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Dosis Diaria(1):<font color="red"> *</font></label>
-			<div class="col-md-5">
-				<input class="form-control" id="dosis1" maxlength="20" name="dosis1" type="text" />
-			</div>
-		</div>
+        <div class="form-group">
+				  <label for="medico" class="control-label col-md-2 col-md-2 col-md-offset-2">Medico a cargo:<font color="red"> *</font></label> 
+					 <div class="col-md-4 text-left">
+              <select name="id_medico" id="id_medico" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                  <option value=""></option>
+                  {% for elemento in medico_enviado %}
+                  <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
+                  {% endfor %}
+              </select>
+            </div>
+        </div>
 		
-		<br>
+        <br>
+		    
+        <div class="form-group">
+				    <label for="medicamento_1" class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(1):<font color="red"> *</font></label> 
+					   <div class="col-md-4 text-left">
+                <select name="medicamento1" id="medicamento1" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                  <option value=""></option>
+                  {% for elemento in medicamento_enviado %}
+                  <option value="{{elemento.id}}" >{{elemento.generico}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <a  data-toggle="modal" data-target="#myModal1">
+          	 <img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
+        	   </a>
+        </div>
+
+				<div class="form-group">
+			     <label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Dosis Diaria(1):<font color="red"> *</font></label>
+			     <div class="col-md-5">
+				      <input class="form-control" id="dosis1" maxlength="20" name="dosis1" type="text" />
+			     </div>
+		    </div>
 		
-		<div class="form-group">
-				<label for="medicamento_2" class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(2):</label> 
+		    <br>
+		
+		    <div class="form-group">
+				    <label for="medicamento_2" class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(2):</label> 
+					   <div class="col-md-4 text-left">
+                <select name="medicamento2" id="medicamento2" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." >             
+                    <option value=""></option>
+                      {% for elemento in medicamento_enviado %}
+                        <option value="{{elemento.id}}" >{{elemento.generico}}</option>
+                      {% endfor %}
+                </select>
+             </div>
+            <a  data-toggle="modal" data-target="#myModal2">
+          		<img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
+        		</a>
+		    </div>
+
+		    <div class="form-group">
+			     <label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Dosis Diaria(2):</label>
+			     <div class="col-md-5">
+				      <input class="form-control" id="dosis2" maxlength="20" name="dosis2" type="text" />
+			     </div>
+		    </div>
+		    
+        <br>
+		
+        <div class="form-group">
+				  <label for="medicamento_3" class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(3):</label> 
 					<div class="col-md-4 text-left">
-                      <select name="medicamento2" id="medicamento2" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." >             
-                          <option value=""></option>
-                          
-                          {% for elemento in medicamento_enviado %}
-                          <option value="{{elemento.id}}" >{{elemento.generico}}</option>
-                          {% endfor %}
-                      
+              <select name="medicamento3" id="medicamento3" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." >             
+                <option value=""></option>
+                {% for elemento in medicamento_enviado %}
+                <option value="{{elemento.id}}" >{{elemento.generico}}</option>
+                {% endfor %}
+              </select>
+          </div>
+          <a  data-toggle="modal" data-target="#myModal3">
+          	<img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
+        	</a>
+		    </div>
 
-                      </select>
-                                        
+		    <div class="form-group">
+			     <label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Dosis Diaria(3):</label>
+			     <div class="col-md-5">
+				      <input class="form-control" id="dosis3" maxlength="20" name="dosis3" type="text" />
+			     </div>
+		    </div>
+		    <br>
+
+		    <!-- Modal MEDICAMENTO 1 -->
+				  <div id="myModal1" class="modal fade" role="dialog">
+  					 <div class="modal-dialog">
+              <!-- Modal content-->
+    					 <div class="modal-content">
+      						  <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        						    <h4 class="modal-title">Registrar nuevo medicamento</h4>
+      						  </div>
+      				
+      						  <div class="modal-body">
+        						  <div class="form-group">
+									       <br>
+				                  <label for="paciente" class="control-label  col-md-4 col-md-offset-0">Nombre Generico:</label> 
+					               <div class="col-md-7 col-md-offset-0">
+						                <input class="form-control" id="generico1" name="generico1" type="text" value="" placeholder="Escriba aqui..." />
+					               </div>
+                      </div>
                     </div>
-                      <a  data-toggle="modal" data-target="#myModal2">
-          				  <img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
-        			  </a>
-		</div>
+      				
+      				      <div class="modal-footer">
+        				      <button type="button" id='guardar1' class="btn btn-primary" data-dismiss="modal">Guardar</button>
+      				      </div>
+    				    </div>
+              </div>
+				  </div>
 
-		<div class="form-group">
 			
-			<label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Dosis Diaria(2):</label>
-			<div class="col-md-5">
-				<input class="form-control" id="dosis2" maxlength="20" name="dosis2" type="text" />
-			</div>
-		</div>
-		<br>
-		<div class="form-group">
-				<label for="medicamento_3" class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(3):</label> 
-					<div class="col-md-4 text-left">
-                      <select name="medicamento3" id="medicamento3" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." >             
-                          <option value=""></option>
-                          
-                          {% for elemento in medicamento_enviado %}
-                          <option value="{{elemento.id}}" >{{elemento.generico}}</option>
-                          {% endfor %}
-                      
-
-                      </select>
-                                        
-                    </div>
-                      <a  data-toggle="modal" data-target="#myModal3">
-          				  <img src="/static/img/icon_addlink.gif" alt="Agregar" height="10" width="10">
-        			  </a>
-		</div>
-
-		<div class="form-group">
-			
-			<label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Dosis Diaria(3):</label>
-			<div class="col-md-5">
-				<input class="form-control" id="dosis3" maxlength="20" name="dosis3" type="text" />
-			</div>
-		</div>
-		<br>
-
-		<!-- Modal -->
-				<div id="myModal1" class="modal fade" role="dialog">
-  					<div class="modal-dialog">
-
-   					 	<!-- Modal content-->
-    					<div class="modal-content">
-      						<div class="modal-header">
-
-
-
-        						<button type="button" class="close" data-dismiss="modal">&times;</button>
-        						<h4 class="modal-title">Registrar nuevo medicamento</h4>
-      						</div>
+          <!-- Modal MEDICAMENTO 2-->
+				    <div id="myModal2" class="modal fade" role="dialog">
+  					   <div class="modal-dialog">
+                  <!-- Modal content-->
+    					   <div class="modal-content">
+      						  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+        						  <h4 class="modal-title">Registrar nuevo medicamento</h4>
+      						  </div>
       				
       						<div class="modal-body">
-        						
-        						
-        
-        						<div class="form-group">
-									<br>
-				
-
-									<label for="paciente" class="control-label  col-md-4 col-md-offset-0">Nombre Generico:</label> 
-					
-									<div class="col-md-7 col-md-offset-0">
-						
-										<input class="form-control" id="generico1" name="generico1" type="text" value="" placeholder="Escriba aqui..." />
-						
-									</div>
-
-								</div>
-            
-        						
-      						
-							</div>
-      				
-      						<div class="modal-footer">
-        						<button type="button" id='guardar1' class="btn btn-primary" data-dismiss="modal">Guardar</button>
-      						</div>
-    					</div>
-
-  					</div>
-				</div>
-
-			<!-- Modal -->
-				<div id="myModal2" class="modal fade" role="dialog">
-  					<div class="modal-dialog">
-
-   					 	<!-- Modal content-->
-    					<div class="modal-content">
-      						<div class="modal-header">
-
-
-
-        						<button type="button" class="close" data-dismiss="modal">&times;</button>
-        						<h4 class="modal-title">Registrar nuevo medicamento</h4>
-      						</div>
-      				
-      						<div class="modal-body">
-        						
-        						
-        
-        						<div class="form-group">
-									<br>
-				
-
-									<label for="paciente" class="control-label  col-md-4 col-md-offset-0">Nombre Generico:</label> 
-					
-									<div class="col-md-7 col-md-offset-0">
-						
-										<input class="form-control" id="generico2" name="generico2" type="text" value="" placeholder="Escriba aqui..." />
-						
-									</div>
-
-								</div>
-            
-        						
-      						
-							</div>
-      				
-      						<div class="modal-footer">
+        						  <div class="form-group">
+									       <br>
+				                  <label for="paciente" class="control-label  col-md-4 col-md-offset-0">Nombre Generico:</label> 
+					               <div class="col-md-7 col-md-offset-0">
+						               <input class="form-control" id="generico2" name="generico2" type="text" value="" placeholder="Escriba aqui..." />
+					               </div>
+                      </div>
+                  </div>
+      				    
+                  <div class="modal-footer">
         						<button type="button" id='guardar2' class="btn btn-primary" data-dismiss="modal">Guardar</button>
       						</div>
-    					</div>
+    					   </div>
 
-  					</div>
-				</div>
+  					   </div>
+				    </div>
 
-				<!-- Modal -->
-				<div id="myModal3" class="modal fade" role="dialog">
-  					<div class="modal-dialog">
-
-   					 	<!-- Modal content-->
-    					<div class="modal-content">
-      						<div class="modal-header">
-
-
-
-        						<button type="button" class="close" data-dismiss="modal">&times;</button>
-        						<h4 class="modal-title">Registrar nuevo medicamento</h4>
-      						</div>
-      				
-      						<div class="modal-body">
+				  <!-- Modal MEDICAMENTO 3-->
+				    <div id="myModal3" class="modal fade" role="dialog">
+  					   <div class="modal-dialog">
+        	         <!-- Modal content-->
+    					     <div class="modal-content">
+      						    <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        						      <h4 class="modal-title">Registrar nuevo medicamento</h4>
+      						    </div>
+      				      <div class="modal-body">
         						
-        						
-        
-        						<div class="form-group">
-									<br>
-				
+        						  <div class="form-group">
+									       <br>
+				                  <label for="paciente" class="control-label  col-md-4 col-md-offset-0">Nombre Generico:</label> 
+					                 <div class="col-md-7 col-md-offset-0">
+						              <input class="form-control" id="generico3" name="generico3" type="text" value="" placeholder="Escriba aqui..." />
+						              </div>
+                       </div>
+                    </div>
+      				      <div class="modal-footer">
+        					     <button type="button" id='guardar3' class="btn btn-primary" data-dismiss="modal">Guardar</button>
+      				      </div>
+    				      </div>
+                </div>
+				    </div>
 
-									<label for="paciente" class="control-label  col-md-4 col-md-offset-0">Nombre Generico:</label> 
-					
-									<div class="col-md-7 col-md-offset-0">
-						
-										<input class="form-control" id="generico3" name="generico3" type="text" value="" placeholder="Escriba aqui..." />
-						
-									</div>
+		        <div class="form-group">
+			         <label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Requiere Auditoría:<font color="red"> *</font></label>
+			         <div class="col-md-5">
+				          <div class="col-md-2">
+				            No<input type="radio" name="estado" id='estado' value="APROBADO" checked>
+				          </div>
+				          <div class="col-md-2">
+				            Si<input type="radio" name="estado" id='estado' value="AUDITORIA">
+				          </div>
+				      </div>
+		        </div>
 
-								</div>
-            
-        						
-      						
-							</div>
-      				
-      						<div class="modal-footer">
-        						<button type="button" id='guardar3' class="btn btn-primary" data-dismiss="modal">Guardar</button>
-      						</div>
-    					</div>
-
-  					</div>
-				</div>
-
-		<div class="form-group">
-			
-			<label for="dosis" class="control-label col-md-2 col-md-2 col-md-offset-2">Requiere Auditoría:<font color="red"> *</font></label>
-			<div class="col-md-5">
-				<div class="col-md-2">
-				   No<input type="radio" name="estado" id='estado' value="APROBADO" checked>
-				</div>
-				
-				<div class="col-md-2">
-				Si<input type="radio" name="estado" id='estado' value="AUDITORIA">
-				</div>
-				
-				
-			</div>
-		</div>
-
-
-
-<br>
-<div class="form-group">
-<label for="observaciones" class="control-label col-md-2 col-md-2 col-md-offset-2">Diagnostico:<font color="red"> *</font></label> 
-	<div class="col-md-5">
-	<textarea class="form-control" cols="40" id="diagnostico" name="diagnostico" rows="10"></textarea>
-	</div>
-</div>
-
-<div class="form-group">
-	<div class='col-md-offset-8 col-md-3'>
-              <br>
-             
-              <button class='btn-lg btn-primary' style='float:right' type='submit'>Solicitar</button>
+            <br>
+            <div class="form-group">
+                <label for="observaciones" class="control-label col-md-2 col-md-2 col-md-offset-2">Diagnostico:<font color="red"> *</font></label> 
+	               <div class="col-md-5">
+	                   <textarea class="form-control" cols="40" id="diagnostico" name="diagnostico" rows="10"></textarea>
+	               </div>
             </div>
+
+            <div class="form-group">
+	             <div class='col-md-offset-8 col-md-3'>
+                <br>
+                  <button class='btn-lg btn-primary' style='float:right' type='submit'>Solicitar</button>
+              </div>
+            </div>
+
+      </form>
+  </div>
 </div>
 
-</form>
-</div>
-</div>
-</div>
-<script type="text/javascript" charset="utf-8" async defer>
-    
-    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
-
- </script>
 
 <script  type="text/javascript" charset="utf-8" async defer>
    
-
+$(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
 
   
  	
@@ -438,6 +319,8 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
    
 
 </script>
+
+
 
 
 {% endblock %}

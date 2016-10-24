@@ -80,15 +80,24 @@
 
       				<div id='generico-1' style="display:none; ">
         
-						<div class="form-group">
-          					<label for="paciente" class="control-label  col-md-3 col-md-offset-1">Nombre del generico(1):</label> 
-          					<div class="col-md-5">
-            					{% for elemento in solicitud_enviado %}
-            						<input class="form-control"  type="text" readonly="readonly" value="{{elemento.medicamento1.generico}}" readonly />
-            					{% endfor %}
+						      <div class="form-group">
+          					 <label for="paciente" class="control-label  col-md-3 col-md-offset-1">Nombre del generico(1):</label> 
+          					 <div class="col-md-5">
+            					 {% for elemento in solicitud_enviado %}
+            						  <input class="form-control"  type="text" readonly="readonly" value="{{elemento.medicamento1.generico}}" readonly />
+            					 {% endfor %}
             
-          					</div>
-        				</div>
+          					 </div>
+
+                     <a  id='tilde1' style="display:none; ">
+                      <img title='Entregado' src="/static/media/simbolo-aprobacion.png" alt="Agregar" height="20" width="20">
+                    </a>
+                    <a  id='atencion1' >
+                      <img title='No Entregado' src="/static/media/warning-large.png" alt="Agregar" height="25" width="25">
+                    </a>
+        				  </div>
+                
+
         			</div>
         
 
@@ -113,6 +122,12 @@
               					{% endfor %}
             
             				</div>
+                    <a  id='tilde2' style="display:none; ">
+                      <img title='Entregado' src="/static/media/simbolo-aprobacion.png" alt="Agregar" height="20" width="20">
+                    </a>
+                    <a  id='atencion2' >
+                      <img title='No Entregado' src="/static/media/warning-large.png" alt="Agregar" height="25" width="25">
+                    </a>
           				</div>
 						
 						<div class="form-group">
@@ -139,6 +154,13 @@
             					{% endfor %}
             
           					</div>
+
+                    <a  id='tilde3' style="display:none; ">
+                      <img title='Entregado' src="/static/media/simbolo-aprobacion.png" alt="Agregar" height="20" width="20">
+                    </a>
+                    <a  id='atencion3'>
+                      <img title='No Entregado' src="/static/media/warning-large.png" alt="Agregar" height="25" width="25">
+                    </a>
         				</div>
 
         
@@ -157,7 +179,8 @@
 
         			<script  type="text/javascript" charset="utf-8" async defer>
           
-          				var generico1 = $("#generico1").val();
+          			
+                var generico1 = $("#generico1").val();
         				var generico2 = $("#generico2").val();
         				var generico3 = $("#generico3").val();
         
@@ -213,7 +236,7 @@
 					<script  type="text/javascript" charset="utf-8" async defer>
                 
     					var user_id="{{user.userfarmacia.id}}";
-    					$("#user_id" ).val(user_id);;
+    					$("#user_id" ).val(user_id);
     
  					</script>     
 
@@ -226,7 +249,7 @@
 			<div class="panel panel-warning">
      			
      			<div class='panel-heading'>
-					<div class='col-md-offset-5'>Detalles de la entrega anterior</div>
+					<div class='col-md-offset-5'>Detalles de entrega</div>
      			 </div>
      			 
      			</div>
@@ -290,7 +313,7 @@
 
 					<div class="col-md-2 col-md-offset-0">
 						{% for elemento in estado_parcial %}
-						<input class="form-control" id="precio1" name="precio1" type="text" value="{{elemento.precio1}}" readonly " />
+						<input class="form-control" id="precio1" name="precio1" type="text" value="$ {{elemento.precio1}}" readonly " />
 						{% endfor %}
 					</div>
 
@@ -322,7 +345,7 @@
 					<div class="col-md-2 col-md-offset-0">
 						
 						{% for elemento in estado_parcial %}
-						<input class="form-control" id="precio2" name="precio2" type="text" value="{{elemento.precio2}}" readonly " />
+						<input class="form-control" id="precio2" name="precio2" type="text" value="$ {{elemento.precio2}}" readonly " />
 						{% endfor %}
 						
 					</div>
@@ -356,20 +379,48 @@
 					<div class="col-md-2 col-md-offset-0">
 						
 						{% for elemento in estado_parcial %}
-						<input class="form-control" id="precio3" name="precio3" type="text" value="{{elemento.precio3}}" readonly " />
+						<input class="form-control" id="precio3" name="precio3" type="text" value="${{elemento.precio3}}" readonly " />
 						{% endfor %}
 						
 					</div>
 
+          
+
+
 					
 				</div>
+        <br>
+
+        <div class="form-group"  >
+          <br>
+          <label for="paciente" class="control-label  col-md-2 col-md-offset-8">Precio Total:</label> 
+          
+          <div class="col-md-2 col-md-offset-0">
+            {% for elemento in estado_parcial %}
+            <input class="form-control"  type="text" value="{{elemento.preciototal}}"  readonly />
+            {% endfor %}
+            
+          </div>
+
+         
+
+          
+
+
+          
+        </div>
+            
+          
 				<br>
 				<br>
+        <br>
+        <br>
+        <br>
 
         			<div class="form-group">
-						<div class='col-md-offset-9 col-md-3'>
-							<button class='btn-lg btn-primary' style='float:right' type='submit'>Siguiente</button>
-            			</div>
+						    <div class='col-md-offset-9 col-md-3'>
+							     <button class='btn-lg btn-primary' style='float:right' type='submit'>Siguiente</button>
+            		</div>
 					</div>
 
 			
@@ -391,6 +442,8 @@
 
        
         $('#comercial-1').show();
+        $('#tilde1').show();
+        $('#atencion1').hide();
         }
 
 
@@ -398,12 +451,16 @@
 
         
          $('#comercial-2').show();
+         $('#tilde2').show();
+        $('#atencion2').hide();
        	}
 
         
     if (comercial3!=""){
        
         $('#comercial-3').show();
+        $('#tilde3').show();
+        $('#atencion3').hide();
      }
 
         	

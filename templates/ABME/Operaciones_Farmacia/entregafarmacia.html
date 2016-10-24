@@ -98,6 +98,21 @@
 
       {% endifequal %}
 
+      {% ifequal elemento.estado_aprobacion "PARCIAL"  %}
+
+        <tr bgcolor="#F7BE81"> 
+       
+
+        <td class="col-md-2 text-center "onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.fecha}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+
+      </tr>
+
+
+        {% endifequal %}
+
         
      {% endfor %} 
 
@@ -164,6 +179,22 @@
 
 
     {% endifequal %}
+
+
+    {% ifequal elemento.estado_aprobacion "PARCIAL"  %}
+
+        <tr bgcolor="#F7BE81"> 
+       
+
+        <td class="col-md-2 text-center "onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.id}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.fecha}}</td>
+        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center" onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+
+      </tr>
+
+
+        {% endifequal %}
 
     {% endfor %} 
 
@@ -245,6 +276,34 @@ function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
 
       }
 
+      if(estado_aprobacion=='PARCIAL'){
+  
+          alertify.set({ labels: {
+          ok     : "Continuar",
+          cancel : "Cancelar"
+          } });
+          // confirm dialog
+          
+            alertify.confirm("Seleccionó la <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>.", function (e) {
+
+              if (e) {
+
+                  $( "#id_solicitud_parcial" ).val(id);
+                  $("#solicitud_parcial").submit();
+                  
+              } else {
+            
+                  window.location.href = "/aplicacion/farmacia_entrega/";
+          
+              }
+        
+          });
+
+           
+      
+
+      }
+
   
 }
 
@@ -259,6 +318,11 @@ function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
 
 </form>
 
+<form  id='solicitud_parcial' method='POST' action='/aplicacion/farmacia_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
+  <input class='form-control' id='id_solicitud_parcial' name='id_solicitud_parcial'  type="hidden" value=''/>
+  
+
+</form>
 
 
         

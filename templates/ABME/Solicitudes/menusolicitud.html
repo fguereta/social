@@ -9,7 +9,9 @@
 <div class='container'>
     <div class='panel panel-primary dialog-panel'>
       <div class='panel-heading'>
-        <h5>{{elemento.apellido}}, {{elemento.nombre}}</h5>
+      {% for elemento in solicitud_enviado %}
+        <h5>{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</h5>
+      {% endfor %}
       </div>
       <div class="navbar navbar-inverse navbar-fixed ">
   	<div class="container-fluid ">
@@ -17,6 +19,7 @@
         	<ul class="nav navbar-nav navbar-right">
   				<li><a href="/aplicacion/fichapaciente/{{elemento.id}}">Ficha</a></li>
   				<li><a href="/aplicacion/solicitudes/{{elemento.id}}">Solicitudes</a></li>
+          
   				<li><a href="/aplicacion/detallederivacion/{{elemento.id}}">Derivaciones</a></li>
   				<li><a href="/aplicacion/modificarpaciente/{{elemento.id}}">Modificar</a></li>
   				<li><a  id="confirmacion">Eliminar</a></li>

@@ -24,11 +24,17 @@
     <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui.css">
     <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui-1.10.4.custom.css">
     <link rel="stylesheet" href="/static/bootstrap/css/estilo.css">
+
+    <link rel="stylesheet" href="/static/bootstrap/datepicker/css/datepicker.css">
+
+    
+    
+
     <!-- Jquery -->
     
 
-    {% include "includes/scri.html" %}
-   
+    
+   {% include "includes/scri.html" %}
 
 
 
@@ -75,7 +81,7 @@ window.close()
 <!-- se coloca este bootstrap.min.js aca en la parte inferior, por que no funciona arriba -->
 
 <script type="text/javascript"  src="{{ STATIC_URL }} /static/bootstrap/js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/datepicker-es.js"></script>
 <script type="text/javascript" charset="utf-8" async defer>
   
 function nobackbutton(){

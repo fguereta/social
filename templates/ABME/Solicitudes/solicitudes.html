@@ -18,28 +18,14 @@ $('#derivaciones').hide();
 $('#nueva_solicitud').show();
 </script>
 
-<style type="text/css">
-  .tachado{text-decoration:line-through;}
- 
-  .rojocolor{background:#FA5858;}
-  .amarillocolor{background:#F3F781;}
-  .entregadocolor{background:#01A9DB}
-  .aprobadocolor{background: #81F781;}
-  .parcial{background: #FAAC58 }
-  .headertabla{background:#A9E2F3;}
-tr.resaltar {
-    
-    cursor: pointer;
-   
-}
-</style>
+
  
 
 
 <div class="table-responsive">             
   <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
     <thead>
-      <tr  class="success">
+      <tr  class="default">
 
         <th class="text-center">Solicitud</th>
         <th class="text-center">Fecha de inicio</th>
@@ -55,9 +41,9 @@ tr.resaltar {
     {% ifequal elemento.estado_aprobacion "APROBADO" %}
     
 
-      <tr class='aprobadocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
+      <tr class='success' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
         
-        <td class="col-md-2 text-center">N° {{elemento.id}}</td>
+        <td class="col-md-2 text-center">N°{{elemento.id}}</td>
         <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
         <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
         <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
@@ -69,7 +55,7 @@ tr.resaltar {
     {% ifequal elemento.estado_aprobacion "ENTREGADO" %}
     
 
-      <tr class='entregadocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
+      <tr class='info' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
         <td class="col-md-2 text-center">N° {{elemento.id}}</td>
         <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
         <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
@@ -82,7 +68,7 @@ tr.resaltar {
       {% ifequal elemento.estado_aprobacion "AUDITORIA" %}
     
 
-      <tr class='amarillocolor' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
+      <tr class='info' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
         <td class="col-md-2 text-center">N° {{elemento.id}}</td>
         <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
         <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
@@ -95,7 +81,7 @@ tr.resaltar {
 
 
       {% ifequal elemento.estado_aprobacion "CANCELADO" %}
-    
+    <tr class='danger' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
 
       <td class="col-md-2 text-center">N° {{elemento.id}}</td>
         <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
@@ -106,12 +92,12 @@ tr.resaltar {
  
 
       {% ifequal elemento.estado_aprobacion "PARCIAL" %}
-    
+    <tr class='warning' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
 
       <td class="col-md-2 text-center">N° {{elemento.id}}</td>
         <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
         <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
-        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-2 text-center">HUBO ENTREGA PARCIAL</td>
     </tr>
       {% endifequal %}
  

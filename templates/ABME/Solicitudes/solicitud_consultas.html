@@ -5,182 +5,153 @@
 
 
 
- <div class='' >
+
       <div class='panel panel-primary dialog-panel'>
           <div class='panel-body'>
 
-              <fieldset>
-                 <div>Realize la busqueda de consulta con el numero de dni o el apellido y nombre del solicitante.</div>
+              
+                 <div>Realize la busqueda de consulta con el numero de dni o el apellido y nombre del solicitante y seleccione periodo de fecha.
+                 </div>
                  <br>
                  <br>
                  
+    <div id='miForm' class="form-horizontal">
+        
+        <br>
+        <br>
+        
+
+        
+
+    <div class="form-group">
+          <label  class="control-label col-md-2 col-md-2 col-md-offset-2">Solicitante:<font color="red"> *</font></label> 
+           <div class="col-md-4 text-left">
+              <select name="id_paciente" id="id_paciente" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                  <option value=""></option>
+                  {% for elemento in busqueda_paciente %}
+                  <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
+                  {% endfor %}
+              </select>
+            </div>
+    </div> 
+        <br>
             
-              <div class="row">
-                <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
-                    <div class="col-md-4 text-left paciente">
-                      <select name="id_paciente_busqueda" id="id_paciente_busqueda" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-                          <option value=""></option>
-                          {% for elemento in busqueda_paciente %}
-                          <option value="{{elemento.id}}" >DNI: {{elemento.paciente.dni}}, {{elemento.apellido}} {{elemento.nombre}} </option>
-                          {% endfor %}
-                      </select>
-                    </div>
-    
-                    <div>
-                      <button class="col-md-1 btn btn-primary" type="submit">Buscar</button>
-                    </div>
-                </form> 
-              </div>
+      <div class="form-group">
+
+          <label for="paciente" class="control-label  col-md-1 col-md-offset-2">Desde:</label> 
+          <div class='col-md-2'>
+                <div class='form-group internal input-group'>
+                  <input class='form-control datepicker' name='desde_fecha' type='text' id='desde_fecha'
+                  placeholder='dd/mm/yyyy' >
+                  <span class='input-group-addon'>
+                    <i class='glyphicon glyphicon-calendar'></i>
+                  </span>
+                </div>
+          </div>
+          
+           <label for="paciente" class="control-label  col-md-1 col-md-offset-0">Hasta:</label> 
+          <div class='col-md-2'>
+                <div class='form-group internal input-group'>
+                  <input class='form-control datepicker' name='hasta_fecha' type='text' id='hasta_fecha'
+                  placeholder='dd/mm/yyyy' >
+                  <span class='input-group-addon'>
+                    <i class='glyphicon glyphicon-calendar'></i>
+                  </span>
+                </div>
+          </div>
+
+          <div class="col-md-1 col-md-offset-0">
+                <button class="btn btn-primary" id='consultar'>Consultar</button>
+            </div>
+          
+      </div>
+
+     
         
-            </fieldset>
- 
+      </div>
+
+      </div>
+    </div>
 
 
-    {% if solicitudes %}
-
-    <br>
-    <br>
-    <br>
-    <table id="example" class="table table-condensed table table-bordered table-hover" >
-                  <thead>
-
-    {% for elemento in  solicitudes %}
-
-    <script  type="text/javascript" charset="utf-8" async defer>
-
-      $("div.paciente select").val('{{elemento.paciente.id}}');
-        
-
-        
-
-    </script>
-
-            {% ifequal elemento.estado_aprobacion "ENTREGADO" %}
-    
-                
-                      <tr class="success" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">
-                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Solicitud N° {{elemento.id}}</th>
-                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Estado Actual: ENTREGADO</th>
-                        <th class="text-left" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Costo Total: $ {{elemento.precio_final}}</th>
-                      </tr>
-                     
-
-                 
-
-            {% endifequal %}
-
-            {% ifequal elemento.estado_aprobacion "PARCIAL" %}
-    
-                
-                      <tr class="success" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">
-                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Solicitud N° {{elemento.id}}</th>
-                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Estado Actual: PARCIAL</th>
-                        <th class="text-left" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Costo Parcial: $ {{elemento.precio_final}}</th>
-                      </tr>
-                     
-
-                 
-
-            {% endifequal %}
-
-            {% ifequal elemento.estado_aprobacion "APROBADO" %}
-    
-                
-                      <tr class="success" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">
-                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Solicitud N° {{elemento.id}}</th>
-                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Estado Actual: APROBADO</th>
-                        <th class="text-left" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">-------</th>
-                      </tr>
-                     
-
-                 
-
-            {% endifequal %}
-
-            {% ifequal elemento.estado_aprobacion "ENPROCESO" %}
-    
-                
-                      <tr class="success" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">
-                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Solicitud N° {{elemento.id}}</th>
-                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Estado Actual: EN PROCESO</th>
-                        <th class="text-left" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">-------</th>
-                      </tr>
-                     
-
-                 
-
-            {% endifequal %}
+<script type="text/javascript" charset="utf-8" async defer>
 
 
-            {% ifequal elemento.estado_aprobacion "CANCELADO" %}
-    
-                
-                      <tr class="success" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">
-                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Solicitud N° {{elemento.id}}</th>
-                        <th class="text-center" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">Estado Actual: CANCELADO</th>
-                        <th class="text-left" onclick="document.location='/aplicacion/solicitud_movimientos/{{elemento.id}}'" style="cursor:pointer">-------</th>
-                      </tr>
-                     
-
-                 
-
-            {% endifequal %}
-
-            
-
-    {% endfor %} 
-
-
-     </thead>
-               </table>
-    {% endif %}
-
-<br><br><br>
-</div>
-
-
-</div>
-
-
-
-
-
-<form  id='confirmar_parcial' method='POST' action='/aplicacion/farmacia_parciales/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
-<input class='form-control' id='idsolicitud3' name='idsolicitud3'  type="hidden" value=''/>
-
-</form>
-
-
-<script  type="text/javascript" charset="utf-8" async defer>
+  $('#desde_fecha').datepicker({
+  dateFormat: 'dd/mm/yy',
+  changeYear: true,
+  changeMonth: true,
+  yearRange: "1900:2100",
   
-  $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+    });
+
+  $('#hasta_fecha').datepicker({
+  dateFormat: 'dd/mm/yy',
+  changeYear: true,
+  changeMonth: true,
+  yearRange: "1900:2100",
+  
+    });
+
+ $("button[id=consultar]").click(function () {
+
+  var id_paciente = $("#id_paciente").val();
+  var desde_fecha = $("#desde_fecha").val();
+  var hasta_fecha = $("#hasta_fecha").val();
+
+    $.ajax({
+
+        
+        url: '/aplicacion/consultas_solicitante/',// Ruta del views donde se enviara.
+        
+        type: 'POST',//Metodo de envio, si es por GET o POST
+        data: {'id_paciente':id_paciente,'desde_fecha':desde_fecha,'hasta_fecha':hasta_fecha}, //Dato que se envia. 
 
 
+        //si funciona correctamente se podra ejecutar success.
+        success: function (datos) {
+            
+          
+          //Agrega un option mas al select y utilizamos los valores que devuelve el view.
+         
+
+              
+        }
+
+
+            
+
+    });//Termina ajax
+
+});
 
 </script>
 
 
-        {% if user.is_authenticated %}
+        
+
+{% if user.is_authenticated %}
               
               
-            
-              <script  type="text/javascript" charset="utf-8" async defer>
+<script  type="text/javascript" charset="utf-8" async defer>
                 
+$(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
 
 
-
-
-
-              var user_id="{{user.userfarmacia.id}}";
-              var user_id_farmacia=parseInt(user_id);
+var user_id="{{user.userfarmacia.id}}";
+var user_id_farmacia=parseInt(user_id);
               
-              $( "#user_id_farmacia1" ).val(user_id_farmacia);
-              $( "#user_id_farmacia2" ).val(user_id_farmacia);
+$( "#user_id_farmacia1" ).val(user_id_farmacia);
+$( "#user_id_farmacia2" ).val(user_id_farmacia);
 
-              </script>
+</script>
             
 
-            {% endif %}
+{% endif %}
+
+
+
+
 
 
 {% endblock %}

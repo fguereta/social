@@ -6,18 +6,12 @@
 
 
 {% if solicitud_enviado %}
+
+
 {% for elemento in solicitud_enviado %}
 
-{% if refrescar %}
-
-<script type="text/javascript" charset="utf-8" async defer>
-
-window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
 
 
-</script>
-
-{% endif %}
 
 
 
@@ -25,27 +19,6 @@ window.location.href = "/aplicacion/fichasolicitud/{{refrescar}}/";
 
 
 
-
-<style type="text/css" media="screen">
- 
- .panel > .panel-heading {
-    background-image: none;
-    background-color: #FA5858;
-    color: #000000;
-}
-
-
- .panel > .panel-body {
-    
-    
-  padding: 15px;
-  margin-bottom: 20px;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
-</style>
 
 
 <script  type="text/javascript" charset="utf-8" async defer>
@@ -67,36 +40,14 @@ $( "p" ).hide();
 
 
 
-<style type="text/css" media="screen">
- 
- .panel > .panel-heading {
-    background-image: none;
-    background-color: #81F781;
-    color: #000000;
-}
-
-
- .panel > .panel-body {
-    
-    
-  padding: 15px;
-  margin-bottom: 20px;
-  background-color: #000000;
-  border: 1px solid #dddddd;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
-</style>
-
 
 <script  type="text/javascript" charset="utf-8" async defer>
 	
 $('#paciente_nombre').hide(); 
-$('#estado_aprobado').show();
 $('#modificar').hide(); 
 $('#eliminar').hide();
 $('#derivaciones').hide(); 
-
+$('#cancelar_solicitud').show();
 
 
 </script>
@@ -104,42 +55,17 @@ $('#derivaciones').hide();
 {% endifequal %}
 {% ifequal elemento.estado_aprobacion "AUDITORIA" %}
 
-
-
-
-<style type="text/css" media="screen">
- 
- .panel > .panel-heading {
-    background-image: none;
-    background-color: #F3F781;
-    color: #000000;
-}
-
-
- .panel > .panel-body {
-    
-    
-  padding: 15px;
-  margin-bottom: 20px;
-  background-color: #000000;
-  border: 1px solid #dddddd;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
-</style>
-
-
 <script  type="text/javascript" charset="utf-8" async defer>
-	
+  
 $('#paciente_nombre').hide(); 
-$('#estado_enproceso').show();
 $('#modificar').hide(); 
 $('#eliminar').hide();
 $('#derivaciones').hide(); 
-
+$('#cancelar_solicitud').show();
 
 
 </script>
+
 
 {% endifequal %}
 
@@ -148,27 +74,8 @@ $('#derivaciones').hide();
 
 
 
-<style type="text/css" media="screen">
+
  
- .panel > .panel-heading {
-    background-image: none;
-    background-color: #FAAC58;
-    color: #000000;
-}
-
-
- .panel > .panel-body {
-    
-    
-  padding: 15px;
-  margin-bottom: 20px;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
-</style>
-
 
 <script  type="text/javascript" charset="utf-8" async defer>
 	
@@ -177,6 +84,8 @@ $('#estado_parcial').show();
 $('#modificar').hide(); 
 $('#eliminar').hide();
 $('#derivaciones').hide(); 
+$('#cancelar_solicitud').show();
+
 
 
 
@@ -189,26 +98,6 @@ $('#derivaciones').hide();
 
 
 
-<style type="text/css" media="screen">
- 
- .panel > .panel-heading {
-    background-image: none;
-    background-color: #01A9DB;
-    color: #000000;
-}
-
-
- .panel > .panel-body {
-    
-    
-  padding: 15px;
-  margin-bottom: 20px;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
-</style>
 
 
 <script  type="text/javascript" charset="utf-8" async defer>
@@ -224,41 +113,35 @@ $('#derivaciones').hide();
 </script>
 
 {% endifequal %}
-
-
-
-
-<div class='panel-body'>
-          
-        <form  method="POST" enctype="multipart/form-data" class="form-horizontal">
-
-
-            
-
-
-        <div class="form-group">
-          <label for="paciente" class="control-label col-md-2  ">Solicitud N°</label> 
-          <div class="col-md-5">
-
-            {% for elemento in solicitud_enviado %}
-            <input class="form-control" id="idsolicitud4" name="idsolicitud4" type="hidden" value="{{elemento.solicitud_id}}"/>
-            <input class="form-control"  type="text" readonly="readonly" value="{{elemento.id}}"/>
-            {% endfor %}
-          </div>
+  
+    <form  method="POST" enctype="multipart/form-data" class="form-horizontal">
+    
+      <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class=" col-md-offset-5">Datos de la <b>Solicitud N° {% for elemento in solicitud_enviado %}{{elemento.id}}</b>{% endfor %}
+            </div>
         </div>
-        <div class="form-group">
-          <label for="paciente" class="control-label col-md-2 ">Solicitante:</label> 
+      </div>
+
+      <input class="form-control" id="id_solicitud" name="id_solicitud" type="hidden" value="{% for elemento in solicitud_enviado %}{{elemento.id}}{% endfor %}"/>
+       
+      <input class="form-control" id="estado_actual" name="estado_actual" type="hidden" value="{% for elemento in solicitud_enviado %}{{elemento.estado_aprobacion}}{% endfor %}"/>
+
+
+          <br><br>
+          
+      <div class="form-group">
+          <label for="paciente" class="control-label col-md-2 col-md-offset-2">Solicitante:</label> 
           <div class="col-md-5">
             {% for elemento in solicitud_enviado %}
             <input class="form-control" id="id_paciente" name="id_paciente" type="hidden" value="{{elemento.paciente.id}}"/>
             <input class="form-control"  type="text" readonly="readonly" value="{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}. DNI: {{elemento.paciente.dni}}"/>
             {% endfor %}
-          </div>
         </div>
-       
+      </div>
 
-        <div class="form-group">
-          <label for="paciente" class="control-label  col-md-2 ">Historia Clinica:</label> 
+      <div class="form-group">
+          <label for="paciente" class="control-label  col-md-2 col-md-offset-2 ">Historia Clinica:</label> 
           <div class="col-md-5">
             
             {% for elemento in solicitud_enviado %}
@@ -267,14 +150,10 @@ $('#derivaciones').hide();
             {% endfor %}
             
           </div>
-        </div>
+      </div>
 
-
-        
-
-
-        <div class="form-group">
-          <label for="paciente" class="control-label  col-md-2 ">Obra Social:</label> 
+      <div class="form-group">
+          <label for="paciente" class="control-label  col-md-2 col-md-offset-2">Obra Social:</label> 
           <div class="col-md-5">
             
             {% for elemento in solicitud_enviado %}
@@ -283,16 +162,61 @@ $('#derivaciones').hide();
             {% endfor %}
             
           </div>
-        </div>
-        <br>
-      
-          <legend ><div class=" col-md-offset-4">Detalles de la solicitud</div></legend>
-        
-        
-        <br>
+      </div>
+         
+         <br>
+         <br>
 
-        <div class="form-group">
-          <label for="paciente" class="control-label  col-md-3 ">Medico a cargo:</label> 
+    <div id='aprobado' style="display:none; " >    
+      <div class="panel panel-success">
+        <div class="panel-heading">
+            <div class=" col-md-offset-5"> Detalles de la <b>Solicitud N° {% for elemento in solicitud_enviado %}{{elemento.id}}</b>{% endfor %}
+            </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+
+    <div id='auditoria' style="display:none;"> 
+      <br>   
+      <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class=" col-md-offset-4">La <b>Solicitud N° {% for elemento in solicitud_enviado %}{{elemento.id}}</b>  requiere autorizacion de auditoria.{% endfor %}
+            </div>
+        </div>
+      </div>
+      <br>
+      
+    </div>
+
+    
+
+    <div id='cancelado' style="display:none;">    
+      
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+            <div class=" col-md-offset-5">La <b>Solicitud N° {% for elemento in solicitud_enviado %}{{elemento.id}}</b> se encuentra cancelada.{% endfor %}
+            </div>
+        </div>
+      </div>
+    <br>
+    <br>
+
+      <div class="form-group">
+          <label for="com_cancelado" class="control-label col-md-3 col-md-offset-1">Motivo de Cancelacion*:</label> 
+          <div class="col-md-5">
+            <textarea class="form-control" type='text' cols="40" id="com_cancelado" name="com_cancelado" style='width:480px;height: 102px;' rows="10" readonly>{% for elemento in solicitud_enviado %}{{elemento.com_cancelado}} {% endfor %}</textarea>
+          </div>
+      </div>
+    </div>
+      
+      <br>
+      
+      <div class="form-group">
+          <label for="paciente" class="control-label  col-md-2 col-md-offset-2 ">Medico a cargo:</label> 
           <div class="col-md-5">
             
             {% for elemento in solicitud_enviado %}
@@ -301,11 +225,11 @@ $('#derivaciones').hide();
             {% endfor %}
             
           </div>
-        </div>
-        <br>
+      </div>
 
-        <div class="form-group">
-          <label for="paciente" class="control-label  col-md-3 ">Requiere Auditoria:</label> 
+
+      <div class="form-group">
+          <label for="paciente" class="control-label  col-md-2 col-md-offset-2 ">Requiere Auditoria:</label> 
           
           <div class="col-md-5" id='auditoria'>
             
@@ -320,42 +244,45 @@ $('#derivaciones').hide();
                  <input class="form-control"  type="text" readonly="readonly" value="NO" readonly />
               {% endifequal %}
 
-        {% endfor %}
+              {% endfor %}
             
           </div>
-        
+      </div>
 
+
+
+      <div id='generico-1' style="display:none; ">
+        <br>
+        <div class="form-group">
+            <label for="paciente" class="control-label  col-md-2 col-md-offset-2 ">Nombre del generico(1):</label> 
+            <div class="col-md-5">
+            
+              {% for elemento in solicitud_enviado %}
+            
+              <input class="form-control"  id='generico1' name='generico1'  type="text" readonly="readonly" value="{{elemento.medicamento1.generico}}" readonly />
+              {% endfor %}
+            
+            </div>
         </div>
+     
 
         <div class="form-group">
-          <label for="paciente" class="control-label  col-md-3 ">Nombre del generico(1):</label> 
-          <div class="col-md-5">
-            
-            {% for elemento in solicitud_enviado %}
-            
-            <input class="form-control"  type="text" readonly="readonly" value="{{elemento.medicamento1.generico}}" readonly />
-            {% endfor %}
-            
-          </div>
-        </div>
-
-        
-
-        <div class="form-group">
-          <label for="paciente" class="control-label  col-md-3 ">Dosis Diaria(1):</label> 
-          <div class="col-md-5">
-            {% for elemento in solicitud_enviado %}
-            <input class="form-control" readonly="readonly" type="text" value="{{elemento.dosis1}}" " />
-            {% endfor %}
-          </div>
-        
+            <label for="paciente" class="control-label  col-md-2 col-md-offset-2">Dosis Diaria(1):</label> 
+            <div class="col-md-5">
+              {% for elemento in solicitud_enviado %}
+              <input class="form-control" readonly="readonly" id='dosis1' name='dosis1' type="text" value="{{elemento.dosis1}}" " />
+              {% endfor %}
+            </div>
         </div>
         <br>
-        
+
+
+      </div>
 
         <div id='generico-2' style="display:none; ">
-          <div class="form-group">
-            <label for="paciente" class="control-label  col-md-3 ">Nombre del generico(2):</label> 
+        <br>
+            <div class="form-group">
+            <label for="paciente" class="control-label  col-md-2 col-md-offset-2">Nombre del generico(2):</label> 
             <div class="col-md-5">
             
               {% for elemento in solicitud_enviado %}
@@ -369,7 +296,7 @@ $('#derivaciones').hide();
         
 
           <div class="form-group">
-            <label for="paciente" class="control-label  col-md-3 ">Dosis Diaria(2):</label> 
+            <label for="paciente" class="control-label  col-md-2 col-md-offset-2">Dosis Diaria(2):</label> 
             <div class="col-md-5">
               {% for elemento in solicitud_enviado %}
               <input class="form-control" readonly="readonly" id='dosis2' name='dosis2' type="text" value="{{elemento.dosis2}}" " />
@@ -378,39 +305,102 @@ $('#derivaciones').hide();
           </div>
         <br>
         </div>
+
+
+      <div id='generico-3' style="display:none; " >
+        <br>
+        
+          <div class="form-group ">
+            <label for="paciente" class="control-label  col-md-2 col-md-offset-2 ">Nombre del generico(3):</label> 
+            <div class="col-md-5">
+            
+              {% for elemento in solicitud_enviado %}
+            
+                <input class="form-control"  type="text" readonly="readonly" id='generico3' name='generico3'  value="{{elemento.medicamento3.generico}}" readonly />
+              {% endfor %}
+            
+            </div>
+          </div>
+
         
 
-        <div id='generico-3' style="display:none; " >
-        <div class="form-group ">
-          <label for="paciente" class="control-label  col-md-3 ">Nombre del generico(3):</label> 
-          <div class="col-md-5">
-            
-            {% for elemento in solicitud_enviado %}
-            
-            <input class="form-control"  type="text" readonly="readonly" id='generico3' name='generico3'  value="{{elemento.medicamento3.generico}}" readonly />
-            {% endfor %}
-            
+          <div class="form-group">
+            <label for="paciente" class="control-label  col-md-2 col-md-offset-2 ">Dosis Diaria(3):</label> 
+            <div class="col-md-5">
+              {% for elemento in solicitud_enviado %}
+                <input class="form-control" readonly="readonly" type="text" id='dosis3' name='dosis3' value="{{elemento.dosis3}}" " />
+              {% endfor %}
+            </div>
           </div>
-        </div>
-
-        
-
-        <div class="form-group">
-          <label for="paciente" class="control-label  col-md-3 ">Dosis Diaria(3):</label> 
-          <div class="col-md-5">
-            {% for elemento in solicitud_enviado %}
-            <input class="form-control" readonly="readonly" type="text" id='dosis3' name='dosis3' value="{{elemento.dosis3}}" " />
-            {% endfor %}
-          </div>
-        </div>
         <br>
       </div>
-
-        <script  type="text/javascript" charset="utf-8" async defer>
-          
-        var generico2 = $("#generico2").val();
-        var generico3 = $("#generico3").val()
         
+      <div class="form-group">
+          <label class="control-label  col-md-3 col-md-offset-1">Diagnostico:</label> 
+              <div class="col-md-5">
+                {% for elemento in solicitud_enviado %}
+                    <textarea class="form-control" type='text' cols="40" id="comparcial" style='width:485px;height: 102px;' name="comparcial" rows="10" readonly>{{elemento.diagnostico}}</textarea>
+                    {% endfor %}
+                    <input class='form-control' type='hidden' id='user_id_farmacia' name='user_id_farmacia' value=''/>  
+              </div>
+      </div>
+
+
+      <br>
+      <br>
+
+
+          <!-- Modal CANCELAR-->
+          <div id="ModalCancelar" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                 <!-- Modal content-->
+                <div class="modal-content">
+                    
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Motivo de Cancelación</h4>
+                    </div>
+              
+                    <div class="modal-body">
+                    <br>
+                   
+                      <div class="form-group">
+                        <div class="col-md-5 col-md-offset-0">
+                          <textarea class="form-control" type='text'  id="comcancelado" name="comcancelado" style='width:550px;height: 130px;' placeholder="Escriba aqui..."></textarea>
+                        </div>
+                      </div>
+                  
+                    </div>
+              
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" id='cancelar' data-dismiss="modal">Confirmar</button>
+                    </div>
+                </div>
+
+              </div>
+          </div>
+
+           <!--FIN Modal CANCELAR-->
+
+
+    </div>
+</form>
+
+        
+
+<script  type="text/javascript" charset="utf-8" async defer>
+          
+        var generico1 = $("#generico1").val();
+        var generico2 = $("#generico2").val();
+        var generico3 = $("#generico3").val();
+        
+
+        if (generico1!=""){
+
+
+          $('#generico-1').show();
+        }
 
         if (generico2!=""){
 
@@ -427,96 +417,86 @@ $('#derivaciones').hide();
         }
 
 
+      var estado_actual = $("#estado_actual").val();
+
+      if (estado_actual=='APROBADO'){
+
+        $('#aprobado').show();
+      }
+
+      if(estado_actual=='CANCELADO'){
+
+        $('#cancelado').show();
+      }
+
+      if(estado_actual=='AUDITORIA'){
+
+        $('#auditoria').show();
+      }
 
 
 
-        </script>
 
-        <br>
+// AJAX
 
-        <div class="form-group">
-          <label for="comcancelado" class="control-label col-md-2 col-md-offset-1">Diagnostico:</label> 
-          <div class="col-md-5">
-          {% for elemento in solicitud_enviado %}
-            
-          <textarea class="form-control" type='text' cols="40" id="comparcial" style='width:427px;height: 102px;' name="comparcial" rows="10" readonly>{{elemento.diagnostico}}</textarea>
-          {% endfor %}
-          </div>
-      </div>
-
+$("button[id=cancelar]").click(function () {
+      
+      
+      var comcancelado=$('#comcancelado').val();
+      var estado='CANCELADO';
+      var id=$('#id_solicitud').val();
+      
+      
+      
+      $.ajax({
 
         
+        url: '/aplicacion/solicitudcancelada/',// Ruta del views donde se enviara.
         
+        type: 'POST',//Metodo de envio, si es por GET o POST
+        data: {'comcancelado':comcancelado,'id':id, 'estado':estado,}, //Dato que se envia. 
 
-   
 
-		{% ifequal elemento.estado_aprobacion "CANCELADO"  %} 
-      <div class="form-group">
-
-         <legend ><div class=" col-md-offset-4"  style=' font-size:25px;'><font color="red" SIZE=5 >Motivo de Cancelación</div></legend>
-          <div class="form-group">
-          <div class="col-md-offset-3">
-          {% for elemento in solicitud_enviado %}
+        //si funciona correctamente se podra ejecutar success.
+        success: function (comentario) {
             
-          <textarea class="form-control" type='text' cols="40" id="comparcial" style='width:468px;height: 126px;' name="comparcial" rows="10" readonly>{{elemento.observaciones}}</textarea>
-          {% endfor %}
-          </div>
-          </div>
-        </div>
+          
+          //Agrega un option mas al select y utilizamos los valores que devuelve el view.
+          alertify.success('Se Cancelo Correctamente')
+          
+          $('#aprobado').hide();
+          $('#cancelado').show();
+          $("#com_comentario" ).val(comentario.comentario);
 
-      <br>
-      <br>
-      <br>
-
-    {% else %}
-
-
-      
+              
+        }
 
 
-      {% ifequal elemento.estado_aprobacion "ENTREGADO"  %} 
-    
-      
-      <div class="form-group">
-          <label for="comcancelado" class="control-label col-md-2 col-md-offset-1">Observaciones:</label> 
-          <div class="col-md-5">
-          {% for elemento in solicitud_enviado %}
+
+
             
-          <textarea class="form-control" type='text' cols="40" id="comparcial" style='width:427px;height: 102px;' name="comparcial" rows="10" readonly>{{elemento.observaciones}}</textarea>
-          {% endfor %}
-          </div>
-        </div>
+
+      });
 
       
 
-
-      {% else %}
-
-
-      
-
-        <br>
-        <br>
-
-          <p id='a' name='a'>
-            <div class="row" >
-      
-              <div id='exportarpdf' class="col-xs-6 col-md-4 col-md-offset-2" style=' font-size:25px;'  ><a href="/aplicacion/pdf_solicitud/{{elemento.id}}/"><input  class='btn-lg btn-primary' type="button" value='Exportar PDF'/></a></div>
-              <div class="col-xs-6 col-md-4" style=' font-size:25px;' ><input class='btn-lg btn-primary' name='cambiar_estado' id='cambiar_estado' type="button"  value='Cambiar Estado'/></div>
-            </div>
-
-          </p>
     
-      {% endifequal %}
+  
 
+ });
+  
+
+
+
+</script>
+
+       
 
 
 
 		
 
 		
-		
-		{% endifequal %}
 
     
         
@@ -528,19 +508,8 @@ $('#derivaciones').hide();
 
 
         
-        </form>
-        </div>
-  <br>
- 
-
-
-<br>
-
-</div>
-</div>
-
-<br><br>
-
+        
+  
 
 
 					

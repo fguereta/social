@@ -10,27 +10,22 @@
       
       			<div class='panel-body'>
       		
-					<form  id='entrega_completa' method='POST' action='/aplicacion/farmacia_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
+					<div class='form-horizontal'>
+
+
 
 					<br>
 					<br>
 		
-            
-      				<div class="form-group">
-         			<label for="paciente" class="control-label col-md-3 col-md-offset-1 ">Solicitud N°</label> 
-         				<div class="col-md-5">
+            <input class="form-control" id="user_id_farmacia" name="user_id_farmacia" type="hidden" value="{{farmacia_id}}"/>
+      			
 
-            				{% for elemento in solicitud_enviado %}
-            	
-            					<input class="form-control" id="idsolicitud_completa" name="idsolicitud_completa" type="text" readonly="readonly" value="{{elemento.id}}"/>
-            				{% endfor %}
-          				</div>
-      				</div>
         
         			<div class="form-group">
           				<label for="paciente" class="control-label col-md-3 col-md-offset-1">Solicitante:</label> 
           				<div class="col-md-5">
             				{% for elemento in solicitud_enviado %}
+                     <input class="form-control" id="idsolicitud" name="idsolicitud" type="hidden" value="{{elemento.id}}"/>
             					<input class="form-control" id="id_paciente" name="id_paciente" type="hidden" value="{{elemento.paciente.id}}"/>
             					<input class="form-control"  type="text" readonly="readonly" value="{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}. DNI: {{elemento.paciente.dni}}"/>
             				{% endfor %}
@@ -65,12 +60,12 @@
 				<br>
 				<br>
       			
-      	<div class="panel panel-success">
+      	<div class="panel panel-info">
      			
-     			<div class='panel-heading'>
-					<div class='col-md-offset-5'>Detalles de la solicitud</div>
-     			 </div>
-     			 </div>
+     			  <div class='panel-heading'>
+				      <div class='col-md-offset-5'>Detalles de la solicitud</div>
+     			  </div>
+     	  </div>
      			 
     
       				<br><br>
@@ -88,6 +83,12 @@
             					{% endfor %}
             
           					</div>
+                    <a  id='tilde1' style="display:none; ">
+                      <img title='Entregado' src="/static/media/simbolo-aprobacion.png" alt="Agregar" height="20" width="20">
+                    </a>
+                    <a  id='atencion1' >
+                      <img title='No Entregado' src="/static/media/warning-large.png" alt="Agregar" height="25" width="25">
+                    </a>
         				</div>
         			</div>
 
@@ -112,8 +113,13 @@
             					{% for elemento in solicitud_enviado %}
             						<input class="form-control"  type="text" id='generico2' name='generico2' readonly="readonly" value="{{elemento.medicamento2.generico}}" readonly />
               					{% endfor %}
-            
-            				</div>
+                    </div>
+                    <a  id='tilde2' style="display:none; ">
+                      <img title='Entregado' src="/static/media/simbolo-aprobacion.png" alt="Agregar" height="20" width="20">
+                    </a>
+                    <a  id='atencion2' >
+                      <img title='No Entregado' src="/static/media/warning-large.png" alt="Agregar" height="25" width="25">
+                    </a>
           				</div>
 						
 						<div class="form-group">
@@ -140,6 +146,13 @@
             					{% endfor %}
             
           					</div>
+
+                    <a  id='tilde3' style="display:none; ">
+                      <img title='Entregado' src="/static/media/simbolo-aprobacion.png" alt="Agregar" height="20" width="20">
+                    </a>
+                    <a  id='atencion3' >
+                      <img title='No Entregado' src="/static/media/warning-large.png" alt="Agregar" height="25" width="25">
+                    </a>
         				</div>
 
         
@@ -158,7 +171,7 @@
 
         			<script  type="text/javascript" charset="utf-8" async defer>
           
-          				var generico1 = $("#generico1").val();
+          			var generico1 = $("#generico1").val();
         				var generico2 = $("#generico2").val();
         				var generico3 = $("#generico3").val();
         
@@ -184,6 +197,8 @@
           					$('#generico-3').show();
         				}
 
+                var cont2=0;
+
 					</script>
 
         			
@@ -201,12 +216,7 @@
           				</div>
 	     			</div>
 
-
-
-	     			
-	     			 
-
-					<br>
+          <br>
 					<br>
 		
 					{% if user.is_authenticated %}
@@ -221,30 +231,598 @@
 
  					{% endif %}
  				
- 				
-
-
+      <div id='boton_registro'> 
+      <br> 
  				<div class="form-group">
-					<div class='col-md-offset-9 col-md-3'>
-             	 <br>
-             	 <br>
-             	 <br>
-             
-              		<button class='btn-lg btn-primary' style='float:right' type='submit'>Siguiente</button>
-            		</div>
+					<div class='col-md-offset-10 col-md-3'>
+                <a  data-toggle="modal" data-target="#opciones_solicitudes">
+                      <img src="/static/media/continuar.gif" alt="Agregar" style="cursor:pointer" >
+                     
+                    
+                </a>
+             	
+          </div>
 				</div>
+      </div>
+
+         <!-- Modal -->
+        
+          <div id="opciones_solicitudes" class="modal fade" role="dialog">
+              
+              <div class="modal-dialog modal-lg">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Entrega de medicamentos.</h4>
+                      </div>
+                  <div class="modal-body">
+                  
+                      <br>
+                      <div class="col-md- col-md-offset-0 " >&nbsp; &nbsp; &nbsp;Seleccione los medicamentos a entregar y complete los campos correspondientes.</div>
+                      <br>
+                      {% for elemento in solicitud_enviado %}
+                        <div class="row col-md-offset-0 ">
+                           <br>
+                            
+                            <div id='gen_111'  style="display:none;" >
+                                <label>&nbsp; &nbsp; &nbsp;<input type="checkbox" id='gen_1' name='gen_1' value='{{elemento.medicamento1.generico}}' > &nbsp; &nbsp; &nbsp;{{elemento.medicamento1.generico}}</label>
+                                
+                                <script  type="text/javascript" charset="utf-8" async defer>
+                                  $( '#gen_1' ).on( 'click', function() {
+                                  
+                                  if( $(this).is(':checked') ){
+                                    // Hacer algo si el checkbox ha sido seleccionado
+
+                                      $('#gen_11').show();
+                                      cont2=cont2+1;
+                                      form1=true;
+                                      
+                                      
+                                  } else {
+                                    // Hacer algo si el checkbox ha sido deseleccionado
+                                      $('#gen_11').hide();
+                                      $("#com_1").val("");
+                                      $( "#pre_1" ).val("");
+                                      cont2=cont2-1;
+                                      form1=false;
+                                      
+                                  }
+                                });
+                                
+                                </script>
+                            </div>
+
+                            
+                            <div id='gen_222' style="display:none;"  >
+                                <label>&nbsp; &nbsp; &nbsp;<input type="checkbox" id='gen_2' name='gen_2' value='{{elemento.medicamento2.generico}}' > &nbsp; &nbsp; &nbsp;{{elemento.medicamento2.generico}}</label>
+                                
+                                <script  type="text/javascript" charset="utf-8" async defer>
+                                  $( '#gen_2' ).on( 'click', function() {
+                                  
+                                  if( $(this).is(':checked') ){
+                                    // Hacer algo si el checkbox ha sido seleccionado
+                                      $('#gen_22').show();
+                                      cont2=cont2+1;
+                                      form2=true;
+                                      
+                                  } else {
+                                    // Hacer algo si el checkbox ha sido deseleccionado
+                                      $('#gen_22').hide();
+                                      $("#com_2").val("");
+                                      $( "#pre_2" ).val("");
+                                      cont2=cont2-1;
+                                      form2=false;
+                                      
+                                  }
+                                });
+                                
+                                </script>
+                            </div>
+
+                            <div id='gen_333' style="display:none;"  >
+                                <label>&nbsp; &nbsp; &nbsp;<input type="checkbox" id='gen_3' name='gen_3' value='{{elemento.medicamento3.generico}}' > &nbsp; &nbsp; &nbsp;{{elemento.medicamento3.generico}}</label>
+                                
+                                <script  type="text/javascript" charset="utf-8" async defer>
+                                  $( '#gen_3' ).on( 'click', function() {
+                                  
+                                  if( $(this).is(':checked') ){
+                                    // Hacer algo si el checkbox ha sido seleccionado
+                                      $('#gen_33').show();
+                                      cont2=cont2+1;
+                                      form3=true;
+                                      
+                                  } else {
+                                    // Hacer algo si el checkbox ha sido deseleccionado
+                                      $('#gen_33').hide();
+                                      $("#com_3").val("");
+                                      $( "#pre_3" ).val("");
+                                      cont2=cont2-1;
+                                      form3=false;
+                                      
+                                      
+
+                                  }
+
+                                });
+                                
+                                </script>
+
+
+                            </div>
+                            
+
+                        </div>
+                      {% endfor %}
+                    
+
+                    <div class="form-group" id='gen_11' style="display:none;" >
+                      <br>
+                      <br>
+                        <label for="gen_1" class="control-label  col-md-2 ">Generico #1:</label> 
+          
+                        <div class="col-md-3 col-md-offset-0">
+                          {% for elemento in solicitud_enviado %}
+                          <input class="form-control" id="gen_1" name="gen_1" type="text" value="{{elemento.medicamento1.generico}}" placeholder="Escriba aqui..." readonly />
+                          {% endfor %}
+                        </div>
+
+                        <form id='miForm1' accept-charset="utf-8">
+
+                        <div class="col-md-4 ">
+                          <input class="form-control" id="com_1" name="com_1" type="text" value="" placeholder="Nombre comercial" />
+                        </div>
+
+                        <div class="col-md-3 ">
+                          <input class="form-control" id="pre_1" name="pre_1" type="text" value="" placeholder="Precio" />
+                        </div>
+
+                        </form>
+                    </div>
+
+                    <div class="form-group" id='gen_22' style="display:none;" >
+                      <br>
+                      <br>
+                        <label for="gen_2" class="control-label  col-md-2 ">Generico #2:</label> 
+          
+                        <div class="col-md-3 col-md-offset-0">
+                          {% for elemento in solicitud_enviado %}
+                          <input class="form-control" id="gen_2" name="gen_2" type="text" value="{{elemento.medicamento2.generico}}" placeholder="Escriba aqui..." readonly />
+                          {% endfor %}
+                        </div>
+
+                        <form id='miForm2' accept-charset="utf-8">
+                        <div class="col-md-4 ">
+                          <input class="form-control" id="com_2" name="com_2" type="text" value="" placeholder="Nombre comercial" />
+                        </div>
+
+                        <div class="col-md-3 ">
+                          <input class="form-control" id="pre_2" name="pre_2" type="text" value="" placeholder="Precio" />
+                        </div>
+                        </form>
+                    </div>
+                    
+                    <div class="form-group" id='gen_33' style="display:none;" >
+                      <br>
+                      <br>
+                        <label for="gen_3" class="control-label  col-md-2 ">Generico #3:</label> 
+          
+                        <div class="col-md-3 col-md-offset-0">
+                          {% for elemento in solicitud_enviado %}
+                          <input class="form-control" id="gen_3" name="gen_3" type="text" value="{{elemento.medicamento3.generico}}" placeholder="Escriba aqui..." readonly />
+                          {% endfor %}
+                        </div>
+                         <form id='miForm3' accept-charset="utf-8">
+                        <div class="col-md-4 ">
+                          <input class="form-control" id="com_3" name="com_3" type="text" value="" placeholder="Nombre comercial" />
+                        </div>
+
+                        <div class="col-md-3 ">
+                          <input class="form-control" id="pre_3" name="pre_3" type="text" value="" placeholder="Precio" />
+                        </div>
+                        </form>
+                    </div>
+
+                  
+                   
+
+                  </div>
+                  
+
+                    <div class="modal-footer"  >
+                       <br>                                       <!---->
+                      <button type="button" class="btn btn-primary" id='confirmar'  >Confirmar</button>
+                    </div>
+                  
+              </div>
+
+          </div>
+          </div><!--FIN Modal CANCELAR-->
+
+        <
 
 			</div>
 
-
-			</form>
-
 		</div>
-	</div>	
+	</div>
+
+  <script type="text/javascript" charset="utf-8" async defer>
+              
+    
+  
+
+$("#miForm1").validate({
+  errorClass: "claserror",
+  validClass: "clasevalida",
+  errorElement: 'erele',
+
+  rules: {
+          com_1: {
+            required: true,
+          },
+          
+          pre_1: {
+            required: true,
+            digits: true,
+            
+          }
+          
+
+
+   }
+
+});
+
+$("#miForm2").validate({
+  errorClass: "claserror",
+  validClass: "clasevalida",
+  errorElement: 'erele',
+
+  rules: {
+          com_2: {
+            required: true,
+          },
+          
+          pre_2: {
+            required: true,
+            digits: true,
+            
+          }
+          
+
+
+   }
+
+});
+
+$("#miForm3").validate({
+  errorClass: "claserror",
+  validClass: "clasevalida",
+  errorElement: 'erele',
+
+  rules: {
+          com_3: {
+            required: true,
+          },
+          
+          pre_3: {
+            required: true,
+            digits: true,
+            
+          }
+          
+
+
+   }
+
+});
+
+
+var form1=false; 
+var form2=false; 
+var form3=false; 
 
 
 
 
+
+ 
+  
+
+$('#confirmar').click(function() {
+          
+        if(form1==true){
+
+          //$("#miForm1").valid();  // This is not working and is not validating the form
+          //var form1=$("#miForm1").valid(); 
+          console.log('Formulario 1: '+form1);
+          val1=$("#miForm1").valid();
+          
+     
+
+        }else{
+
+          console.log('Formulario 1: '+form1);
+          val1=false;
+
+        }
+
+        if(form2==true){
+
+          //$("#miForm1").valid();  // This is not working and is not validating the form
+          //var form1=$("#miForm1").valid(); 
+          console.log('Formulario 2: '+form2);
+          val2=$("#miForm2").valid();
+          
+     
+
+        }else{
+
+          console.log('Formulario 2: '+form2);
+          val2=false;
+        } 
+
+        if(form3==true){
+
+          //$("#miForm1").valid();  // This is not working and is not validating the form
+          //var form1=$("#miForm1").valid(); 
+          console.log('Formulario 3: '+form3);
+          val3=$("#miForm3").valid();
+          
+     
+
+        }else{
+
+          console.log('Formulario 3: '+form3)
+          val3=false;
+        }
+
+
+    //if(form1==true && form2==true )
+
+    console.log('--validacion del formulario 1: '+val1)
+    console.log('--validacion del formulario 2: '+val2)
+    console.log('--validacion del formulario 3: '+val3)
+
+
+    if(form1==true || form2==true || form3==true){
+
+        if(form1==val1 && form2==val2 && form3==val3){
+
+              var com_1=$('#com_1').val();
+              var pre_1=$('#pre_1').val();
+              var com_2=$('#com_2').val();
+              var pre_2=$('#pre_2').val();
+              var com_3=$('#com_3').val();
+              var pre_3=$('#pre_3').val();
+      
+              if(cont1==cont2){
+
+                  var estado='COMPLETO';
+          
+
+              }else{
+
+                  var estado='PARCIAL';
+          
+
+              } 
+
+              console.log('estado que se envia '+ estado);
+              var user_id_farmacia=$('#user_id_farmacia').val();
+              var idsolicitud=$('#idsolicitud').val();
+      
+              console.log(idsolicitud);
+              console.log('farmacia '+user_id_farmacia);
+
+              console.log(com_1);
+              console.log(pre_1);
+      
+              console.log(com_2);
+              console.log(pre_2);
+
+              console.log(com_3);
+              console.log(pre_3);
+      
+
+              $.ajax({
+
+        
+              url: '/aplicacion/registro_entrega/',// Ruta del views donde se enviara.
+        
+              type: 'POST',//Metodo de envio, si es por GET o POST
+              
+              data: {
+                'idsolicitud':idsolicitud,
+                'user_id_farmacia':user_id_farmacia,
+                'com_1':com_1,
+                'pre_1':pre_1,
+                'com_2':com_2,
+                'pre_2':pre_2,
+                'com_3':com_3,
+                'pre_3':pre_3,
+                'estado':estado,
+
+
+                }, //Dato que se envia. 
+
+
+                //si funciona correctamente se podra ejecutar success.
+                  success: function (datos) {
+                    
+                    $('#opciones_solicitudes').modal().hide();
+                    $('#opciones_solicitudes').modal('toggle');                   
+                    alertify.success('Se registro Correctamente')
+                    
+                    if(datos.tilde1=='si'){
+
+                      $('#tilde1').show();
+                      $('#atencion1').hide();
+                      $( "#com_1" ).val("");//borra datos de campos
+                      $( "#pre_1" ).val("");//borrar datos de campos
+                      $('#gen_111').hide();//desabilitar checkbox
+                      $('#gen_11').hide();//desabilitar inputs com_1 y precio_1
+
+                    
+                    }else{
+
+                      $('#tilde1').hide();
+                      $('#atencion1').show();
+                    }
+
+                    if(datos.tilde2=='si'){
+
+                      $('#tilde2').show();
+                      $('#atencion2').hide();
+                      $( "#com_2" ).val("");//borra datos de campos
+                      $( "#pre_2" ).val("");//borrar datos de campos
+                      $('#gen_222').hide();//desabilitar checkbox
+                      $('#gen_22').hide();//desabilitar inputs com_2 y precio_2
+                    
+                    }else{
+
+                      $('#tilde2').hide();
+                      $('#atencion2').show();
+                    }
+
+
+                    if(datos.tilde3=='si'){
+
+                      $('#tilde3').show();
+                      $('#atencion3').hide();
+                      $( "#com_3" ).val("");//borra datos de campos
+                      $( "#pre_3" ).val("");//borrar datos de campos
+                      $('#gen_333').hide();//desabilitar checkbox
+                      $('#gen_33').hide();//desabilitar inputs com_3 y precio_3
+                    
+                    }else{
+
+                      $('#tilde3').hide();
+                      $('#atencion3').show();
+                    }
+
+
+                    if(datos.boton_registro=='no'){
+
+                      $('#boton_registro').hide();
+                    }
+
+
+                   
+
+
+
+                  }
+              
+              });//Termina el Ajax
+
+            }else{
+
+              alert('Complete correctamente los campos.');
+            }
+
+    }else{
+
+      alert('Complete correctamente los campos.');
+    }
+
+   });
+
+
+
+  
+
+      
+          
+    
+  
+
+
+
+
+</script>
+
+  <script  type="text/javascript" charset="utf-8" async defer>
+  
+    var gen_1 = $("#gen_1").val();
+    var gen_2 = $("#gen_2").val();
+    var gen_3 = $("#gen_3").val();
+    var cont1 = 0;
+          
+      
+    if (gen_1!=""){
+
+       
+        $('#gen_111').show();
+        cont1=cont1+1;
+        }
+
+
+    if (gen_2!=""){
+
+        
+         $('#gen_222').show();
+         cont1=cont1+1;
+        }
+
+        
+    if (gen_3!=""){
+       
+        $('#gen_333').show();
+        cont1=cont1+1;
+     }
+
+
+
+
+
+</script>
+
+<script  type="text/javascript" charset="utf-8" async defer>
+"{% for i in registros %}"
+
+  var registro_com1='{{i.com1}}'
+  var registro_com2='{{i.com2}}'
+  var registro_com3='{{i.com3}}'
+  
+"{% endfor %}"
+
+
+if(registro_com1!=""){
+
+$('#tilde1').show();
+$('#atencion1').hide();
+$( "#com_1" ).val("");//borra datos de campos
+$( "#pre_1" ).val("");//borrar datos de campos
+$('#gen_111').hide();//desabilitar checkbox
+$('#gen_11').hide();//desabilitar inputs com_1 y precio_1
+cont2=cont2+1;
+
+}
+
+if(registro_com2!=""){
+
+$('#tilde2').show();
+$('#atencion2').hide();
+$( "#com_2" ).val("");//borra datos de campos
+$( "#pre_2" ).val("");//borrar datos de campos
+$('#gen_222').hide();//desabilitar checkbox
+$('#gen_22').hide();//desabilitar inputs com_1 y precio_1
+cont2=cont2+1;
+}
+
+if(registro_com3!=""){
+
+$('#tilde3').show();
+$('#atencion3').hide();
+$( "#com_3" ).val("");//borra datos de campos
+$( "#pre_3" ).val("");//borrar datos de campos
+$('#gen_333').hide();//desabilitar checkbox
+$('#gen_33').hide();//desabilitar inputs com_1 y precio_1
+cont2=cont2+1;
+}
+
+</script>
 
 
 
