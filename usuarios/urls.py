@@ -23,6 +23,11 @@ urlpatterns = [
     
    url(r'^signup/$', views.SignUpView.as_view(), name='signup'),
    url(r'^ajax/validate_username/$', views.validate_username, name='validate_username'),
+   
+   
+   url(r'^$', 'django.contrib.auth.views.login', {'template_name': 'ABME/Usuario/inicio_operador.html'}, name='login'),
+   #url(r'^index/$', 'django.contrib.auth.views.login', {'template_name': 'ABME/Paciente/paciente.html'}, name='index'),
+   url(r'^cerrar/$', 'django.contrib.auth.views.logout_then_login',  name='logout'),
 
 ]
 

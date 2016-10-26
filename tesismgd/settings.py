@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.core import mail
 """
 Django settings for tesismgd project.
 
@@ -14,7 +15,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from django.conf.global_settings import STATIC_ROOT, TEMPLATE_DEBUG
+from django.conf.global_settings import STATIC_ROOT, TEMPLATE_DEBUG,\
+    EMAIL_USE_SSL, EMAIL_USE_TLS
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -37,7 +39,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     
-    ##'django_admin_bootstrapped',
+    'django_admin_bootstrapped',
     'django.contrib.admin',
     
     'django.contrib.auth',
@@ -47,9 +49,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-
+    
     'aplicacion',
     'usuarios',
+    'table',
 )
 
 #AUTH_USER_MODEL = 'aplicacion.CustomUser'
@@ -86,6 +89,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'tesismgd.wsgi.application'
+
+from django.core.urlresolvers import reverse_lazy
+LOGIN_URL=reverse_lazy('login') #me dirije a la url con el nombre login
+LOGIN_REDIRECT_URL=reverse_lazy('paciente')
+LOGOUT_URL =reverse_lazy ('logout')
 
 
 # Database
@@ -124,6 +132,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT=os.path.join(os.path.dirname(BASE_DIR),"static_in_env", "static_root")
+#STATIC_ROOT=os.path.join(os.path.dirname(BASE_DIR),"static_in_env", "static_root")
+
 
 STATICFILES_DIRS=(
     os.path.join(BASE_DIR, "static_in_pro", "our_static"),
@@ -133,6 +143,16 @@ MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(os.path.dirname(BASE_DIR),"static_in_env", "media_roor")
 
 '''
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smpt.gmail.com'
+EMAIL_PORT= 587
+EMAIL_HOST_USER = '@gmail.com'
+EMAIL_HOST_PASSWORD = 'passgmail'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+#MEDIA_ROOT=os.path.join(os.path.dirname(BASE_DIR),"static_in_env", "media_roor")
+
 # Redirect when login is correct.
 LOGIN_REDIRECT_URL = "/index"
 # Redirect when login is not correct.
