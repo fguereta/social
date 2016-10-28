@@ -24,7 +24,7 @@
       
       <li id='farmacia' style="display:none;" ><a href="/aplicacion/farmacia">Gestión  de Farmacia</a></li>
       
-      <li id='usuario' style="display:none;" > <a href="/aplicacion/usuario">Gestión Usuarios</a></li>
+      <li id='usuario' style="display:none;" > <a href="/usuario/operador">Gestión Usuarios</a></li>
       
 
 
@@ -46,9 +46,15 @@
         Usuario <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-         <li><a>Usuario: {{ user.username }}</a>
+         <li><a id='fichafarmacia' style="display:none;" href="/aplicacion/fichafarmacia/{{user.id}}/">Usuario: {{ user.username }}</a>
+         <li><a id='fichaoperador' style="display:none;" href="/usuario/fichaoperador/{{user.id}}/">Usuario: {{ user.username }}</a>
+        <!--
         <li id='cerrarsesionoperador' style="display:none;"><a href="/usuario/cerrar_sesion_operador/" ">Cerra Sesion</a></li>
         <li id='cerrarsesionfarmacia' style="display:none;"><a  href="/usuario/cerrar_sesion_farmacia/" >Cerra Sesion</a></li>
+        -->
+        <li ><a  href="/admin/password_change/" >Cambiar contraseña</a></li>
+        <li ><a  href="/usuario/cerrar_sesion/" >Cerrar Sesion</a></li>
+        
         </ul>
       </li>
       
@@ -101,6 +107,7 @@
           $('#parciales').show();
           $('#consultas').show();
           $('#cerrarsesionfarmacia').show();
+          $('#fichafarmacia').show();
 
    
         </script>
@@ -116,6 +123,26 @@
           $('#farmacia').show();
           $('#cerrarsesionoperador').show();
           $('#consultas').show();
+          $('#fichaoperador').show();
+
+
+
+        </script>
+  
+
+    {% endif %}
+    
+    {% if user.useroperador.categoria == 'SUPERVISOR' %}
+          <script  type="text/javascript" charset="utf-8" async defer>
+  
+        
+          $('#paciente').show();
+          $('#medico').show();
+          $('#farmacia').show();
+          $('#cerrarsesionoperador').show();
+          $('#consultas').show();
+          $('#fichaoperador').show();
+           $('#usuario').show();
 
 
 

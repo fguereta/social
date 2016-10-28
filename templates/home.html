@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <link rel="icon" href="/static/favicon.ico">
+	  
+    {% block htitle%}<title>Ministerio de salud - Servicio social</title>{%endblock htitle%}
+
+    
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/bootstrap/chosen/chosen.css">
+    
+    <link rel="stylesheet" href="/static/bootstrap/alertifyjs/themes/alertify.core.css">
+    <link rel="stylesheet" href="/static/bootstrap/alertifyjs/themes/alertify.default.css">
+    <link rel="stylesheet" href="/static/bootstrap/alertifyjs/themes/alertify.bootstrap.css">
+    <link rel="stylesheet" href="/static/bootstrap/dataTables/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui-1.10.4.custom.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/estilo.css">
+
+    <link rel="stylesheet" href="/static/bootstrap/datepicker/css/datepicker.css">
+
+    
+     {% if user.userfarmacia.categoria == 'FARMACIA' %}
+         
+<script type="text/javascript" charset="utf-8" async defer>
+
+window.location.href = "/aplicacion/farmacia_entrega";
+</script>
+       
+		 {% endif %}
+		 
+		     {% if user.useroperador.categoria == 'OPERADOR' %}
+         
+<script type="text/javascript" charset="utf-8" async defer>
+
+window.location.href = "/aplicacion/paciente";
+</script>
+       
+		 {% endif %}
+		 
+		 {% if user.useroperador.categoria == 'SUPERVISOR' %}
+         
+<script type="text/javascript" charset="utf-8" async defer>
+
+window.location.href = "/aplicacion/paciente";
+</script>
+       
+		 {% endif %}
+
+    <!-- Jquery -->
+    
+
+    
+   {% include "includes/scri.html" %}
+
+
+
+
+ <script>
+function cerrarse(){
+
+window.close()
+}
+</script>
+
+
+
+  </head>
+<!-- onload="nobackbutton();" -->
+  <body ></body>
+</html>
+
+<!-- se coloca este bootstrap.min.js aca en la parte inferior, por que no funciona arriba -->
+
+<script type="text/javascript"  src="{{ STATIC_URL }} /static/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/datepicker-es.js"></script>
+<script type="text/javascript" charset="utf-8" async defer>
+  
+function nobackbutton(){
+
+
+   window.location.hash="no-back-button";
+
+
+
+   window.location.hash="Again-No-back-button" //chrome
+
+
+
+   window.onhashchange=function(){window.location.hash="no-back-button";}
+
+
+
+}
+
+
+
+if(registro_login==false){
+
+  window.location = "/usuario/";
+
+}
+
+
+
+
+
+</script>
+
+
+
+

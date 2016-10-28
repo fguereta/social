@@ -16,6 +16,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
+'''
 def iniciar_sesion_farmacia(request):
 
     if not request.user.is_anonymous():
@@ -33,9 +34,27 @@ def iniciar_sesion_farmacia(request):
                 if acceso.is_active:
                     login(request, acceso)
                     u=User.objects.get(username=request.POST['username'])
-                    categoria=u.userfarmacia.categoria
+                    id=u.id
+                    farmacia=0
+                    operador=0
+                    farmacia=User.userfarmacia.objects.get(user_id=id) 
+                    operador=User.useroperador.objects.get(user_id=id)
+                                            
+                    #categoria=u.userfarmacia.categoria
+                                       
+                    if operador is not None :
+                        if u.useroperador.categoria == 'OPERADOR':
+                                return HttpResponseRedirect('/aplicacion/paciente/')
+                        else:
+                                return HttpResponseRedirect('/aplicacion/paciente/')
+                        
+                    if farmacia is not None:
+                             if u.userfarmacia.categoria == 'FARMACIA':
+                                 return HttpResponseRedirect('/aplicacion/farmacia_entrega/')
+                        
                     
-                    
+
+                     
                     if categoria=='FARMACIA':
 
                         return HttpResponseRedirect('/aplicacion/farmacia_entrega/')
@@ -59,8 +78,9 @@ def iniciar_sesion_farmacia(request):
 
 
     return render_to_response("ABME/Usuario/inicio_usuario.html", context_instance=RequestContext(request))
+'''
 
-def iniciar_sesion_operador(request):
+def iniciar_sesion(request):
 
     if not request.user.is_anonymous():
         return HttpResponseRedirect('/index/')
@@ -77,17 +97,8 @@ def iniciar_sesion_operador(request):
             if acceso is not None:
                 if acceso.is_active:
                     login(request, acceso)
-                    u=User.objects.get(username=request.POST['username'])
-                    categoria=u.useroperador.categoria
-                    
-                    if categoria=='OPERADOR':
-                        return HttpResponseRedirect('/aplicacion/paciente/')
-                    elif categoria=="SUPERVISOR":
-                        return HttpResponseRedirect('/aplicacion/paciente/')
-                    else:
-                        return HttpResponseRedirect('/index/')
-                    
-
+                    return HttpResponseRedirect('/usuario/home/')
+                
                 else:
                     return HttpResponseRedirect('/index/')
 
@@ -105,10 +116,12 @@ def iniciar_sesion_operador(request):
 
     return render_to_response("ABME/Usuario/inicio_operador.html", context_instance=RequestContext(request))
 
+def home(request):
+    return render_to_response("home.html", context_instance=RequestContext(request))
 
-def cerrar_sesion_operador(request):
+def cerrar_sesion(request):
     logout(request)
-    return HttpResponseRedirect('/usuario/iniciar_sesion_operador/')
+    return HttpResponseRedirect('/usuario/')
 
 def cerrar_sesion_farmacia(request):
     logout(request)
@@ -136,6 +149,7 @@ def registrar_farmacia(request):
             user_model = User.objects.create_user(username=username, password=password)
             # añadimos el email
             user_model.email=request.POST['email'].upper()
+            user_model.is_staff=True
              # y guardamos el objeto, esto se guardara en al base de datos.
             user_model.save()
 
@@ -204,8 +218,6 @@ def registrar_farmacia(request):
          
         return render_to_response("ABME/Farmacia/registrarfarmacia.html",{'farmacia':farmacia}, context_instance = RequestContext(request))
 
-
-
 def registrar_operador(request):
 
     if request.method == 'POST':
@@ -224,6 +236,7 @@ def registrar_operador(request):
             user_model.first_name=request.POST['first_name'].upper()
             user_model.last_name=request.POST['last_name'].upper()
             user_model.email=request.POST['email'].upper()
+            user_model.is_staff=True
             
              # y guardamos el objeto, esto se guardara en al base de datos.
             user_model.save()
@@ -314,8 +327,6 @@ def registrar_operador(request):
          
         return render_to_response("ABME/Operador/registraroperador.html",{'farmacia':farmacia}, context_instance = RequestContext(request))
 
-
-
 def operador(request):
 
     if 'id_operador' in request.POST:
@@ -366,9 +377,8 @@ def operador(request):
                 'direccion':elemento2.direccion,
                 'telefono':elemento2.telefono,
                 'email':elemento1.email,
-                                'categoria':elemento2.categoria,
+                'categoria':elemento2.categoria,
 
-        
                     }
 
                     busqueda_operador=busqueda_operador+[ope2]            
@@ -402,9 +412,7 @@ def operador(request):
                 'direccion':elemento2.direccion,
                 'telefono':elemento2.telefono,
                 'email':elemento1.email,
-                                'categoria':elemento2.categoria,
-
-        
+                'categoria':elemento2.categoria,
                     }
 
                     operador=operador+[ope2]
@@ -412,13 +420,8 @@ def operador(request):
     
     
         return render_to_response("ABME/Operador/operador.html",  {'operador': operador, 'busqueda_operador':operador  }, context_instance = RequestContext(request))
-
-        
-
         #farmacia_enviar = farmacia.filter(id=farmacia_recibido, estado='ACTIVO') 
-        
-       
-
+             
 def menuoperador(request):
    
     return render_to_response("ABME/Operador/menuoperador.html", context_instance = RequestContext(request))
