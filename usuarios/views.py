@@ -507,7 +507,7 @@ def eliminaroperador(request, id_operador):
         
     return render_to_response("ABME/Operador/operador.html",{'operador':operador},  context_instance = RequestContext(request))
 
-
+'''
 
 from django.contrib.auth.forms import UserCreationForm
 
@@ -527,3 +527,4 @@ def validate_username(request):
         'is_taken': User.objects.filter(username__iexact=username).exists()
     }
     return JsonResponse(data)
+'''
