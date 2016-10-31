@@ -14,215 +14,118 @@
 
 
 
- <div class='' >
-      <div class='panel panel-primary dialog-panel'>
-          <div class='panel-body'>
 
-              <fieldset>
-                 <legend> Gestión de Pacientes</legend>
-                
-<nav class="navbar navbar-default" role="navigation">
-  <!-- El logotipo y el icono que despliega el menú se agrupan
-       para mostrarlos mejor en los dispositivos móviles -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse"
-            data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Desplegar navegación</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
+        <div class='panel-body'>
+
+
+
+                 
+
+              <nav class="navbar navbar-default" role="navigation">
+                    <!-- El logotipo y el icono que despliega el menú se agrupan
+                   para mostrarlos mejor en los dispositivos móviles -->
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Desplegar navegación</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
     
-  </div>
+                    </div>
  
-  <!-- Agrupar los enlaces de navegación, los formularios y cualquier
-       otro elemento que se pueda ocultar al minimizar la barra -->
-  <div class="collapse navbar-collapse navbar-ex1-collapse">
-    <ul class="nav navbar-nav">
-      
-      
-    </ul>
+                    <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+                    otro elemento que se pueda ocultar al minimizar la barra -->
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                      <ul class="nav navbar-nav"></ul>
+
+                    <div >
  
-    <!--BUSQUEDA PACIENTE-->
+                <!-- REGISTRAR NUEVO PACIENTE -->
+ 
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/aplicacion/comprobar_paciente/">Registrar Paciente</a></li>
+                  </ul>
 
-     <form  method="POST"  enctype="multipart/form-data" class="navbar-form navbar-left" role="search">{% csrf_token %}
-            
-        <div class="form-group">  
-              
+          
+              </nav>
 
-
-              <div  >Realize una busqueda con apellido y nombre, o el dni del paciente.</div>
+              <h3><i>Gestion de pacientes</i></h3>
                 <br>
-                
+                 <i>*Seleccione la fila correspodiente del paciente para ver la informacion o realizar operaciones.</i>
+                  <br><i>*Utilize el filtro del buscador ya sea con el numero de DNI o  apellido y nombre del paciente.</i>
 
-
-              <div class="form-group id_paciente">
-
-
-                
-                <select name="id_paciente" id="id_paciente" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-                          <option value=""></option>
-                          {% for elemento in busqueda_paciente %}
-                          <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} - DNI:{{elemento.dni}}</option>
-                          {% endfor %}
-                      </select>
-              </div>
-
-              <button type="submit" class="btn btn-primary">Buscar Paciente</button>
-              <a href='/aplicacion/pdf_listado_paciente/'><input value='PDF Listado Actual' class="btn btn-danger"/></a>
-              
-
-              </form>
         </div>
 
- <!-- REGISTRAR NUEVO PACIENTE -->
- <div >
-    <ul class="nav navbar-nav navbar-right">
-      <li>
-  
-      <a href="/aplicacion/comprobar_paciente/">Registrar Paciente</a></li>
+
       
-    </ul>
 
-  </div>
-  </div>
-</nav>
-
-
-
-
-            
-              <div class="row">
-            
-              </div>
-       
-            </fieldset>
- 
- {% if id_paciente %}
-<div class="row">
-<br>
-
-<div class=".container">
   
-<br> 
-<div class="table-responsive">             
-  <table id="example" class="table table-condensed table table-bordered table-hover " cellspacing="0" width="100%">
-    <thead>
-      
-      <tr class="success">
+      <br> 
+            
+        <table style="cursor:pointer" class='table' id='table' data-pagination="true" data-height="440" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true">
+        <thead>
+        <tr >
         
-        <th class="text-center">Apellido y Nombre</th>
-        <th class="text-center">Dni</th>
-        <th class="text-center">Cuil</th>
-        <th class=" text-center">Historia Clinica</th>
-        <th class=" text-center">Eliminar</th>
+        <th class="text-center info">Apellido y Nombre</th>
+        <th class="text-center info">Dni</th>
+        <th class=" text-center info">Historia Clinica</th>
+        <th class=" text-center info">Eliminar</th>
         
         
       </tr>
     </thead>
     <tbody>
-    {% for elemento in id_paciente %}
 
-      <script  type="text/javascript" charset="utf-8" async defer>
-
-        $("div.id_paciente select").val("{{elemento.id}}");
-
-    </script>
-
-      <tr>
-
-      <!--NOMBRE-->
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.apellido}}, {{elemento.nombre}}</td>
-        <!--DNI-->
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.dni}}</td>
-        <!--CUIL-->
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.cuil}}</td>
-        <!--HISTORIA CLINICA-->
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.historiaclinica}}</td>
-        <!--ELIMINAR-->
-        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.persona_ptr_id}}, "{{elemento.apellido}}");'style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
-        
-         
-      </tr>
-      <script  type="text/javascript" charset="utf-8" async defer>
-  
-var persona_ptr_id = $("#persona_ptr_id").val();
-  
-</script>
-     {% endfor %} 
-      
-    </tbody>
-  </table>
-</div>
-  
-</div>
-</div>
- {% endif %}
-
- {% if paciente %}
-<div class="row">
-<br>
-
-<div class=".container">
-  
-<br> 
-<div class="table-responsive">             
-  <table id="example" class="table table-condensed table-bordered table-hover" cellspacing="0" width="100%" >
-    <thead>
-      <tr class="success">
-        
-        <th class="text-center">Apellido y Nombre</th>
-        <th class="text-center">Dni</th>
-        <th class="text-center">Cuil</th>
-        <th class=" text-center">Historia Clinica</th>
-        <th class=" text-center">Eliminar</th>
-        
-        
-      </tr>
-    </thead>
-    <tbody>
+    {% if paciente %}
     {% for elemento in paciente %}
-      <tr  >
-        
-        <!--NOMBRE-->
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.apellido}}, {{elemento.nombre}}</td>
-        <!--DNI-->
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.dni}}</td>
-        <!--CUIL-->
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.cuil}}</td>
-        <!--HISTORIA CLINICA-->
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}'"  style="cursor:pointer">{{elemento.historiaclinica}}</td>
-        <!--ELIMINAR-->
-        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.persona_ptr_id}}, "{{elemento.apellido}} ");'style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
-        
-         
+       
+
+       <tr  >
+       
+
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}' >{{elemento.apellido}} {{elemento.nombre}}</td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}' >{{elemento.dni}}</td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichapaciente/{{elemento.persona_ptr_id}}' >{{elemento.historiaclinica}}</td>
+        <td class="col-md-1 text-center warning"><img onclick='eliminar({{elemento.persona_ptr_id}}, "{{elemento.apellido}}"," {{elemento.nombre}}","{{elemento.dni}}");'  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
+ 
       </tr>
-      <script  type="text/javascript" charset="utf-8" async defer>
-  
-var persona_ptr_id = $("#persona_ptr_id").val();
-  
-</script>
+     
+      
+   
      {% endfor %} 
+
+     {% endif %}
       
     </tbody>
   </table>
 </div>
             
 </div>
-</div>
-</div>
- {% endif %}
+
+ 
 
 </div>
-</div>
-
 
 <script type="text/javascript" charset="utf-8" async defer>
     
- $(".chosen-select").chosen({no_results_text: "No se ha encontrado"});
+  
+
+
+
+
+$('#table').bootstrapTable();
+
+$(".clickable-row").click(function() {
+        window.document.location = $(this).data("href");
+    });
+
 
     
-    function eliminar(persona_ptr_id, apellido)
+
+
+    
+    function eliminar(persona_ptr_id, apellido,nombre,dni)
 {
   
     alertify.set({ labels: {
@@ -230,18 +133,14 @@ var persona_ptr_id = $("#persona_ptr_id").val();
             cancel : "Cancelar"
           } });
           // confirm dialog
-          alertify.confirm("El paciente: <b>"+apellido+" </b>  será eliminado del sistema, ¿Esta de acuerdo?", function (e) {
+          alertify.confirm("El paciente: <b>"+apellido+","+nombre+"</b> de <b>DNI: "+dni+"</b>  será eliminado del sistema, ¿Esta de acuerdo?", function (e) {
 
 
           if (e) {
             
             window.location.href = "/aplicacion/eliminarpaciente/"+persona_ptr_id;
           
-          } else {
-            
-            window.location.href = "/aplicacion/paciente/";
-        }
-        
+          } 
       });
 
 

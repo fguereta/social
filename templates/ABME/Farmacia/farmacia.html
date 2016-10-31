@@ -3,202 +3,88 @@
 
 {% block contenido%}
 
-{% if refrescar_registro %}
 
-
-<script  type="text/javascript" charset="utf-8" async defer>
-window.location.href = "/aplicacion/fichafarmacia/{{refrescar_registro}}";
-</script>
-
-
-{% endif %}
-
-
-
-{% if refrescar_activacion %}
-
-
-<script  type="text/javascript" charset="utf-8" async defer>
-window.location.href = "/aplicacion/fichafarmacia/{{refrescar_activacion}}";
-</script>
-
-
-{% endif %}
-
-
- <div class='' >
-      <div class='panel panel-primary dialog-panel'>
-          <div class='panel-body'>
-
-              <fieldset>
-                 <legend>Farmacias</legend>
 
         
-<nav class="navbar navbar-default" role="navigation">
-  <!-- El logotipo y el icono que despliega el menú se agrupan
-       para mostrarlos mejor en los dispositivos móviles -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse"
-            data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Desplegar navegación</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    
-  </div>
- 
-  <!-- Agrupar los enlaces de navegación, los formularios y cualquier
-       otro elemento que se pueda ocultar al minimizar la barra -->
-  <div class="collapse navbar-collapse navbar-ex1-collapse">
-    <ul class="nav navbar-nav">
-      
-      
-    </ul>
- 
-    <!--BUSQUEDA PACIENTE-->
-
-
-
-     <form  method="POST"  enctype="multipart/form-data" class="navbar-form navbar-left" role="search">{% csrf_token %}
-              
-              <div class="form-group id_farmacia">
-                
-               <select name="id_farmacia" id="id_farmacia" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-                          <option value=""></option>
-                          {% for elemento in busqueda_farmacia %}
-                          <option value="{{elemento.id}}" >{{elemento.razon_social}}, --CUIT:{{elemento.username}}    </option>
-                          {% endfor %}
-                      </select>
-              </div>
-
-              <button type="submit" class="btn btn-primary">Buscar</button>
-
-              </form>
-
- <!-- REGISTRAR NUEVO PACIENTE -->
-    <ul class="nav navbar-nav navbar-right">
-      <li>
-  
-    <a href="/usuario/registrarfarmacia/">
-Nueva Farmacia</a></li>
-      
-    </ul>
-  </div>
-</nav>
-
-
-
+<div class='panel-body'>
 
 
 
                  
-            
-              <div class="row">
-                
-              </div>
-        
-            </fieldset>
+
+              <nav class="navbar navbar-default" role="navigation">
+                    <!-- El logotipo y el icono que despliega el menú se agrupan
+                   para mostrarlos mejor en los dispositivos móviles -->
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Desplegar navegación</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+    
+                    </div>
  
- {% if id_farmacia %}
-<div class="row">
-<br>
+                    <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+                    otro elemento que se pueda ocultar al minimizar la barra -->
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                      <ul class="nav navbar-nav"></ul>
 
-<div class=".container">
-  
-<br> 
+                    <div >
+ 
+                <!-- REGISTRAR NUEVO PACIENTE -->
+ 
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/usuario/registrarfarmacia/">Nuevo Usuario De Farmacia</a></li>
+                  </ul>
+
+          
+              </nav>
+
+              <h3><i>Gestion de farmacias</i></h3>
+                <br>
+                 <i>*Seleccione la fila correspodiente de la farmacia para ver la informacion o realizar operaciones.</i>
+                  <br><i>*Utilize el filtro del buscador ya sea con el numero de CUIT o  razon social.</i>
+
+        </div>
+
+
+
+ 
+ 
 <div class="table-responsive">             
-  <table id="example" class="table table-condensed table table-bordered table-hover " cellspacing="0" width="100%"  >
+  <table style="cursor:pointer" class='table' id='table' data-pagination="true" data-height="440" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true">
     <thead>
       
       <tr class="success">
-        
-        <th class="text-center">CUIT</th>
-        <th class="text-center">Razon Social</th>
-        <th class="text-center">Direccion</th>
-        <th class=" text-center">Telefono</th>
-        <th class=" text-center">Eliminar</th>
-        
-        
+        <th class="text-center info">CUIT</th>
+        <th class="text-center info">Razon Social</th>
+        <th class="text-center info">Direccion</th>
+        <th class=" text-center info">Telefono</th>
+        <th class=" text-center info">Eliminar</th>
       </tr>
+    
     </thead>
     <tbody>
-    {% for elemento in id_farmacia %}
-      
-      <script  type="text/javascript" charset="utf-8" async defer>
 
-        $("div.id_farmacia select").val("{{elemento.id}}");
-
-    </script>
-       
-
-      <tr >
-        
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.username}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.razon_social}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.direccion}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.telefono}}</td>
-
-        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.id}},"{{elemento.razon_social}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
-     </tr>
-
-<script  type="text/javascript" charset="utf-8" async defer>
-  
-var razonsocial = $("#razonsocial").val();
-  
-</script>
-
-     {% endfor %} 
-      
-    </tbody>
-  </table>
-</div>
-  
-</div>
-</div>
- {% endif %}
-
- {% if farmacia %}
-<div class="row">
-<br>
-
-<div class=".container">
-  
-<br> 
-<div class="table-responsive">             
-  <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
-    <thead>
-      <tr class="success">
-        
-        <th class="text-center">CUIT</th>
-        <th class="text-center">Razon Social</th>
-        <th class="text-center">Direccion</th>
-        <th class=" text-center">Telefono</th>
-        <th class=" text-center">Eliminar</th>
-
-        
-        
-      </tr>
-    </thead>
-    <tbody>
+    {% if farmacia %}
     {% for elemento in farmacia %}
-      <tr  >
-
+      <tr >
       
 
-        <td class="col-md-2 text-center " onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'" style="cursor:pointer">{{elemento.username}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.razon_social}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.direccion}}</td>
-        <td class="col-md-2 text-center" onclick="document.location='/aplicacion/fichafarmacia/{{elemento.id}}'"  style="cursor:pointer">{{elemento.telefono}}</td>
+        <td td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichafarmacia/{{elemento.id}}'>{{elemento.username}}</td>
+        <td td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichafarmacia/{{elemento.id}}'>{{elemento.razon_social}}</td>
+        <td td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichafarmacia/{{elemento.id}}'>{{elemento.direccion}}</td>
+        <td td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichafarmacia/{{elemento.id}}'>{{elemento.telefono}}</td>
         
 
 
-        <td class="col-md-1 text-center"><img onclick='eliminar({{elemento.id}},"{{elemento.razon_social}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
+        <td class="col-md-1 text-center warning"><img onclick='eliminar({{elemento.id}},"{{elemento.razon_social}}","{{elemento.username}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
 
       </tr>
 
      {% endfor %} 
-
+      {% endif %}
 
 
       
@@ -209,18 +95,22 @@ var razonsocial = $("#razonsocial").val();
 </div>
 </div>
 </div>
- {% endif %}
 
-</div>
-</div>
+
 
 
 <script type="text/javascript" charset="utf-8" async defer>
     
-    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+    
+$('#table').bootstrapTable();
+
+$(".clickable-row").click(function() {
+        window.document.location = $(this).data("href");
+    });
+
 
     
-    function eliminar(id,razonsocial)
+    function eliminar(id,razonsocial,cuit)
 {
   
     alertify.set({ labels: {
@@ -228,18 +118,14 @@ var razonsocial = $("#razonsocial").val();
             cancel : "Cancelar"
           } });
           // confirm dialog
-          alertify.confirm("La farmacia: <b>"+razonsocial+"</b> pasara a NO ACTIVA, ¿Esta de acuerdo?", function (e) {
+          alertify.confirm("La farmacia: <b>"+razonsocial+"</b> de <b>CUIT: "+cuit+"</b> pasara a NO ACTIVA, ¿Esta de acuerdo?", function (e) {
 
 
           if (e) {
             
             window.location.href = "/aplicacion/eliminarfarmacia/"+id;
           
-          } else {
-            
-            window.location.href = "/aplicacion/farmacia/";
-        }
-        
+          } 
       });
 
 

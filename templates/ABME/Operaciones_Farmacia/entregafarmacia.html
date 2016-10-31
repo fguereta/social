@@ -6,68 +6,40 @@
 
 
 
-
-
-
  
- <div class='' >
-      <div class='panel panel-primary dialog-panel'>
-          <div class='panel-body'>
 
-              <fieldset>
-                 <legend>SOLICITUDES PENDIENTE DE ENTREGA</legend>
-                
-              
-              <div class="row">
-                <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
-                  
-                <div  class="col-md-6 " >Realize una busqueda por numero de solicitud o el dni del solicitante.</div>
-                <br><br>
-                    <div class="col-md-4 text-left id_solicitud">
+  <div class='panel-body'>
 
+                <h3><i>Solicitudes pendientes de entrega</i></h3>
+                <br>
+                 <i>*Seleccione una solicitud para ver su informacion o realizar la entrega correspondiente.</i>
+                  <br><i>*Utilize el filtro del buscador ya sea con el numero de DNI o  apellido y nombre del solicitante.</i>
+                 
+            
+        </div>
 
-                      <select name="id_solicitud" id="id_solicitud" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-                          <option value=""></option>
-                          {% for elemento in busqueda_solicitud %}
-                          <option value="{{elemento.id}}" >SOLICITUD {{elemento.id}} --DNI: {{elemento.paciente.dni}} </option>
-
-                          
-                          {% endfor %}
-                      </select>
-                    </div>
-    
-                    <div>
-                      <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
-                    </div>
-                </form> 
-              </div>
-        
-            </fieldset>
- 
 
 <br>
 <br>
- <div class="col-md- ">Seleccione una solicitud para ver su informacion o realizar la entrega correspondiente.</div>
+ 
 
  <br>
 
- {% if solicitud%}
-<div class="row">
+ 
 
 
 
-<div class=".container">
-  
-<br> 
-<div class="table-responsive">             
-  <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+
+         
+  <table style="cursor:pointer" class='table' id='table' data-pagination="true" data-height="440" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true">
     <thead>
       <tr class="success">
         
-        <th class="text-center">N° de solicitud</th>
-        <th class="text-center">Fecha de inicio</th>
-        <th class="text-center">Dni</th>
-       <th class="text-center"> Solicitante</th>
+        <th class="text-center info">N° de solicitud</th>
+        <th class="text-center info">Estado Actual</th>
+        <th class="text-center info">Fecha de inicio</th>
+        <th class="text-center info">Dni</th>
+       <th class="text-center info"> Solicitante</th>
         
         
         
@@ -75,6 +47,8 @@
       </tr>
     </thead>
     <tbody>
+
+    {% if solicitud%}
     {% for elemento in  solicitud %}
 
 
@@ -85,13 +59,14 @@
 
      
       
-      <tr>
+      <tr class='clickable-row' data-href='{{elemento.id}}'>
        
 
-        <td class="col-md-2 text-center "onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.id}}</td>
-        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.fecha}}</td>
-        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.dni}}</td>
-        <td class="col-md-2 text-center" onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
+        <td class="col-md-2 text-center warning">#{{elemento.id}}</td>
+        <td class="col-md-2 text-center warning">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-2 text-center warning">{{elemento.fecha}}</td>
+        <td class="col-md-2 text-center warning">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center warning">{{elemento.paciente.apellido}} {{elemento.paciente.nombre}}</td>
         
  
       </tr>
@@ -100,15 +75,17 @@
 
       {% ifequal elemento.estado_aprobacion "PARCIAL"  %}
 
-        <tr bgcolor="#F7BE81"> 
+        <tr class='clickable-row' data-href='{{elemento.id}}'> 
+
+        <td class="col-md-2 text-center danger">#{{elemento.id}}</td>
+        <td class="col-md-2 text-center danger">{{elemento.estado_aprobacion}}</td>
+        <td class="col-md-2 text-center danger">{{elemento.fecha}}</td>
+        <td class="col-md-2 text-center danger">{{elemento.paciente.dni}}</td>
+        <td class="col-md-2 text-center danger">{{elemento.paciente.apellido}} {{elemento.paciente.nombre}}</td>
        
 
-        <td class="col-md-2 text-center "onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.id}}</td>
-        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.fecha}}</td>
-        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.dni}}</td>
-        <td class="col-md-2 text-center" onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
 
-      </tr>
+       </tr>
 
 
         {% endifequal %}
@@ -116,199 +93,45 @@
         
      {% endfor %} 
 
-
-
-      
-    </tbody>
-  </table>
-</div>
-  
-</div>
-</div>
- 
-
-{% endif %}
-
- 
-
- {% if solicitudes %}
-
-      {% for elemento in solicitudes %}
-
-
-      
-    <script  type="text/javascript" charset="utf-8" async defer>
-
-        $("div.id_solicitud select").val("{{elemento.id}}");
-        
-
-      </script>
-      
-
-      <div class="row">
-      <br>
-
-      <div class=".container">
-  
-      <br> 
-      <div class="table-responsive">             
-        <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
-          <thead>
-            <tr class="success">
-              <th class="text-center">N° de solicitud</th>
-              <th class="text-center">Fecha de inicio</th>
-              <th class="text-center">Dni</th>
-              <th class="text-center">Solicitante</th>
-            </tr>
-          </thead>
-        <tbody>
-    
-      {% ifequal elemento.estado_aprobacion "APROBADO"  %}
-
-    
-       
-      <tr>
-       
-
-        <td class="col-md-2 text-center "onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.id}}</td>
-        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.fecha}}</td>
-        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.dni}}</td>
-        <td class="col-md-2 text-center" onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
-
-      </tr>
-
-
-    {% endifequal %}
-
-
-    {% ifequal elemento.estado_aprobacion "PARCIAL"  %}
-
-        <tr bgcolor="#F7BE81"> 
-       
-
-        <td class="col-md-2 text-center "onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.id}}</td>
-        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.fecha}}</td>
-        <td class="col-md-2 text-center"onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.dni}}</td>
-        <td class="col-md-2 text-center" onclick='cambiarestado({{elemento.id}},"{{elemento.paciente.dni}}","{{elemento.paciente.apellido}}","{{elemento.paciente.nombre}}","{{elemento.estado_aprobacion}}");' style="cursor:pointer">{{elemento.paciente.apellido}}, {{elemento.paciente.nombre}}</td>
-
-      </tr>
-
-
-        {% endifequal %}
-
-    {% endfor %} 
-
-
-      
+     {% endif %}
 
       
     </tbody>
   </table>
 </div>
-            
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
 </div>
 </div>
-</div>
 
-
-{% endif %}
-
-
-
-
-
-
-</div>
-</div>
-{% if user.is_authenticated %}
-              
-              
-            
-              <script  type="text/javascript" charset="utf-8" async defer>
-                
-              var user_id="{{user.userfarmacia.id}}";
-              var user_id_farmacia=parseInt(user_id);
-              
-              $( "#user_id_farmacia1" ).val(user_id_farmacia);
-              $( "#user_id_farmacia2" ).val(user_id_farmacia);
-
-              </script>
-            
-
-            {% endif %}
 
 
 <script type="text/javascript" charset="utf-8" async defer>
     
   
-var razonsocial = $("#razonsocial").val();
-
-    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
-
-    
-function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
- 
-          if(estado_aprobacion=='APROBADO'){
-  
-          alertify.set({ labels: {
-          ok     : "Continuar",
-          cancel : "Cancelar"
-          } });
-          // confirm dialog
-          
-            alertify.confirm("Seleccionó la <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>.", function (e) {
-
-              if (e) {
-
-                  $( "#id_solicitud_informacion" ).val(id);
-                  $("#solicitud_informacion").submit();
-                  
-              } else {
-            
-                  window.location.href = "/aplicacion/farmacia_entrega/";
-          
-              }
-        
-          });
-
-           
-      
-
-      }
-
-      if(estado_aprobacion=='PARCIAL'){
-  
-          alertify.set({ labels: {
-          ok     : "Continuar",
-          cancel : "Cancelar"
-          } });
-          // confirm dialog
-          
-            alertify.confirm("Seleccionó la <b>SOLICITUD N° "+id+"</b>  correspondiente a <b>"+apellido+", "+nombre+"</b> con <b>DNI "+dni+"</b>.", function (e) {
-
-              if (e) {
-
-                  $( "#id_solicitud_parcial" ).val(id);
-                  $("#solicitud_parcial").submit();
-                  
-              } else {
-            
-                  window.location.href = "/aplicacion/farmacia_entrega/";
-          
-              }
-        
-          });
-
-           
-      
-
-      }
-
-  
-}
 
 
 
+
+$('#table').bootstrapTable();
+
+ $(".clickable-row").click(function() {
+       
+        $( "#id_solicitud_informacion" ).val($(this).data("href"));
+        $("#solicitud_informacion").submit();
+    });
 
 </script>
 
@@ -318,14 +141,7 @@ function cambiarestado(id,dni,apellido,nombre,estado_aprobacion){
 
 </form>
 
-<form  id='solicitud_parcial' method='POST' action='/aplicacion/farmacia_entrega/' enctype='multipart/form-data' class='form-horizontal'>{% csrf_token %}
-  <input class='form-control' id='id_solicitud_parcial' name='id_solicitud_parcial'  type="hidden" value=''/>
-  
 
-</form>
-
-
-        
 
 
 {% endblock %}

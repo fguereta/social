@@ -97,8 +97,7 @@ class Solicitud(models.Model):
     diagnostico=models.TextField(blank=True, null=True)
 
     
-    def __unicode__(self):
-        return self.dosis 
+    
 
 class Registro_estados(models.Model):
 
@@ -109,9 +108,9 @@ class Registro_estados(models.Model):
     observaciones=models.TextField(blank=True, null=True)
     farmacia = models.ForeignKey(UserFarmacia, db_column='farmacia_id', blank=True, null=True)
     
-    comercial1=models.CharField(max_length=30)
-    comercial2=models.CharField(max_length=30, blank=True, null=True)
-    comercial3=models.CharField(max_length=30, blank=True, null=True)
+    comercial1=models.CharField(max_length=50)
+    comercial2=models.CharField(max_length=50, blank=True, null=True)
+    comercial3=models.CharField(max_length=50, blank=True, null=True)
     
     precio1=models.CharField(max_length=15, blank=True, null=True)
     precio2=models.CharField(max_length=15, blank=True, null=True)

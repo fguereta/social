@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-#LIBRERIAS REPORTLAB (pip install reportlab)
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4, cm
-from io import BytesIO
+
 
 from django.shortcuts import render_to_response, render, RequestContext
 
@@ -33,19 +30,7 @@ def index(request):
 
 def paciente(request):
     paciente=Paciente.objects.filter(estado='ACTIVO').order_by('-id')
-    
-    if 'id_paciente' in request.POST:
-
-        paciente_recibido = request.POST['id_paciente'],
-
-        paciente_enviar = Paciente.objects.filter(persona_ptr_id=paciente_recibido, estado='ACTIVO').order_by('-id')
-        
-        return render_to_response("ABME/Paciente/paciente.html",  {'id_paciente': paciente_enviar, 'busqueda_paciente':paciente  }, context_instance = RequestContext(request))
-
-    else:
-    
-    
-        return render_to_response("ABME/Paciente/paciente.html",  {'paciente': paciente, 'busqueda_paciente':paciente  }, context_instance = RequestContext(request))
+    return render_to_response("ABME/Paciente/paciente.html",  {'paciente': paciente}, context_instance = RequestContext(request))
 
 
 def comprobar_paciente(request):
@@ -250,28 +235,6 @@ def eliminarpaciente(request, id_paciente):
         
     return render_to_response("ABME/Paciente/paciente.html",{'paciente':paciente},  context_instance = RequestContext(request))
     
-def pacientesolicitud(request):
-    errors = []
-     
-    if 'criterio' and 'valor' in request.GET: 
-        criterio = request.GET['criterio']
-        valor = request.GET['valor']
-        
-        if not valor:
-            errors.append('Por favor introduce un termino de busqueda.')
-        elif len(valor) > 20:
-            errors.append('Por favor introduce un termino de busqueda menor a 20 caracteres.')
-        if not criterio:
-            errors.append('Por favor introduce un criterio de busqueda.')
-        if not errors:
-            
-            pacientes=buscaPaciente(criterio,valor)
-            return render(request, 'Operaciones/registrarsolicitud.html',{'pacientes': pacientes, 'query': valor})   
-        
-        
-             
-    return render(request, 'ABME/Paciente/buscarpaciente.html', {'errors': errors}) 
-
 def pdf_listado_paciente(request):
 
 
@@ -331,19 +294,7 @@ def pdf_listado_paciente(request):
 
 def medico(request):
     medico=Medico.objects.filter(estado='ACTIVO')
-    
-    if 'id_medico' in request.POST:
-
-        medico_recibido = request.POST['id_medico'],
-
-        medico_enviar = Medico.objects.filter(persona_ptr_id=medico_recibido, estado='ACTIVO') 
-        
-        return render_to_response("ABME/Medico/medico.html",  {'id_medico': medico_enviar, 'busqueda_medico':medico  }, context_instance = RequestContext(request))
-
-    else:
-    
-    
-        return render_to_response("ABME/Medico/medico.html",  {'medico': medico, 'busqueda_medico':medico  }, context_instance = RequestContext(request))
+    return render_to_response("ABME/Medico/medico.html",  {'medico': medico }, context_instance = RequestContext(request))
 
 
 def comprobar_medico(request):
@@ -492,33 +443,6 @@ def modificarmedico(request,id_medico):
 def listadomedico(resquest):
     medico=Medico.objects.all()
     return render_to_response("ABME/Medico/listadomedico.html", {'medico':medico})
-'''
-def eliminarmedico(request):
-    errors = []
-     
-    if 'q' and 'p' in request.GET: 
-        p = request.GET['p']
-        q = request.GET['q']
-        if not q:
-            errors.append('Por favor introduce un termino de busqueda.')
-        elif len(q) > 20:
-            errors.append('Por favor introduce un termino de busqueda menor a 20 caracteres.')
-        if not p:
-            errors.append('Por favor introduce un criterio de busqueda.')
-
-           
-        if p == 'nombre':
-            medicos = Medico.objects.filter(nombre__icontains=q, estado='activo') 
-            return render(request, 'ABME/Medico/eliminarmedico.html',{'medicos': medicos, 'query': q})
-        elif p == 'apellido':
-            medicos = Medico.objects.filter(apellido__icontains=q, estado='activo') 
-            return render(request, 'ABME/Medico/eliminarmedico.html',{'medicos': medicos, 'query': q})
-        elif p == 'especialidad':
-            medicos = Medico.objects.filter(especialidad__icontains=q, estado='activo')
-            return render(request, 'ABME/Medico/eliminarmedico.html',{'medicos': medicos, 'query': q})
-    
-    return render(request, 'ABME/Medico/eliminarmedico.html', {'errors': errors}) 
-'''
 
 def eliminarmedico(request, id_medico):
     
@@ -558,95 +482,35 @@ def intervenidos(request, id_medico):
 
 def farmacia(request):
 
-    if 'id_farmacia' in request.POST:
-        user=User.objects.filter(id=request.POST['id_farmacia'])
+    user=User.objects.all()
+    far=UserFarmacia.objects.filter(estado='ACTIVO')
+    farmacia=[]
     
-        far=UserFarmacia.objects.filter(estado='ACTIVO')
-        farmacia=[]
-        for elemento1 in user:
+    for elemento1 in user:
 
-            for elemento2 in far:
+        for elemento2 in far:
             
-                if elemento1.id==elemento2.user_id:
+            if elemento1.id==elemento2.user_id:
 
 
-                    far2={
+                far2={
 
-                    'id':elemento1.id,
-                    'username' : elemento1.username,
-                    'razon_social' : elemento2.razon_social,
-                    'direccion':elemento2.direccion,
-                    'telefono':elemento2.telefono
+                'id':elemento1.id,
+                'username' : elemento1.username,
+                'razon_social' : elemento2.razon_social,
+                'direccion':elemento2.direccion,
+                'telefono':elemento2.telefono
         
-                    }
+                }
 
-                    farmacia=farmacia+[far2]
+                farmacia=farmacia+[far2]
 
-        user2=User.objects.all()
-        far3=UserFarmacia.objects.filter(estado='ACTIVO')
-        busqueda_farmacia=[]
-    
-        for elemento1 in user2:
-
-            for elemento2 in far3:
-            
-                if elemento1.id==elemento2.user_id:
-
-
-                    far2={
-
-                    'id':elemento1.id,
-                    'username' : elemento1.username,
-                    'razon_social' : elemento2.razon_social,
-                    'direccion':elemento2.direccion,
-                    'telefono':elemento2.telefono
-        
-                    }
-
-                    busqueda_farmacia=busqueda_farmacia+[far2]            
-
-
-
-        farmacia_enviar=farmacia
-        
-        return render_to_response("ABME/Farmacia/farmacia.html",  {'id_farmacia': farmacia_enviar, 'busqueda_farmacia':busqueda_farmacia  }, context_instance = RequestContext(request))
-
-    else :
-
-        user=User.objects.all()
-        far=UserFarmacia.objects.filter(estado='ACTIVO')
-        farmacia=[]
-    
-        for elemento1 in user:
-
-            for elemento2 in far:
-            
-                if elemento1.id==elemento2.user_id:
-
-
-                    far2={
-
-                    'id':elemento1.id,
-                    'username' : elemento1.username,
-                    'razon_social' : elemento2.razon_social,
-                    'direccion':elemento2.direccion,
-                    'telefono':elemento2.telefono
-        
-                    }
-
-                    farmacia=farmacia+[far2]
-
-    
-    
-        return render_to_response("ABME/Farmacia/farmacia.html",  {'farmacia': farmacia, 'busqueda_farmacia':farmacia  }, context_instance = RequestContext(request))
+    return render_to_response("ABME/Farmacia/farmacia.html",  {'farmacia': farmacia}, context_instance = RequestContext(request))
 
         
 
         #farmacia_enviar = farmacia.filter(id=farmacia_recibido, estado='ACTIVO') 
         
-       
-
-
 def modificarfarmacia(request, id_farmacia):
     
     
@@ -825,7 +689,7 @@ def farmacia_entrega(request):
 
     import datetime, time
     d= datetime.datetime.now()
-    fecha=str(d.strftime("%d-%m-%Y %H:%M:%S"))
+    fecha=str(d.strftime("%d/%m/%Y %H:%M:%S"))
     fecha_cortada=fecha.split(' ')
     fecha_registro=fecha_cortada[0]+', Hora: '+fecha_cortada[1]
 
@@ -839,53 +703,53 @@ def farmacia_entrega(request):
     elif 'id_solicitud_informacion' in request.POST:
         id_solicitud=request.POST['id_solicitud_informacion']
         solicitud=Solicitud.objects.filter(id=id_solicitud)
+
+        for i in solicitud:
+            estado=i.estado_aprobacion
+
+        if estado=='APROBADO':
    
-        return render_to_response("ABME/Operaciones_Farmacia/entrega_informacion.html",{'solicitud_enviado':solicitud}, context_instance = RequestContext(request))
+            return render_to_response("ABME/Operaciones_Farmacia/entrega_informacion.html",{'solicitud_enviado':solicitud}, context_instance = RequestContext(request))
 
-    elif 'id_solicitud_parcial' in request.POST:
-        id_solicitud=request.POST['id_solicitud_parcial']
-        solicitud=Solicitud.objects.filter(id=id_solicitud)
+        elif estado=='PARCIAL':
+        
 
-        estados_solicitud=Registro_estados.objects.filter(solicitud_id=id_solicitud, estado='PARCIAL')
+            estados_solicitud=Registro_estados.objects.filter(solicitud_id=id_solicitud, estado='PARCIAL')
             
-        com1=''
-        com2=''
-        com3=''
+            com1=''
+            com2=''
+            com3=''
         
-        for i in estados_solicitud:
-            if i.comercial1!='':
-                com1=i.comercial1
+            for i in estados_solicitud:
+                if i.comercial1!='':
+                    com1=i.comercial1
 
-            if i.comercial2!='':
-                com2=i.comercial2
+                if i.comercial2!='':
+                    com2=i.comercial2
 
-            if i.comercial3!='':
-                com3=i.comercial3
+                if i.comercial3!='':
+                    com3=i.comercial3
 
 
         
 
-        r={
-            'com1':com1,
-            'com2':com2,
-            'com3':com3,
+            r={
+                'com1':com1,
+                'com2':com2,
+                'com3':com3,
         
-        }
+            }
 
-        registros=[r]
+            registros=[r]
 
         
 
 
 
    
-        return render_to_response("ABME/Operaciones_Farmacia/entrega_informacion.html",{'solicitud_enviado':solicitud,'registros':registros}, context_instance = RequestContext(request))
+            return render_to_response("ABME/Operaciones_Farmacia/entrega_informacion.html",{'solicitud_enviado':solicitud,'registros':registros}, context_instance = RequestContext(request))
 
-    elif 'id_solicitud' in request.POST:
-        idsolicitud=request.POST['id_solicitud']
-        solicitudes=Solicitud.objects.filter(id=idsolicitud).exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').order_by('-id')
-        busqueda_solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO')
-        return render_to_response("ABME/Operaciones_Farmacia/entregafarmacia.html",{'solicitudes':solicitudes, 'busqueda_solicitud':busqueda_solicitud}, context_instance = RequestContext(request))
+    
     else:
         solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').order_by('-id')
         busqueda_solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO')
@@ -897,7 +761,7 @@ def farmacia_entrega(request):
 def registro_entrega(request):
     import datetime, time
     d= datetime.datetime.now()
-    fecha=str(d.strftime("%d-%m-%Y %H:%M:%S"))
+    fecha=str(d.strftime("%d/%m/%Y %H:%M:%S"))
     fecha_cortada=fecha.split(' ')
     fecha_registro=fecha_cortada[0]+', Hora: '+fecha_cortada[1]
 
@@ -1184,66 +1048,396 @@ def farmacia_entregados(request):
 
     soli=Solicitud.objects.filter(estado_aprobacion='ENTREGADO')
     busqueda_solicitud=Solicitud.objects.filter(estado_aprobacion='ENTREGADO')
-    
-    
     estado=Registro_estados.objects.all()
 
-    if 'id_solicitud' in request.POST:
-        id_solicitud=request.POST['id_solicitud']
-        soli=Solicitud.objects.filter(estado_aprobacion='ENTREGADO',id=id_solicitud)
-        busqueda_solicitud=Solicitud.objects.filter(estado_aprobacion='ENTREGADO')
+  
+    solicitudes=[]
+
+    for i in soli:
+        for j in estado:
+            if i.id==j.solicitud_id and i.estado_aprobacion==j.estado:
+                sol= {
+
+                'id':i.id,
+                'fecha_inicio':i.fecha,
+                'estado_aprobacion':i.estado_aprobacion,
+                'fecha_entrega':j.fecha,
+                'farmacia':j.farmacia,
+                'paciente':i.paciente,
+
+
+                }
+                solicitudes=solicitudes+[sol]
+
+       
+
+    return render_to_response("ABME/Operaciones_Farmacia/entregadosfarmacia.html",{'solicitudes':solicitudes, 'soli':soli}, context_instance = RequestContext(request))
+
+
+def consultas_solicitante(request):
+
+    busqueda_paciente=Paciente.objects.filter(estado='ACTIVO')
+
+    if request.is_ajax():
+
+        idpaciente=request.POST.get('id_paciente')
+        desde_fecha=request.POST.get('desde_fecha').upper()
+        hasta_fecha=request.POST.get('hasta_fecha').upper()
+        print 'Id paciente: %s'%(idpaciente)
+        print 'desde fecha: %s'%(desde_fecha)
+        print 'hasta fecha: %s'%(hasta_fecha)
+
+
+        s=Solicitud.objects.filter(paciente_id=idpaciente).exclude()
+        r=Registro_estados.objects.exclude(estado='CANCELADO').exclude(estado='APROBADO')
+
+        registros=[]
         
-        solicitud_id=[]
         
-        for i in soli:
-            for j in estado:
-                if i.id==j.solicitud_id and i.estado_aprobacion==j.estado:
-                    sol= {
-
-                    'id':i.id,
-                    'fecha_inicio':i.fecha,
-                    'estado_aprobacion':i.estado_aprobacion,
+        for i in s:
+            for j in r:
+                if i.id==j.solicitud_id:
+                    re={
+                    'id_registro':j.id,
                     'fecha_entrega':j.fecha,
-                    'farmacia':j.farmacia,
-                    'paciente':i.paciente,
-
-
+                    'comercial1':j.comercial1,
+                    'comercial2':j.comercial2,
+                    'comercial3':j.comercial3,
+                    'precio1':j.precio1,
+                    'precio2':j.precio2,
+                    'precio3':j.precio3,
+                    'solicitud_correspondiente':i.id,
                     }
-                    solicitud_id=solicitud_id+[sol]
 
-        return render_to_response("ABME/Operaciones_Farmacia/entregadosfarmacia.html",{'busqueda_solicitud':busqueda_solicitud, 'solicitud':solicitud_id}, context_instance = RequestContext(request))
+                    registros=registros+[re]
 
-    else:
+        for i in registros:
+            print '**************ID-de registros: %s'%(i.get('id_registro'))+'******************'
+            print 'Fecha de entrega: %s'%(i.get('fecha_entrega'))
+            print 'Comercial 1: %s'%(i.get('comercial1'))
+            print 'Precio 1: %s'%(i.get('precio1'))
+            print 'Comercial 2: %s'%(i.get('comercial2'))
+            print 'Precio 2: %s'%(i.get('precio2'))
+            print 'Comercial 3: %s'%(i.get('comercial3'))
+            print 'Precio 3: %s'%(i.get('precio3'))
 
-        solicitudes=[]
+        print'***********TOTAL DE PRODUCTOS POR PACIENTE**********************'
+        for i in registros:
+            if i.get('comercial1')!='':
+                print i.get('fecha_entrega')
+                print i.get('comercial1')
+                print i.get('precio1')
 
-        for i in soli:
-            for j in estado:
-                if i.id==j.solicitud_id and i.estado_aprobacion==j.estado:
-                    sol= {
+            if i.get('comercial2')!='':
+                print i.get('fecha_entrega')
+                print i.get('comercial2')
+                print i.get('precio2')
 
-                    'id':i.id,
-                    'fecha_inicio':i.fecha,
-                    'estado_aprobacion':i.estado_aprobacion,
-                    'fecha_entrega':j.fecha,
-                    'farmacia':j.farmacia,
-                    'paciente':i.paciente,
+            if i.get('comercial3')!='':
+                print i.get('fecha_entrega')
+                print i.get('comercial3')
+                print i.get('precio3')
+
+        medicamentosXpaciente=[]
+        registroXpaciente={}
+        for i in registros:
+            
+            if i.get('comercial1')!='':
+                
+                f=i.get('fecha_entrega').split(',')#separa la fecha de la hora
+                registroXpaciente={
+                
+                'fecha_entrega':f[0],
+                'comercial':i.get('comercial1'),
+                'precio':i.get('precio1'),
+                'solicitud_correspondiente':i.get('solicitud_correspondiente'),
+
+                }
+
+                medicamentosXpaciente=medicamentosXpaciente+[registroXpaciente]
+
+            if i.get('comercial2')!='':
+                
+                f=i.get('fecha_entrega').split(',')#separa la fecha de la hora
+                registroXpaciente={
+                
+                
+                'fecha_entrega':f[0],#guarde la fecha cortada.
+                'comercial':i.get('comercial2'),
+                'precio':i.get('precio2'),
+                'solicitud_correspondiente':i.get('solicitud_correspondiente'),
+
+                }
+
+                medicamentosXpaciente=medicamentosXpaciente+[registroXpaciente]
+
+            if i.get('comercial3')!='':
+                
+                f=i.get('fecha_entrega').split(',')#separa la fecha de la hora
+                registroXpaciente={
+                
+                'fecha_entrega':f[0],#guarde la fecha cortada.
+                'comercial':i.get('comercial3'),
+                'precio':i.get('precio3'),
+                'solicitud_correspondiente':i.get('solicitud_correspondiente'),
+
+                }
+
+                medicamentosXpaciente=medicamentosXpaciente+[registroXpaciente]
+
+        print '**************** Lista de medicamentes con su detalle x paciente********************'
+        '''
+        for i in medicamentosXpaciente:
+
+            print 'Nombre: %s'%(i.get('comercial'))+' Su Precio: %s'%(i.get('precio'))+' Su fecha de entrega %s'%(i.get('fecha_entrega'))+' Su solicitud: %s'%(i.get('solicitud_correspondiente'))
+
+        '''
+
+        respuesta=[]
+        for i in medicamentosXpaciente:
+            if i.get('fecha_entrega')>=desde_fecha and i.get('fecha_entrega')<=hasta_fecha:
+                print 'Nombre: %s'%(i.get('comercial'))+' Su Precio: %s'%(i.get('precio'))+' Su fecha de entrega %s'%(i.get('fecha_entrega'))+' Su solicitud: %s'%(i.get('solicitud_correspondiente'))
+
+                r={'comercial':i.get('comercial'),
+                    'precio':'$ %s'%(i.get('precio')),
+                    'fecha_entrega':i.get('fecha_entrega'),
+                    'solicitud_correspondiente':'#%s'%(i.get('solicitud_correspondiente'))
+
+                }
+                respuesta=respuesta+[r]
+
+            else:
+                print 'no hay'
 
 
-                    }
-                    solicitudes=solicitudes+[sol]
+        
+        
+        import json
 
-    return render_to_response("ABME/Operaciones_Farmacia/entregadosfarmacia.html",{'solicitudes':solicitudes, 'busqueda_solicitud':busqueda_solicitud}, context_instance = RequestContext(request))
+        return HttpResponse(json.dumps(respuesta), content_type="application/json")    
+         
+
+            
+
+        
+
+
+            
+
+
+        
+
+    
+
+
+
+    return render_to_response('ABME/Operaciones_Farmacia/solicitud_consultas.html',{'busqueda_paciente':busqueda_paciente},context_instance=RequestContext(request))    
+
+def pdf_medicamentosXsolicitante(request):
+    import json
+    import datetime, time
+    #LIBRERIAS REPORTLAB (pip install reportlab)
+    import os
+    from reportlab.pdfgen import canvas
+    from reportlab.lib.pagesizes import A4, cm
+    from io import BytesIO
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.enums import TA_JUSTIFY, TA_RIGHT, TA_CENTER, TA_LEFT
+    from reportlab.platypus import  Paragraph, Table, TableStyle, Spacer
+    from reportlab.lib import colors
+
+    global response #Variable global, por que almaceno el pdf generado en el modulo del ajax, y despues al haber un post devulve la generada anteriormente
+
+      
+
+        
+    if request.is_ajax():
+
+        d=datetime.datetime.now()
+        fecha=str(d.strftime("%d/%m/%Y %H:%M:%S"))
+        fecha_cortada=fecha.split(' ')
+        fecha_registro=fecha_cortada[0]
+
+        fecha=request.POST.getlist('fecha[]')
+        solicitud=request.POST.getlist('solicitud[]')
+        comercial=request.POST.getlist('comercial[]')
+        precio=request.POST.getlist('precio[]')
+        id_paciente=request.POST.get('id_paciente')
+        desde_fecha=request.POST.get('desde_fecha')
+        hasta_fecha=request.POST.get('hasta_fecha')
+
+        paciente=Paciente.objects.filter(persona_ptr_id=id_paciente)
+        for i in paciente:
+            apellido=i.apellido
+            nombre=i.nombre
+
+        a=0
+        diccionario={}
+        registros=[]
+        
+        for i,j in  enumerate(fecha):
+            a=a+1
+
+  
+
+        for i in range(a):
+            
+            diccionario={
+
+            'fecha_entrega':fecha[i],
+            'solicitud':solicitud[i],
+            'comercial':comercial[i],
+            'precio':precio[i],
+
+            }
+
+            registros=registros+[diccionario]
+
+
+
+        response =  HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment ; filename=Reporte.pdf'
+        buffer =BytesIO()
+        c = canvas.Canvas(buffer, pagesize=A4)
+
+        #Header
+        c.setLineWidth(.3)#Estilo basico de configuracion
+    
+        c.setFont('Helvetica-Bold', 12)
+        c.drawString(460,780,'Fecha: '+str(fecha_registro) )
+        c.line(460,775,565,775)
+
+        c.setFont('Helvetica-Bold', 15)
+        c.drawString(190,740,'SERVICIO SOCIAL H.R.R.G.')
+
+        
+        c.setFont('Helvetica', 15)
+        c.drawString(30,690,'Paciente: ' )
+        c.setFont('Helvetica-Bold', 13)
+        c.drawString(100,690,str(apellido)+', '+str(nombre) )
+
+        
+        c.setFont('Helvetica', 13)
+        c.drawString(70,650,str('Medicamentos entregados en el periodo'))
+        c.setFont('Helvetica-Bold', 13)
+        c.drawString(308,650,str('DESDE '+str(desde_fecha) ))
+        c.setFont('Helvetica-Bold', 13)
+        c.drawString(425,650,str('HASTA '+str(hasta_fecha)+'.' ))
+
+
+        ####TABLE HEADER###
+
+        styles = getSampleStyleSheet() #inicializacion la tabla
+        styleBH= styles["Normal"] #estilo normal
+        styleBH.alignment = TA_CENTER #alineacion al centro
+        styleBH.fontSize =10
+
+        #Primera fila que se mantine igual en una tabla
+
+        fecha_entrega = Paragraph('''Fecha de entrega''',styleBH)
+        solicitud = Paragraph('''Corresponde a la solicitud''',styleBH)
+        comercial = Paragraph('''Medicamento comercial''',styleBH)
+        precio = Paragraph('''Precio''',styleBH)
+        
+        
+
+
+        data=[]
+
+        data.append([fecha_entrega,solicitud,comercial,precio])
+
+
+        ##TABLA BODY###
+
+        styleN = styles["BodyText"]
+        styleN.alignment = TA_CENTER
+        styleN.fontSize = 9
+
+
+        high =600
+
+        b=0
+
+        
+
+        
+        for i, j in enumerate(registros):
+                
+            if i<32:
+                
+
+                b=b+1
+                este_registro= [Paragraph(j.get('fecha_entrega'),styleN),Paragraph(j.get('solicitud'),styleN),Paragraph(j.get('comercial'),styleN),Paragraph(j.get('precio'),styleN)]
+                data.append(este_registro)
+
+                high =high-18
+
+
+            #Escritura de la TABLA (depende del tamaño de la hoja, ya usamos A4)
+
+        width, height =A4
+        table =  Table(data,colWidths=[ 5.5*cm, 5.0*cm, 5.7*cm,2.5*cm])
+
+
+
+
+        table.setStyle(TableStyle([#estilos de la tabla
+
+            ('INNERGRID',(0,0), (-1, -1), 0.25, colors.black),
+            ('BOX', (0, 0),(-1, -1), 0.25, colors.black)
+
+        ]))
+        
+
+        
+        table.wrapOn(c,width,height)
+        table.drawOn(c, 30, high)
+
+        c.showPage()#save page
+
+
+        
+
+
+        
 
 
 
 
 
+   
+        c.save()
+
+        pdf = buffer.getvalue()
+        buffer.close()
+        response.write(pdf)
+        
+        return response#se envia al success de ajax
+
+
+        
+
+    if 'ban_pdf'  in request.POST:
+        ban=request.POST['ban_pdf']
+        if ban=='1':
+            return response#enviar el pdf, el pdf fue almacenado en una varible global por eso esto es posible.
 
 
 
 
     
+
+
+
+        
+           
+
+        
+        
+
+
+
+
 
 #######################SOLICITUD###########################################
 
@@ -1274,7 +1468,7 @@ def registrarsolicitud(request,id_paciente):
 
     import datetime, time
     d= datetime.datetime.now()
-    fecha=str(d.strftime("%d-%m-%Y %H:%M:%S"))
+    fecha=str(d.strftime("%d/%m/%Y %H:%M:%S"))
     fecha_cortada=fecha.split(' ')
     fecha_registro=fecha_cortada[0]+', Hora: '+fecha_cortada[1]
     
@@ -1429,7 +1623,7 @@ def solicitudcancelada(request):
     
     import datetime, time
     d= datetime.datetime.now()
-    fecha=str(d.strftime("%d-%m-%Y %H:%M:%S"))
+    fecha=str(d.strftime("%d/%m/%Y %H:%M:%S"))
     fecha_cortada=fecha.split(' ')
     fecha_registro=fecha_cortada[0]+', Hora: '+fecha_cortada[1]
 
@@ -1466,80 +1660,6 @@ def solicitudcancelada(request):
 
         return HttpResponse(json.dumps(comentario), content_type="application/json")
         
-
-def cambiarestado(request):
-
-    import datetime, time
-    d= datetime.datetime.now()
-    fecha=str(d.strftime("%d-%m-%Y %H:%M:%S"))
-    fecha_cortada=fecha.split(' ')
-    fecha_registro=fecha_cortada[0]+', Hora: '+fecha_cortada[1]
-
-
-    if request.method=="POST":
-
-        if request.POST['idsolicitud'] and request.POST['nuevo_estado']:
-
-            solicitud=Solicitud.objects.filter(id=request.POST['idsolicitud'])
-
-            for elemento in solicitud:
-                paciente_id=elemento.paciente_id
-    
-            id_paciente=Paciente.objects.filter(persona_ptr_id=paciente_id)
-
-
-    #
-
-            soli=Solicitud.objects.get(id=request.POST['idsolicitud'])
-
-            soli.estado_aprobacion=request.POST['nuevo_estado']
-            soli.save()
-
-            newdo = Registro_estados(
-
-                solicitud_id=request.POST['idsolicitud'],
-                fecha=fecha_registro,
-                estado=request.POST['nuevo_estado'],
-                observaciones='',
-                farmacia_id='',
-                precio='',
-
-
-            )
-
-            newdo.save()
-
-
-
-            id_solicitud=request.POST['idsolicitud']
-            solicitud_enviar=Solicitud.objects.filter(id=id_solicitud)
-            refrescar=request.POST['idsolicitud']
-
-        return render_to_response('ABME/Solicitudes/fichasolicitud.html',{'solicitud_enviado':solicitud_enviar,'id_paciente':id_paciente,'refrescar':refrescar},context_instance=RequestContext(request))    
-
-def consultas_solicitante(request):
-
-    busqueda_paciente=Paciente.objects.filter(estado='ACTIVO')
-
-    if request.is_ajax():
-
-        idpaciente=request.POST.get('id_paciente')
-        desde_fecha=request.POST.get('desde_fecha').upper()
-        hasta_fecha=request.POST.get('hasta_fecha').upper()
-
-
-
-        print 'Id paciente: %s'%(idpaciente)
-        print 'desde fecha: %s'%(desde_fecha)
-        print 'hasta fecha: %s'%(hasta_fecha)
-
-
-    
-
-
-
-    return render_to_response('ABME/Solicitudes/solicitud_consultas.html',{'busqueda_paciente':busqueda_paciente},context_instance=RequestContext(request))    
-
 def solicitud_movimientos(request,id_solicitud):
 
     solicitudes=Solicitud.objects.filter(id=id_solicitud).order_by('-id')
@@ -2013,12 +2133,9 @@ def eliminarusuario(request):
 
 
 
+#######################MEDICAMENTO###########################################
 
 
-    return render_to_response("ABME/Farmacia/entregafarmacia.html", context_instance=RequestContext(request))
-
-
-#######################M###########################################
 def actualizar(request):
     remedio_enviado=Remedio.objects.filter(estado='ACTIVO')
     return HttpResponse(remedio_enviado)
@@ -2040,21 +2157,13 @@ def medicamento(request):
     
         return render_to_response("ABME/Medicamento/medicamento.html",  {'remedio': remedio, 'busqueda_remedio':remedio  }, context_instance = RequestContext(request))
 
-
-
-
-
 def fichamedicamento(request,id_remedio):
     
     remedio_enviar=Remedio.objects.filter(id=id_remedio, estado='ACTIVO')
     return render_to_response("ABME/Medicamento/fichamedicamento.html",  {'id_remedio': remedio_enviar }, context_instance = RequestContext(request))
 
-
-
-from django.core import serializers
-
 def registrarmedicamento(request):
-    
+    from django.core import serializers
     #Si resive peticion de ajax entra al if
     
     if request.is_ajax():
@@ -2101,11 +2210,6 @@ def registrarmedicamento(request):
     medicamento_enviado=Medicamento.objects.filter(estado='ACTIVO')
     return render_to_response('ABME/Medicamento/registrar.html',{'medicamento_enviado':medicamento_enviado}, context_instance=RequestContext(request))
     #return render_to_response('ABME/Medicamento/registrarmedicamento.html',{'remedio':remedio},context_instance=RequestContext(request))
-
-
-
-
-
 
 
 def modificarmedicamento(request,id_remedio):

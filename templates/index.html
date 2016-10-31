@@ -20,14 +20,15 @@
     <link rel="stylesheet" href="/static/bootstrap/alertifyjs/themes/alertify.core.css">
     <link rel="stylesheet" href="/static/bootstrap/alertifyjs/themes/alertify.default.css">
     <link rel="stylesheet" href="/static/bootstrap/alertifyjs/themes/alertify.bootstrap.css">
-    <link rel="stylesheet" href="/static/bootstrap/dataTables/dataTables.bootstrap.min.css">
+    
     <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui.css">
-    <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui-1.10.4.custom.css">
-    <link rel="stylesheet" href="/static/bootstrap/css/estilo.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/estilo.css"> 
 
     <link rel="stylesheet" href="/static/bootstrap/datepicker/css/datepicker.css">
+   <link rel="stylesheet" href="/static/bootstrap/table/bootstrap-table.min.css"> <!-- NECESARIO PARA QUE FUNCION TABLA EN JSON-->
 
-    
+
+    <!-- <link rel="stylesheet" href="/static/bootstrap/dataTables/dataTables.bootstrap.min.css">-->
     
 
     <!-- Jquery -->
@@ -66,11 +67,14 @@ window.close()
 
 
 
-        <div class="col-sm-0 col-sm-offset-0 col-md-0 col-md-offset-0 main">
+        <div class=" main ">
           {%block title%}
           {%endblock title%}
+
+          
           {% block contenido %}	        	
           {% endblock contenido %}
+          
         </div>
       
 

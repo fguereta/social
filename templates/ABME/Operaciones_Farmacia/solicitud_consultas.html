@@ -1,0 +1,409 @@
+{% extends 'index.html'%}
+{% block htitle %}<title>MGD</title>{% endblock %} 
+
+{% block contenido%}
+
+
+
+
+      
+
+           <h3><i>Medicamentos entregados por solicitante</i></h3>   
+                 
+                
+                 
+    <div id='miForm' class="form-horizontal">
+        
+
+
+
+    
+
+          <div class='panel-body'>
+
+   
+
+        <div>*Realize la busqueda de consulta con el numero de dni o el apellido y nombre del solicitante y seleccione periodo de fecha.
+          </div>
+
+        <br>
+    <br>
+    
+      
+     
+    
+    <div class="form-group">
+          <label  class="control-label col-md-3  col-md-offset-1">Seleccione un Solicitante:<font color="red"> *</font></label> 
+           <div class="col-md-4 text-left">
+              <select name="id_paciente" id="id_paciente" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
+                  <option value=""></option>
+                  {% for elemento in busqueda_paciente %}
+                  <option value="{{elemento.persona_ptr_id}}" >{{elemento.apellido}}, {{elemento.nombre}} --Dni: {{elemento.dni}}</option>
+                  {% endfor %}
+              </select>
+            </div>
+    </div> 
+        <br>
+
+      
+       <form id='miForm1'>     
+      <div class="form-group">
+
+          <label for="paciente" class="control-label  col-md-1 col-md-offset-2">Desde:</label> 
+          <div class='col-md-2'>
+                <div class='form-group internal input-group'>
+                  <input class='form-control datepicker' name='desde_fecha' type='text' id='desde_fecha'
+                  placeholder='dd/mm/yyyy' >
+                  <span class='input-group-addon'>
+                    <i class='glyphicon glyphicon-calendar'></i>
+                  </span>
+                </div>
+          </div>
+          
+           <label for="paciente" class="control-label  col-md-1 col-md-offset-0">Hasta:</label> 
+          <div class='col-md-2'>
+                <div class='form-group internal input-group'>
+                  <input class='form-control datepicker' name='hasta_fecha' type='text' id='hasta_fecha'
+                  placeholder='dd/mm/yyyy' >
+                  <span class='input-group-addon'>
+                    <i class='glyphicon glyphicon-calendar'></i>
+                  </span>
+                </div>
+          </div>
+
+</form>
+          <div class="col-md-2">
+                <button class="btn btn-primary col-md-10" id='consultar' type='button'/>Consultar</button>
+            </div>
+          
+      </div>
+
+        </div>
+
+      </div>
+    
+        
+
+        <div id='noresultado' style="display:none;">
+        <br>
+        <br>
+        <br>
+            <i>Complete correctamente los campos. Seleccion de solicitante y periodo de fecha</i>
+        </div>
+
+
+        <div id="resultado"  style="display:none;">
+
+        <br>
+          <i>
+
+           <a href="#"  class="export"><button type="button" id='pdf_medicamentosXsolicitante' class="btn btn-default btn-lg"><span class="glyphicon glyphicon-download-alt"></span> Exportar resultados
+          </button></a>
+          </i>
+          
+            
+            <table lang="es" id='table' data-pagination="true" data-height="450" data-show-refresh="true"  data-search="true" >
+              
+
+
+              <thead >
+                 <tr >
+                  <th  data-align="center" data-field="fecha_entrega">Fecha de entrega</th>
+                  <th   data-align="center" data-field="solicitud_correspondiente" >Solicitud correspodiente</th>
+                  <th  data-align="center"  data-field="comercial">Medicamento comercial</th>
+                  <th   data-align="center" data-field="precio">Precio</th>
+                  
+                </tr>
+              </thead>
+              
+              
+          
+          </table>
+
+
+
+      </div>
+     
+        
+    
+
+
+
+
+<script type="text/javascript" charset="utf-8" async defer>
+
+
+
+$("#miForm1").validate({
+  errorClass: "claserror",
+  validClass: "clasevalida",
+  errorElement: 'erele',
+
+  rules: {
+          hasta_fecha: {
+            required: true,
+          },
+          desde_fecha: {
+            required: true,
+           
+          },
+          
+         
+          
+
+
+   }
+
+});
+
+  $('#desde_fecha').datepicker({
+  dateFormat: 'dd/mm/yy',
+  changeYear: true,
+  changeMonth: true,
+  yearRange: "1900:2100",
+  
+    });
+
+  $('#hasta_fecha').datepicker({
+  dateFormat: 'dd/mm/yy',
+  changeYear: true,
+  changeMonth: true,
+  yearRange: "1900:2100",
+  
+    });
+
+ $("button[id=consultar]").click(function () {
+
+       
+
+
+
+var id_paciente = $("").val();
+var desde_fecha = $("").val();
+var hasta_fecha = $("").val();
+
+
+
+  var val1=$("#miForm1").valid();
+
+  var id_paciente = $("#id_paciente").val();
+
+  if(id_paciente==""){
+
+    alertify.set({ labels: {
+    ok     : "Aceptar",
+            
+    } });
+
+    alertify.alert('Seleccione un solicitante');
+    val2=false;
+
+  }else{
+
+
+    val2=true;
+  }
+
+  var desde_fecha = $("#desde_fecha").val();
+  var hasta_fecha = $("#hasta_fecha").val();
+
+
+  if(val1==true && val2==true){ //solo si son correctas las validaciones va a acceder al if
+
+    $.ajax({
+
+        
+        url: '/aplicacion/consultas_solicitante/',// Ruta del views donde se enviara.
+        
+        type: 'POST',//Metodo de envio, si es por GET o POST
+        data: {'id_paciente':id_paciente,'desde_fecha':desde_fecha,'hasta_fecha':hasta_fecha}, //Dato que se envia. 
+
+
+        //si funciona correctamente se podra ejecutar success.
+        success: function (respuesta) {
+            
+              $('#table').bootstrapTable('destroy');
+              $('#table').bootstrapTable({
+                //Assigning data to table
+                data: respuesta
+               
+               
+            });
+
+          $('#resultado').show();
+          $('#noresultado').hide();
+        
+        },
+        error: function(respuesta){
+
+          $('#noresultado').show();
+          $('#resultado').hide();
+
+
+        }
+
+
+
+
+
+            
+
+    });//Termina ajax
+
+
+}//termina el if de validaciones
+
+});
+
+
+ $("button[id=pdf_medicamentosXsolicitante]").click(function () {
+
+
+     //var variable1=document.getElementsByTagName("td")[0].innerHTML;
+     //var variable2=document.getElementsByTagName("td")[1].innerHTML;
+
+    var nFilas = $("#table tr").length;
+    var nColumnas = $("#table tr:last td").length;
+    var msg = "Filas: "+nFilas+" - Columnas: "+nColumnas;
+
+    
+
+    
+    
+ 
+
+    var fecha=[];
+    var solicitud=[];
+    var comercial=[];
+    var precio=[];
+    var diccionario={};
+    var re=[];
+    
+
+    for(var i=1; i<nFilas;i++){
+
+      
+      
+          
+     
+        
+
+
+     
+      fecha.push( document.getElementById('table').rows[i].cells[0].innerHTML );
+      solicitud.push( document.getElementById('table').rows[i].cells[1].innerHTML );
+      comercial.push( document.getElementById('table').rows[i].cells[2].innerHTML );
+      precio.push( document.getElementById('table').rows[i].cells[3].innerHTML );
+      
+
+/*
+      
+
+      for(var i=1; i<nFilas;i++){
+
+      
+      
+          
+     
+        var obj = {
+      "fecha_entrega": document.getElementById('table').rows[i].cells[0].innerHTML,
+      "solicitud_correspondiente": document.getElementById('table').rows[i].cells[1].innerHTML,
+      "comercial": document.getElementById('table').rows[i].cells[2].innerHTML,
+      "precio": document.getElementById('table').rows[i].cells[3].innerHTML,
+        
+      };
+
+
+
+       $.each( obj, function( key, value ) {
+        registros.push( value );
+      });
+      
+       
+       
+      */
+      }
+
+
+
+
+   
+
+
+    var id_paciente = $("#id_paciente").val();
+    var desde_fecha = $("#desde_fecha").val();
+    var hasta_fecha = $("#hasta_fecha").val();
+        
+
+    console.log(id_paciente);
+    console.log(desde_fecha);
+    console.log(hasta_fecha);    
+
+  
+    $.ajax({
+
+        
+        url: '/aplicacion/pdf_medicamentosXsolicitante/',// Ruta del views donde se enviara.
+        
+        type: 'POST',//Metodo de envio, si es por GET o POST
+        data: {'fecha[]':fecha,'solicitud[]':solicitud,'precio[]':precio,'comercial[]':comercial,'id_paciente':id_paciente,'desde_fecha':desde_fecha,'hasta_fecha':hasta_fecha}, //Dato que se envia. 
+
+
+        //si funciona correctamente se podra ejecutar success.
+        success: function (response) {
+
+          
+          $('#pdf').submit();
+        }
+
+
+            
+
+    });//Termina ajax
+
+    
+
+ });
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+        
+
+{% if user.is_authenticated %}
+              
+              
+<script  type="text/javascript" charset="utf-8" async defer>
+                
+$(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
+
+
+var user_id="{{user.userfarmacia.id}}";
+var user_id_farmacia=parseInt(user_id);
+              
+$( "#user_id_farmacia1" ).val(user_id_farmacia);
+$( "#user_id_farmacia2" ).val(user_id_farmacia);
+
+</script>
+            
+
+{% endif %}
+
+<form id="pdf" action="/aplicacion/pdf_medicamentosXsolicitante/" method="post">
+    <input id="ban_pdf" type="hidden" name="ban_pdf" value='1' />
+    {% csrf_token %}
+</form>
+
+
+
+{% endblock %}
