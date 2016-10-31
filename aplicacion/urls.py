@@ -65,7 +65,7 @@ urlpatterns = [
     url(r'^farmacia_entrega/$', views.farmacia_entrega, name='farmacia_entrega'),
     url(r'^registro_entrega/$', views.registro_entrega, name='registro_entrega'),
     url(r'^farmacia_entregados/$', views.farmacia_entregados, name='farmacia_entregados'),
-    url(r'^consultas_solicitante/', views.consultas_solicitante, name='solicitud_consultas'),
+    url(r'^entregados_solicitante/', views.entregados_solicitante, name='entregados_solicitante'),
     url(r'^pdf_medicamentosXsolicitante/', views.pdf_medicamentosXsolicitante, name='pdf_medicamentosXsolicitante'),
     
     

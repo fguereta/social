@@ -52,7 +52,7 @@ INSTALLED_APPS = (
     
     'aplicacion',
     'usuarios',
-    'table',
+    #'table',
 )
 
 #AUTH_USER_MODEL = 'aplicacion.CustomUser'

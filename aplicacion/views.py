@@ -754,7 +754,7 @@ def farmacia_entrega(request):
         solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO').order_by('-id')
         busqueda_solicitud=Solicitud.objects.exclude(estado_aprobacion='ENTREGADO').exclude(estado_aprobacion='CANCELADO').exclude(estado_aprobacion='ENPROGRESO')
         
-        return render_to_response("ABME/Operaciones_Farmacia/entregafarmacia.html",{'solicitud':solicitud, 'busqueda_solicitud':busqueda_solicitud}, context_instance = RequestContext(request))
+        return render_to_response("ABME/Operaciones_Farmacia/Solicitudes_pendientes.html",{'solicitud':solicitud, 'busqueda_solicitud':busqueda_solicitud}, context_instance = RequestContext(request))
         #return render_to_response("ABME/Operaciones_Farmacia/completaregistro.html", context_instance = RequestContext(request))
 
 
@@ -1074,7 +1074,7 @@ def farmacia_entregados(request):
     return render_to_response("ABME/Operaciones_Farmacia/entregadosfarmacia.html",{'solicitudes':solicitudes, 'soli':soli}, context_instance = RequestContext(request))
 
 
-def consultas_solicitante(request):
+def entregados_solicitante(request):
 
     busqueda_paciente=Paciente.objects.filter(estado='ACTIVO')
 
@@ -1231,7 +1231,7 @@ def consultas_solicitante(request):
 
 
 
-    return render_to_response('ABME/Operaciones_Farmacia/solicitud_consultas.html',{'busqueda_paciente':busqueda_paciente},context_instance=RequestContext(request))    
+    return render_to_response('ABME/Operaciones_Farmacia/entregados_consultas.html',{'busqueda_paciente':busqueda_paciente},context_instance=RequestContext(request))    
 
 def pdf_medicamentosXsolicitante(request):
     import json
@@ -1343,9 +1343,10 @@ def pdf_medicamentosXsolicitante(request):
 
 
         data=[]
+        data2=[]
 
         data.append([fecha_entrega,solicitud,comercial,precio])
-
+        data2.append([fecha_entrega,solicitud,comercial,precio])
 
         ##TABLA BODY###
 
@@ -1362,7 +1363,8 @@ def pdf_medicamentosXsolicitante(request):
 
         
         for i, j in enumerate(registros):
-                
+              
+
             if i<32:
                 
 
@@ -1373,30 +1375,69 @@ def pdf_medicamentosXsolicitante(request):
                 high =high-18
 
 
-            #Escritura de la TABLA (depende del tamaño de la hoja, ya usamos A4)
+                #Escritura de la TABLA (depende del tamaño de la hoja, ya usamos A4)
 
-        width, height =A4
-        table =  Table(data,colWidths=[ 5.5*cm, 5.0*cm, 5.7*cm,2.5*cm])
-
-
+                width, height =A4
+                table =  Table(data,colWidths=[ 5.5*cm, 5.0*cm, 5.7*cm,2.5*cm])
 
 
-        table.setStyle(TableStyle([#estilos de la tabla
 
-            ('INNERGRID',(0,0), (-1, -1), 0.25, colors.black),
-            ('BOX', (0, 0),(-1, -1), 0.25, colors.black)
 
-        ]))
+                table.setStyle(TableStyle([#estilos de la tabla
+
+                    ('INNERGRID',(0,0), (-1, -1), 0.25, colors.black),
+                    ('BOX', (0, 0),(-1, -1), 0.25, colors.black)
+
+                ]))
         
 
-        
-        table.wrapOn(c,width,height)
-        table.drawOn(c, 30, high)
 
-        c.showPage()#save page
+        if b<=32:
+            table.wrapOn(c,width,height)
+            table.drawOn(c, 30, high)
+
+            c.showPage()#save page
 
 
-        
+        if b>=32:
+
+            high =800
+            print 'b: %s'%(b)
+            for i, j in enumerate(registros):
+                
+                if i>32:
+                
+
+                    b=b+1
+                    este_registro= [Paragraph(j.get('fecha_entrega'),styleN),Paragraph(j.get('solicitud'),styleN),Paragraph(j.get('comercial'),styleN),Paragraph(j.get('precio'),styleN)]
+                    data2.append(este_registro)
+
+                    high =high-18
+
+
+                    #Escritura de la TABLA (depende del tamaño de la hoja, ya usamos A4)
+
+                    width, height =A4
+                    table =  Table(data2,colWidths=[ 5.5*cm, 5.0*cm, 5.7*cm,2.5*cm])
+
+
+
+
+                    table.setStyle(TableStyle([#estilos de la tabla
+
+                        ('INNERGRID',(0,0), (-1, -1), 0.25, colors.black),
+                        ('BOX', (0, 0),(-1, -1), 0.25, colors.black)
+
+                    ]))
+
+            if b>=32:
+                table.wrapOn(c,width,height)
+                table.drawOn(c, 30, high)
+
+                c.showPage()#save page
+
+
+
 
 
         

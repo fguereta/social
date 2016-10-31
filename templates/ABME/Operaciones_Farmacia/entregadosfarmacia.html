@@ -6,13 +6,10 @@
 
 
           <div class='panel-body'>
-
-                <h3><i>Solicitudes entregadas</i></h3>
-                <br>
-                 <i>*Utilize el filtro del buscador ya sea con el numero de DNI o  apellido y nombre del solicitante </i>
-                 
-            
-        </div>
+            <h3><i>Solicitudes entregadas</i></h3>
+            <br>
+            <i>*Utilize el filtro del buscador ya sea con el numero de DNI o  apellido y nombre del solicitante </i>
+          </div>
 
 
       <br>
@@ -21,48 +18,23 @@
             
   <table  class='table' id='table' data-pagination="true" data-height="440" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true">
     <thead>
-      <tr >
-        
+      <tr>
         <th class="text-center info">N° de solicitud</th>
         <th class="text-center info">Estado</th>
         <th class="text-center info">Fecha inicio</th>
         <th class="text-center info">Fecha de entrega</th>
         <th class="text-center info">Solicitante</th>
-       
-        
-        
-        
-      </tr>
-   
-
+       </tr>
     </thead>
-      
-    {% for elemento in solicitudes %}
-
-
-
-
-  
-      
+      {% for elemento in solicitudes %}
        <tr >
-       
-
         <td class="col-md-1 text-center warning" >#{{elemento.id}}</td>
         <td class="col-md-2 text-center warning">{{elemento.estado_aprobacion}}</td>
         <td class="col-md-2 text-center warning">{{elemento.fecha_inicio}}</td>
         <td class="col-md-2 text-center warning" >{{elemento.fecha_entrega}}</td>
         <td class="col-md-2 text-center warning" >DNI:{{elemento.paciente.dni}}, {{elemento.paciente.apellido}} {{elemento.paciente.nombre}}</td>
-       
-
-        </tr>
-
-        
-
-
-     
-       
-
-     {% endfor %} 
+       </tr>
+      {% endfor %} 
 
 
 

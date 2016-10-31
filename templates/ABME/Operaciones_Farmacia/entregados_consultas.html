@@ -97,7 +97,7 @@
         <br>
           <i>
 
-           <a href="#"  class="export"><button type="button" id='pdf_medicamentosXsolicitante' class="btn btn-default btn-lg"><span class="glyphicon glyphicon-download-alt"></span> Exportar resultados
+           <a  class="export"><button type="button" id='pdf_medicamentosXsolicitante' class="btn btn-default btn-lg"><span class="glyphicon glyphicon-download-alt"></span> Exportar resultados
           </button></a>
           </i>
           
@@ -213,7 +213,7 @@ var hasta_fecha = $("").val();
     $.ajax({
 
         
-        url: '/aplicacion/consultas_solicitante/',// Ruta del views donde se enviara.
+        url: '/aplicacion/entregados_solicitante/',// Ruta del views donde se enviara.
         
         type: 'POST',//Metodo de envio, si es por GET o POST
         data: {'id_paciente':id_paciente,'desde_fecha':desde_fecha,'hasta_fecha':hasta_fecha}, //Dato que se envia. 
@@ -229,6 +229,9 @@ var hasta_fecha = $("").val();
                
                
             });
+
+
+
 
           $('#resultado').show();
           $('#noresultado').hide();
@@ -256,6 +259,8 @@ var hasta_fecha = $("").val();
 });
 
 
+
+
  $("button[id=pdf_medicamentosXsolicitante]").click(function () {
 
 
@@ -263,10 +268,17 @@ var hasta_fecha = $("").val();
      //var variable2=document.getElementsByTagName("td")[1].innerHTML;
 
     var nFilas = $("#table tr").length;
+   
     var nColumnas = $("#table tr:last td").length;
-    var msg = "Filas: "+nFilas+" - Columnas: "+nColumnas;
+   
 
     
+    
+
+
+     
+
+
 
     
     
