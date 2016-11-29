@@ -535,14 +535,14 @@ $('#confirmar').click(function() {
 
           //$("#miForm1").valid();  // This is not working and is not validating the form
           //var form1=$("#miForm1").valid(); 
-          console.log('Formulario 1: '+form1);
+          
           val1=$("#miForm1").valid();
           
      
 
         }else{
 
-          console.log('Formulario 1: '+form1);
+          
           val1=false;
 
         }
@@ -551,14 +551,14 @@ $('#confirmar').click(function() {
 
           //$("#miForm1").valid();  // This is not working and is not validating the form
           //var form1=$("#miForm1").valid(); 
-          console.log('Formulario 2: '+form2);
+          
           val2=$("#miForm2").valid();
           
      
 
         }else{
 
-          console.log('Formulario 2: '+form2);
+          
           val2=false;
         } 
 
@@ -566,24 +566,21 @@ $('#confirmar').click(function() {
 
           //$("#miForm1").valid();  // This is not working and is not validating the form
           //var form1=$("#miForm1").valid(); 
-          console.log('Formulario 3: '+form3);
+          
           val3=$("#miForm3").valid();
           
      
 
         }else{
 
-          console.log('Formulario 3: '+form3)
+          
           val3=false;
         }
 
 
     //if(form1==true && form2==true )
 
-    console.log('--validacion del formulario 1: '+val1)
-    console.log('--validacion del formulario 2: '+val2)
-    console.log('--validacion del formulario 3: '+val3)
-
+   
 
     if(form1==true || form2==true || form3==true){
 
@@ -608,21 +605,11 @@ $('#confirmar').click(function() {
 
               } 
 
-              console.log('estado que se envia '+ estado);
+              
               var user_id_farmacia=$('#user_id_farmacia').val();
               var idsolicitud=$('#idsolicitud').val();
       
-              console.log(idsolicitud);
-              console.log('farmacia '+user_id_farmacia);
-
-              console.log(com_1);
-              console.log(pre_1);
-      
-              console.log(com_2);
-              console.log(pre_2);
-
-              console.log(com_3);
-              console.log(pre_3);
+             
       
 
               $.ajax({

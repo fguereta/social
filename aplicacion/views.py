@@ -1194,10 +1194,20 @@ def entregados_solicitante(request):
         '''
 
         respuesta=[]
-        for i in medicamentosXpaciente:
-            if i.get('fecha_entrega')>=desde_fecha and i.get('fecha_entrega')<=hasta_fecha:
-                print 'Nombre: %s'%(i.get('comercial'))+' Su Precio: %s'%(i.get('precio'))+' Su fecha de entrega %s'%(i.get('fecha_entrega'))+' Su solicitud: %s'%(i.get('solicitud_correspondiente'))
 
+
+
+        from ComparacionDeFechas import*
+
+        
+        
+        
+        
+        
+        for i in medicamentosXpaciente:
+            #return(ComparacionDeFecha(desde_fecha,hasta_fecha,i.get('fecha_entrega')))
+            if ComparacionDeFecha(desde_fecha,hasta_fecha,i.get('fecha_entrega'))==True:
+            
                 r={'comercial':i.get('comercial'),
                     'precio':'$ %s'%(i.get('precio')),
                     'fecha_entrega':i.get('fecha_entrega'),
@@ -1208,7 +1218,7 @@ def entregados_solicitante(request):
 
             else:
                 print 'no hay'
-
+            
 
         
         
@@ -1436,17 +1446,6 @@ def pdf_medicamentosXsolicitante(request):
 
                 c.showPage()#save page
 
-
-
-
-
-        
-
-
-
-
-
-   
         c.save()
 
         pdf = buffer.getvalue()
@@ -1464,17 +1463,6 @@ def pdf_medicamentosXsolicitante(request):
             return response#enviar el pdf, el pdf fue almacenado en una varible global por eso esto es posible.
 
 
-
-
-    
-
-
-
-        
-           
-
-        
-        
 
 
 
@@ -1575,6 +1563,13 @@ def registrarsolicitud(request,id_paciente):
             
             return HttpResponseRedirect('/aplicacion/fichasolicitud/'+str(cont))
 
+
+    
+
+
+    
+
+
     return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'id_paciente':paciente_enviado,'medico_enviado':medico_enviado, 'medicamento_enviado':medicamento_enviado}, context_instance = RequestContext(request))
 
 def solicitudespaciente(request,id_paciente):
@@ -1674,13 +1669,8 @@ def solicitudcancelada(request):
         estado=request.POST.get('estado').upper()
         id_solicitud=request.POST.get('id')
         
-
-
         soli=Solicitud.objects.get(id=id_solicitud)
-
-        
         soli.estado_aprobacion='CANCELADO'
-        
         soli.save()
 
         newdo = Registro_estados(

@@ -36,6 +36,7 @@ class UserOperador(models.Model):
 from django.contrib.auth.models import Group
 
 # Get or Create the Group (I <3 this method)
+
 FARMACIA, created = Group.objects.get_or_create(name='FARMACIA')
 OPERADOR, created = Group.objects.get_or_create(name='OPERADOR')
 SUPERVISOR, created = Group.objects.get_or_create(name='SUPERVISOR')

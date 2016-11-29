@@ -348,14 +348,16 @@ $('#derivaciones').hide();
 
       <br>
       <br>
-
+</form>
 
           <!-- Modal CANCELAR-->
-          <div id="ModalCancelar" class="modal fade" role="dialog">
+        <div class="form-horizontal">
+        <div id="ModalCancelar" class="modal fade" role="dialog">
               <div class="modal-dialog">
 
                  <!-- Modal content-->
                 <div class="modal-content">
+                  <form id='CancelarForm'>
                     
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -374,23 +376,41 @@ $('#derivaciones').hide();
                     </div>
               
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" id='cancelar' data-dismiss="modal">Confirmar</button>
+                      <button type="button" class="btn btn-danger" id='cancelar' >Confirmar</button>
                     </div>
-                </div>
+                  </div>
 
+                </form>
               </div>
           </div>
 
-           <!--FIN Modal CANCELAR-->
-
+           <!--FIN Modal CANCELAR data-dismiss="mod -->
+           
+    
+    </div>
 
     </div>
-</form>
 
-        
+
+       
 
 <script  type="text/javascript" charset="utf-8" async defer>
           
+  $("#CancelarForm").validate({
+            errorClass: "claserror",
+            validClass: "clasevalida",
+            errorElement: 'erele',
+            ignore: ':hidden',
+            rules: {
+              
+              comcancelado:{required:true,},
+            }
+  });  
+
+
+
+
+
         var generico1 = $("#generico1").val();
         var generico2 = $("#generico2").val();
         var generico3 = $("#generico3").val();
@@ -441,47 +461,33 @@ $('#derivaciones').hide();
 
 $("button[id=cancelar]").click(function () {
       
+      if($("#CancelarForm").valid()==true){
       
-      var comcancelado=$('#comcancelado').val();
-      var estado='CANCELADO';
-      var id=$('#id_solicitud').val();
+          var comcancelado=$('#comcancelado').val();
+          var estado='CANCELADO';
+          var id=$('#id_solicitud').val();
       
       
-      
-      $.ajax({
-
-        
-        url: '/aplicacion/solicitudcancelada/',// Ruta del views donde se enviara.
-        
-        type: 'POST',//Metodo de envio, si es por GET o POST
-        data: {'comcancelado':comcancelado,'id':id, 'estado':estado,}, //Dato que se envia. 
-
-
-        //si funciona correctamente se podra ejecutar success.
-        success: function (comentario) {
-            
-          
-          //Agrega un option mas al select y utilizamos los valores que devuelve el view.
-          alertify.success('Se Cancelo Correctamente')
-          
-          $('#aprobado').hide();
-          $('#cancelado').show();
-          $("#com_comentario" ).val(comentario.comentario);
-
+          $.ajax({
+              url: '/aplicacion/solicitudcancelada/',
+              type: 'POST',
+              data: {'comcancelado':comcancelado,'id':id, 'estado':estado,}, 
               
-        }
-
-
-
-
+              success: function (comentario) {
             
+                  $('#aprobado').hide();
+                  $('#cancelado').show();
+                  $('#cancelar_solicitud').hide();
+                  $("#com_cancelado" ).val(comentario.comentario);
+                  alertify.success('Se Cancelo Correctamente')
+                  $('#ModalCancelar').modal().hide();
+                  $('#ModalCancelar').modal('toggle');
 
-      });
 
-      
-
-    
-  
+              }
+          });
+        
+        }
 
  });
   
