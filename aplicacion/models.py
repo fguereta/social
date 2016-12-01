@@ -14,6 +14,14 @@ class Post(models.Model):
     url = models.CharField(max_length=150, verbose_name='Url')
     content = models.TextField(verbose_name='Post')
 
+class Especialidad(models.Model):
+    nombre_especialidad=models.CharField(max_length=50, unique=True)
+    estado=models.CharField(max_length=20, blank=True, null=True)    
+    
+    def __unicode__(self):
+        return self.nombre_especialidad
+
+
 class Persona(models.Model):
     nombre=models.CharField(max_length=20)
     apellido=models.CharField(max_length=20)
@@ -40,7 +48,7 @@ class Persona(models.Model):
      
     
 class Medico(Persona):
-    especialidad=models.CharField(max_length=20)
+    especialidad=models.ForeignKey(Especialidad, related_name='especialidad')
     matriculanacional=models.CharField(max_length=20)
     matriculaprovincial=models.CharField(max_length=20)
     def __unicode__(self):
@@ -72,11 +80,14 @@ class AccionSocial(Persona):
      
 class Medicamento(models.Model):
     
-    generico=models.CharField(max_length=20)
+    generico=models.CharField(max_length=50,unique=True)
     estado=models.CharField(max_length=20, blank=True, null=True)    
     
     def __unicode__(self):
         return self.nombre
+
+
+
 
 class Solicitud(models.Model):
     

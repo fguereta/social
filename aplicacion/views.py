@@ -324,8 +324,9 @@ def comprobar_medico(request):
                 'sexo':sexo
 
             }
+            especialidades=Especialidad.objects.filter(estado='ACTIVO')
 
-            return render_to_response("ABME/Medico/registrarmedico.html",{'cuil':cuil}, context_instance = RequestContext(request)) 
+            return render_to_response("ABME/Medico/registrarmedico.html",{'cuil':cuil,'especialidades':especialidades}, context_instance = RequestContext(request)) 
 
         else:
             for i in medico:
@@ -373,6 +374,8 @@ def fichamedico(request,id_medico):
 
 def registrarmedico(request):
     
+    
+
     if request.method=="POST":
 
         form=MedicoForm(request.POST)
@@ -396,7 +399,7 @@ def registrarmedico(request):
                     observaciones=request.POST['observaciones'].upper(),
                     matriculanacional=request.POST['matriculanacional'].upper(),
                     matriculaprovincial=request.POST['matriculaprovincial'].upper(),
-                    especialidad=request.POST['especialidad'].upper()
+                    especialidad_id=request.POST['especialidad']
                     )
             newdoc.save(form)
             
@@ -404,7 +407,7 @@ def registrarmedico(request):
             ban='exitopaciente'
             return render_to_response('ABME/Medico/fichamedico.html',{'id_medico':id_medico,'exitomedico':ban},context_instance=RequestContext(request))
 
-    return render_to_response('ABME/Medico/registrarmedico.html',{'medico':medico},context_instance=RequestContext(request)) 
+    
 
 def modificarmedico(request,id_medico):
      
@@ -438,7 +441,8 @@ def modificarmedico(request,id_medico):
             return render_to_response('ABME/Medico/fichamedico.html',{'id_medico':id_medico,'exito_modificar_medico':ban},context_instance=RequestContext(request))
     else:
         medico_enviar=Medico.objects.filter(persona_ptr_id=id_medico, estado='ACTIVO')
-        return render_to_response("ABME/Medico/modificarmedico.html",  {'id_medico': medico_enviar }, context_instance = RequestContext(request))    
+        especialidades=Especialidad.objects.filter(estado='ACTIVO')
+        return render_to_response("ABME/Medico/modificarmedico.html",  {'id_medico': medico_enviar,'especialidades':especialidades }, context_instance = RequestContext(request))    
 
 def listadomedico(resquest):
     medico=Medico.objects.all()
@@ -742,11 +746,6 @@ def farmacia_entrega(request):
 
             registros=[r]
 
-        
-
-
-
-   
             return render_to_response("ABME/Operaciones_Farmacia/entrega_informacion.html",{'solicitud_enviado':solicitud,'registros':registros}, context_instance = RequestContext(request))
 
     
@@ -801,10 +800,6 @@ def registro_entrega(request):
                     precio3=float(request.POST.get('pre_3').upper())
                 else:
                     precio3=0
-
-        
-
-       
 
             precios=precio1+precio2+precio3
 
@@ -1197,7 +1192,7 @@ def entregados_solicitante(request):
 
 
 
-        from ComparacionDeFechas import*
+        
 
         
         
@@ -2196,43 +2191,87 @@ def fichamedicamento(request,id_remedio):
 def registrarmedicamento(request):
     from django.core import serializers
     #Si resive peticion de ajax entra al if
-    
+    import json
     if request.is_ajax():
-        
+        cont=0
+        cont2=0
         #Guarda el valor enviado en una variable.
         generico=request.POST.get('generico').upper()
 
+        g=Medicamento.objects.filter(estado='ACTIVO',generico=generico)
+        g2=Medicamento.objects.filter(estado='INACTIVO',generico=generico)
 
-        newdoc = Medicamento(
+
+        for i in g:
+            cont=cont+1
+
+        for i in g2:
+            cont=2
 
 
-        generico=generico,
-        estado='ACTIVO',
-        )
+        if cont==0:
+
+            newdoc = Medicamento(
+
+                generico=generico,
+                estado='ACTIVO',
+            )
         
-        newdoc.save()
+            newdoc.save()
 
-        #se importa json para poder enviar los datos der respuestas
-
-        import json
-
-        medicamentos=Medicamento.objects.filter(generico=generico)
+            #se importa json para poder enviar los datos der respuestas
+            medicamentos=Medicamento.objects.filter(generico=generico)
         
-        for i in medicamentos:
+            for i in medicamentos:
             
-            datos={
+                datos={
+                    'ban':'si',
+                    'id':i.id,
+                    'generico':i.generico,
             
-            'id':i.id,
-            'generico':i.generico,
-            
-            }
+                }
 
-         #http response para enviar los datos con json tambien se puede usar serializer pero en este caso se adecuo mejor 
-         #la libreria de json, import json   
+            #http response para enviar los datos con json tambien se puede usar serializer pero en este caso se adecuo mejor 
+            #la libreria de json, import json   
 
-        #datos= serializers.serialize('json',medicamentos)
+            #datos= serializers.serialize('json',medicamentos)
+            return HttpResponse(json.dumps(datos), content_type="application/json")
+
+        elif cont==1:
+
+            for i in g:
+                
+                datos={
+                    'ban':'no',
+                    'id':i.id,
+                    'generico':i.generico,
+            
+                }
+
+            #http response para enviar los datos con json tambien se puede usar serializer pero en este caso se adecuo mejor 
+            #la libreria de json, import json   
+
+            #datos= serializers.serialize('json',medicamentos)
+            return HttpResponse(json.dumps(datos), content_type="application/json")
+
+        elif cont==2:
+            g_eliminado=Medicamento.objects.get(estado='INACTIVO',generico=generico)
+            g_eliminado.estado='ACTIVO'
+            g_eliminado.save()
         
-        return HttpResponse(json.dumps(datos), content_type="application/json")
+            medicamentos=Medicamento.objects.filter(generico=generico)
+        
+            for i in medicamentos:
+            
+                datos={
+                    'ban':'si',
+                    'id':i.id,
+                    'generico':i.generico,
+            
+                }
+
+            return HttpResponse(json.dumps(datos), content_type="application/json")
+
 
             
 
@@ -2334,5 +2373,86 @@ def ajax_view(request):
 
 
 
+def registrarespecialidad(request):
+    import json
+    if request.is_ajax():
+        cont=0
+        
+        nombre_especialidad=request.POST.get('nombre_especialidad').upper()
+
+        
+        e=Especialidad.objects.filter(nombre_especialidad=nombre_especialidad,estado='ACTIVO')
+        ei=Especialidad.objects.filter(nombre_especialidad=nombre_especialidad,estado='INACTIVO')
+
+        for i in e:
+            cont=cont+1
+
+        for i in ei:
+            cont=2
+
+        if cont==0:
+
+            newdoc = Especialidad(
+
+
+                nombre_especialidad=nombre_especialidad,
+                estado='ACTIVO',
+            )
+        
+            newdoc.save()
+
+            #se importa json para poder enviar los datos der respuestas
+
+            
+
+            especialidades=Especialidad.objects.filter(nombre_especialidad=nombre_especialidad,estado='ACTIVO')
+        
+            for i in especialidades:
+            
+                datos={
+                
+                'ban':'si',
+                'id':i.id,
+                'nombre_especialidad':i.nombre_especialidad,
+            
+                }
+
+                #http response para enviar los datos con json tambien se puede usar serializer pero en este caso se adecuo mejor 
+                #la libreria de json, import json   
+
+                #datos= serializers.serialize('json',medicamentos)
+        
+            return HttpResponse(json.dumps(datos), content_type="application/json")
+
+        elif cont==1:
+
+            for i in e:
+
+                datos={
+
+                    'ban':'no',
+                    'id':i.id,
+                    'nombre_especialidad':i.nombre_especialidad,
+                }
+
+            return HttpResponse(json.dumps(datos), content_type="application/json")
+
+        elif cont==2:
+            e_eliminado=Especialidad.objects.get(estado='INACTIVO',nombre_especialidad=nombre_especialidad)
+            e_eliminado.estado='ACTIVO'
+            e_eliminado.save()
+        
+            especialidades=Especialidad.objects.filter(nombre_especialidad=nombre_especialidad)
+        
+            for i in especialidades:
+            
+                datos={
+                    'ban':'si',
+                    'id':i.id,
+                    'nombre_especialidad':i.nombre_especialidad,
+            
+                }
+
+            return HttpResponse(json.dumps(datos), content_type="application/json")
 
 

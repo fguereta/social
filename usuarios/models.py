@@ -42,6 +42,7 @@ OPERADOR, created = Group.objects.get_or_create(name='OPERADOR')
 SUPERVISOR, created = Group.objects.get_or_create(name='SUPERVISOR')
 
 
+
     
     
     

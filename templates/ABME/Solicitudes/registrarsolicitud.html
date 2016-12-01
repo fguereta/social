@@ -41,10 +41,10 @@
 		
         <br>
 		  <div id='generico-1' >
-        <div class="form-group">
+        <div class="form-group medi1">
 				    <label for="medicamento_1" class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(1):<font color="red"> *</font></label> 
-					   <div class="col-md-5 text-left">
-                <select name="medicamento1" id="medicamento1" class="form-control col-md-1  chosen-select " data-placeholder="Busqueda..." required>             
+					   <div class="col-md-5 text-left ">
+                <select name="medicamento1" id="medicamento1" class="form-control col-md-1  chosen1" data-placeholder="Busqueda..." required>             
                   <option value=""></option>
                   {% for elemento in medicamento_enviado %}
                   <option value="{{elemento.id}}" >{{elemento.generico}}</option>
@@ -68,9 +68,9 @@
 
       <div id='generico-2' style="display:none;">
 		    <br>
-		    <div class="form-group">
+		    <div class="form-group medi2">
 				    <label for="medicamento_2" class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(2):</label> 
-					   <div class="col-md-5 text-left">
+					   <div class="col-md-5 text-left ">
                 <select name="medicamento2" id="medicamento2" class="form-control col-md-1 chosen2 " data-placeholder="Busqueda..." >             
                     <option value=""></option>
                       {% for elemento in medicamento_enviado %}
@@ -105,7 +105,7 @@
 
       <div id='generico-3' style="display:none;">
 		
-        <div class="form-group medicamento3">
+        <div class="form-group medi3 ">
 				  <label for="medicamento_3 " class="control-label col-md-4  col-md-offset-0">Nombre generico del medicamento(3):</label> 
 					<div class="col-md-5 text-left ">
               <select name="medicamento3" id="medicamento3" class="form-control col-md-1 chosen3 " data-placeholder="Busqueda..." >             
@@ -273,94 +273,99 @@
 
 <script  type="text/javascript" charset="utf-8" async defer>
    
-
+$("#miForm").keypress(function(e) {
+        if (e.which == 13) {
+            return false;
+        }
+    });
 
   
+function ajax_funcion(generico,z){
+    
+    $.ajax({
+        
+        url: '/aplicacion/registrarmedicamento/',
+        type: 'POST',
+        data: {'generico':generico,},
+
+
+        success: function (datos) {
+
+            if(datos.ban=='si'){
+                
+                if(z==1){
+                    $("#medicamento1").append("<option value="+datos.id+" selected='selected'>"+datos.generico+"</option>").trigger("chosen:updated");
+                    $("#medicamento2").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
+                    $("#medicamento3").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
+               
+                }else if(z==2){
+
+                    $("#medicamento1").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
+                    $("#medicamento2").append("<option value="+datos.id+" selected='selected'>"+datos.generico+"</option>").trigger("chosen:updated");
+                    $("#medicamento3").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
+                
+                }else if(z==3){
+                    $("#medicamento1").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
+                    $("#medicamento2").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
+                    $("#medicamento3").append("<option value="+datos.id+" selected='selected'>"+datos.generico+"</option>").trigger("chosen:updated");
+                }
+            
+            }else if(datos.ban=='no'){
+
+                if(z==1){
+                  
+                  $(".chosen1").chosen("destroy");
+                  $('#medicamento1 > option[value='+datos.id+']').attr('selected', true).trigger("chosen:updated");
+                  $('.chosen1').chosen().change();
+
+                }else if(z==2){
+                  $(".chosen2").chosen("destroy");
+                  $('#medicamento2 > option[value='+datos.id+']').attr('selected', true).trigger("chosen:updated");
+                  $('.chosen2').chosen().change();
+
+                }else if(z==3){
+                  $(".chosen3").chosen("destroy");
+                  $('#medicamento3 > option[value='+datos.id+']').attr('selected', true).trigger("chosen:updated");
+                  $('.chosen3').chosen().change();
+                }
+
+            }
+
+
+
+        }
+
+    });
+
+}
  	
    $("button[id=guardar1]").click(function () {
    		
    		
    		var generico=$('#generico1').val();
+
+      ajax_funcion(generico,1);
    		
-   		$.ajax({
-
-   			
-   			url: '/aplicacion/registrarmedicamento/',
-   			
-   			type: 'POST',
-   			data: {'generico':generico,},
-
-
-
-   			success: function (datos) {
-       			
-   				
-   				$("#medicamento1").append("<option value="+datos.id+" selected='selected'>"+datos.generico+"</option>").trigger("chosen:updated");
-   				$("#medicamento2").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
-   				$("#medicamento3").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
-
-       				
-    		}
-
-   		});
+   		
 
    	});
+
  	
  	$("button[id=guardar2]").click(function () {
    		
    		
    		var generico=$('#generico2').val();
    		
-   		$.ajax({
+   		ajax_funcion(generico,2);
 
-   			
-   			url: '/aplicacion/registrarmedicamento/',
-   			
-   			type: 'POST',
-   			data: {'generico':generico,},
-
-
-
-   			success: function (datos) {
-       			
-   				
-   				$("#medicamento1").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
-   				$("#medicamento2").append("<option value="+datos.id+" selected='selected'>"+datos.generico+"</option>").trigger("chosen:updated");
-   				$("#medicamento3").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
-
-       				
-    		}
-
-   		});
-
-   	});
+  });
 
    	$("button[id=guardar3]").click(function () {
    		
    		
    		var generico=$('#generico3').val();
    		
-   		$.ajax({
-
-   			
-   			url: '/aplicacion/registrarmedicamento/',
-   			
-   			type: 'POST',
-   			data: {'generico':generico,},
-
-
-
-   			success: function (datos) {
-       			
-   				
-   				$("#medicamento1").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
-   				$("#medicamento2").append("<option value="+datos.id+" >"+datos.generico+"</option>").trigger("chosen:updated");
-   				$("#medicamento3").append("<option value="+datos.id+" selected='selected'>"+datos.generico+"</option>").trigger("chosen:updated");
-
-       				
-    		}
-
-   		});
+   		ajax_funcion(generico,3);
 
    	});
    
@@ -368,9 +373,11 @@
 </script>
 
  <script type="text/javascript">
+  
+
   var contador=1;
   $(".chosen-select").chosen();//Activa la funcion de select-chosen
-
+  $(".chosen1").chosen();
   $("#miForm").validate({
       errorClass: "claserror",
       validClass: "clasevalida",
@@ -530,35 +537,6 @@ function remove_required(contador){
         
 });
 
-
-
-
-
-
-
-
-  
-  
-  
-
-    
-
-
-
-  
-  
-
- 
- 
-  
-  
-
-
-
-
-
-
-
 $("button[id=solicitar]").click(function () {
       
       if($("#miForm").valid()==false){
@@ -566,6 +544,8 @@ $("button[id=solicitar]").click(function () {
   
           $(".chosen-select").chosen("destroy");
           $(".chosen-select").chosen();
+          $(".chosen1").chosen("destroy");
+          $(".chosen1").chosen();
           $(".chosen2").chosen("destroy");
           $(".chosen2").chosen();
           $(".chosen3").chosen("destroy");
