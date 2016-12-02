@@ -118,7 +118,7 @@ class Registro_estados(models.Model):
     estado=models.CharField(max_length=10)
     observaciones=models.TextField(blank=True, null=True)
     farmacia = models.ForeignKey(UserFarmacia, db_column='farmacia_id', blank=True, null=True)
-    
+    operador = models.ForeignKey(UserOperador, db_column='operador_id', blank=True, null=True)
     comercial1=models.CharField(max_length=50)
     comercial2=models.CharField(max_length=50, blank=True, null=True)
     comercial3=models.CharField(max_length=50, blank=True, null=True)

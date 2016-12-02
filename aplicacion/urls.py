@@ -77,7 +77,7 @@ urlpatterns = [
     url(r'^pdf_solicitud/(?P<nro_solicitud>(\w+))/$', views.pdf_solicitud, name='report'),
     url(r'^solicitudespaciente/(?P<id_paciente>\w+)/$', views.solicitudespaciente, name='solicitudespaciente'),
     url(r'^fichasolicitud/(?P<id_solicitud>\w+)/$', views.fichasolicitud, name='fichasolicitud'),
-    url(r'^solicitudcancelada/', views.solicitudcancelada, name='fichasolicitud'),
+    url(r'^solicitud_can_aud/', views.solicitud_can_aud, name='solicitud_can_aud'),
     url(r'^solicitud_movimientos/(?P<id_solicitud>\w+)$', views.solicitud_movimientos, name='farmacia_entregados'),
 
     

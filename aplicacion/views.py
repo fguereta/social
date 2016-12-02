@@ -1587,15 +1587,34 @@ def solicitudespaciente(request,id_paciente):
     
 def fichasolicitud(request,id_solicitud):
 
+    
+    
     if id_solicitud>0:
         s=Solicitud.objects.filter(id=id_solicitud)
         e=Registro_estados.objects.filter(solicitud_id=id_solicitud)
         solicitud=[]
+
+        com_auditoria=''
+        
+        for i in e:
+            if i.estado=='APROBADO':
+                com_auditoria=i.observaciones
+            
+                
+
+        if com_auditoria!='':
+            audi={'hubo':'si','com_auditoria':com_auditoria,}
+            auditoria=[audi]
+        elif com_auditoria=='':
+            audi={'hubo':'no',}
+            auditoria=[audi]
         
         for i in s:
             for j in e:
-                if i.estado_aprobacion==j.estado:
 
+                
+                if i.estado_aprobacion==j.estado:
+                    
                     soli= {
 
                     'id':i.id,
@@ -1616,6 +1635,9 @@ def fichasolicitud(request,id_solicitud):
 
                     }
                     solicitud=solicitud+[soli]
+
+        
+
                 
 
         sol=Solicitud.objects.filter(id=id_solicitud)
@@ -1626,8 +1648,8 @@ def fichasolicitud(request,id_solicitud):
 
         #estado=Estado_aprobacion.objects.filter(solicitud_id=id_solicitud).order_by('-id')
 
-
-        return render_to_response('ABME/Solicitudes/fichasolicitud.html',{'solicitud_enviado':solicitud,'id_paciente':id_paciente},context_instance=RequestContext(request))
+        
+        return render_to_response('ABME/Solicitudes/fichasolicitud.html',{'solicitud_enviado':solicitud,'id_paciente':id_paciente,'auditoria':auditoria},context_instance=RequestContext(request))
 
     elif id_solicitud==0:
 
@@ -1650,42 +1672,41 @@ def fichasolicitud(request,id_solicitud):
 
         return render_to_response('ABME/Solicitudes/fichasolicitud.html',{'solicitud_enviado':solicitud,'id_paciente':id_paciente},context_instance=RequestContext(request))
 
-def solicitudcancelada(request):
-    
+def solicitud_can_aud(request):
+    #ESTA FUNCION APRUEBA AUDITORIA Y CANCELA LAS SOLICITUDES
     import datetime, time
     d= datetime.datetime.now()
     fecha=str(d.strftime("%d/%m/%Y %H:%M:%S"))
     fecha_cortada=fecha.split(' ')
     fecha_registro=fecha_cortada[0]+', Hora: '+fecha_cortada[1]
-
+    
+    import json
 
     if request.is_ajax():
-        comcancelado=request.POST.get('comcancelado').upper()
-        estado=request.POST.get('estado').upper()
-        id_solicitud=request.POST.get('id')
         
-        soli=Solicitud.objects.get(id=id_solicitud)
-        soli.estado_aprobacion='CANCELADO'
+        soli=Solicitud.objects.get(id=request.POST.get('id'))
+        soli.estado_aprobacion=request.POST.get('estado')
+        soli.operador_id=request.POST.get('usuario_id')
         soli.save()
 
         newdo = Registro_estados(
 
-            solicitud_id=id_solicitud,
+            solicitud_id=request.POST.get('id'),
             fecha=fecha_registro,
-            estado='CANCELADO',
-            observaciones=comcancelado,
-            
+            estado=request.POST.get('estado'),
+            observaciones=request.POST.get('comentario').upper(),
+            operador_id=request.POST.get('usuario_id'),
+                            
 
         )
 
         newdo.save()
 
-        import json
-        
-        comentario={'comentario':comcancelado,}
+        datos={'comentario':request.POST.get('comentario').upper(),'estado':request.POST.get('estado')}
 
-        return HttpResponse(json.dumps(comentario), content_type="application/json")
+        return HttpResponse(json.dumps(datos), content_type="application/json")
         
+
 def solicitud_movimientos(request,id_solicitud):
 
     solicitudes=Solicitud.objects.filter(id=id_solicitud).order_by('-id')

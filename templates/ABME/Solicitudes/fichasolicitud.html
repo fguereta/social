@@ -5,6 +5,8 @@
 
 
 
+
+
 {% if solicitud_enviado %}
 
 
@@ -62,7 +64,7 @@ $('#modificar').hide();
 $('#eliminar').hide();
 $('#derivaciones').hide(); 
 $('#cancelar_solicitud').show();
-
+$('#aprobar_auditoria').show();
 
 </script>
 
@@ -113,12 +115,13 @@ $('#derivaciones').hide();
 </script>
 
 {% endifequal %}
+
   
     <form  method="POST" enctype="multipart/form-data" class="form-horizontal">
     
       <div class="panel panel-info">
         <div class="panel-heading">
-            <div class=" col-md-offset-5">Datos de la <b>Solicitud N° {% for elemento in solicitud_enviado %}{{elemento.id}}</b>{% endfor %}
+            <div class=" col-md-offset-4">&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;Datos de la <b>Solicitud N° {% for elemento in solicitud_enviado %}{{elemento.id}}</b>{% endfor %}
             </div>
         </div>
       </div>
@@ -126,6 +129,7 @@ $('#derivaciones').hide();
       <input class="form-control" id="id_solicitud" name="id_solicitud" type="hidden" value="{% for elemento in solicitud_enviado %}{{elemento.id}}{% endfor %}"/>
        
       <input class="form-control" id="estado_actual" name="estado_actual" type="hidden" value="{% for elemento in solicitud_enviado %}{{elemento.estado_aprobacion}}{% endfor %}"/>
+
 
 
           <br><br>
@@ -182,9 +186,9 @@ $('#derivaciones').hide();
 
     <div id='auditoria' style="display:none;"> 
       <br>   
-      <div class="panel panel-info">
+      <div class="panel panel-warning">
         <div class="panel-heading">
-            <div class=" col-md-offset-4">La <b>Solicitud N° {% for elemento in solicitud_enviado %}{{elemento.id}}</b>  requiere autorizacion de auditoria.{% endfor %}
+            <div class=" col-md-offset-4">&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;<b>Requiere autorizacion de auditoria</b>
             </div>
         </div>
       </div>
@@ -198,7 +202,7 @@ $('#derivaciones').hide();
       
       <div class="panel panel-danger">
         <div class="panel-heading">
-            <div class=" col-md-offset-5">La <b>Solicitud N° {% for elemento in solicitud_enviado %}{{elemento.id}}</b> se encuentra cancelada.{% endfor %}
+            <div class=" col-md-offset-4">&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; La <b>Solicitud N° {% for elemento in solicitud_enviado %}{{elemento.id}}</b> se encuentra cancelada.{% endfor %}
             </div>
         </div>
       </div>
@@ -212,6 +216,31 @@ $('#derivaciones').hide();
           </div>
       </div>
     </div>
+
+    <div id='d_auditoria' style="display:none;">    
+      
+    <br><br>
+
+      <div class="form-group">
+          <label for="com_auditoria" class="control-label col-md-4 col-md-offset-0">Detalle de aprobación de Auditoria*:</label> 
+          <div class="col-md-5">
+          {% for elemento in auditoria %}
+            {% ifequal elemento.hubo "si" %}
+              <textarea class="form-control" type='text' cols="40" id="com_auditoria" name="com_auditoria" style='width:480px;height: 102px;' rows="10" readonly>{{elemento.com_auditoria}}</textarea>
+            {% endifequal %}
+
+            {% ifequal elemento.hubo "no" %}
+              <textarea class="form-control" type='text' cols="40" id="com_auditoria" name="com_auditoria" style='width:480px;height: 102px;' rows="10" readonly></textarea>
+            {% endifequal %}
+          {% endfor %}
+
+          </div>
+
+
+      </div>
+    </div>
+
+
       
       <br>
       
@@ -228,26 +257,7 @@ $('#derivaciones').hide();
       </div>
 
 
-      <div class="form-group">
-          <label for="paciente" class="control-label  col-md-2 col-md-offset-2 ">Requiere Auditoria:</label> 
-          
-          <div class="col-md-5" id='auditoria'>
-            
-            {% for elemento in solicitud_enviado %}
-
-              {% ifequal elemento.estado_aprobacion "AUDITORIA" %}
-            
-            <input class="form-control"  type="text" readonly="readonly" value="SI" readonly />
-
-              {% else %}
-
-                 <input class="form-control"  type="text" readonly="readonly" value="NO" readonly />
-              {% endifequal %}
-
-              {% endfor %}
-            
-          </div>
-      </div>
+      
 
 
 
@@ -348,6 +358,10 @@ $('#derivaciones').hide();
 
       <br>
       <br>
+
+      
+
+
 </form>
 
           <!-- Modal CANCELAR-->
@@ -386,11 +400,58 @@ $('#derivaciones').hide();
 
            <!--FIN Modal CANCELAR data-dismiss="mod -->
            
+
+           <!-- Modal APROBAR AUDITORIA-->
+        <div class="form-horizontal">
+        <div id="ModalAuditoria" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                 <!-- Modal content-->
+                <div class="modal-content">
+                  <form id='AuditoriaForm'>
+                    
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Detalle de aprobación </h4>
+                    </div>
+              
+                    <div class="modal-body">
+                    <br>
+                      
+                   
+                      <div class="form-group">
+                        <div class="col-md-5 col-md-offset-0">
+                          <textarea class="form-control" type='text'  id="comauditoria" name="comauditoria" style='width:550px;height: 130px;' placeholder="Escriba aqui..."></textarea>
+                        </div>
+                      </div>
+                  
+                    </div>
+              
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" id='aprobar' >Confirmar</button>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+          </div>
+
+           <!--FIN Modal CANCELAR data-dismiss="mod -->
     
     </div>
 
     </div>
 
+{% for elemento in auditoria %}
+  {% ifequal elemento.hubo "si" %}
+    <script  type="text/javascript" charset="utf-8" async defer>
+
+    $('#d_auditoria').show();
+  
+   
+  </script>
+   {% endifequal %}
+{% endfor %}
 
        
 
@@ -404,6 +465,17 @@ $('#derivaciones').hide();
             rules: {
               
               comcancelado:{required:true,},
+            }
+  });
+
+  $("#AuditoriaForm").validate({
+            errorClass: "claserror",
+            validClass: "clasevalida",
+            errorElement: 'erele',
+            ignore: ':hidden',
+            rules: {
+              
+              comauditoria:{required:true,},
             }
   });  
 
@@ -452,42 +524,88 @@ $('#derivaciones').hide();
       if(estado_actual=='AUDITORIA'){
 
         $('#auditoria').show();
+        
+
       }
 
 
 
 
 // AJAX
+//FUNCION QUE REALIZE LA APROBACION DE AUDITORIA Y TAMBIEN LA CANCELACION DE SOLICITUD
+function ajax_can_aud(comentario,estado,id){
 
-$("button[id=cancelar]").click(function () {
-      
-      if($("#CancelarForm").valid()==true){
-      
-          var comcancelado=$('#comcancelado').val();
-          var estado='CANCELADO';
-          var id=$('#id_solicitud').val();
-      
-      
-          $.ajax({
-              url: '/aplicacion/solicitudcancelada/',
+  
+      $.ajax({
+              url: '/aplicacion/solicitud_can_aud/',
               type: 'POST',
-              data: {'comcancelado':comcancelado,'id':id, 'estado':estado,}, 
+              data: {'comentario':comentario,'id':id, 'estado':estado,'usuario_id':usuario_id}, 
               
-              success: function (comentario) {
-            
-                  $('#aprobado').hide();
-                  $('#cancelado').show();
-                  $('#cancelar_solicitud').hide();
-                  $("#com_cancelado" ).val(comentario.comentario);
-                  alertify.success('Se Cancelo Correctamente')
-                  $('#ModalCancelar').modal().hide();
-                  $('#ModalCancelar').modal('toggle');
+              success: function (datos) {
+                  
+                  if(datos.estado=='CANCELADO'){
 
+                      $('#auditoria').hide();
+                      $('#aprobado').hide();
+                      $('#cancelado').show();
+                      $('#cancelar_solicitud').hide();
+                      $("#com_cancelado" ).val(datos.comentario);
+                      alertify.success('Se cancelo correctamente')
+                      $('#ModalCancelar').modal().hide();
+                    $('#ModalCancelar').modal('toggle');
+                  
+                  }else if(datos.estado=='APROBADO'){
+                      $('#aprobar_auditoria').hide();
+                      $('#auditoria').hide();
+                      $('#aprobado').show();
+                      $('#d_auditoria').show();
+                      $("#com_auditoria" ).val(datos.comentario);
+                      $('#cancelar_solicitud').show();
+                      alertify.success('Se aprobo correctamente')
+                      $('#ModalAuditoria').modal().hide();
+                      $('#ModalAuditoria').modal('toggle');
 
-              }
+                  }
+
+                }
           });
         
+        
+
+
+  }
+
+
+$("button[id=cancelar]").click(function () {
+
+    if($("#CancelarForm").valid()==true){
+
+      var comcancelado=$('#comcancelado').val();
+      var estado='CANCELADO';
+      var id=$('#id_solicitud').val();
+
+
+      ajax_can_aud(comcancelado,estado,id);
+      
+      
+    }
+
+
+ });
+
+$("button[id=aprobar]").click(function () {
+      
+      
+
+      if($("#AuditoriaForm").valid()==true){
+      
+          var comauditoria=$('#comauditoria').val();
+          var estado='APROBADO';
+          var id=$('#id_solicitud').val();
+          ajax_can_aud(comauditoria,estado,id);
+        
         }
+        
 
  });
   
