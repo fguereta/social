@@ -19,6 +19,15 @@ urlpatterns = [
     url(r'^fichaoperador/(?P<id_operador>\w+)/$', views.fichaoperador, name='fichaoperador'),
     url(r'^operador/$', views.operador, name='operador'),
     url(r'^eliminaroperador/(?P<id_operador>\w+)/$', views.eliminaroperador, name='eliminaroperador'),
+    url(r'^modificaroperador/(?P<id_operador>\w+)/$', views.modificaroperador, name='modificaroperador'),
+    url(r'^operadore/(?P<id_operador>\w+)/$', views.operadore, name='operadore'),
+    url(r'^resetpass/(?P<id_operador>\w+)/$', views.resetpass, name='resetpass'),
+    url(r'^resetpassfarmacia/(?P<id_farmacia>\w+)/$', views.resetpassfarmacia, name='resetpassfarmacia'),
+
+
+
+
+
     
 #    url(r'^cerrar_sesion_farmacia/$', views.cerrar_sesion_farmacia, name='cerrar_sesion_farmacia'),
 	#url(r'^iniciar_sesion_farmacia/$', views.iniciar_sesion_farmacia, name='iniciar_sesion_farmacia'),

@@ -2,35 +2,8 @@
 {% block htitle %}<title>Medicamentos</title>{% endblock %} 
 
 {% block contenido%}
-
-<div class="container">
-  <div class='panel panel-primary dialog-panel'>
-          <div class='panel-body'>
-          
-    <fieldset>
-        <legend>Medicamentos</legend>
-            <div class="col-md-offset-10"> <a  href="/aplicacion/registrarmedicamento"><button class="btn btn-success ">Registrar Medicamento</button></a>
-            </div>
-
-            <div class="row">
-                <form  method="POST"  enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
-                    <div class="col-md-4 text-left">
-                    <select name="id_remedio" id="id_remedio" class="form-control col-md-1 chosen-select " data-placeholder="Busqueda..." required>             
-                        <option value=""></option>
-                        {% for elemento in busqueda_remedio %}
-                        <option value="{{elemento.id}}" >{{elemento.generico}}</option>
-                        {% endfor %}
-                    </select>
-                    </div>
-    
-                    <div>
-                    <button class="col-md-2 btn btn-primary" type="submit">Buscar</button>
-                    </div>
-                </form> 
-            </div>
-        
-  </fieldset>
- 
+  
+<!--  
  {% if id_remedio %}
 <div class="row">
 <br>
@@ -69,52 +42,132 @@
 </div>
 </div>
  {% endif %}
-
- {% if remedio %}
-<div class="row">
-<br>
-
-<div class=".container">
+ 
+-->
   
-<br> 
-<div class="table-responsive">             
-  <table id="example" class="table table-condensed  table-hover" cellspacing="0" width="100%">
-    <thead>
-      <tr>
-        <th class=" text-center"></th>
-        <th class="text-center">Nombre genérico</th>
-        <th class="text-center">Presentación</th>
-        <th class="text-center">Observaciones</th>
+        <div class='panel-body'>
+
+              <nav class="navbar navbar-default" role="navigation">
+                    <!-- El logotipo y el icono que despliega el menú se agrupan
+                   para mostrarlos mejor en los dispositivos móviles -->
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Desplegar navegación</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+    
+                    </div>
+ 
+                    <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+                    otro elemento que se pueda ocultar al minimizar la barra -->
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                      <ul class="nav navbar-nav"></ul>
+ 
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/aplicacion/registrarmedicamento2">Registrar Medicamento</a></li>
+                  </ul>
+          
+              </nav>
+              
+              <h3><i>Gestion de medicamentos</i></h3>
+                
+                 <i>*Seleccione la fila correspodiente del medicamento para ver la informacion o realizar operaciones.</i>
+
+        </div>
+        
+        <table style="cursor:pointer" class='table' id='table' data-pagination="true" data-height="440" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true">
+        <thead>
+        <tr>
+        <th class="text-center info">Numero de identificación</th>
+        <th class="text-center info">Nombre generico</th>
+        <!--<th class="text-center info">Modificar</th>-->
+        <th class="text-center info">Eliminar</th>
         
         
       </tr>
     </thead>
     <tbody>
+
+    {% if remedio %}
     {% for elemento in remedio %}
-      <tr>
-        <td class="col-md-1 text-center"><a href="/aplicacion/fichamedicamento/{{elemento.id}}/"><button class=" btn btn-success btn-sm">Ver ficha</button></a>
-        <td class="col-md-2 text-center">{{elemento.generico}}</td>
-        <td class="col-md-2 text-center">{{elemento.presentacion}}</td>
-        <td class="col-md-2 text-center">{{elemento.observaciones}}</td>
+       
+       <tr>
+
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichamedicamento/{{elemento.id}}' >{{elemento.id}}</td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichamedicamento/{{elemento.id}}' >{{elemento.generico}}</td>
         
-         
+     <!--  <td class="col-md-2 text-center warning"><a href="/aplicacion/modificarmedicamento/{{elemento.id}}">Modificar</a></td>-->
+        <td class="col-md-1 text-center warning"><img onclick='eliminar({{elemento.id}}, "{{elemento.generico}}");' class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
+ 
       </tr>
+     
      {% endfor %} 
+
+     {% endif %}
       
     </tbody>
   </table>
-</div>
-            
-</div>
-</div>
-</div>
- {% endif %}
-
-
+        
+        
 <script type="text/javascript" charset="utf-8" async defer>
     
-    $(".chosen-select").chosen({no_results_text: "No existe ese paciente"});
 
+$('#table').bootstrapTable();
+
+$(".clickable-row").click(function() {
+        window.document.location = $(this).data("href");
+    });
+
+$(document).on('click', ".clickable-row", function () {
+        window.document.location = $(this).data("href");
+});
+
+    
+
+
+    
+    function eliminar(id,generico)
+{
+  
+    alertify.set({ labels: {
+            ok     : "Confirmar",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("El medicamento: <b>"+generico+"</b> será eliminado del sistema, ¿Esta de acuerdo?", function (e) {
+
+
+          if (e) {
+            
+            window.location.href = "/aplicacion/eliminarmedicamento/"+id;
+          
+          } 
+      });
+
+
+ }
+
+ 
+
+   $("button[id=btn_nuevo_paciente]").click(function() {
+
+      
+  alertify.defaults.glossary.title = '';
+
+      alertify.confirm("Confirmar eliminacion  "+apellidonombre,
+            function (e) {
+                if (e) {
+                   window.location = "/aplicacion/eliminarpaciente/"+id_paciente;
+                } else {
+                    alertify.error("Has pulsado <strong>"
+                             + alertify.labels.cancel
+                             + "</strong>");
+                }
+        }).setting('labels',{'ok':'Confirmar', 'cancel': 'Cancelar'});
+    });
+ 
 </script>
 
 

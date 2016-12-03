@@ -9,7 +9,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" id="titulo" href="">Servicio social</a>
+        <a class="navbar-brand" id="titulo" href="/usuario/home/">Servicio social</a>
       </div>
 
 <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -27,7 +27,8 @@
       <li id='usuario' style="display:none;" > <a href="/usuario/operador">Gestión Usuarios</a></li>
       
 
-
+      <li id='medicamento' style="display:none;"> <a href="/aplicacion/medicamento">Gestión de Medicamentos</a></li>
+      
       <li id='pendiente_entrega' style="display:none;"><a href="/aplicacion/farmacia_entrega">Solicitudes Pendientes</a>
 
       
@@ -46,12 +47,9 @@
         Usuario <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-         <li><a id='fichafarmacia' style="display:none;" href="/aplicacion/fichafarmacia/{{user.id}}/">Usuario: {{ user.username }}</a>
-         <li><a id='fichaoperador' style="display:none;" href="/usuario/fichaoperador/{{user.id}}/">Usuario: {{ user.username }}</a>
-        <!--
-        <li id='cerrarsesionoperador' style="display:none;"><a href="/usuario/cerrar_sesion_operador/" ">Cerra Sesion</a></li>
-        <li id='cerrarsesionfarmacia' style="display:none;"><a  href="/usuario/cerrar_sesion_farmacia/" >Cerra Sesion</a></li>
-        -->
+
+        <li><a id='fichafarmacia' style="display:none;" href="/aplicacion/fichafarmacia/{{user.id}}/">Usuario: {{ user.username }}</a>
+        <li><a id='fichaoperador' style="display:none;" href="/usuario/fichaoperador/{{user.id}}/">Usuario: {{ user.username }}</a>
         <li ><a  href="/admin/password_change/" >Cambiar contraseña</a></li>
         <li ><a  href="/usuario/cerrar_sesion/" >Cerrar Sesion</a></li>
         
@@ -60,29 +58,21 @@
       
          
     {% endif %}
-    <li><a href="">Ayuda</a></li>
+       <!--li><a href="">Ayuda</a></li-->
 
       <li class="dropdown">
         <ul class="dropdown-menu">
         <ul class="nav navbar-nav navbar-right">
          
-          <li id='paciente' style="display:none; "> <a href="/aplicacion/paciente">Gestión de Pacientes</a></li>
-      
-      <li id='medico'  style="display:none;"><a href="/aplicacion/medico">Gestión de Medicos</a></li>
-      
-      <li id='farmacia' style="display:none;" ><a href="/aplicacion/farmacia">Gestión  de Farmacia</a></li>
-      
-      <li id='usuario' style="display:none;" > <a href="/aplicacion/usuario">Gestión Usuarios</a></li>
-          
-          <li id='usuario' style="display:none;"> <a href="/aplicacion/usuario">Usuarios</a></li>
+        <li id='paciente' style="display:none; "> <a href="/aplicacion/paciente">Gestión de Pacientes</a></li>
+		<li id='medico'  style="display:none;"><a href="/aplicacion/medico">Gestión de Medicos</a></li>
+      	<li id='farmacia' style="display:none;" ><a href="/aplicacion/farmacia">Gestión  de Farmacia</a></li>
+      	<li id='usuario' style="display:none;" > <a href="/aplicacion/usuario">Gestión Usuarios</a></li>
+      	<li id='usuario' style="display:none;"> <a href="/aplicacion/usuario">Usuarios</a></li>
+        <li id='pendiente_entrega' style="display:none;"><a href="/aplicacion/farmacia_entrega">Pendientes de entrega</a></li>
+        <li id='entregado' style="display:none;"> <a href="/aplicacion/farmacia_entregados">Entregados</a></li>
+        <li id='consultas' style="display:none;"> <a href="/aplicacion/solicitud_consultas">Consultas</a></li>
 
-          <li id='pendiente_entrega' style="display:none;"><a href="/aplicacion/farmacia_entrega">Pendientes de entrega</a></li>
-          
-          
-          
-          <li id='entregado' style="display:none;"> <a href="/aplicacion/farmacia_entregados">Entregados</a></li>
-
-           <li id='consultas' style="display:none;"> <a href="/aplicacion/solicitud_consultas">Consultas</a></li>
         </ul>
       </li>
       
@@ -120,14 +110,13 @@
   
         
           $('#paciente').show();
+          $('#medicamento').show();
           $('#medico').show();
           $('#farmacia').show();
           $('#cerrarsesionoperador').show();
           $('#consultas').show();
           $('#fichaoperador').show();
-
-
-          var usuario_id='{{user.id}}';
+	      var usuario_id='{{user.useroperador.id}}';
           
 
         </script>
@@ -145,8 +134,11 @@
           $('#cerrarsesionoperador').show();
           $('#consultas').show();
           $('#fichaoperador').show();
-           $('#usuario').show();
-
+          $('#usuario').show();
+          $('#medicamento').show();
+          $('#nuevafarmacia').show();
+          var usuario_id='{{user.useroperador.id}}';
+		
 
 
         </script>

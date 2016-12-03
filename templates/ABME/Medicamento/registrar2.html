@@ -1,16 +1,16 @@
 {% extends "index.html" %} 
-{% block htitle %}<title>Modificar Medicamento</title>{% endblock %} 
+{% block htitle %}<title>Registrar Medicamento</title>{% endblock %} 
 
  
 {% block contenido %} 
     
 
 
-{% for elemento in id_remedio %}
+
 <div class='container'>
     <div class='panel panel-primary dialog-panel'>
       <div class='panel-heading'>
-        <h5>Modificar medicamento</h5>
+        <h5>Nuevo medicamento</h5>
       </div>
       <div class='panel-body'>
         <form  id="miForm" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
@@ -21,36 +21,115 @@
               
               <div class='col-md-4 indent-small'>
                 <div class='form-group internal'>
-                  <input class='form-control' id='generico' name="generico" placeholder='Nombre genérico' type='text' value="{{elemento.generico}}">
-                  {%if error%}
-                  <p>{{error}}</p>
-                  {%endif%}
+                  <input class='form-control' id='generico' name="generico" placeholder='Nombre genérico' type='text' value="">
+                   {% if error %}
+                   <p color='red'>{{error}}</p>
+                   {%endif%}
                 </div>
               </div>
               
             </div>
           </div>
-        
-                          
-              <input class='form-control' id='idmedicamento' name='idmedicamento' value="{{elemento.id}}" type="hidden"></input>
+ 
+          
           
          <div class='form-group'>
             <div class='col-md-offset-9 col-md-3'>
             <br>
-            
+                </form>
             	
               <!--<button class='btn-lg btn-danger' style='float:right' type=''><a href="/aplicacion/fichamedicamento/{{elemento.id}}">Cancelar</a></button>-->
-              <button class='btn-lg btn-primary' style='float:right' type='submit'>Guardar</button>
+              <button class='btn-lg btn-primary' style='float:right' id='guardar' >Guardar</button>
             </div>
           </div>
        
-        </form>
+    
       </div>
     </div>
   </div>
-       {% endfor %}
-<script>
 
+            <script type="text/javascript" charset="utf-8" async defer>
+              
+            $("button[id=guardar]").click(function () {
+      
+              var generico = $("#generico").val();
+             
+              
+
+           
+             if(generico=='') 
+               
+             {  
+
+              alertify.alert('No se puede registrar, complete los campos obligatorios <font color="red">*</font>');
+  
+            }
+
+             if(generico!='') 
+               
+             {  
+               var ban=0;
+               var ban2=1;
+
+                '{% for elemento in medicamentos %}'
+                      
+                      if(generico=='{{elemento.generico}}'){
+                 
+                        ban=ban+1;
+                        razon_social2='{{elemento.generico}}';
+
+
+                          if(ban>0)
+                          {
+
+
+                              if('{{elemento.estado}}'=='INACTIVO'){
+
+                      
+                                  alertify.set({ labels: {
+                                  ok     : "Confirmar",
+                                  cancel : "Cancelar"
+                                   } });
+                                  // confirm dialog
+                                 alertify.confirm("EL USUARIO HA SIDO ELIMNADO, DESEA RESTAURARLO?", function (e) {
+    
+                                  if (e) {
+                                  window.location.href = "/usuario/operadore/{{elemento.id}}";
+                                  } else {
+                          
+                                }});
+
+                              ban2=1;
+
+                              }else{
+
+                                alertify.alert('<b>EL NOMBRE DE USUARIO YA SE ENCUENTRA REGISTRADO</b>');
+
+                              ban2=0;
+                                
+                  
+                              }
+                
+                              
+                          }
+
+              
+              }
+                  '{% endfor %}'
+
+
+            
+                
+                
+            }
+  
+            });
+
+
+           </script>
+    
+<script>
+     
 
 $('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
     $.datepicker.regional[ "es" ]
@@ -133,6 +212,7 @@ $('#datepicker').datepicker({ dateFormat: 'dd/mm/yy' });
  	   return jQuery.trim(value).match(new RegExp("^(?:" + param + ")$"));
 
  	});
+ 
 </script>
 
 {% endblock %} 

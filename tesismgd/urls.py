@@ -26,6 +26,9 @@ urlpatterns = [
     url(r'^aplicacion/',include('aplicacion.urls')),
     url(r'^usuario/',include('usuarios.urls')),
     url(r'^index/', views.index, name='index'),
+   
+    url(r'^permiso/', views.permiso, name='permiso'),
+
     
     
 

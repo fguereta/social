@@ -119,7 +119,9 @@ $('#table').bootstrapTable();
 $(".clickable-row").click(function() {
         window.document.location = $(this).data("href");
     });
-
+$(document).on('click', ".clickable-row", function () {
+        window.document.location = $(this).data("href");
+});
 
     
 

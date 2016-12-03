@@ -55,7 +55,7 @@ class Medico(Persona):
         return "%s - %s" %(self.apellido, self.nombre)
 
 class Paciente(Persona):
-    historiaclinica=models.CharField(max_length=20)
+    historiaclinica=models.CharField(max_length=20, unique=True)
     osocial=models.CharField(max_length=20)
     
     def __unicode__(self):

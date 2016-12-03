@@ -47,6 +47,9 @@
             <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Historia clinica<font color="red"> *</font></label>
             <div class='col-md-2'>
               <input class='form-control' id='historiaclinica' name='historiaclinica' type='text' placeholder='Historia clinica'></input>
+              {%if error%}
+              <p color='red'>{{error}}</p>
+              {%endif%}
             </div>
           </div>
 
@@ -55,7 +58,14 @@
             <div class='col-md-2'>
               <input class='form-control' id='osocial' name='osocial' type='text' placeholder='Obra social'></input>
             </div>
+            
+            
+            <input id='c_osocial' name='c_osocial' class='btn btn-primary'   value='Comprobar'/>
+            <IMG id="cargando" style="display:none;" width="30" height="30"  src="{{ MEDIA_URL }} /static/media/cargando.gif">
+
           </div>
+
+          
 
           <div class='form-group'>
             <label class='control-label col-md-3 col-md-offset-1' for='nombre'>Nombre y Apellido<font color="red"> *</font></label>
@@ -96,6 +106,17 @@
             </div>
          </div>
           
+          <!--
+          
+             <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='sexo'>Sexo</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='sexo' name='sexo' type="text" value="{{cuil.sexo}}" readonly></input>
+            </div>
+          </div>
+          -->
+          
+    
           <div class='form-group'>
             <label class='control-label col-md-3 col-md-offset-1' for='nacimiento'>Fecha de nacimiento<font color="red"> *</font></label>
             <div class='col-md-8'>
@@ -108,6 +129,12 @@
                   </span>
                 </div>
               </div>
+              
+               <div class="col-md-3 sexo">
+				<input class='form-control' id='sexo' name="sexo" type='text' value="{{cuil.sexo}}" readonly></input>
+			  </div>
+			  
+              <!--
               <div class="col-md-3 sexo">
                 <select class="form-control" id="sexo" name="sexo">
                 <option value="">---Sexo---</option>
@@ -116,6 +143,7 @@
                 </select>
                 <script>$("div.sexo select").val("{{cuil.sexo}}");</script>
               </div>
+              -->
             </div>
           </div>
 
@@ -283,4 +311,39 @@ jQuery.validator.addMethod("nomb", function(value, element, param) {
 //^[a-zA-Z]*$ 
 </script>
 
+
+<script type="text/javascript">
+  
+  $("input[id=c_osocial]").click(function () {
+      
+    dni=$('#dni').val();
+
+
+ $("#cargando").css("display", "inline");
+    $.ajax({
+
+        
+        url: '/aplicacion/web_service/',// Ruta del views donde se enviara.
+        
+        type: 'POST',//Metodo de envio, si es por GET o POST
+        data: {'dni':dni,}, //Dato que se envia. 
+
+
+        //si funciona correctamente se podra ejecutar success.
+        success: function (datos) {
+            
+          
+          //Agrega un option mas al select y utilizamos los valores que devuelve el view.
+         alert(datos);
+         $("#cargando").css("display", "none");
+                
+         
+              
+        }
+    
+      });
+   });
+
+
+</script>
 {% endblock %} 

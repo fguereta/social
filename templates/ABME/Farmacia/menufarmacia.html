@@ -21,20 +21,32 @@
 <div class=''>
     <div class='panel panel-primary dialog-panel'>
     <div class='panel-heading'>
-        <h5 id='farmacia_nombre' >CUIT:{{elemento.username}}, {{elemento.razon_social}}</h5>
+        <h5 id='farmacia_nombre' >{{elemento.username}}</h5>
     </div>
     <div class="navbar navbar-inverse navbar-fixed ">
   	<div class="container-fluid ">
       <div class="navbar-header">
         	<ul class="nav navbar-nav navbar-right">
   				<li id='ficha'><a href="/aplicacion/fichafarmacia/{{elemento.id}}">Ficha</a></li>
-          <li id='ficha'><a href="/aplicacion/modificarfarmacia/{{elemento.id}}">Modificar datos</a></li>
-  				<li id='entregados'><a href="/aplicacion/entregados/{{elemento.id}}">Medicamentos entregados</a></li>
+          		<li id='modificarfarmacia' style="display:none;"><a href="/aplicacion/modificarfarmacia/{{elemento.id}}">Modificar datos</a></li>
+          		<li id='resetpassfarmacia' style="display:none;"><a href="/usuario/resetpassfarmacia/{{elemento.id}}">Recuperar Contraseña</a></li>
+          		
+  				<!--<li id='entregados'><a href="">Medicamentos entregados</a></li>-->
   			</ul>
       </div>
   	</div>
 </div>
-      
+      {% if user.useroperador.categoria == 'SUPERVISOR' %}
+          <script  type="text/javascript" charset="utf-8" async defer>
+  
+        
+          $('#modificarfarmacia').show();
+          $('#resetpassfarmacia').show();
+         
+
+   
+        </script>
+		 {% endif %}
 	{% block contenido_farmacia %}	        	
 
 	{% endblock contenido_farmacia %}

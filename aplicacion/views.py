@@ -16,7 +16,8 @@ from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
-
+from django.contrib.auth.decorators import login_required, permission_required
+from aplicacion import ComparacionDeFechas
 
 
 
@@ -24,15 +25,17 @@ from django.views.generic.list import ListView
 def index(request):
     return render_to_response("index.html")
 
+def permiso(request):
+    return render_to_response("permiso.html")
 
 #######################PACIENTE###########################################
 
-
+@permission_required('aplicacion.add_paciente', login_url='/permiso/')
 def paciente(request):
     paciente=Paciente.objects.filter(estado='ACTIVO').order_by('-id')
     return render_to_response("ABME/Paciente/paciente.html",  {'paciente': paciente}, context_instance = RequestContext(request))
 
-
+@permission_required('aplicacion.add_paciente', login_url='/permiso/')
 def comprobar_paciente(request):
     
    
@@ -101,17 +104,26 @@ def comprobar_paciente(request):
         return render_to_response("ABME/Paciente/comprobar.html", context_instance = RequestContext(request)) 
 
         #return render_to_response("ABME/Paciente/registrarpaciente.html",  {'cuil':cuil}, context_instance = RequestContext(request))  
-    
+
+
+@permission_required('aplicacion.add_paciente', login_url='/permiso/')    
 def menupaciente(request):
     
     
     return render_to_response("ABME/Paciente/menupaciente.html", context_instance = RequestContext(request))
 
+
+@permission_required('aplicacion.add_paciente', login_url='/permiso/')
 def fichapaciente(request,id_paciente):
     
     paciente_enviar=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
     return render_to_response("ABME/Paciente/fichapaciente.html",  {'id_paciente': paciente_enviar }, context_instance = RequestContext(request))        
 
+
+from django.db import IntegrityError
+
+
+@permission_required('aplicacion.add_paciente', login_url='/permiso/')
 def registrarpaciente(request):
     paciente=Paciente.objects.all()
     error=[]
@@ -166,17 +178,38 @@ def registrarpaciente(request):
                         estado='ACTIVO',
                         observaciones=request.POST['observaciones'].upper()
                         )
-                    newdoc.save(form)
+
+                    try:
+                        
+                        newdoc.save(form)
+
+                        id_paciente=Paciente.objects.filter(dni__icontains=request.POST['dni'], cuil__icontains=request.POST['cuil'])
+                        ban='exitopaciente'
+                        return render_to_response('ABME/Paciente/fichapaciente.html',{'id_paciente':id_paciente,'exitopaciente':ban},context_instance=RequestContext(request))
+                    
+                    except IntegrityError as e:
+                              
+                        dni=request.POST['dni']
+                        sexo=request.POST['sexo']
+                        cuil=request.POST['cuil']
             
-                    id_paciente=Paciente.objects.filter(dni__icontains=request.POST['dni'], cuil__icontains=request.POST['cuil'])
-                    ban='exitopaciente'
-                    return render_to_response('ABME/Paciente/fichapaciente.html',{'id_paciente':id_paciente,'exitopaciente':ban},context_instance=RequestContext(request))
+                        cuil={
+                            'cuil':cuil,
+                            'dni':dni,
+                            'sexo':sexo
+            
+                        }
+                        error='HISTORIA CLINICA YA REGISTRADA, POR FAVOR CORRIGA'
+                        return render_to_response("ABME/Paciente/registrarpaciente.html/",{'cuil':cuil, 'error':error}, context_instance = RequestContext(request)) 
+                        
 
     return render_to_response('ABME/Paciente/registrarpaciente.html',{'paciente':paciente},context_instance=RequestContext(request)) 
 
+
+@permission_required('aplicacion.add_paciente', login_url='/permiso/')
 def modificarpaciente(request, id_paciente):
     
-
+    id=id_paciente
     paciente=Paciente.objects.get(persona_ptr_id=id_paciente)
     if request.method=="POST":
 
@@ -199,15 +232,55 @@ def modificarpaciente(request, id_paciente):
             paciente.osocial=request.POST["osocial"].upper()
             paciente.historiaclinica=request.POST["historiaclinica"].upper()
             paciente.estado="ACTIVO"
-            paciente.save()
+            try:
+                paciente.save()
+    
+                id_paciente=Paciente.objects.filter(dni__icontains=request.POST['dni'], cuil__icontains=request.POST['cuil'])
+                ban='exito_modificar_paciente'
+                return render_to_response('ABME/Paciente/fichapaciente.html',{'id_paciente':id_paciente,'exito_modificar_paciente':ban},context_instance=RequestContext(request))
+            except IntegrityError as e:
+                
 
-            id_paciente=Paciente.objects.filter(dni__icontains=request.POST['dni'], cuil__icontains=request.POST['cuil'])
-            ban='exito_modificar_paciente'
-            return render_to_response('ABME/Paciente/fichapaciente.html',{'id_paciente':id_paciente,'exito_modificar_paciente':ban},context_instance=RequestContext(request))
+                nombre=request.POST["nombre"].upper()
+                apellido=request.POST["apellido"].upper()
+                dni=request.POST["dni"]
+                cuil=request.POST["cuil"]
+                nacimiento=request.POST["nacimiento"]
+                correo=request.POST["correo"].upper()
+                direccion=request.POST["direccion"].upper()
+                observaciones=request.POST["observaciones"].upper()
+                telefono=request.POST["telefono"]
+                celular=request.POST["celular"]
+                sexo=request.POST["sexo"].upper()
+                osocial=request.POST["osocial"].upper()
+                historiaclinica=request.POST["historiaclinica"].upper()
+                id_paciente={
+                    'cuil':cuil,
+                    'dni':dni,
+                    'sexo':sexo,
+                    'nombre':nombre,
+                    'apellido':apellido,
+                    'nacimiento':nacimiento,
+                    'correo':correo,
+                    'direccion':direccion,
+                    'observaciones':observaciones,
+                    'telefono':telefono,
+                    'celular':celular,
+                    'osocial':osocial,
+                    'historiaclinica':historiaclinica,
+                    
+                    
+    
+                }
+                error='HISTORIA CLINICA YA REGISTRADA, POR FAVOR CORRIGA'
+                paciente_enviar=Paciente.objects.filter(persona_ptr_id=id, estado='ACTIVO')
+                return render_to_response("ABME/Paciente/modificarpaciente.html",  {'id_paciente': paciente_enviar, 'error':error }, context_instance = RequestContext(request))        
     else:
         paciente_enviar=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
         return render_to_response("ABME/Paciente/modificarpaciente.html",  {'id_paciente': paciente_enviar }, context_instance = RequestContext(request))
 
+
+@permission_required('aplicacion.add_paciente', login_url='/permiso/')
 def eliminarpaciente(request, id_paciente):
     
     paciente=Paciente.objects.filter(estado='ACTIVO')
@@ -234,7 +307,9 @@ def eliminarpaciente(request, id_paciente):
         
         
     return render_to_response("ABME/Paciente/paciente.html",{'paciente':paciente},  context_instance = RequestContext(request))
-    
+
+
+@permission_required('aplicacion.add_paciente', login_url='/permiso/')    
 def pdf_listado_paciente(request):
 
 
@@ -292,11 +367,13 @@ def pdf_listado_paciente(request):
 
 #######################MEDICO###########################################
 
+
+@permission_required('aplicacion.add_medico', login_url='/permiso/')
 def medico(request):
     medico=Medico.objects.filter(estado='ACTIVO')
     return render_to_response("ABME/Medico/medico.html",  {'medico': medico }, context_instance = RequestContext(request))
 
-
+@permission_required('aplicacion.add_medico', login_url='/permiso/')
 def comprobar_medico(request):
     
    
@@ -366,12 +443,13 @@ def comprobar_medico(request):
         return render_to_response("ABME/Medico/medico_comprobar.html", context_instance = RequestContext(request)) 
 
         #return render_to_response("ABME/Paciente/registrarpaciente.html",  {'cuil':cuil}, context_instance = RequestContext(request))  
-
+@permission_required('aplicacion.add_medico', login_url='/permiso/')
 def fichamedico(request,id_medico):
     
     medico_enviar=Medico.objects.filter(persona_ptr_id=id_medico, estado='ACTIVO')
     return render_to_response("ABME/Medico/fichamedico.html",  {'id_medico': medico_enviar }, context_instance = RequestContext(request))
 
+@permission_required('aplicacion.add_medico', login_url='/permiso/')
 def registrarmedico(request):
     
     
@@ -407,8 +485,7 @@ def registrarmedico(request):
             ban='exitopaciente'
             return render_to_response('ABME/Medico/fichamedico.html',{'id_medico':id_medico,'exitomedico':ban},context_instance=RequestContext(request))
 
-    
-
+@permission_required('aplicacion.add_medico', login_url='/permiso/')    
 def modificarmedico(request,id_medico):
      
     medico=Medico.objects.get(persona_ptr_id=id_medico)
@@ -444,10 +521,12 @@ def modificarmedico(request,id_medico):
         especialidades=Especialidad.objects.filter(estado='ACTIVO')
         return render_to_response("ABME/Medico/modificarmedico.html",  {'id_medico': medico_enviar,'especialidades':especialidades }, context_instance = RequestContext(request))    
 
+@permission_required('aplicacion.add_medico', login_url='/permiso/')
 def listadomedico(resquest):
     medico=Medico.objects.all()
     return render_to_response("ABME/Medico/listadomedico.html", {'medico':medico})
 
+@permission_required('aplicacion.add_medico', login_url='/permiso/')
 def eliminarmedico(request, id_medico):
     
     medico=Medico.objects.filter(estado='ACTIVO')
@@ -475,7 +554,7 @@ def eliminarmedico(request, id_medico):
         
     return render_to_response("ABME/Medico/medico.html",{'medico':medico},  context_instance = RequestContext(request))
 
-
+@permission_required('aplicacion.add_medico', login_url='/permiso/')
 def intervenidos(request, id_medico):
     solicitudes=Solicitud.objects.filter(medico_id=id_medico)
     medico_enviar=Medico.objects.filter(id=id_medico, estado='ACTIVO')
@@ -484,6 +563,7 @@ def intervenidos(request, id_medico):
 #######################FARMACIA###########################################
 
 
+@permission_required('aplicacion.add_solicitud', login_url='/permiso/')
 def farmacia(request):
 
     user=User.objects.all()
@@ -503,7 +583,8 @@ def farmacia(request):
                 'username' : elemento1.username,
                 'razon_social' : elemento2.razon_social,
                 'direccion':elemento2.direccion,
-                'telefono':elemento2.telefono
+                'telefono':elemento2.telefono,
+                  'cuit':elemento2.cuit
         
                 }
 
@@ -514,7 +595,9 @@ def farmacia(request):
         
 
         #farmacia_enviar = farmacia.filter(id=farmacia_recibido, estado='ACTIVO') 
-        
+
+
+@permission_required('auth.add_user', login_url='/permiso/')
 def modificarfarmacia(request, id_farmacia):
     
     
@@ -528,6 +611,7 @@ def modificarfarmacia(request, id_farmacia):
 
         far=UserFarmacia.objects.get(estado='ACTIVO',user_id=id_farmacia)
         far.razon_social=request.POST['razon_social'].upper()
+        far.cuit=request.POST['cuit']
         far.direccion=request.POST['direccion'].upper()
         far.telefono=request.POST['telefono']
         far.estado='ACTIVO'
@@ -553,7 +637,8 @@ def modificarfarmacia(request, id_farmacia):
                     'razon_social' : elemento2.razon_social,
                     'direccion':elemento2.direccion,
                     'telefono':elemento2.telefono,
-                    'email':elemento1.email
+                    'email':elemento1.email,
+                    'cuit':elemento2.cuit
         
                     }
 
@@ -581,7 +666,8 @@ def modificarfarmacia(request, id_farmacia):
                     'razon_social' : elemento2.razon_social,
                     'direccion':elemento2.direccion,
                     'telefono':elemento2.telefono,
-                    'email':elemento1.email
+                    'email':elemento1.email,
+                    'cuit':elemento2.cuit
         
                     }
 
@@ -592,11 +678,13 @@ def modificarfarmacia(request, id_farmacia):
         return render_to_response("ABME/Farmacia/modificarfarmacia.html",  {'id_farmacia': farmacia_enviar }, context_instance = RequestContext(request))
 
 
+@permission_required('aplicacion.add_post', login_url='/permiso/')
 def menufarmacia(request):
    
     return render_to_response("ABME/Farmacia/menufarmacia.html", context_instance = RequestContext(request))
 
 
+@permission_required('aplicacion.add_post', login_url='/permiso/')
 def fichafarmacia(request, id_farmacia):
     
     user=User.objects.filter(id=id_farmacia)
@@ -618,7 +706,8 @@ def fichafarmacia(request, id_farmacia):
                 'razon_social' : elemento2.razon_social,
                 'direccion':elemento2.direccion,
                 'telefono':elemento2.telefono,
-                'email':elemento1.email
+                'email':elemento1.email,
+                  'cuit':elemento2.cuit
         
                 }
 
@@ -627,12 +716,15 @@ def fichafarmacia(request, id_farmacia):
     
     return render_to_response("ABME/Farmacia/fichafarmacia.html",  {'id_farmacia': farmacia_enviar }, context_instance = RequestContext(request))
 
+
+@permission_required('auth.add_user', login_url='/permiso/')
 def entregados(request, id_farmacia):
     medicamentos=Solicitud.objects.filter(farmacia_id=id_farmacia, estado='ACTIVO')
     farmacia_enviar=Farmacia.objects.filter(id=id_farmacia, estado='ACTIVO')
     return render(request, 'ABME/Farmacia/entregados.html',{'entregados': medicamentos,'id_farmacia':farmacia_enviar})
 
-#@permission_required('aplicacion.add_farmacia', login_url='/index/' )
+
+@permission_required('auth.add_user', login_url='/permiso/')
 def eliminarfarmacia(request, id_farmacia):
     
     user=User.objects.filter(id=id_farmacia)
@@ -651,7 +743,8 @@ def eliminarfarmacia(request, id_farmacia):
                 'razon_social' : elemento2.razon_social,
                 'direccion':elemento2.direccion,
                 'telefono':elemento2.telefono,
-                'email':elemento1.email
+                'email':elemento1.email,
+                  'cuit':elemento2.cuit
         
                 }
                 farmacia=farmacia+[far2]
@@ -667,14 +760,29 @@ def eliminarfarmacia(request, id_farmacia):
         farmacia_activado.save()
         farmacia_enviar=UserFarmacia.objects.filter(user_id=id_farmacia)
         refrescar_activacion=id_farmacia
-        return render_to_response("ABME/Farmacia/farmacia.html",{'id_farmacia':farmacia_enviar,'refrescar_activacion':refrescar_activacion},  context_instance = RequestContext(request))
+        
+        user=User.objects.get(id=id_farmacia)
+
+        if user.is_active == False:
+            user.is_active=True
+            user.save()
+        
+        return HttpResponseRedirect("/aplicacion/farmacia/")
+        #return render_to_response("ABME/Farmacia/farmacia.html",{'id_farmacia':farmacia_enviar,'refrescar_activacion':refrescar_activacion, 'farmacia':farmacia},  context_instance = RequestContext(request))
         
 
     if farmacia_actualizar_estado.estado=='ACTIVO':
         farmacia_eliminado=UserFarmacia.objects.get(user_id=id_farmacia)
         farmacia_eliminado.estado="INACTIVO"
+        
         farmacia_eliminado.save()
         refrescar_eliminacion=id_farmacia
+        user=User.objects.get(id=id_farmacia)
+
+        if user.is_active == True:
+            user.is_active=False
+            user.save()
+        
         return HttpResponseRedirect("/aplicacion/farmacia/")
         
         
@@ -685,10 +793,9 @@ def eliminarfarmacia(request, id_farmacia):
 
 
 
-
-
 ################OPERACIONES FARMACIA ################################
 
+@permission_required('aplicacion.add_registro_estados', login_url='/permiso/')
 def farmacia_entrega(request):
 
     import datetime, time
@@ -756,7 +863,7 @@ def farmacia_entrega(request):
         return render_to_response("ABME/Operaciones_Farmacia/Solicitudes_pendientes.html",{'solicitud':solicitud, 'busqueda_solicitud':busqueda_solicitud}, context_instance = RequestContext(request))
         #return render_to_response("ABME/Operaciones_Farmacia/completaregistro.html", context_instance = RequestContext(request))
 
-
+@permission_required('aplicacion.add_registro_estados', login_url='/permiso/')
 def registro_entrega(request):
     import datetime, time
     d= datetime.datetime.now()
@@ -1039,6 +1146,7 @@ def registro_entrega(request):
             return HttpResponse(json.dumps(datos), content_type="application/json")
 
 
+@permission_required('aplicacion.add_registro_estados', login_url='/permiso/')
 def farmacia_entregados(request):
 
     soli=Solicitud.objects.filter(estado_aprobacion='ENTREGADO')
@@ -1068,6 +1176,10 @@ def farmacia_entregados(request):
 
     return render_to_response("ABME/Operaciones_Farmacia/entregadosfarmacia.html",{'solicitudes':solicitudes, 'soli':soli}, context_instance = RequestContext(request))
 
+
+
+
+@permission_required('aplicacion.add_registro_estados', login_url='/permiso/')
 
 def entregados_solicitante(request):
 
@@ -1196,8 +1308,8 @@ def entregados_solicitante(request):
 
         
         
-        
-        
+        from ComparacionDeFechas import *
+ 
         
         for i in medicamentosXpaciente:
             #return(ComparacionDeFecha(desde_fecha,hasta_fecha,i.get('fecha_entrega')))
@@ -1238,6 +1350,8 @@ def entregados_solicitante(request):
 
     return render_to_response('ABME/Operaciones_Farmacia/entregados_consultas.html',{'busqueda_paciente':busqueda_paciente},context_instance=RequestContext(request))    
 
+
+@permission_required('aplicacion.add_registro_estados', login_url='/permiso/')
 def pdf_medicamentosXsolicitante(request):
     import json
     import datetime, time
@@ -1465,7 +1579,7 @@ def pdf_medicamentosXsolicitante(request):
 
 #######################SOLICITUD###########################################
 
-
+@permission_required('aplicacion.add_solicitud', login_url='/permiso/')
 def solicitudes(request, id_paciente):#aca llega la id del paciente para obtener el listado y mostrar las solicitudes
     paciente=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO')
     solicitudes=Solicitud.objects.filter(paciente_id=id_paciente)   
@@ -1484,6 +1598,8 @@ def solicitudes(request, id_paciente):#aca llega la id del paciente para obtener
         a=None
         return render(request, 'ABME/Solicitudes/solicitudes.html',{'query': id_paciente,'id_paciente':paciente, 'detalle': detalle, 'persona':id_paciente, 'solicitudes':solicitudes})
 
+
+@permission_required('aplicacion.add_solicitud', login_url='/permiso/')
 def registrarsolicitud(request,id_paciente):
     paciente_enviado=Paciente.objects.filter(persona_ptr_id=id_paciente, estado='ACTIVO') 
     medico_enviado=Medico.objects.filter(estado='ACTIVO') 
@@ -1542,6 +1658,7 @@ def registrarsolicitud(request,id_paciente):
                 precio2='',
                 precio3='',
                 preciototal='',
+                operador_id=request.POST['usuario_id'],
 
 
 
@@ -1567,6 +1684,7 @@ def registrarsolicitud(request,id_paciente):
 
     return render_to_response("ABME/Solicitudes/registrarsolicitud.html",{'id_paciente':paciente_enviado,'medico_enviado':medico_enviado, 'medicamento_enviado':medicamento_enviado}, context_instance = RequestContext(request))
 
+@permission_required('aplicacion.add_solicitud', login_url='/permiso/')
 def solicitudespaciente(request,id_paciente):
     
     solicitudes_paciente=DetalleSolicitud.objects.filter(paciente_id=id_paciente)  
@@ -1584,7 +1702,9 @@ def solicitudespaciente(request,id_paciente):
     
     
         return render_to_response("ABME/Solicitudes/solicitudes_paciente.html",  {'solicitudes_paciente':solicitudes_paciente, 'busqueda_paciente':paciente,'id_paciente':idpaciente  }, context_instance = RequestContext(request))
-    
+
+
+@permission_required('aplicacion.add_solicitud', login_url='/permiso/')    
 def fichasolicitud(request,id_solicitud):
 
     
@@ -1672,6 +1792,8 @@ def fichasolicitud(request,id_solicitud):
 
         return render_to_response('ABME/Solicitudes/fichasolicitud.html',{'solicitud_enviado':solicitud,'id_paciente':id_paciente},context_instance=RequestContext(request))
 
+
+@permission_required('aplicacion.add_solicitud', login_url='/permiso/')
 def solicitud_can_aud(request):
     #ESTA FUNCION APRUEBA AUDITORIA Y CANCELA LAS SOLICITUDES
     import datetime, time
@@ -1706,7 +1828,7 @@ def solicitud_can_aud(request):
 
         return HttpResponse(json.dumps(datos), content_type="application/json")
         
-
+@permission_required('aplicacion.add_solicitud', login_url='/permiso/')
 def solicitud_movimientos(request,id_solicitud):
 
     solicitudes=Solicitud.objects.filter(id=id_solicitud).order_by('-id')
@@ -1757,6 +1879,7 @@ def solicitud_movimientos(request,id_solicitud):
 
     return render_to_response("ABME/Solicitudes/solicitud_movimientos.html",{'estados_anteriores':estados_anteriores,'estado_actual':estado_actual},context_instance = RequestContext(request))
 
+@permission_required('aplicacion.add_solicitud', login_url='/permiso/')
 def pdf_solicitud(request, nro_solicitud):
 
     solicitud=Solicitud.objects.filter(id=nro_solicitud)
@@ -1884,7 +2007,7 @@ def pdf_solicitud(request, nro_solicitud):
 
 #######################DERIVACIONES###########################################
 
-
+@permission_required('aplicacion.add_derivacion', login_url='/permiso/')
 def derivaciones(request, id_paciente):#aca llega la id del paciente para obtener el listado y mostrar las solicitudes
     
     paciente=Paciente.objects.filter(persona_ptr_id=id_paciente)
@@ -1898,6 +2021,8 @@ def derivaciones(request, id_paciente):#aca llega la id del paciente para obtene
         a=None
         return render(request, 'ABME/Derivaciones/derivaciones.html',{'query': id_paciente,'id_paciente':paciente, 'derivaciones': derivaciones, 'persona':id_paciente})
 
+
+@permission_required('aplicacion.add_derivacion', login_url='/permiso/')
 def registrarderivacion(request, id_paciente):    
     #paciente=Paciente.objects.get(persona_ptr_id=paciente_id)
     paciente=Paciente.objects.filter(persona_ptr_id=id_paciente)
@@ -1942,6 +2067,8 @@ def registrarderivacion(request, id_paciente):
 
     return render_to_response('ABME/Derivaciones/registrarderivacion.html',{'paciente':paciente},context_instance=RequestContext(request))
 
+
+@permission_required('aplicacion.add_derivacion', login_url='/permiso/')
 def pdf_derivacion(request, nro_derivacion):
 
     derivaciones=Derivacion.objects.filter(id=nro_derivacion)
@@ -2144,6 +2271,7 @@ def pdf_derivacion(request, nro_derivacion):
 
     return HttpResponse("Hello, world. yout at polll index")
 
+@permission_required('aplicacion.add_derivacion', login_url='/permiso/')
 def detallederivacion(request, paciente_id):
   
     paciente=Paciente.objects.get(persona_ptr_id=paciente_id)
@@ -2183,19 +2311,22 @@ def eliminarusuario(request):
 #######################MEDICAMENTO###########################################
 
 
+
+@permission_required('aplicacion.add_medicamento', login_url='/permiso/')
 def actualizar(request):
     remedio_enviado=Remedio.objects.filter(estado='ACTIVO')
     return HttpResponse(remedio_enviado)
 
 
+@permission_required('aplicacion.add_medicamento', login_url='/permiso/')
 def medicamento(request):
-    remedio=Remedio.objects.filter(estado='ACTIVO')
+    remedio=Medicamento.objects.filter(estado='ACTIVO')
     
     if 'id_remedio' in request.POST:
 
         remedio_recibido = request.POST['id_remedio'],
 
-        remedio_enviar = Remedio.objects.filter(id=remedio_recibido, estado='ACTIVO') 
+        remedio_enviar = Medicamento.objects.filter(id=remedio_recibido, estado='ACTIVO') 
         
         return render_to_response("ABME/Medicamento/medicamento.html",  {'id_remedio': remedio_enviar, 'busqueda_remedio':remedio  }, context_instance = RequestContext(request))
 
@@ -2204,11 +2335,14 @@ def medicamento(request):
     
         return render_to_response("ABME/Medicamento/medicamento.html",  {'remedio': remedio, 'busqueda_remedio':remedio  }, context_instance = RequestContext(request))
 
+
+@permission_required('aplicacion.add_medicamento', login_url='/permiso/')
 def fichamedicamento(request,id_remedio):
     
-    remedio_enviar=Remedio.objects.filter(id=id_remedio, estado='ACTIVO')
+    remedio_enviar=Medicamento.objects.filter(id=id_remedio, estado='ACTIVO')
     return render_to_response("ABME/Medicamento/fichamedicamento.html",  {'id_remedio': remedio_enviar }, context_instance = RequestContext(request))
 
+@permission_required('aplicacion.add_medicamento', login_url='/permiso/')
 def registrarmedicamento(request):
     from django.core import serializers
     #Si resive peticion de ajax entra al if
@@ -2302,13 +2436,52 @@ def registrarmedicamento(request):
     return render_to_response('ABME/Medicamento/registrar.html',{'medicamento_enviado':medicamento_enviado}, context_instance=RequestContext(request))
     #return render_to_response('ABME/Medicamento/registrarmedicamento.html',{'remedio':remedio},context_instance=RequestContext(request))
 
+@permission_required('aplicacion.add_medicamento', login_url='/permiso/')
+def registrarmedicamento2(request):
+    
+    medicamentos=Medicamento.objects.all()
 
-def modificarmedicamento(request,id_remedio):
-     
-    remedio=Remedio.objects.get(id=id_remedio)
     if request.method=="POST":
 
-        form=RemedioForm(request.POST)
+        form=MedicamentoForm(request.POST)
+        
+        
+        if form.is_valid():
+            
+            
+                    newdoc = Medicamento(
+                    generico=request.POST['generico'].upper(),
+                    estado='ACTIVO'
+                    )
+                    try:
+                            
+                        newdoc.save(form)
+                        
+                        id_remedio=Medicamento.objects.filter(generico=request.POST['generico'].upper())
+                        
+                        ban='exitomedicamento'
+                        
+                        return render_to_response('ABME/Medicamento/fichamedicamento.html',{'id_remedio':id_remedio,'exito_modificar_remedio':ban},context_instance=RequestContext(request))
+                    except IntegrityError as e:
+                        error='MEDICAMENTO YA REGISTRADO, POR FAVOR CORRIGA'
+                        return render_to_response("ABME/Medicamento/registrar2.html/",{'error':error}, context_instance = RequestContext(request)) 
+                        
+                        
+                        
+                        
+                        
+                    #return render_to_response('ABME/Medicamento/medicamento.html',context_instance=RequestContext(request))
+
+    return render_to_response("ABME/Medicamento/registrar2.html",{'medicamentos':medicamentos}, context_instance = RequestContext(request))                
+              
+              
+@permission_required('aplicacion.add_medicamento', login_url='/permiso/')
+def modificarmedicamento(request,id_remedio):
+     
+    remedio=Medicamento.objects.get(id=id_remedio)
+    if request.method=="POST":
+
+        form=MedicamentoForm(request.POST)
         
         
         if form.is_valid():
@@ -2316,42 +2489,47 @@ def modificarmedicamento(request,id_remedio):
             
                     
                     remedio.generico=request.POST['generico'].upper()
-                    remedio.presentacion=request.POST['presentacion'].upper()
-                    remedio.observaciones=request.POST['observaciones'].upper()
                     
-
-                    remedio.save()
-                    
-                    id_remedio=Remedio.objects.filter(id=request.POST['idmedicamento'])
-                    
-                    ban='exito_modificar_remedio'
-                    
-                    return render_to_response('ABME/Medicamento/fichamedicamento.html',{'id_remedio':id_remedio,'exito_modificar_remedio':ban},context_instance=RequestContext(request))
+                    try:
+                        
+                        remedio.save()
+                        
+                        id_remedio=Medicamento.objects.filter(id=request.POST['idmedicamento'])
+                        
+                        ban='exito_modificar_remedio'
+                        
+                        return render_to_response('ABME/Medicamento/fichamedicamento.html',{'id_remedio':id_remedio,'exito_modificar_remedio':ban},context_instance=RequestContext(request))
+                    except IntegrityError as e:
+                        remedio_enviar=Medicamento.objects.filter(id=id_remedio, estado='ACTIVO')
+                        error='CORREGIR, NOMBRE GENERICO YA HA SIDO REGISTRADO'
+                        return render_to_response("ABME/Medicamento/modificar.html",  {'id_remedio': remedio_enviar, 'error':error }, context_instance = RequestContext(request))   
+                        
                     #return render_to_response('ABME/Medicamento/medicamento.html',context_instance=RequestContext(request))
 
     else:
         
-        remedio_enviar=Remedio.objects.filter(id=id_remedio, estado='ACTIVO')
+        remedio_enviar=Medicamento.objects.filter(id=id_remedio, estado='ACTIVO')
         return render_to_response("ABME/Medicamento/modificar.html",  {'id_remedio': remedio_enviar }, context_instance = RequestContext(request))                
                     
 
+@permission_required('aplicacion.delete_medicamento', login_url='/permiso/')
 def eliminarmedicamento(request, id_remedio):
     
-    remedio=Remedio.objects.filter(estado='ACTIVO')
+    remedio=Medicamento.objects.filter(estado='ACTIVO')
     
-    remedio_actualizar_estado=Remedio.objects.get(id=id_remedio)
+    remedio_actualizar_estado=Medicamento.objects.get(id=id_remedio)
 
     if remedio_actualizar_estado.estado=='INACTIVO':
         
-        remedio_activado=Remedio.objects.get(id=id_remedio)
+        remedio_activado=Medicamento.objects.get(id=id_remedio)
         remedio_activado.estado="ACTIVO"
         remedio_activado.save()
-        remedio_enviar=Remedio.objects.get(id=id_remedio)
+        remedio_enviar=Medicamento.objects.get(id=id_remedio)
         return render_to_response("ABME/Medicamento/fichamedicamento.html",{'id_remedio':remedio_enviar},  context_instance = RequestContext(request))
         
 
     if remedio_actualizar_estado.estado=='ACTIVO':
-        remedio_eliminado=Remedio.objects.get(id=id_remedio)
+        remedio_eliminado=Medicamento.objects.get(id=id_remedio)
         remedio_eliminado.estado="INACTIVO"
         remedio_eliminado.save()
         
@@ -2393,6 +2571,7 @@ def ajax_view(request):
     return HttpResponse(json.dumps(result), content_type='application/x-json')
 
 
+@permission_required('aplicacion.add_medico', login_url='/permiso/')
 
 def registrarespecialidad(request):
     import json
@@ -2477,3 +2656,35 @@ def registrarespecialidad(request):
             return HttpResponse(json.dumps(datos), content_type="application/json")
 
 
+
+def web_service(request):
+    import requests
+    import xml.etree.ElementTree as etree
+    
+    if request.is_ajax():
+        
+        #Guarda el valor enviado en una variable.
+        dni=request.POST.get('dni')
+
+        print dni
+        
+        r = requests.get('https://sisa.msal.gov.ar/sisa/services/rest/puco/'+dni)
+    
+
+        dom = r.content
+        asd = etree.fromstring(dom)
+
+        print asd
+        return HttpResponse(asd.find('coberturaSocial').text)
+        
+
+        import json
+
+      
+
+         #http response para enviar los datos con json tambien se puede usar serializer pero en este caso se adecuo mejor 
+         #la libreria de json, import json   
+
+        #datos= serializers.serialize('json',medicamentos)
+        
+        return HttpResponse(json.dumps(asd), content_type="application/json")

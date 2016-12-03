@@ -95,6 +95,7 @@ urlpatterns = [
     url(r'^medicamento/', views.medicamento, name='medicamento'),
     url(r'^fichamedicamento/(?P<id_remedio>\w+)/$', views.fichamedicamento, name='fichamedicamento'),
     url(r'^registrarmedicamento/', views.registrarmedicamento, name='registrarmedicamento'),
+    url(r'^registrarmedicamento2/', views.registrarmedicamento2, name='registrarmedicamento2'),
     url(r'^modificarmedicamento/(?P<id_remedio>\w+)/$', views.modificarmedicamento, name='modificarmedicamento'),
     url(r'^eliminarmedicamento/(?P<id_remedio>\w+)/$', views.eliminarmedicamento, name='eliminarmedicamento'),
     url(r'^actualizar/', views.actualizar, name='actualizar'),
@@ -105,5 +106,6 @@ urlpatterns = [
 
     url(r'^registrarespecialidad/', views.registrarespecialidad, name='medicamento'),
    
-    
+    #**************WEB SERVICE******************
+    url(r'^web_service/', views.web_service, name='web_service'),
 ]

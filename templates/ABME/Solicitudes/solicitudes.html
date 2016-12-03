@@ -22,10 +22,12 @@ $('#nueva_solicitud').show();
  
 
 
-<div class="table-responsive">             
-  <table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%">
+<div class="table-responsive">
+<table style="cursor:pointer" class='table' id='table' data-pagination="true" data-height="440" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true">
+             
+  <!--table id="example" class="table table-condensed table table-bordered table-hover" cellspacing="0" width="100%"-->
     <thead>
-      <tr  class="default">
+      <tr><!--class="default"-->
 
         <th class="text-center">Solicitud</th>
         <th class="text-center">Fecha de inicio</th>
@@ -40,13 +42,12 @@ $('#nueva_solicitud').show();
       
     {% ifequal elemento.estado_aprobacion "APROBADO" %}
     
-
-      <tr class='success' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
-        
-        <td class="col-md-2 text-center">N°{{elemento.id}}</td>
-        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
-        <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
-        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+<tr>
+      <!--tr class='success' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" -->
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >N°{{elemento.id}}</td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.estado_aprobacion}}</td>
        
       </td>
     </tr>
@@ -55,11 +56,12 @@ $('#nueva_solicitud').show();
     {% ifequal elemento.estado_aprobacion "ENTREGADO" %}
     
 
-      <tr class='info' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" >
-        <td class="col-md-2 text-center">N° {{elemento.id}}</td>
-        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
-        <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
-        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+      <!--tr class='info' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer" -->
+      <tr>
+        <td class="col-md-2 text-center warning clickable-row table-hover" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >N° {{elemento.id}} </td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.estado_aprobacion}}</td>
         
       </td>
     </tr>
@@ -67,13 +69,13 @@ $('#nueva_solicitud').show();
 
       {% ifequal elemento.estado_aprobacion "AUDITORIA" %}
     
-
-      <tr class='info' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
-        <td class="col-md-2 text-center">N° {{elemento.id}}</td>
-        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
-        <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
+<tr>
+      <!--tr class='info' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer"-->
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >N° {{elemento.id}}</td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
         
-        <td class="col-md-2 text-center">REQUIERE AUDITORIA</td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >REQUIERE AUDITORIA</td>
         
       </td>
     </tr>
@@ -81,23 +83,23 @@ $('#nueva_solicitud').show();
 
 
       {% ifequal elemento.estado_aprobacion "CANCELADO" %}
-    <tr class='danger' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
-
-      <td class="col-md-2 text-center">N° {{elemento.id}}</td>
-        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
-        <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
-        <td class="col-md-2 text-center">{{elemento.estado_aprobacion}}</td>
+    <!--tr class='danger' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer"-->
+<tr>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >N° {{elemento.id}}</td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.estado_aprobacion}}</td>
     </tr>
       {% endifequal %}
  
 
       {% ifequal elemento.estado_aprobacion "PARCIAL" %}
-    <tr class='warning' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer">
-
-      <td class="col-md-2 text-center">N° {{elemento.id}}</td>
-        <td class="col-md-2 text-center">{{elemento.fecha}}</td> </strike>
-        <td class="col-md-2 text-center">{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
-        <td class="col-md-2 text-center">HUBO ENTREGA PARCIAL</td>
+    <!--tr class='warning' onclick="document.location='/aplicacion/fichasolicitud/{{elemento.id}}'"  style="cursor:pointer"-->
+<tr>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >N° {{elemento.id}}</td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.fecha}}</td> </strike>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >{{elemento.medico.apellido}}, {{elemento.medico.nombre}} </td>
+        <td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichasolicitud/{{elemento.id}}' >HUBO ENTREGA PARCIAL</td>
     </tr>
       {% endifequal %}
  
@@ -139,5 +141,11 @@ $('#nueva_solicitud').show();
 
  {% endif %}
 
+<script>$('#table').bootstrapTable();
 
+
+$(".clickable-row").click(function() {
+        window.document.location = $(this).data("href");
+    });
+</script>
 {% endblock contenido_paciente %}

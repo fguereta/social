@@ -1,9 +1,9 @@
-{% extends "ABME/Farmacia/menufarmacia.html" %}
-{% block contenido_farmacia %}
+{% extends "ABME/Operador/menuoperador.html" %}
+{% block contenido_operador %}
 
-{% if id_farmacia %}
+{% if id_operador %}
 
-{% for elemento in id_farmacia %}
+{% for elemento in id_operador %}
 
 
 
@@ -14,32 +14,33 @@
 
 
         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Nombre de Usuario</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='username'>Usuario</label>
             <div class='col-md-4'>
               <input class='form-control' id='username' name='username' value="{{elemento.username}}" readonly></input>
             </div>
         </div>
-        
-        
-        <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='dni'>CUIT</label>
-            <div class='col-md-4'>
-              <input class='form-control' id='cuit' name='cuit' placeholder='CUIT' value="{{elemento.cuit}}" ></input>
-            </div>
-        </div>
        
+        
+
 
         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Razon Social</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='first_name'>Nombre</label>
             <div class='col-md-4'>
-              <input class='form-control' id='razon_social' name='razon_social' placeholder='Razon Social' value="{{elemento.razon_social}}" ></input>
+              <input class='form-control' id='first_name' name='first_name' value="{{elemento.first_name}}" readonly></input>
+            </div>
+        </div>
+
+          <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='last_name'>Apellido</label>
+            <div class='col-md-4'>
+              <input class='form-control' id='last_name' name='last_name' value="{{elemento.last_name}}" readonly></input>
             </div>
         </div>
 
          <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion</label>
             <div class='col-md-4'>
-              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" value="{{elemento.direccion}}" ></input>
+              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" value="{{elemento.direccion}}" readonly></input>
             </div>
           </div>
 
@@ -48,7 +49,7 @@
             <div class='col-md-4'>
             
             		
-             <input class='form-control' id='telefono' name="telefono" placeholder='Telefono' type='text' value="{{elemento.telefono}}" ></input>
+             <input class='form-control' id='telefono' name="telefono" placeholder='Telefono' type='text' value="{{elemento.telefono}}" readonly></input>
              		
             	</div>
            		
@@ -58,9 +59,18 @@
           <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='correo'>E-mail</label>
             <div class='col-md-4 '>
-                  <input class='form-control' id='email' name='email' placeholder='E-mail' type='text' value="{{elemento.email}}" ></input>
+                  <input class='form-control' id='email' name='email' placeholder='E-mail' type='text' value="{{elemento.email}}" readonly></input>
                </div> 
             	
+           
+          </div>
+
+            <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='eliminar'>E-mail</label>
+            <div class='col-md-4 '>
+                  <input class='form-control' id='eliminar' name='eliminar' placeholder='E-mail' type='text' value="False" readonly></input>
+               </div> 
+              
            
           </div>
       
@@ -207,4 +217,4 @@ jQuery.validator.addMethod("nomb", function(value, element, param)
 </script>
 
 
-{% endblock contenido_farmacia %}
+{% endblock contenido_operador %}

@@ -17,10 +17,20 @@ window.location.href = "/aplicacion/fichafarmacia/{{refrescar}}";
 {% for elemento in id_farmacia %}
 <div class='panel-body'>
         <form  class="form-horizontal">
+        
+        
+        
+        <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Nombre de Usuario</label>
+            <div class='col-md-4'>
+              <input class='form-control' id='username' name='username' value="{{elemento.username}}" readonly></input>
+            </div>
+        </div>
+        
         <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='dni'>CUIT</label>
             <div class='col-md-4'>
-              <input class='form-control' id='cuit' name='cuit' value="{{elemento.username}}" readonly></input>
+              <input class='form-control' id='cuit' name='cuit' value="{{elemento.cuit}}" readonly></input>
             </div>
         </div>
        

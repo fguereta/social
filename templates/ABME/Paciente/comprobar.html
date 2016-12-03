@@ -16,7 +16,7 @@
               <br>
               
                 
-                  
+                    <p align='center'>Ingrese sexo y DNI del paciente</p>
               <div class='form-group '  >
                   <div class=" col-xs-2 col-md-offset-3 sexo ">
                       <select class="form-control smallselect " id='sexo' name='sexo' >
@@ -45,6 +45,7 @@
               <br>
               <br>
               
+           
 
                <script>
 
@@ -244,7 +245,8 @@ $("#miForm").validate({
               }
 
               cuil_generado=cuil1+dni_g+Z;
-
+   
+     
               
 
               $( "#cuil_generado" ).val(cuil_generado);
@@ -252,8 +254,7 @@ $("#miForm").validate({
               $( "#sexo_ge" ).val(sexo);
               $("#confirmar_comprobar").submit();
 
-
-
+		
 
     } 
     

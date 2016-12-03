@@ -1,5 +1,5 @@
 {% extends 'index.html'%}
-{% block htitle %}<title>Farmacias</title>{% endblock %} 
+{% block htitle %}<title>Gestión de Farmacias</title>{% endblock %} 
 
 {% block contenido%}
 
@@ -57,8 +57,10 @@
     <thead>
       
       <tr class="success">
-        <th class="text-center info">CUIT</th>
+        <th class="text-center info">Nombre de Usuario</th>
         <th class="text-center info">Razon Social</th>
+        <th class="text-center info">CUIT</th>
+        
         <th class="text-center info">Direccion</th>
         <th class=" text-center info">Telefono</th>
         <th class=" text-center info">Eliminar</th>
@@ -69,17 +71,20 @@
 
     {% if farmacia %}
     {% for elemento in farmacia %}
+    
+ 
+
       <tr >
       
-
         <td td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichafarmacia/{{elemento.id}}'>{{elemento.username}}</td>
         <td td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichafarmacia/{{elemento.id}}'>{{elemento.razon_social}}</td>
+        <td td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichafarmacia/{{elemento.id}}'>{{elemento.cuit}}</td>
         <td td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichafarmacia/{{elemento.id}}'>{{elemento.direccion}}</td>
         <td td class="col-md-2 text-center warning clickable-row" data-href='/aplicacion/fichafarmacia/{{elemento.id}}'>{{elemento.telefono}}</td>
         
 
 
-        <td class="col-md-1 text-center warning"><img onclick='eliminar({{elemento.id}},"{{elemento.razon_social}}","{{elemento.username}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
+        <td  class="col-md-1 text-center warning"><img    onclick='eliminar({{elemento.id}},"{{elemento.razon_social}}","{{elemento.cuit}}");' style="cursor:pointer"  class="profile-img" src="{{ MEDIA_URL }} /static/media/eliminar.gif" alt=""></td>
 
       </tr>
 
@@ -97,7 +102,7 @@
 </div>
 
 
-
+	
 
 <script type="text/javascript" charset="utf-8" async defer>
     
@@ -107,6 +112,11 @@ $('#table').bootstrapTable();
 $(".clickable-row").click(function() {
         window.document.location = $(this).data("href");
     });
+    
+$(document).on('click', ".clickable-row", function () {
+        window.document.location = $(this).data("href");
+});
+
 
 
     
@@ -118,7 +128,7 @@ $(".clickable-row").click(function() {
             cancel : "Cancelar"
           } });
           // confirm dialog
-          alertify.confirm("La farmacia: <b>"+razonsocial+"</b> de <b>CUIT: "+cuit+"</b> pasara a NO ACTIVA, ¿Esta de acuerdo?", function (e) {
+          alertify.confirm("La farmacia: <b>"+razonsocial+"</b> de <b>CUIT: "+cuit+"</b> será desactivada, ¿Esta de acuerdo?", function (e) {
 
 
           if (e) {

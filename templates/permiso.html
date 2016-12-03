@@ -1,0 +1,104 @@
+{% extends 'index.html'%}
+{% block htitle %}<title>Acceso denegado</title>{% endblock %} 
+
+{% block contenido%}
+{% if refrescar_registro %}
+
+
+
+
+
+{% endif %}
+        <div class='panel-body'>
+
+
+              <h3><i>ACCESO DENEGADO</i></h3>
+                <br>
+                 <i>NO POSEE PERMISO PARA ACCEDER A ESTA PÁGINA</i>
+                  
+
+        </div>
+
+
+      
+
+  
+      <br> 
+            
+        
+</div>
+            
+</div>
+
+ 
+
+</div>
+
+<script type="text/javascript" charset="utf-8" async defer>
+    
+  
+
+
+
+
+$('#table').bootstrapTable();
+
+$(".clickable-row").click(function() {
+        window.document.location = $(this).data("href");
+    });
+
+
+    
+
+
+    
+    function eliminar(persona_ptr_id, apellido,nombre,dni)
+{
+  
+    alertify.set({ labels: {
+            ok     : "Confirmar",
+            cancel : "Cancelar"
+          } });
+          // confirm dialog
+          alertify.confirm("El paciente: <b>"+apellido+","+nombre+"</b> de <b>DNI: "+dni+"</b>  será eliminado del sistema, ¿Esta de acuerdo?", function (e) {
+
+
+          if (e) {
+            
+            window.location.href = "/aplicacion/eliminarpaciente/"+persona_ptr_id;
+          
+          } 
+      });
+
+
+ }
+
+ 
+
+   $("button[id=btn_nuevo_paciente]").click(function() {
+
+      
+  alertify.defaults.glossary.title = '';
+
+      alertify.confirm("Confirmar eliminacion  "+apellidonombre,
+            function (e) {
+                if (e) {
+                   window.location = "/aplicacion/eliminarpaciente/"+id_paciente;
+                } else {
+                    alertify.error("Has pulsado <strong>"
+                             + alertify.labels.cancel
+                             + "</strong>");
+                }
+        }).setting('labels',{'ok':'Confirmar', 'cancel': 'Cancelar'});
+    });
+ 
+</script>
+
+
+
+
+{% endblock %}
+
+
+
+

@@ -53,6 +53,8 @@
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#header-navbar-collapse">
+
+
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -69,12 +71,34 @@
                             {% endblock %}
                             <ul class="dropdown-menu">
 
+
                                     <li><a id='paciente' style="display:none;" href="/aplicacion/paciente">{% trans 'View site' %}</a></li>
                                     <li><a id='farmacia' style="display:none;" href="/aplicacion/farmacia_entrega/">{% trans 'View site' %}</a></li>
                                     
 {% if user.useroperador.categoria == 'OPERADOR' %}
           <script  type="text/javascript" charset="utf-8" async defer>
   
+        
+          $('#paciente').show();
+     
+          $('#gestionpaciente').show();
+          $('#gestionfarmacia').show();
+          $('#gestionprofesional').show();
+
+
+        </script>
+  
+
+    {% endif %}
+    
+    {% if user.useroperador.categoria == 'SUPERVISOR' %}
+          <script  type="text/javascript" charset="utf-8" async defer>
+      
+          $('#gestionusuario').show();
+          $('#gestionpaciente').show();
+          $('#gestionfarmacia').show();
+          $('#gestionprofesional').show();
+          $('#permisos').show();
         
           $('#paciente').show();
      
@@ -93,12 +117,14 @@
         
           $('#farmacia').show();
 
+    
+          $('#pendiente_entrega').show();
+          $('#entregado').show();
 
         </script>
             {% endif %}
             
             
-
                                 {% if user.is_active and user.is_staff %}
                                     {% url 'django-admindocs-docroot' as docsroot %}
                                     {% if docsroot %}
@@ -108,38 +134,18 @@
                                 {% if user.has_usable_password %}
                                 <li><a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a></li>
                                 {% endif %}
-                                <li><a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a></li>
+                               <!-- <li><a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a></li> cerrar sesion-->
                             </ul>
                         </li>
                         {% endblock %}
+
                         {% block languages %}
                         <li class="divider-vertical"></li>
                         {% language_selector %}
                         {% endblock languages %}
-                        {% block logs %}
-                        <li class="dropdown" id="recent-actions-module">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Recent Actions' %} <b class="caret"></b></a>
-                            {% load log %}
-                            {% get_admin_log 10 as admin_log for_user user %}
-                            <ul class="dropdown-menu">
-                                {% for entry in admin_log %}
-                                <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
-                                    <a href="{% if entry.is_deletion or not entry.get_admin_url %}#{% else %}{{ entry.get_admin_url }}{% endif %}">
-                                        <i class="glyphicon glyphicon-{% if entry.is_addition %}plus{% endif %}{% if entry.is_change %}edit{% endif %}{% if entry.is_deletion %}remove{% endif %}"></i>
-                                        {{ entry.object_repr }}
-                                        {% if entry.content_type %}
-                                        <span class="mini quiet">({% filter capfirst %}{{ entry.content_type }}{% endfilter %})</span>
-                                        {% else %}
-                                        <span class="mini quiet">({% trans 'Unknown content' %})</span>
-                                        {% endif %}
-                                    </a>
-                                </li>
-                                {% empty %}
-                                <li class="disabled"><a href="#">{% trans 'None available' %}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                        {% endblock %}
+
+
+
                         {% block userlinks %}
                         {% url 'django-admindocs-docroot' as docsroot %}
                         {% if docsroot %}
@@ -157,8 +163,7 @@
     <!-- END Header -->
     <div class="row">
         <div class="col-sm-12">
-            {% block breadcrumbs %}
-            {% endblock %}
+
         </div>
     </div>
     {% endif %}

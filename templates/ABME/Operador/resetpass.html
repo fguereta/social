@@ -1,9 +1,9 @@
-{% extends "ABME/Farmacia/menufarmacia.html" %}
-{% block contenido_farmacia %}
+{% extends "ABME/Operador/menuoperador.html" %}
+{% block contenido_operador %}
 
-{% if id_farmacia %}
+{% if id_operador %}
 
-{% for elemento in id_farmacia %}
+{% for elemento in id_operador %}
 
 
 
@@ -11,59 +11,35 @@
 <div class='panel-body'>
         <form id='miForm' method='post' enctype='multipart/form-data' action='' autocomplete="off" class='form-horizontal'>
         {% csrf_token %}
+     
 
-
-        <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Nombre de Usuario</label>
-            <div class='col-md-4'>
-              <input class='form-control' id='username' name='username' value="{{elemento.username}}" readonly></input>
-            </div>
-        </div>
-        
         
         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='dni'>CUIT</label>
-            <div class='col-md-4'>
-              <input class='form-control' id='cuit' name='cuit' placeholder='CUIT' value="{{elemento.cuit}}" ></input>
-            </div>
-        </div>
-       
-
-        <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Razon Social</label>
-            <div class='col-md-4'>
-              <input class='form-control' id='razon_social' name='razon_social' placeholder='Razon Social' value="{{elemento.razon_social}}" ></input>
-            </div>
-        </div>
-
-         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion</label>
-            <div class='col-md-4'>
-              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" value="{{elemento.direccion}}" ></input>
-            </div>
-          </div>
-
-         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='telefono'>Telefono</label>
-            <div class='col-md-4'>
             
-            		
-             <input class='form-control' id='telefono' name="telefono" placeholder='Telefono' type='text' value="{{elemento.telefono}}" ></input>
-             		
-            	</div>
-           		
-         </div>
-          
-         
-          <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='correo'>E-mail</label>
-            <div class='col-md-4 '>
-                  <input class='form-control' id='email' name='email' placeholder='E-mail' type='text' value="{{elemento.email}}" ></input>
-               </div> 
-            	
-           
-          </div>
+            <label class='control-label col-md-2 col-md-offset-2' for='pass1'  >  Escriba la nueva Contraseña<font color="red"><font color="red"> *</font></font></label>
+            
+            
+
+            <div class='col-md-4'>
+              <input class='form-control' id='pass1' name='pass1' type='password' autocomplete="off" placeholder="Contraseña"></input>
+            </div>
+              
       
+          </div>
+                  
+                  <div class='form-group'>
+            
+            <label class='control-label col-md-2 col-md-offset-2' for='password'  >Vuelva a escribir la Contraseña<font color="red"><font color="red"> *</font></font></label>
+            
+            
+
+            <div class='col-md-4'>
+              <input class='form-control' id='password' name='password' type='password' autocomplete="off" placeholder="Contraseña"></input>
+            </div>
+              
+      
+          </div>
+
 
         <div class='col-md-offset-9 col-md-3'>
               <button class='btn-lg btn-primary' style='float:right' id='guardar' type="submit" >Guardar</button>
@@ -82,6 +58,45 @@
 
 {% endif %}
 
+
+<script>
+$(document).ready(function() {
+	//variables
+	var pass1 = $('[name=pass1]');
+	var password = $('[name=password]');
+	var confirmacion = "Las contraseñas si coinciden";
+	var longitud = "La contraseña debe estar formada entre 6-10 carácteres (ambos inclusive)";
+	var negacion = "No coinciden las contraseñas";
+	var vacio = "La contraseña no puede estar vacía";
+	//oculto por defecto el elemento span
+	var span = $('<span></span>').insertAfter(password);
+	span.hide();
+	//función que comprueba las dos contraseñas
+	function coincidePassword(){
+	var valor1 = pass1.val();
+	var valor2 = password.val();
+	//muestro el span
+	span.show().removeClass();
+	//condiciones dentro de la función
+	if(valor1 != valor2){
+	span.text(negacion).addClass('negacion');	
+	}
+	if(valor1.length==0 || valor1==""){
+	span.text(vacio).addClass('negacion');	
+	}
+	if(valor1.length<6 || valor1.length>10){
+	span.text(longitud).addClass('negacion');
+	}
+	if(valor1.length!=0 && valor1==valor2){
+	span.text(confirmacion).removeClass("negacion").addClass('confirmacion');
+	}
+	}
+	//ejecuto la función al soltar la tecla
+	password.keyup(function(){
+	coincidePassword();
+	});
+});
+</script>
 
 
 <script>
@@ -207,4 +222,4 @@ jQuery.validator.addMethod("nomb", function(value, element, param)
 </script>
 
 
-{% endblock contenido_farmacia %}
+{% endblock contenido_operador %}

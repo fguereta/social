@@ -1,45 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="/static/favicon.ico">
-	
-    {% block htitle%}<title>Ministerio de salud - Servicio social</title>{%endblock htitle%}
+{% extends 'index.html'%}
+{% block htitle%}<title>Ministerio de salud - Servicio social</title>{%endblock htitle%}
 
-    
-    <!-- Bootstrap core CSS -->
-    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/bootstrap/css/dashboard.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/bootstrap/chosen/chosen.css">
-    
-    <link rel="stylesheet" href="/static/bootstrap/alertifyjs/themes/alertify.core.css">
-    <link rel="stylesheet" href="/static/bootstrap/alertifyjs/themes/alertify.default.css">
-    <link rel="stylesheet" href="/static/bootstrap/alertifyjs/themes/alertify.bootstrap.css">
-    <link rel="stylesheet" href="/static/bootstrap/dataTables/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui.css">
-    <link rel="stylesheet" href="/static/bootstrap/css/jquery-ui-1.10.4.custom.css">
-    <link rel="stylesheet" href="/static/bootstrap/css/estilo.css">
-    <!-- Jquery -->
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/dataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/dataTables/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery-1.11.3.min.js"></script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery.validate.js"></script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/additional-methods.js"></script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/messages_es.js"></script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/chosen/chosen.jquery.js"></script> 
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/jquery-ui-1.10.4.custom.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/js/datepicker-es.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/bootstrap/alertifyjs/lib/alertify.min.js"></script>
+{% block contenido%}
 
-  </head>
-<!-- onload="nobackbutton();" -->
-  <body>
-        
-        
         
 <style type="text/css" media="screen">
   .panel-heading {
@@ -122,9 +85,11 @@
               </fieldset>
 
           </div>
+          <!--
           <div class="panel-footer ">
             ¿No tienes cuenta? <a href="/usuario/registraroperador/" onClick="">Solicitar cuenta</a>
           </div>
+          -->
 
                 </div>
       </div>
@@ -133,8 +98,7 @@
 
 </form>
 
-  </body>
-</html>
+{%endblock%}
 
 
 

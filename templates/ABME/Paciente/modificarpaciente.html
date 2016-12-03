@@ -22,11 +22,20 @@
               <input class='form-control' id='cuil' name='cuil' type="text" value="{{elemento.cuil}}" readonly></input>
             </div>
         </div>
+         <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='sexo'>Sexo</label>
+            <div class='col-md-2'>
+              <input class='form-control' id='sexo' name='sexo' type="text" placeholder="Direccion" value="{{elemento.sexo}}" readonly></input>
+            </div>
+          </div>
           
         <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='historialclinica'>Historia clinica</label>
             <div class='col-md-2'>
               <input class='form-control' id='historiaclinica' name='historiaclinica' type="text" value="{{elemento.historiaclinica}}" ></input>
+                  {%if error%}
+              <p 'font color'='red'>{{error}}</p>
+              {%endif%}
             </div>
         </div>
 
@@ -90,14 +99,19 @@
                   </span>
                 </div>
               </div>
+              
+              
+              
+              <!--
               <div class="col-md-3 sexo">
-				<select class="form-control" id="sexo" name="sexo">
-					<option value="">---Sexo---</option>
-					<option value="MASCULINO">MASCULINO</option>
-					<option value="FEMENINO">FEMENINO</option>
+				<select class="form-control" id="sexo" name="sexo" readonly>
+					<option value="" readonly>---Sexo---</option>
+					<option value="MASCULINO" readonly>MASCULINO</option>
+					<option value="FEMENINO" readonly>FEMENINO</option>
 				</select>
 			</div>
 			<script>$("div.sexo select").val("{{elemento.sexo}}");</script>
+			-->
             </div>
          </div>
 

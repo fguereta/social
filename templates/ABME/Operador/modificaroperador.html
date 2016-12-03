@@ -1,9 +1,9 @@
-{% extends "ABME/Farmacia/menufarmacia.html" %}
-{% block contenido_farmacia %}
+{% extends "ABME/Operador/menuoperador.html" %}
+{% block contenido_operador %}
 
-{% if id_farmacia %}
+{% if id_operador %}
 
-{% for elemento in id_farmacia %}
+{% for elemento in id_operador %}
 
 
 
@@ -11,49 +11,44 @@
 <div class='panel-body'>
         <form id='miForm' method='post' enctype='multipart/form-data' action='' autocomplete="off" class='form-horizontal'>
         {% csrf_token %}
-
-
+	
+	<div class='form-group'>
+        	<label class='control-label col-md-2 col-md-offset-2' for='cuit' value=''>Seleccione Categoria<font color="red"> *</font></label>
+       	 		<div class=" col-md-2 col-md-offset-2' categoria ">
+                   <select class="form-control smallselect " id='categoria' placeholder='Categoria' name='categoria' >
+                        <option value="">--</option>
+                        <option value="OPERADOR">OPERADOR</option>
+                        <option value="SUPERVISOR">SUPERVISOR</option>
+                   </select>     
+                </div>
+        </div>
+	<script>$("div.categoria select").val("{{elemento.categoria}}");</script>
         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='dni'>Nombre de Usuario</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='username'>Usuario</label>
             <div class='col-md-4'>
               <input class='form-control' id='username' name='username' value="{{elemento.username}}" readonly></input>
             </div>
         </div>
-        
-        
-        <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='dni'>CUIT</label>
-            <div class='col-md-4'>
-              <input class='form-control' id='cuit' name='cuit' placeholder='CUIT' value="{{elemento.cuit}}" ></input>
-            </div>
-        </div>
        
+        
+
 
         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='osocial'>Razon Social</label>
+            <label class='control-label col-md-2 col-md-offset-2' for='first_name'>Nombre</label>
             <div class='col-md-4'>
-              <input class='form-control' id='razon_social' name='razon_social' placeholder='Razon Social' value="{{elemento.razon_social}}" ></input>
+              <input class='form-control' id='first_name' name='first_name' value="{{elemento.first_name}}" ></input>
             </div>
         </div>
 
-         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='direccion'>Dirrecion</label>
+          <div class='form-group'>
+            <label class='control-label col-md-2 col-md-offset-2' for='last_name'>Apellido</label>
             <div class='col-md-4'>
-              <input class='form-control' id='direccion' name='direccion' placeholder="Direccion" value="{{elemento.direccion}}" ></input>
+              <input class='form-control' id='last_name' name='last_name' value="{{elemento.last_name}}" ></input>
             </div>
-          </div>
+        </div>
 
-         <div class='form-group'>
-            <label class='control-label col-md-2 col-md-offset-2' for='telefono'>Telefono</label>
-            <div class='col-md-4'>
-            
-            		
-             <input class='form-control' id='telefono' name="telefono" placeholder='Telefono' type='text' value="{{elemento.telefono}}" ></input>
-             		
-            	</div>
-           		
-         </div>
-          
+	
+	
          
           <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='correo'>E-mail</label>
@@ -63,6 +58,7 @@
             	
            
           </div>
+          
       
 
         <div class='col-md-offset-9 col-md-3'>
@@ -110,6 +106,16 @@ $("#miForm").validate({
           maxlength: "20",
           nomb: "[a-zA-Z. ]+"
           },
+          first_name: {
+            required: true,
+          maxlength: "20",
+          nomb: "[a-zA-Z. ]+"
+          },
+          last_name: {
+            required: true,
+          maxlength: "20",
+          nomb: "[a-zA-Z. ]+"
+          },
       razon_social: {
             required: true,
           maxlength: "25",
@@ -148,6 +154,7 @@ $("#miForm").validate({
             date: true
           },
           email: {
+          
             email: true
           },
           direccion: {
@@ -207,4 +214,4 @@ jQuery.validator.addMethod("nomb", function(value, element, param)
 </script>
 
 
-{% endblock contenido_farmacia %}
+{% endblock contenido_operador %}

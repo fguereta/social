@@ -11,7 +11,7 @@ from django.db import models
 class UserFarmacia(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL)
 	#USER EL CUIT
-	cuit = models.CharField(max_length=20)
+	cuit = models.CharField(max_length=20, unique=True)
 	razon_social = models.CharField(max_length=25)
 	direccion = models.CharField(max_length=25)
    	telefono = models.CharField(max_length = 20)
@@ -24,9 +24,7 @@ class UserFarmacia(models.Model):
 class UserOperador(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL)
 	#USER EL CUIT
-	cuil = models.CharField(max_length=20)
-	direccion = models.CharField(max_length=25)
-   	telefono = models.CharField(max_length = 20)
+
 	estado=models.CharField(max_length=10)
 	categoria=models.CharField(max_length=10)
 
@@ -36,12 +34,11 @@ class UserOperador(models.Model):
 from django.contrib.auth.models import Group
 
 # Get or Create the Group (I <3 this method)
-
+'''
 FARMACIA, created = Group.objects.get_or_create(name='FARMACIA')
 OPERADOR, created = Group.objects.get_or_create(name='OPERADOR')
 SUPERVISOR, created = Group.objects.get_or_create(name='SUPERVISOR')
-
-
+'''
 
     
     

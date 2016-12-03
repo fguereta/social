@@ -13,23 +13,51 @@
       <div class='panel-body'>
         <form id='miForm' method='post' enctype='multipart/form-data'  autocomplete="off" class='form-horizontal'>{% csrf_token %}
         
-          <div class='form-group'>
+           <div class='form-group'>
             
-            <label class='control-label col-md-2 col-md-offset-2' for='cuit' value=''>Cuit<font color="red"> *</font></label>
+            <label class='control-label col-md-2 col-md-offset-2' for='cuit' value=''>CUIT<font color="red"> *</font></label>
             
             <div class='col-md-4'>
-              <input class='form-control' id='username' name='username' type='text' autocomplete="off"></input>
+              <input class='form-control' id='cuit' name='cuit' placeholder='CUIT' type='text' autocomplete="off"></input>
+            </div>
+            {%if error%}
+            <p>{{error}}</p>
+            {%endif%}
+        </div>
+
+        
+          <div class='form-group'>
+            
+            <label class='control-label col-md-2 col-md-offset-2' for='username' value=''>Nombre de usuario<font color="red"> *</font></label>
+            
+            <div class='col-md-4'>
+              <input class='form-control' id='username' name='username' placeholder='Nombre de Usuario' type='text' autocomplete="off"></input>
             </div>
         </div>
         
-         <div class='form-group'>
+        
+        
+       <div class='form-group'>
             
-            <label class='control-label col-md-2 col-md-offset-2' for='cuit'>Contraseña<font color="red"><font color="red"> *</font></font></label>
+            <label class='control-label col-md-2 col-md-offset-2' for='pass1'  >Escriba la Contraseña<font color="red"><font color="red"> *</font></font></label>
             
             
 
             <div class='col-md-4'>
-              <input class='form-control' id='password' name='password' type='text' autocomplete="off"></input>
+              <input class='form-control' id='pass1' name='pass1' type='password' autocomplete="off" placeholder="Contraseña"></input>
+            </div>
+              
+      
+          </div>
+          
+         <div class='form-group'>
+            
+            <label class='control-label col-md-2 col-md-offset-2' for='password'  >Vuelva a escribir la Contraseña<font color="red"><font color="red"> *</font></font></label>
+            
+            
+
+            <div class='col-md-4'>
+              <input class='form-control' id='password' name='password' type='password' autocomplete="off" placeholder="Contraseña"></input>
             </div>
               
       
@@ -69,26 +97,28 @@
               </div>
             </div>
           </div>
+         
           
         </form> 
-          <div class='form-group'>
-            
-            <div class='col-md-offset-9 col-md-3'>
+           <div class='col-md-offset-9 col-md-3'>
               <button class='btn-lg btn-primary' style='float:right' id='guardar' >Guardar</button>
             </div>
+          <div class='form-group'>
+            
           
             <script type="text/javascript" charset="utf-8" async defer>
               
             $("button[id=guardar]").click(function () {
       
-              var cuit = $("#username").val();
+              var username = $("#username").val();
+              var cuit = $("#cuit").val();
               var password = $("#password").val();
               var razon_social = $("#razon_social").val();
               var direccion = $("#direccion").val();
               
 
            
-             if(cuit=='' || password=='' || razon_social=='' || direccion=='') 
+             if(username=='' || password=='' || razon_social=='' || direccion=='' || cuit=='') 
                
              {  
 
@@ -96,7 +126,7 @@
   
             }
 
-             if(cuit!='' && password!='' && razon_social!='' && direccion!='') 
+             if(username!='' && password!='' && razon_social!='' && direccion!='' && cuit!='') 
                
              {  
                var ban=0;
@@ -104,7 +134,11 @@
 
                 '{% for elemento in farmacia %}'
                       
-                      if(cuit=='{{elemento.username}}'){
+                      username=username.toUpperCase();
+                      
+
+                      if(username=='{{elemento.username }}')
+                      {
                  
                         ban=ban+1;
                         razon_social2='{{elemento.razon_social}}';
@@ -114,7 +148,8 @@
                           {
 
 
-                              if('{{elemento.estado}}'=='INACTIVO'){
+                              if('{{elemento.is_active}}'=='False')
+                              {
 
                       
                                   alertify.set({ labels: {
@@ -122,7 +157,7 @@
                                   cancel : "Cancelar"
                                    } });
                                   // confirm dialog
-                                 alertify.confirm("Este registro no puede completarse por que el de <b>CUIT: "+cuit+"</b> ya pertecene a una <b>RAZON SOCIAL: "+razon_social2+"</b> que se encuentra INACTIVO, ¿Desea activarlo?", function (e) {
+                                 alertify.confirm("Este registro no puede completarse por que el de <b>CUIT: "+username+"</b> ya pertecene a una <b>RAZON SOCIAL: "+razon_social2+"</b> que se encuentra INACTIVO, ¿Desea activarlo?", function (e) {
     
                                   if (e) {
                                   window.location.href = "/aplicacion/eliminarfarmacia/{{elemento.id}}";
@@ -132,9 +167,11 @@
 
                               ban2=1;
 
-                              }else{
+                              }
+                              else
+                              {
 
-                                alertify.alert('No puede registrar esta farmacia. Por que este <b>CUIT: '+cuit+' </b> ya se encuentra registrado.- <b>Razon social:'+razon_social2+'</b>');
+                                alertify.alert('No puede registrar esta farmacia. Por que este <b>USUARIO: '+username+' </b> ya se encuentra registrado.</b>');
 
                               ban2=1;
                                 
@@ -173,7 +210,6 @@
     </div>
   </div>
 
-
 <script>
 jQuery.validator.addMethod("direc", function(value, element) {
     var reg1 = /^[a.,-zA-Z0-9-\/] ?([a.,-zA-Z0-9-\/]|[a.,-zA-Z0-9-\/] )*[a.,-zA-Z0-9-\/]$/;
@@ -200,7 +236,7 @@ $("#miForm").validate({
           maxlength: "20",
           nomb: "[a-zA-Z. ]+"
           },
-      razon_social: {
+      	razon_social: {
             required: true,
           maxlength: "25",
           nomb: "[a-zA-Z. ]+"
@@ -233,10 +269,10 @@ $("#miForm").validate({
             minlength: "10",
             maxlength: "11"
           },
-          nacimiento: {
-            required: true,
-            date: true
-          },
+          username: {
+              required: true,
+          	maxlength: "25"
+           },
           email: {
             email: true
           },
@@ -254,14 +290,16 @@ $("#miForm").validate({
             digits: true,
           maxlength: "20"
           },
-          sexo: {
-            required: true
-          },
-          historiaclinica: {
-            required: true,
-          maxlength: "20",
-          direc: true
-          },
+          pass1: { 
+          	required: true,
+          	minlength: 6,
+          	maxlength: 10
+            }, 
+            password: { 
+          	equalTo: "#pass1",
+              minlength: 6,
+         	    maxlength: 10
+         	  },
           osocial: {
           maxlength: "20",
           nomb: "^[a-zA-Z]*$"
@@ -295,5 +333,4 @@ jQuery.validator.addMethod("nomb", function(value, element, param)
      return jQuery.trim(value).match(new RegExp("^(?:" + param + ")$"));
   });
 </script>
-
 {% endblock %} 

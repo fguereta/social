@@ -4,7 +4,17 @@
 {% block title %} Servicio Social{% endblock %}
 
 {% block branding %}
-<a class="navbar-brand" href="{% url 'admin:index' %}">Servicio Social</a>
+<a class="navbar-brand" href="/usuario/home/">Servicio Social</a>
+
+<p class="navbar-text navbar-left" id='gestionpaciente'  style="display:none;" ><a class="navbar-link" href="/aplicacion/paciente/" >Gestión de Pacientes</a></p>
+<p class="navbar-text navbar-left" id='gestionprofesional'  style="display:none;"><a class="navbar-link" href="/aplicacion/medico/">Gestión de Medicos</a></p>
+<p class="navbar-text navbar-left" id='gestionfarmacia' style="display:none;"><a class="navbar-link"  href="/aplicacion/farmacia/">Gestión  de Farmacia</a></p>
+<p class="navbar-text navbar-left" id='gestionusuario' style="display:none;"><a class="navbar-link"  href="/usuario/operador/">Gestión de Usuarios</a></p>
+<p class="navbar-text navbar-left" id='pendiente_entrega' style="display:none;"><a class="navbar-link"  href="/aplicacion/farmacia_entrega">Solicitudes Pendientes</a></p>
+<p class="navbar-text navbar-left" id='entregado' style="display:none;"><a class="navbar-link"  href="/aplicacion/farmacia_entregados" >Solicitudes finalizadas</a></p>
+<p class="navbar-text navbar-left" id='permisos' style="display:none;"><a class="navbar-link"  href="/admin/auth/" >Gestion de Permisos</a></p>
 {% endblock %}
 
+  
+  
 {% block nav-global %}{% endblock %}

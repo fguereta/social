@@ -9,6 +9,10 @@
 
  
 {% if exitooperador %}<script >alertify.success("Se registro correctamente");</script>{% endif %}
+{% if exito_modificar_pass %}<script >alertify.success("Se actualizo la contraseña correctamente");</script>{% endif %}
+
+
+{% if exito_modificar_operador %}<script >alertify.success("Se modificaron los datos correctamente");</script>{% endif %}
 <!--{% if exito_modificar_farmacia %}<script >alertify.success("Se modificaron los datos correctamente");</script>{% endif %} -->
 
 
@@ -27,14 +31,26 @@
   	<div class="container-fluid ">
       <div class="navbar-header">
         	<ul class="nav navbar-nav navbar-right">
-  				<li id='ficha'><a href="/aplicacion/fichaoperador/{{elemento.id}}">Ficha</a></li>
-          <li id='ficha'><a href="/aplicacion/modificaroperador/{{elemento.id}}">Modificar datos</a></li>
-  				<li id='gestionados'><a href="">Medicamentos gestionados</a></li>
+  				<li id='ficha'><a href="/usuario/fichaoperador/{{elemento.id}}">Ficha</a></li>
+          <li id='modificaroperador' style="display:none;"><a href="/usuario/modificaroperador/{{elemento.id}}">Modificar datos</a></li>
+          
+  				<!--<li id='gestionados'><a href="">Medicamentos gestionados</a></li>-->
+  				
   			</ul>
       </div>
   	</div>
 </div>
-      
+
+       {% if user.useroperador.categoria == 'SUPERVISOR' %}
+          <script  type="text/javascript" charset="utf-8" async defer>
+  
+         $('#modificaroperador').show();
+          $('#recuperar').show();
+          
+        </script>
+  
+
+    {% endif %}
 	{% block contenido_operador %}	        	
 
 	{% endblock contenido_operador %}
