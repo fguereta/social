@@ -29,7 +29,7 @@ class UserOperador(models.Model):
 	categoria=models.CharField(max_length=10)
 
 	def __str__ (self):
-		return self.user
+		return self.user.username
 	
 from django.contrib.auth.models import Group
 

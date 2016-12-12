@@ -284,6 +284,12 @@ $("#miForm").keypress(function(e) {
         }
     });
 
+$("#solicitar").keypress(function(e) {
+        if (e.which == 13) {
+            $('#miForm').submit();
+        }
+    });
+
   
 function ajax_funcion(generico,z){
     

@@ -50,8 +50,11 @@
 
         <li><a id='fichafarmacia' style="display:none;" href="/aplicacion/fichafarmacia/{{user.id}}/">Usuario: {{ user.username }}</a>
         <li><a id='fichaoperador' style="display:none;" href="/usuario/fichaoperador/{{user.id}}/">Usuario: {{ user.username }}</a>
-        <li ><a  href="/admin/password_change/" >Cambiar contraseña</a></li>
+        <li ><a  id='passfarmacia' style="display:none;" href='/usuario/resetpassfarmacia/{{user.id}}' >Cambiar contraseña</a></li>
+        <li ><a  id='passuser' style="display:none;" href='/usuario/resetpass/{{user.id}}'>Cambiar contraseña</a></li>
+        
         <li ><a  href="/usuario/cerrar_sesion/" >Cerrar Sesion</a></li>
+        
         
         </ul>
       </li>
@@ -91,7 +94,7 @@
     {% if user.userfarmacia.categoria == 'FARMACIA' %}
           <script  type="text/javascript" charset="utf-8" async defer>
   
-        
+                  $('#passfarmacia').show();
           $('#pendiente_entrega').show();
           $('#entregado').show();
           $('#parciales').show();
@@ -108,7 +111,7 @@
   {% if user.useroperador.categoria == 'OPERADOR' %}
           <script  type="text/javascript" charset="utf-8" async defer>
   
-        
+                  $('#passuser').show();
           $('#paciente').show();
           $('#medicamento').show();
           $('#medico').show();
@@ -129,6 +132,7 @@
   
         
           $('#paciente').show();
+           $('#passuser').show();
           $('#medico').show();
           $('#farmacia').show();
           $('#cerrarsesionoperador').show();

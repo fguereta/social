@@ -2675,8 +2675,11 @@ def web_service(request):
         asd = etree.fromstring(dom)
 
         print asd
-        return HttpResponse(asd.find('coberturaSocial').text)
         
+        if asd.find('resultado').text == 'REGISTRO_NO_ENCONTRADO':
+            return HttpResponse(asd.find('resultado').text)
+        else:
+            return HttpResponse(asd.find('coberturaSocial').text)
 
         import json
 

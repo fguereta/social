@@ -705,7 +705,6 @@ def operadore(request, id_operador):
         return HttpResponseRedirect("/usuario/operador/")
     
     
-@permission_required('auth.add_user', login_url='/permiso/')
 def resetpass(request, id_operador):
     
     if request.method=="POST":

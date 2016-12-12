@@ -74,7 +74,7 @@
         <div class='form-group'>
             <label class='control-label col-md-3 col-md-offset-1' for='matriculanacional'>Matricula nacional<font color="red"> *</font></label>
             <div class='col-md-2'>
-              <input class='form-control' id='matriculanacional' name='matriculanacional' type="text"></input>
+              <input class='form-control' id='matriculanacional' name='matriculanacional' placeholder='matricula nacional' type="text"></input>
             </div>
 
         </div>
@@ -82,7 +82,7 @@
         <div class='form-group'>
             <label class='control-label col-md-2 col-md-offset-2' for='matriculaprovincial'>Matricula provincial<font color="red"> *</font></label>
             <div class='col-md-2'>
-              <input class='form-control' id='matriculaprovincial' name='matriculaprovincial' type="text"></input>
+              <input class='form-control' id='matriculaprovincial' name='matriculaprovincial' type="text" placeholder='matricula provincial' ></input>
             </div>
 
 
@@ -143,6 +143,13 @@
                   </span>
                 </div>
               </div>
+              
+                     
+               <div class="col-md-3 sexo">
+				<input class='form-control' id='sexo' name="sexo" type='text' value="{{cuil.sexo}}" readonly></input>
+			  </div>
+			  
+			  <!--
              <div class="col-md-3 sexo">
                 <select class="form-control" id="sexo" name="sexo">
                     <option value="">---Sexo---</option>
@@ -151,7 +158,9 @@
                 </select>
             </div>
             <script>$("div.sexo select").val("{{cuil.sexo}}");</script>
-            </div>
+            </div-->
+            
+            
           </div>
 
           <div class='form-group'>
@@ -375,11 +384,13 @@ $("#miForm").validate({
           telefono: {
             required: true,
             digits: true,
-        	maxlength: "20"
+        	maxlength: "20",
+        	minlength:"6"
           },
           celular: {
             digits: true,
-        	maxlength: "20"
+        	maxlength: "20",
+        	minlength:"6"
           },
           sexo: {
             required: true

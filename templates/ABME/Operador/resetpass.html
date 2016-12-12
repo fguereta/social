@@ -190,7 +190,17 @@ $("#miForm").validate({
           osocial: {
           maxlength: "20",
           nomb: "^[a-zA-Z]*$"
-          }
+          },
+          pass1: { 
+          	required: true,
+          	minlength: 6,
+          	maxlength: 10
+            }, 
+            password: { 
+          	equalTo: "#pass1",
+              minlength: 6,
+         	    maxlength: 10
+         	  },
     },
   messages: {
       nombre: {

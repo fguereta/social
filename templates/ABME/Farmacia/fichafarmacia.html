@@ -72,20 +72,54 @@ window.location.href = "/aplicacion/fichafarmacia/{{refrescar}}";
           </div>
         
        
+  </form>
         
         
         <br><br><br>
+        
+        
+        
+         
+      <div class='col-md-offset-9 col-md-3'>
+              <a id='continuar' name='continuar' style="display:none;"  href='/usuario/'><button  class='btn-lg btn-primary' id='boton' style='float:right' >Continuar</button></a>
+            </div>
+      </div>
       </div>
     </div>
   </div>
 
 
 
-  </form>
+         
+  
         
 {% endfor %}
 
 {% endif %}
+
+
+
+		{% if user.is_authenticated %}
+          <script  type="text/javascript" charset="utf-8" async defer>
+  
+        
+          $('#continuar').hide();
+
+        </script>
+		 {% endif %}
+		 
+		 	{% if not user.is_authenticated %}
+          <script  type="text/javascript" charset="utf-8" async defer>
+  
+        
+          $('#continuar').show();
+
+        </script>
+		 {% endif %}
+		 
+		 
+		 
+		 
 
 
 {% endblock contenido_farmacia %}

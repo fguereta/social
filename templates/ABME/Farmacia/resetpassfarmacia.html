@@ -59,44 +59,7 @@
 {% endif %}
 
 
-<script>
-$(document).ready(function() {
-	//variables
-	var pass1 = $('[name=pass1]');
-	var password = $('[name=password]');
-	var confirmacion = "Las contraseñas si coinciden";
-	var longitud = "La contraseña debe estar formada entre 6-10 carácteres (ambos inclusive)";
-	var negacion = "No coinciden las contraseñas";
-	var vacio = "La contraseña no puede estar vacía";
-	//oculto por defecto el elemento span
-	var span = $('<span></span>').insertAfter(password);
-	span.hide();
-	//función que comprueba las dos contraseñas
-	function coincidePassword(){
-	var valor1 = pass1.val();
-	var valor2 = password.val();
-	//muestro el span
-	span.show().removeClass();
-	//condiciones dentro de la función
-	if(valor1 != valor2){
-	span.text(negacion).addClass('negacion');	
-	}
-	if(valor1.length==0 || valor1==""){
-	span.text(vacio).addClass('negacion');	
-	}
-	if(valor1.length<6 || valor1.length>10){
-	span.text(longitud).addClass('negacion');
-	}
-	if(valor1.length!=0 && valor1==valor2){
-	span.text(confirmacion).removeClass("negacion").addClass('confirmacion');
-	}
-	}
-	//ejecuto la función al soltar la tecla
-	password.keyup(function(){
-	coincidePassword();
-	});
-});
-</script>
+
 
 
 <script>
@@ -190,7 +153,18 @@ $("#miForm").validate({
           osocial: {
           maxlength: "20",
           nomb: "^[a-zA-Z]*$"
-          }
+          },
+          
+          pass1: { 
+          	required: true,
+          	minlength: 6,
+          	maxlength: 10
+            }, 
+            password: { 
+          	equalTo: "#pass1",
+              minlength: 6,
+         	    maxlength: 10
+         	  },
     },
   messages: {
       nombre: {

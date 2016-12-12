@@ -257,15 +257,20 @@ $("#miForm").validate({
         	maxlength: "25",
         	direc: true
           },
-          telefono: {
+    
+    telefono: {
             required: true,
             digits: true,
-        	maxlength: "20"
+        	maxlength: "20",
+        	minlength:"6"
           },
           celular: {
             digits: true,
-        	maxlength: "20"
+        	maxlength: "20",
+        	minlength:"6"
           },
+    
+    
           sexo: {
             required: true
           },
